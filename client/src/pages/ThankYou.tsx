@@ -1,134 +1,82 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
-import { Phone, ArrowDown, RotateCcw } from "lucide-react";
-import CountdownTimer from "@/components/CountdownTimer";
 
 export default function ThankYou() {
-  const [, setLocation] = useLocation();
-  const phoneNumber = "(877) 745-7526";
-  const telLink = "tel:+18777457526";
+  const [timeLeft, setTimeLeft] = useState(142); // 2:22 in seconds
+  const phoneNumber = "(855) 391-2986";
+  const telLink = "tel:+18553912986";
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gradient-navy-start))] to-[hsl(var(--gradient-navy-end))] flex flex-col items-center justify-center p-4 md:p-6">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-3xl mx-auto text-center"
+        className="w-full max-w-2xl mx-auto text-center"
       >
-        <div className="bg-card/95 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-2xl border border-card-border">
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4" data-testid="text-congratulations">
-              Congratulations! There's Availability!
-            </h1>
-            <p className="text-xl md:text-2xl text-foreground font-semibold mb-2">
-              Make a quick 2-minute call to review your
-            </p>
-            <p className="text-2xl md:text-3xl text-gold font-bold mb-6">
-              LIFE INSURANCE PROGRAM!
-            </p>
-          </motion.div>
+        <h1 className="text-4xl md:text-5xl font-bold text-black mb-6" data-testid="text-congratulations">
+          Congratulations!
+        </h1>
+        
+        <p className="text-xl md:text-2xl text-black mb-4">
+          Make a quick <span className="bg-yellow-300 px-2 font-semibold">2-minute call</span> to claim your{" "}
+          <span className="text-red-600 font-bold">LIFE INSURANCE BENEFIT!</span>
+        </p>
 
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.5, type: "spring" }}
-            className="bg-urgency/10 border-2 border-urgency rounded-2xl p-6 my-8"
-          >
-            <p className="text-lg md:text-xl text-urgency-foreground font-bold mb-4">
-              Hurry! Secure this coverage before time runs out...
-            </p>
-            <p className="text-base md:text-lg text-urgency-foreground font-semibold mb-2">
-              Rates go up as you age!
-            </p>
-            <CountdownTimer seconds={45} />
-          </motion.div>
+        <p className="text-lg md:text-xl text-black italic mb-3">
+          Hurry! Secure this benefit <span className="text-red-600">before time runs out...</span>
+        </p>
 
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="space-y-6"
-          >
-            <p className="text-lg md:text-xl text-foreground font-semibold">
-              Tap below to protect your family now!
-            </p>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="flex justify-center"
-            >
-              <ArrowDown className="w-12 h-12 text-gold" />
-            </motion.div>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                asChild
-                size="lg"
-                className="w-full md:w-auto text-xl md:text-2xl px-12 py-8 font-bold rounded-full shadow-xl"
-                data-testid="button-call-now"
-              >
-                <a href={telLink}>
-                  <Phone className="w-6 h-6 mr-3" />
-                  {phoneNumber}
-                  <span className="ml-2 text-sm font-normal">(PLAN)</span>
-                </a>
-              </Button>
-            </motion.div>
+        <div className="text-4xl md:text-5xl font-bold text-red-600 mb-6">
+          {formattedTime}
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.5 }}
-              className="mt-8 p-4 bg-destructive/20 border border-destructive rounded-xl"
-            >
-              <p className="text-sm md:text-base text-destructive-foreground font-bold">
-                NOTE: You may never see this message again!
-              </p>
-            </motion.div>
-          </motion.div>
+        <p className="text-lg md:text-xl text-black mb-6">
+          Call the number below to get your life insurance benefit* 👇
+        </p>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-            className="mt-12 pt-8 border-t border-border"
-          >
-            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-              The term "life insurance benefit" refers to a potential insurance policy that may be available 
-              to individuals who meet specific eligibility criteria. This is a marketing communication and 
-              does not constitute an offer or guarantee of coverage. All insurance plans are subject to 
-              underwriting approval, state availability, and applicable carrier terms and conditions. Actual 
-              benefit amounts, premiums, and availability will vary based on personal information including, 
-              but not limited to: age, health history, income, location, and the selected provider. To 
-              determine if you qualify and to receive specific coverage details, you must speak with a 
-              licensed insurance agent.
-            </p>
-            <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-              <span>© 2025 Gold Harbor Insurance</span>
-              <span>•</span>
-              <span>All Rights Reserved</span>
-            </div>
-            <div className="mt-8">
-              <Button
-                variant="outline"
-                onClick={() => setLocation("/seniors")}
-                className="gap-2"
-                data-testid="button-start-over"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Start Over
-              </Button>
-            </div>
-          </motion.div>
+        <motion.a
+          href={telLink}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
+          data-testid="button-call-now"
+        >
+          {phoneNumber}
+        </motion.a>
+
+        <p className="text-base md:text-lg font-bold mt-6">
+          <span className="text-red-600">NOTE:</span> This is the final call
+        </p>
+
+        <div className="mt-12 pt-8 border-t border-gray-300">
+          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            The term "life insurance benefit" refers to a potential insurance policy that may be available 
+            to individuals who meet specific eligibility criteria. This is a marketing communication and 
+            does not constitute an offer or guarantee of coverage. All insurance plans are subject to 
+            underwriting approval, state availability, and applicable carrier terms and conditions. Actual 
+            benefit amounts, premiums, and availability will vary based on personal information including, 
+            but not limited to: age, health history, income, location, and the selected provider. To 
+            determine if you qualify and to receive specific coverage details, you must speak with a 
+            licensed insurance agent.
+          </p>
+          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-gray-500">
+            <span>© 2025 Gold Harbor Insurance</span>
+            <span>•</span>
+            <span>All Rights Reserved</span>
+          </div>
         </div>
       </motion.div>
     </div>
