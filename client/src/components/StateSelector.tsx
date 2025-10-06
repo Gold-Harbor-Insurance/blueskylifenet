@@ -4,13 +4,13 @@ import { USState } from "@shared/schema";
 
 const US_STATES: USState[] = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
-  "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
-  "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan",
-  "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire",
-  "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio",
-  "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
-  "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
-  "Wisconsin", "Wyoming"
+  "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", 
+  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", 
+  "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", 
+  "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", 
+  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", 
+  "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", 
+  "West Virginia", "Wisconsin", "Wyoming"
 ];
 
 interface StateSelectorProps {
@@ -44,10 +44,10 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
     setInputValue(value || "");
   }, [value]);
 
-  // Auto-populate state based on IP geolocation for mobile/tablet
+  // Auto-populate state based on IP geolocation
   useEffect(() => {
-    // Only run once, only on mobile/tablet, and only if no initial value
-    if (hasFetchedRef.current || !isMobileOrTablet() || value) {
+    // Only run once and only if no initial value
+    if (hasFetchedRef.current || value) {
       return;
     }
 
@@ -66,9 +66,17 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
         
         if (data.state && data.countryCode === 'US') {
           // Check if the returned state matches our list
-          const matchedState = US_STATES.find(
+          let matchedState = US_STATES.find(
             state => state.toLowerCase() === data.state.toLowerCase()
           );
+          
+          // Handle special cases where API returns different name
+          if (!matchedState) {
+            const stateLower = data.state.toLowerCase();
+            if (stateLower.includes('washington') && stateLower.includes('d')) {
+              matchedState = "District of Columbia";
+            }
+          }
           
           if (matchedState) {
             setInputValue(matchedState);
