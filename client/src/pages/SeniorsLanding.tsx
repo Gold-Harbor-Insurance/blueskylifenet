@@ -104,7 +104,15 @@ export default function SeniorsLanding() {
     <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
       {step === 2 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
-          <p className="text-sm text-gray-600">Question {step}/{totalSteps}</p>
+          <div>
+            <p className="text-sm text-gray-600 mb-2">Question {step}/{totalSteps}</p>
+            <div className="w-full max-w-md mx-auto bg-gray-300 rounded-full h-2">
+              <div 
+                className="bg-[#5CB85C] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-black">
             Select Your State
           </h2>
@@ -116,7 +124,15 @@ export default function SeniorsLanding() {
 
       {step === 3 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
-          <p className="text-sm text-gray-600">Question {step}/{totalSteps}</p>
+          <div>
+            <p className="text-sm text-gray-600 mb-2">Question {step}/{totalSteps}</p>
+            <div className="w-full max-w-md mx-auto bg-gray-300 rounded-full h-2">
+              <div 
+                className="bg-[#5CB85C] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-black">
             Who would you want to receive this benefit?
           </h2>
@@ -159,7 +175,15 @@ export default function SeniorsLanding() {
 
       {step === 4 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
-          <p className="text-sm text-gray-600">Question {step}/{totalSteps}</p>
+          <div>
+            <p className="text-sm text-gray-600 mb-2">Question {step}/{totalSteps}</p>
+            <div className="w-full max-w-md mx-auto bg-gray-300 rounded-full h-2">
+              <div 
+                className="bg-[#5CB85C] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-black">
             How much coverage would you like to leave behind for your family?
           </h2>
@@ -202,7 +226,15 @@ export default function SeniorsLanding() {
 
       {step === 5 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
-          <p className="text-sm text-gray-600">Question {step}/{totalSteps}</p>
+          <div>
+            <p className="text-sm text-gray-600 mb-2">Question {step}/{totalSteps}</p>
+            <div className="w-full max-w-md mx-auto bg-gray-300 rounded-full h-2">
+              <div 
+                className="bg-[#5CB85C] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
           <h2 className="text-2xl md:text-3xl font-bold text-black">
             If it makes sense, what monthly budget would you feel comfortable investing to protect your family?
           </h2>
