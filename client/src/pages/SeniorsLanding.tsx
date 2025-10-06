@@ -4,11 +4,13 @@ import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
 import OptionButton from "@/components/OptionButton";
 import StateSelector from "@/components/StateSelector";
+import LegalModal from "@/components/LegalModal";
 import { USState, AgeRange, Beneficiary, CoverageAmount, MonthlyBudget } from "@shared/schema";
 
 export default function SeniorsLanding() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
+  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
   const [formData, setFormData] = useState({
     state: "" as USState | "",
     age: "" as AgeRange | "",
@@ -48,49 +50,80 @@ export default function SeniorsLanding() {
 
   if (step === 1) {
     return (
-      <QuizLayout 
-        headline="JUST ANNOUNCED FOR SENIORS"
-        subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
-      >
-        <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
-          <div className="space-y-4">
-            <div className="text-center mb-3">
-              <p className="text-base md:text-lg text-black mb-3">
-                Answer a 5 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-black">
-                Tap Your Age
-              </h2>
+      <>
+        <QuizLayout 
+          headline="JUST ANNOUNCED FOR SENIORS"
+          subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
+        >
+          <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
+            <div className="space-y-4">
+              <div className="text-center mb-3">
+                <p className="text-base md:text-lg text-black mb-3">
+                  Answer a 5 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
+                </p>
+                <h2 className="text-2xl md:text-3xl font-bold text-black">
+                  Tap Your Age
+                </h2>
+              </div>
+              <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-3xl mx-auto">
+                <button
+                  type="button"
+                  onClick={() => handleAgeSelect("Under 45")}
+                  data-testid="button-age-under45"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                >
+                  Under 54
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSelect("45-85")}
+                  data-testid="button-age-45-85"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                >
+                  54 - 79
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleAgeSelect("Over 85")}
+                  data-testid="button-age-over85"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                >
+                  Over 80
+                </button>
+              </div>
             </div>
-            <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-3xl mx-auto">
+          </QuizCard>
+          
+          <div className="mt-32 pb-8 text-center text-sm text-gray-600">
+            <div className="space-x-2">
               <button
-                type="button"
-                onClick={() => handleAgeSelect("Under 45")}
-                data-testid="button-age-under45"
-                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                onClick={() => setLegalModal("privacy")}
+                className="hover:underline"
+                data-testid="link-privacy-policy"
               >
-                Under 54
+                Privacy Policy
               </button>
+              <span>|</span>
               <button
-                type="button"
-                onClick={() => handleAgeSelect("45-85")}
-                data-testid="button-age-45-85"
-                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                onClick={() => setLegalModal("terms")}
+                className="hover:underline"
+                data-testid="link-terms-of-use"
               >
-                54 - 79
-              </button>
-              <button
-                type="button"
-                onClick={() => handleAgeSelect("Over 85")}
-                data-testid="button-age-over85"
-                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
-              >
-                Over 80
+                Terms of Use
               </button>
             </div>
+            <p className="mt-2">
+              © 2025 Gold Harbor Insurance LLC. All Rights Reserved.
+            </p>
           </div>
-        </QuizCard>
-      </QuizLayout>
+        </QuizLayout>
+        
+        <LegalModal
+          isOpen={legalModal !== null}
+          onClose={() => setLegalModal(null)}
+          type={legalModal}
+        />
+      </>
     );
   }
 
