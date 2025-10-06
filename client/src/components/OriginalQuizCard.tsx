@@ -16,9 +16,9 @@ export default function OriginalQuizCard({ children, currentStep, totalSteps, qu
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="p-8 md:p-12 bg-[hsl(220,20%,18%)] border border-[hsl(220,15%,25%)] shadow-lg rounded-2xl">
-        <div className="mb-6">
-          <div className="h-2 bg-[hsl(220,15%,25%)] rounded-full overflow-hidden">
+      <div className="p-4 sm:p-6 md:p-10 lg:p-12 bg-[hsl(220,20%,18%)] border border-[hsl(220,15%,25%)] shadow-lg rounded-xl md:rounded-2xl">
+        <div className="mb-4 md:mb-6">
+          <div className="h-1.5 md:h-2 bg-[hsl(220,15%,25%)] rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
@@ -27,7 +27,7 @@ export default function OriginalQuizCard({ children, currentStep, totalSteps, qu
             />
           </div>
           {questionNumber && (
-            <p className="text-sm text-[hsl(210,8%,70%)] text-center mt-2">
+            <p className="text-xs md:text-sm text-[hsl(210,8%,70%)] text-center mt-1.5 md:mt-2">
               Question {questionNumber}/{totalSteps}
             </p>
           )}

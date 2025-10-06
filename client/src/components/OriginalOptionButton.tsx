@@ -17,7 +17,7 @@ export default function OriginalOptionButton({ children, onClick, testId }: Orig
         type="button"
         onClick={onClick}
         data-testid={testId}
-        className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-[hsl(210,95%,55%)] hover:bg-[hsl(210,95%,50%)] text-white rounded-xl shadow-md transition-colors duration-200"
+        className="w-full min-h-[60px] px-6 md:px-8 text-base md:text-lg lg:text-xl font-semibold bg-[#4306D5] hover:bg-[#3705B0] text-white rounded-xl shadow-md transition-colors duration-200"
       >
         {children}
       </button>

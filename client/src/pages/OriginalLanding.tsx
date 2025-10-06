@@ -27,19 +27,19 @@ export default function OriginalLanding() {
       headline="Just Announced For Seniors:"
       subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt With This New Benefit"
     >
-      <div className="text-center mb-6">
-        <p className="text-lg md:text-xl text-[hsl(210,10%,98%)] font-normal">
+      <div className="text-center mb-4 md:mb-6 px-2">
+        <p className="text-base md:text-lg lg:text-xl text-[hsl(210,10%,98%)] font-normal">
           Answer 3 Quick Questions Below to <span className="underline">Check Eligibility!</span>
         </p>
       </div>
 
       <OriginalQuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
         {step === 1 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-8">
+          <div className="space-y-4 md:space-y-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-4 md:mb-6 lg:mb-8 px-2">
               Tap Your Age
             </h2>
-            <div className="grid gap-4">
+            <div className="grid gap-3 md:gap-4">
               <OriginalOptionButton onClick={handleAgeSelect} testId="button-age-under54">
                 Under 54
               </OriginalOptionButton>
@@ -54,11 +54,11 @@ export default function OriginalLanding() {
         )}
 
         {step === 2 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-8">
+          <div className="space-y-4 md:space-y-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-4 md:mb-6 lg:mb-8 px-2">
               Are you a US citizen?
             </h2>
-            <div className="grid gap-4">
+            <div className="grid gap-3 md:gap-4">
               <OriginalOptionButton onClick={handleCitizenSelect} testId="button-citizen-yes">
                 Yes
               </OriginalOptionButton>
@@ -70,11 +70,11 @@ export default function OriginalLanding() {
         )}
 
         {step === 3 && (
-          <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-8">
+          <div className="space-y-4 md:space-y-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-[hsl(210,10%,98%)] mb-4 md:mb-6 lg:mb-8 px-2">
               Are you employed?
             </h2>
-            <div className="grid gap-4">
+            <div className="grid gap-3 md:gap-4">
               <OriginalOptionButton onClick={handleEmploymentSelect} testId="button-employed-yes">
                 Yes
               </OriginalOptionButton>
