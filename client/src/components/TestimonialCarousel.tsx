@@ -67,6 +67,7 @@ export default function TestimonialCarousel() {
           </motion.div>
         </AnimatePresence>
       </div>
+      <hr className="border-gray-300 mt-4" />
     </div>
   );
 }
