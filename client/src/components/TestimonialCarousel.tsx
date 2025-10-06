@@ -37,8 +37,8 @@ export default function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full bg-[#BEEBFD] py-6 border-b">
-      <div className="flex justify-center items-center min-h-[80px]">
+    <div className="w-full bg-[#BEEBFD] py-3 border-b">
+      <div className="flex justify-center items-center min-h-[60px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -49,19 +49,19 @@ export default function TestimonialCarousel() {
             className="text-center"
             data-testid={`testimonial-${currentIndex}`}
           >
-            <div className="flex gap-1 justify-center mb-2">
+            <div className="flex gap-1 justify-center mb-1">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="w-5 h-5 fill-gold text-gold"
+                  className="w-4 h-4 fill-gold text-gold"
                   data-testid={`star-${currentIndex}-${i}`}
                 />
               ))}
             </div>
-            <p className="text-foreground font-medium mb-1 text-lg">
+            <p className="text-foreground font-medium text-sm">
               "{testimonials[currentIndex].quote}"
             </p>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-xs">
               — {testimonials[currentIndex].author}
             </p>
           </motion.div>
