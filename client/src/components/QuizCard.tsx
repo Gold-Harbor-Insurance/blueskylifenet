@@ -1,5 +1,4 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Card } from "@/components/ui/card";
 
 interface QuizCardProps {
   children: React.ReactNode;
