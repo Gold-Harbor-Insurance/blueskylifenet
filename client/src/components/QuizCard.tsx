@@ -17,22 +17,7 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <Card className="p-6 md:p-10 backdrop-blur-md bg-card/95 border-card-border shadow-2xl rounded-2xl">
-        <div className="mb-6">
-          <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-gradient-to-r from-[hsl(var(--gradient-gold-start))] to-[hsl(var(--gradient-gold-end))]"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
-          </div>
-          {questionNumber && (
-            <p className="text-sm text-muted-foreground text-center mt-2">
-              Question {questionNumber}/{totalSteps}
-            </p>
-          )}
-        </div>
+      <div className="p-8 md:p-12 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-gray-200 shadow-lg rounded-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -44,7 +29,7 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
             {children}
           </motion.div>
         </AnimatePresence>
-      </Card>
+      </div>
     </motion.div>
   );
 }

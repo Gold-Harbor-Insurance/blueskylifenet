@@ -15,17 +15,14 @@ export default function OptionButton({ children, onClick, icon, testId }: Option
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.2 }}
     >
-      <Button
+      <button
         type="button"
-        variant="outline"
-        size="lg"
         onClick={onClick}
         data-testid={testId}
-        className="w-full min-h-[60px] text-lg md:text-xl font-medium border-2 flex items-center justify-center gap-3 rounded-xl"
+        className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-green-600 hover:bg-green-700 text-white rounded-full shadow-md transition-colors duration-200"
       >
-        {icon && <span className="w-5 h-5">{icon}</span>}
-        <span>{children}</span>
-      </Button>
+        {children}
+      </button>
     </motion.div>
   );
 }
