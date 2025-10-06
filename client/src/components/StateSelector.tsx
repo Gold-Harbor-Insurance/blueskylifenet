@@ -59,7 +59,8 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
         const response = await fetch('/api/geolocation');
         
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          setIsLoading(false);
+          return;
         }
         
         const data = await response.json();
@@ -90,11 +91,8 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
       }
     };
 
-    fetchGeolocation().catch(err => {
-      console.error('Geolocation fetch error:', err);
-      setIsLoading(false);
-    });
-  }, [value, onValueChange]); // Dependencies needed for the initial check
+    fetchGeolocation();
+  }, [value]); // Only depend on value to check if we should fetch
 
   useEffect(() => {
     if (highlightedIndex >= 0 && listRef.current) {
