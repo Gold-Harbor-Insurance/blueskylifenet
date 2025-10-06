@@ -46,12 +46,12 @@ export default function SeniorsLanding() {
 
   const progress = (step / totalSteps) * 100;
 
-  return (
-    <QuizLayout 
-      headline="JUST ANNOUNCED FOR SENIORS"
-      subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
-    >
-      {step === 1 && (
+  if (step === 1) {
+    return (
+      <QuizLayout 
+        headline="JUST ANNOUNCED FOR SENIORS"
+        subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
+      >
         <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
           <div className="space-y-6">
             <div className="w-full bg-gray-300 rounded-full h-2 mb-4">
@@ -96,8 +96,12 @@ export default function SeniorsLanding() {
             </div>
           </div>
         </QuizCard>
-      )}
+      </QuizLayout>
+    );
+  }
 
+  return (
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
       {step === 2 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
           <p className="text-sm text-gray-600">Question {step}/{totalSteps}</p>
@@ -246,6 +250,6 @@ export default function SeniorsLanding() {
           </div>
         </div>
       )}
-    </QuizLayout>
+    </div>
   );
 }
