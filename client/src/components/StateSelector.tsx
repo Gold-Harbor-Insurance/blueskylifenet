@@ -31,6 +31,7 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
+  const hasFetchedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -45,13 +46,22 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
 
   // Auto-populate state based on IP geolocation for mobile/tablet
   useEffect(() => {
-    const fetchGeolocation = async () => {
-      // Only auto-populate on mobile/tablet and if no value is set
-      if (!isMobileOrTablet() || value) return;
+    // Only run once, only on mobile/tablet, and only if no initial value
+    if (hasFetchedRef.current || !isMobileOrTablet() || value) {
+      return;
+    }
 
+    hasFetchedRef.current = true;
+
+    const fetchGeolocation = async () => {
       setIsLoading(true);
       try {
         const response = await fetch('/api/geolocation');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
         
         if (data.state && data.countryCode === 'US') {
@@ -72,8 +82,11 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
       }
     };
 
-    fetchGeolocation();
-  }, []); // Empty dependency array - only run once on mount
+    fetchGeolocation().catch(err => {
+      console.error('Geolocation fetch error:', err);
+      setIsLoading(false);
+    });
+  }, [value, onValueChange]); // Dependencies needed for the initial check
 
   useEffect(() => {
     if (highlightedIndex >= 0 && listRef.current) {
