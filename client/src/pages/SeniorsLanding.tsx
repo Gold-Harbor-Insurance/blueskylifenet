@@ -50,7 +50,7 @@ export default function SeniorsLanding() {
       subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
     >
       <div className="text-center mb-6">
-        <p className="text-xl md:text-2xl text-foreground font-semibold">
+        <p className="text-xl md:text-2xl text-white font-semibold">
           Answer Quick Questions Below to Check Eligibility!
         </p>
       </div>
