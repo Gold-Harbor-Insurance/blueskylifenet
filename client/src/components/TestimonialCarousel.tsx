@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const testimonials = [
   {
     quote: "The process was quick and easy!",
-    author: "Joe D."
+    author: "John H."
   },
   {
     quote: "Got approved within minutes",
@@ -37,8 +37,8 @@ export default function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full bg-[#BEEBFD] py-3 border-b">
-      <div className="flex justify-center items-center min-h-[60px]">
+    <div className="w-full bg-gray-200 py-4">
+      <div className="flex justify-center items-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -46,22 +46,22 @@ export default function TestimonialCarousel() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5 }}
-            className="text-center"
+            className="bg-[#B8E5F5] rounded-lg px-8 py-4 max-w-md text-center"
             data-testid={`testimonial-${currentIndex}`}
           >
-            <div className="flex gap-1 justify-center mb-1">
+            <div className="flex gap-1 justify-center mb-2">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="w-4 h-4 fill-gold text-gold"
+                  className="w-5 h-5 fill-[#FFD700] text-[#FFD700]"
                   data-testid={`star-${currentIndex}-${i}`}
                 />
               ))}
             </div>
-            <p className="text-foreground font-medium text-sm">
+            <p className="text-gray-800 font-medium text-base mb-1">
               "{testimonials[currentIndex].quote}"
             </p>
-            <p className="text-muted-foreground text-xs">
+            <p className="text-gray-600 text-sm">
               — {testimonials[currentIndex].author}
             </p>
           </motion.div>
