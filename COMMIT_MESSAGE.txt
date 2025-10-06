@@ -1,0 +1,58 @@
+Initial commit: Gold Harbor Insurance landing pages with analytics
+
+This commit establishes the foundational codebase for Gold Harbor Insurance's
+quiz-style landing pages targeting seniors and veterans.
+
+Features Implemented:
+- Multi-step quiz flows (5 steps for seniors, 6 for veterans)
+- IP-based geolocation with state auto-population
+- Accessible state selector optimized for older adults
+- Hotjar analytics integration (Site ID: 6539672)
+- Ringba call tracking integration
+- Privacy Policy and Terms of Use modals
+- Responsive design across mobile/tablet/desktop
+- Countdown timer on thank you page
+- Click-to-call phone number CTA
+
+Technical Stack:
+- React 18 + TypeScript
+- Wouter routing
+- Tailwind CSS + Shadcn UI
+- Framer Motion animations
+- Zod validation
+- Express.js backend (minimal)
+
+Pages:
+- /seniors - 5-step eligibility quiz for seniors
+- /veterans - 6-step eligibility quiz for veterans  
+- /thank-you - Conversion page with countdown timer
+- / - Default route (redirects to seniors)
+
+Analytics & Tracking:
+- Hotjar: Session recordings, heatmaps, conversion funnels
+- Ringba: Dynamic phone number tracking for call attribution
+
+Accessibility:
+- 44x44px minimum touch targets
+- Keyboard navigation support
+- High contrast design (optimized for seniors)
+- ARIA labels and semantic HTML
+- Screen reader compatible
+
+Design Highlights:
+- Q1: Green buttons with testimonial carousel
+- Q2-Q5: Blue buttons with clean, focused layout
+- State selector: Combo box with type-to-filter and geolocation
+- Thank you page: White background, countdown timer, prominent CTA
+
+Geolocation:
+- Auto-populates state field based on IP address (production)
+- Supports all 50 states + District of Columbia + Puerto Rico
+- Graceful fallback to manual selection
+
+Documentation:
+- Comprehensive README.md with setup instructions
+- replit.md with project structure and design notes
+- Privacy Policy and Terms of Use included
+
+Ready for deployment and A/B testing.
