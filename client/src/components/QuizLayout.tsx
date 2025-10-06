@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import TestimonialCarousel from "./TestimonialCarousel";
 
 interface QuizLayoutProps {
   children: React.ReactNode;
@@ -8,8 +9,10 @@ interface QuizLayoutProps {
 
 export default function QuizLayout({ children, headline, subheadline }: QuizLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gradient-navy-start))] to-[hsl(var(--gradient-navy-end))] flex flex-col items-center justify-center p-4 md:p-6">
-      <div className="w-full max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gradient-navy-start))] to-[hsl(var(--gradient-navy-end))] flex flex-col">
+      <TestimonialCarousel />
+      <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
+        <div className="w-full max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -26,6 +29,7 @@ export default function QuizLayout({ children, headline, subheadline }: QuizLayo
           )}
         </motion.div>
         {children}
+        </div>
       </div>
     </div>
   );
