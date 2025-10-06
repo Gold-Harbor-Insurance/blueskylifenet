@@ -18,10 +18,19 @@ interface StateSelectorProps {
   onValueChange: (value: string) => void;
 }
 
+const isMobileOrTablet = () => {
+  if (typeof window === 'undefined') return false;
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+  const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+  return isMobile || isTablet;
+};
+
 export default function StateSelector({ value, onValueChange }: StateSelectorProps) {
   const [inputValue, setInputValue] = useState(value || "");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -33,6 +42,38 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
   useEffect(() => {
     setInputValue(value || "");
   }, [value]);
+
+  // Auto-populate state based on IP geolocation for mobile/tablet
+  useEffect(() => {
+    const fetchGeolocation = async () => {
+      // Only auto-populate on mobile/tablet and if no value is set
+      if (!isMobileOrTablet() || value) return;
+
+      setIsLoading(true);
+      try {
+        const response = await fetch('/api/geolocation');
+        const data = await response.json();
+        
+        if (data.state && data.countryCode === 'US') {
+          // Check if the returned state matches our list
+          const matchedState = US_STATES.find(
+            state => state.toLowerCase() === data.state.toLowerCase()
+          );
+          
+          if (matchedState) {
+            setInputValue(matchedState);
+            onValueChange(matchedState);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch geolocation:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGeolocation();
+  }, []); // Empty dependency array - only run once on mount
 
   useEffect(() => {
     if (highlightedIndex >= 0 && listRef.current) {
@@ -118,8 +159,9 @@ export default function StateSelector({ value, onValueChange }: StateSelectorPro
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
-          placeholder="Type or select your state"
-          className="w-full h-14 md:h-16 px-5 pr-14 text-lg md:text-xl font-medium text-black bg-white border-4 border-gray-400 rounded-xl focus:outline-none focus:border-[#3498DB] transition-colors"
+          placeholder={isLoading ? "Detecting your location..." : "Type or select your state"}
+          disabled={isLoading}
+          className="w-full h-14 md:h-16 px-5 pr-14 text-lg md:text-xl font-medium text-black bg-white border-4 border-gray-400 rounded-xl focus:outline-none focus:border-[#3498DB] transition-colors disabled:opacity-60 disabled:cursor-wait"
           data-testid="input-state"
           autoComplete="off"
         />
