@@ -19,7 +19,7 @@ export default function OptionButton({ children, onClick, icon, testId }: Option
         type="button"
         onClick={onClick}
         data-testid={testId}
-        className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-green-600 hover:bg-green-700 text-white rounded-full shadow-md transition-colors duration-200"
+        className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-[#4306D5] hover:bg-[#3705B0] text-white rounded-full shadow-md transition-colors duration-200"
       >
         {children}
       </button>
