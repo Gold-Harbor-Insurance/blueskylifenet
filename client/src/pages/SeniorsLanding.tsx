@@ -19,13 +19,13 @@ export default function SeniorsLanding() {
 
   const totalSteps = 5;
 
-  const handleStateSelect = (state: string) => {
-    setFormData({ ...formData, state: state as USState });
+  const handleAgeSelect = (age: AgeRange) => {
+    setFormData({ ...formData, age });
     setTimeout(() => setStep(2), 300);
   };
 
-  const handleAgeSelect = (age: AgeRange) => {
-    setFormData({ ...formData, age });
+  const handleStateSelect = (state: string) => {
+    setFormData({ ...formData, state: state as USState });
     setTimeout(() => setStep(3), 300);
   };
 
@@ -49,38 +49,52 @@ export default function SeniorsLanding() {
       headline="JUST ANNOUNCED FOR SENIORS"
       subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
     >
-      <div className="text-center mb-6">
-        <p className="text-xl md:text-2xl text-white font-semibold">
-          Answer Quick Questions Below to Check Eligibility!
-        </p>
-      </div>
-
       <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
         {step === 1 && (
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-6">
-              Select your state
-            </h2>
-            <StateSelector value={formData.state} onValueChange={handleStateSelect} />
+            <div className="text-center mb-4">
+              <p className="text-base md:text-lg text-muted-foreground mb-4">
+                Answer 3 Quick Questions Below to Check Eligibility!
+              </p>
+              <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
+                Tap Your Age
+              </h2>
+            </div>
+            <div className="grid gap-4">
+              <button
+                type="button"
+                onClick={() => handleAgeSelect("Under 45")}
+                data-testid="button-age-under45"
+                className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+              >
+                Under 45
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAgeSelect("45-85")}
+                data-testid="button-age-45-85"
+                className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+              >
+                45-85
+              </button>
+              <button
+                type="button"
+                onClick={() => handleAgeSelect("Over 85")}
+                data-testid="button-age-over85"
+                className="w-full min-h-[60px] px-8 text-lg md:text-xl font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+              >
+                Over 85
+              </button>
+            </div>
           </div>
         )}
 
         {step === 2 && (
           <div className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-6">
-              Tap Your Age
+              Select Your State
             </h2>
-            <div className="grid gap-4">
-              <OptionButton onClick={() => handleAgeSelect("Under 45")} testId="button-age-under45">
-                Under 45
-              </OptionButton>
-              <OptionButton onClick={() => handleAgeSelect("45-85")} testId="button-age-45-85">
-                45-85
-              </OptionButton>
-              <OptionButton onClick={() => handleAgeSelect("Over 85")} testId="button-age-over85">
-                Over 85
-              </OptionButton>
-            </div>
+            <StateSelector value={formData.state} onValueChange={handleStateSelect} />
           </div>
         )}
 

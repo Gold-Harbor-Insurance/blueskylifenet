@@ -37,7 +37,7 @@ export default function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full bg-gradient-to-r from-blue-50 to-cyan-50 py-6 border-b">
+    <div className="w-full bg-[#BEEBFD] py-6 border-b">
       <div className="flex justify-center items-center min-h-[80px]">
         <AnimatePresence mode="wait">
           <motion.div
