@@ -44,7 +44,7 @@ export default function SeniorsLanding() {
     setTimeout(() => setLocation("/thank-you"), 500);
   };
 
-  const progress = (step / totalSteps) * 100;
+  const progress = ((step - 1) / totalSteps) * 100;
 
   if (step === 1) {
     return (
@@ -54,12 +54,6 @@ export default function SeniorsLanding() {
       >
         <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
           <div className="space-y-6">
-            <div className="w-full bg-gray-300 rounded-full h-2 mb-4">
-              <div 
-                className="bg-[#5CB85C] h-2 rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
             <div className="text-center mb-4">
               <p className="text-base md:text-lg text-black mb-4">
                 Answer a 5 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
