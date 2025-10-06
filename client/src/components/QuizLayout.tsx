@@ -9,7 +9,7 @@ interface QuizLayoutProps {
 
 export default function QuizLayout({ children, headline, subheadline }: QuizLayoutProps) {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       <TestimonialCarousel />
       <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
         <div className="w-full max-w-4xl mx-auto">
@@ -19,12 +19,10 @@ export default function QuizLayout({ children, headline, subheadline }: QuizLayo
           transition={{ duration: 0.6 }}
           className="text-center mb-8 md:mb-12"
         >
-          <div className="inline-flex items-center justify-center mb-4 font-semibold text-sm md:text-base text-foreground">
-            {headline}
-          </div>
           {subheadline && (
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mt-4">
-              {subheadline}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+              <span className="text-red-600">{headline}</span>{" "}
+              <span className="text-black">{subheadline}</span>
             </h1>
           )}
         </motion.div>
