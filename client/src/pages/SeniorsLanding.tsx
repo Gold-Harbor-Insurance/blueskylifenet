@@ -53,9 +53,9 @@ export default function SeniorsLanding() {
         subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
       >
         <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
-          <div className="space-y-6">
-            <div className="text-center mb-4">
-              <p className="text-base md:text-lg text-black mb-4">
+          <div className="space-y-4">
+            <div className="text-center mb-3">
+              <p className="text-base md:text-lg text-black mb-3">
                 Answer a 5 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -67,7 +67,7 @@ export default function SeniorsLanding() {
                 type="button"
                 onClick={() => handleAgeSelect("Under 45")}
                 data-testid="button-age-under45"
-                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
                 Under 54
               </button>
@@ -75,7 +75,7 @@ export default function SeniorsLanding() {
                 type="button"
                 onClick={() => handleAgeSelect("45-85")}
                 data-testid="button-age-45-85"
-                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
                 54 - 79
               </button>
@@ -83,7 +83,7 @@ export default function SeniorsLanding() {
                 type="button"
                 onClick={() => handleAgeSelect("Over 85")}
                 data-testid="button-age-over85"
-                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
                 Over 80
               </button>
