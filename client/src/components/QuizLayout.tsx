@@ -10,6 +10,7 @@ interface QuizLayoutProps {
 export default function QuizLayout({ children, headline, subheadline }: QuizLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col">
+      <div className="w-full h-[25px] bg-[#63b1f9]"></div>
       <TestimonialCarousel />
       <div className="flex-1 flex flex-col items-center justify-start py-6 px-4">
         <div className="w-full max-w-5xl mx-auto">
