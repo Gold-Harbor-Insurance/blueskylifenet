@@ -16,7 +16,7 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <div className="p-4 md:p-6 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-gray-200 shadow-lg rounded-2xl">
+      <div className="p-6 md:p-10 bg-gradient-to-br from-cyan-50 to-blue-50 border border-gray-300 shadow-lg rounded-2xl">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}

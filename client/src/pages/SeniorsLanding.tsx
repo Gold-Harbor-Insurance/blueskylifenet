@@ -51,39 +51,39 @@ export default function SeniorsLanding() {
     >
       <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
         {step === 1 && (
-          <div className="space-y-3">
-            <div className="text-center mb-2">
-              <p className="text-sm md:text-base text-muted-foreground mb-2">
-                Answer 3 Quick Questions Below to Check Eligibility!
+          <div className="space-y-6">
+            <div className="text-center mb-4">
+              <p className="text-base md:text-lg text-black mb-4">
+                Answer 3 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
               </p>
-              <h2 className="text-xl md:text-2xl font-semibold text-foreground">
+              <h2 className="text-2xl md:text-3xl font-bold text-black">
                 Tap Your Age
               </h2>
             </div>
-            <div className="grid gap-3">
+            <div className="flex flex-col md:flex-row gap-4 justify-center items-center max-w-3xl mx-auto">
               <button
                 type="button"
                 onClick={() => handleAgeSelect("Under 45")}
                 data-testid="button-age-under45"
-                className="w-full min-h-[48px] px-6 text-base md:text-lg font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
-                Under 45
+                Under 54
               </button>
               <button
                 type="button"
                 onClick={() => handleAgeSelect("45-85")}
                 data-testid="button-age-45-85"
-                className="w-full min-h-[48px] px-6 text-base md:text-lg font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
-                45-85
+                54 - 79
               </button>
               <button
                 type="button"
                 onClick={() => handleAgeSelect("Over 85")}
                 data-testid="button-age-over85"
-                className="w-full min-h-[48px] px-6 text-base md:text-lg font-semibold bg-[#59B555] hover:bg-[#4A9A47] text-white rounded-full shadow-md transition-colors duration-200"
+                className="w-full md:w-auto min-w-[160px] min-h-[50px] px-8 text-lg md:text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
               >
-                Over 85
+                Over 80
               </button>
             </div>
           </div>
