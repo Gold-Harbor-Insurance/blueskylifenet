@@ -1,10 +1,11 @@
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const testimonials = [
   {
-    quote: "The process was surprisingly smooth",
-    author: "David M."
+    quote: "The process was quick and easy!",
+    author: "Joe D."
   },
   {
     quote: "Got approved within minutes",
@@ -25,46 +26,47 @@ const testimonials = [
 ];
 
 export default function TestimonialCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="w-full overflow-hidden bg-gradient-to-r from-blue-50 to-cyan-50 py-4 border-b">
-      <motion.div
-        className="flex gap-6 px-4"
-        animate={{
-          x: [0, -1920],
-        }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 30,
-            ease: "linear",
-          },
-        }}
-      >
-        {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 bg-white/80 backdrop-blur-sm rounded-lg px-8 py-4 min-w-[320px] shadow-sm"
-            data-testid={`testimonial-${index}`}
+    <div className="w-full bg-gradient-to-r from-blue-50 to-cyan-50 py-6 border-b">
+      <div className="flex justify-center items-center min-h-[80px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+            data-testid={`testimonial-${currentIndex}`}
           >
             <div className="flex gap-1 justify-center mb-2">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
                   className="w-5 h-5 fill-gold text-gold"
-                  data-testid={`star-${index}-${i}`}
+                  data-testid={`star-${currentIndex}-${i}`}
                 />
               ))}
             </div>
-            <p className="text-center text-foreground font-medium mb-1">
-              "{testimonial.quote}"
+            <p className="text-foreground font-medium mb-1 text-lg">
+              "{testimonials[currentIndex].quote}"
             </p>
-            <p className="text-center text-muted-foreground text-sm">
-              — {testimonial.author}
+            <p className="text-muted-foreground text-sm">
+              — {testimonials[currentIndex].author}
             </p>
-          </div>
-        ))}
-      </motion.div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
