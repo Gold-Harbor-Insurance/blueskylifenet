@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import QuizLayout from "@/components/QuizLayout";
-import QuizCard from "@/components/QuizCard";
-import OptionButton from "@/components/OptionButton";
+import OriginalQuizLayout from "@/components/OriginalQuizLayout";
+import OriginalQuizCard from "@/components/OriginalQuizCard";
+import OriginalOptionButton from "@/components/OriginalOptionButton";
 
 export default function OriginalLanding() {
   const [, setLocation] = useLocation();
@@ -23,68 +23,68 @@ export default function OriginalLanding() {
   };
 
   return (
-    <QuizLayout 
-      headline="JUST ANNOUNCED FOR SENIORS"
+    <OriginalQuizLayout 
+      headline="Just Announced For Seniors:"
       subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt With This New Benefit"
     >
       <div className="text-center mb-6">
-        <p className="text-xl md:text-2xl text-white font-semibold">
-          Answer 3 Quick Questions Below to Check Eligibility!
+        <p className="text-lg md:text-xl text-black font-normal">
+          Answer 3 Quick Questions Below to <span className="underline">Check Eligibility!</span>
         </p>
       </div>
 
-      <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
+      <OriginalQuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
         {step === 1 && (
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-black mb-8">
               Tap Your Age
             </h2>
             <div className="grid gap-4">
-              <OptionButton onClick={handleAgeSelect} testId="button-age-under54">
+              <OriginalOptionButton onClick={handleAgeSelect} testId="button-age-under54">
                 Under 54
-              </OptionButton>
-              <OptionButton onClick={handleAgeSelect} testId="button-age-54-79">
+              </OriginalOptionButton>
+              <OriginalOptionButton onClick={handleAgeSelect} testId="button-age-54-79">
                 54 - 79
-              </OptionButton>
-              <OptionButton onClick={handleAgeSelect} testId="button-age-over80">
+              </OriginalOptionButton>
+              <OriginalOptionButton onClick={handleAgeSelect} testId="button-age-over80">
                 Over 80
-              </OptionButton>
+              </OriginalOptionButton>
             </div>
           </div>
         )}
 
         {step === 2 && (
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-black mb-8">
               Are you a US citizen?
             </h2>
             <div className="grid gap-4">
-              <OptionButton onClick={handleCitizenSelect} testId="button-citizen-yes">
+              <OriginalOptionButton onClick={handleCitizenSelect} testId="button-citizen-yes">
                 Yes
-              </OptionButton>
-              <OptionButton onClick={handleCitizenSelect} testId="button-citizen-no">
+              </OriginalOptionButton>
+              <OriginalOptionButton onClick={handleCitizenSelect} testId="button-citizen-no">
                 No
-              </OptionButton>
+              </OriginalOptionButton>
             </div>
           </div>
         )}
 
         {step === 3 && (
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-center text-foreground mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-black mb-8">
               Are you employed?
             </h2>
             <div className="grid gap-4">
-              <OptionButton onClick={handleEmploymentSelect} testId="button-employed-yes">
+              <OriginalOptionButton onClick={handleEmploymentSelect} testId="button-employed-yes">
                 Yes
-              </OptionButton>
-              <OptionButton onClick={handleEmploymentSelect} testId="button-employed-no">
+              </OriginalOptionButton>
+              <OriginalOptionButton onClick={handleEmploymentSelect} testId="button-employed-no">
                 No
-              </OptionButton>
+              </OriginalOptionButton>
             </div>
           </div>
         )}
-      </QuizCard>
-    </QuizLayout>
+      </OriginalQuizCard>
+    </OriginalQuizLayout>
   );
 }
