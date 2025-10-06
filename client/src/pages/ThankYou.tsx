@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Phone, ArrowDown } from "lucide-react";
+import { Phone, ArrowDown, RotateCcw } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 
 export default function ThankYou() {
+  const [, setLocation] = useLocation();
   const phoneNumber = "(877) 745-7526";
   const telLink = "tel:+18777457526";
 
@@ -114,6 +116,17 @@ export default function ThankYou() {
               <span>© 2025 Gold Harbor Insurance</span>
               <span>•</span>
               <span>All Rights Reserved</span>
+            </div>
+            <div className="mt-8">
+              <Button
+                variant="outline"
+                onClick={() => setLocation("/seniors")}
+                className="gap-2"
+                data-testid="button-start-over"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Start Over
+              </Button>
             </div>
           </motion.div>
         </div>
