@@ -125,7 +125,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Spouse")}
               data-testid="button-beneficiary-spouse"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Spouse
             </button>
@@ -133,7 +133,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Children")}
               data-testid="button-beneficiary-children"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Children
             </button>
@@ -141,7 +141,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Grandchildren")}
               data-testid="button-beneficiary-grandchildren"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Grandchildren
             </button>
@@ -149,7 +149,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Family Member")}
               data-testid="button-beneficiary-family"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Family Member
             </button>
@@ -168,7 +168,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleCoverageSelect("Under $10,000")}
               data-testid="button-coverage-under10k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Under $10,000
             </button>
@@ -176,7 +176,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleCoverageSelect("$10,000-$24,999")}
               data-testid="button-coverage-10k-25k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $10,000-$24,999
             </button>
@@ -184,7 +184,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleCoverageSelect("$25,000-$50,000")}
               data-testid="button-coverage-25k-50k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $25,000-$50,000
             </button>
@@ -192,7 +192,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleCoverageSelect("Over $50,000")}
               data-testid="button-coverage-over50k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Over $50,000
             </button>
@@ -211,7 +211,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBudgetSelect("Less than $50/month")}
               data-testid="button-budget-under50"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Less than $50/month
             </button>
@@ -219,7 +219,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$50–$74/month")}
               data-testid="button-budget-50-74"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $50–$74/month
             </button>
@@ -227,7 +227,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$75–$99/month")}
               data-testid="button-budget-75-99"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $75–$99/month
             </button>
@@ -235,7 +235,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$100–$149/month")}
               data-testid="button-budget-100-149"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $100–$149/month
             </button>
@@ -243,7 +243,7 @@ export default function SeniorsLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$150+/month")}
               data-testid="button-budget-150plus"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#4306D5] hover:bg-[#3805B0] text-white rounded-md transition-colors duration-200"
+              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $150+/month
             </button>
