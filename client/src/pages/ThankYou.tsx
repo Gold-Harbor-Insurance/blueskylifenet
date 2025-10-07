@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+
+declare global {
+  interface Window {
+    Ringba?: any;
+    RingbaNumber?: string;
+  }
+}
 
 export default function ThankYou() {
   const [timeLeft, setTimeLeft] = useState(142); // 2:22 in seconds
-  const phoneNumber = "(855) 391-2986";
-  const telLink = "tel:+18553912986";
+  const [phoneNumber, setPhoneNumber] = useState("Loading...");
+  const [telLink, setTelLink] = useState("");
+  const phoneRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -14,12 +22,96 @@ export default function ThankYou() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    let attempts = 0;
+    const maxAttempts = 50;
+    let observer: MutationObserver | null = null;
+
+    const checkRingba = () => {
+      attempts++;
+      
+      if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number") {
+        const number = phoneRef.current.textContent;
+        if (number && number !== "Loading...") {
+          setPhoneNumber(number);
+          const cleanNumber = number.replace(/\D/g, '');
+          setTelLink(`tel:+1${cleanNumber}`);
+          if (observer) observer.disconnect();
+          return;
+        }
+      }
+      
+      if (window.RingbaNumber) {
+        setPhoneNumber(window.RingbaNumber);
+        const cleanNumber = window.RingbaNumber.replace(/\D/g, '');
+        setTelLink(`tel:+1${cleanNumber}`);
+        if (observer) observer.disconnect();
+        return;
+      }
+      
+      if (window.Ringba) {
+        try {
+          if (typeof window.Ringba.getNumber === 'function') {
+            const number = window.Ringba.getNumber();
+            if (number) {
+              setPhoneNumber(number);
+              const cleanNumber = number.replace(/\D/g, '');
+              setTelLink(`tel:+1${cleanNumber}`);
+              if (observer) observer.disconnect();
+              return;
+            }
+          }
+          
+          if (typeof window.Ringba === 'object' && window.Ringba.number) {
+            setPhoneNumber(window.Ringba.number);
+            const cleanNumber = window.Ringba.number.replace(/\D/g, '');
+            setTelLink(`tel:+1${cleanNumber}`);
+            if (observer) observer.disconnect();
+            return;
+          }
+        } catch (error) {
+          console.error('Ringba error:', error);
+        }
+      }
+      
+      if (attempts < maxAttempts) {
+        setTimeout(checkRingba, 100);
+      } else {
+        console.warn('Ringba not available, using fallback number');
+        setPhoneNumber("(877) 745-7526");
+        setTelLink("tel:+18777457526");
+      }
+    };
+
+    if (phoneRef.current) {
+      observer = new MutationObserver(() => {
+        if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number" && phoneRef.current.textContent !== "Loading...") {
+          const number = phoneRef.current.textContent;
+          setPhoneNumber(number);
+          const cleanNumber = number.replace(/\D/g, '');
+          setTelLink(`tel:+1${cleanNumber}`);
+          if (observer) observer.disconnect();
+        }
+      });
+      
+      observer.observe(phoneRef.current, { childList: true, characterData: true, subtree: true });
+    }
+
+    checkRingba();
+
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, []);
+
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
+      <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -48,7 +140,7 @@ export default function ThankYou() {
         </p>
 
         <motion.a
-          href={telLink}
+          href={telLink || "#"}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
