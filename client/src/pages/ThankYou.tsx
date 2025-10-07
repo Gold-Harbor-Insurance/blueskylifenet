@@ -10,8 +10,8 @@ declare global {
 
 export default function ThankYou() {
   const [timeLeft, setTimeLeft] = useState(142); // 2:22 in seconds
-  const [phoneNumber, setPhoneNumber] = useState("Loading...");
-  const [telLink, setTelLink] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("(877) 790-1817");
+  const [telLink, setTelLink] = useState("tel:+18777901817");
   const phoneRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
