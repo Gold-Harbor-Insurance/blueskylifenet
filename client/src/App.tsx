@@ -8,7 +8,7 @@ import VeteransLanding from "@/pages/VeteransLanding";
 import ThankYou from "@/pages/ThankYou";
 import NotFound from "@/pages/not-found";
 
-const basePath = import.meta.env.BASE_URL;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 function Routes() {
   return (
