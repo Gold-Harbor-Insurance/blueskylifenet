@@ -78,8 +78,8 @@ export default function ThankYou() {
         setTimeout(checkRingba, 100);
       } else {
         console.warn('Ringba not available, using fallback number');
-        setPhoneNumber("(877) 745-7526");
-        setTelLink("tel:+18777457526");
+        setPhoneNumber("(877) 790-1817");
+        setTelLink("tel:+18777901817");
       }
     };
 
