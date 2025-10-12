@@ -93,7 +93,7 @@ export default function SeniorsLanding() {
                   data-testid="button-age-over85"
                   className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
-                  Over 80
+                  Over 85
                 </button>
               </div>
             </div>
