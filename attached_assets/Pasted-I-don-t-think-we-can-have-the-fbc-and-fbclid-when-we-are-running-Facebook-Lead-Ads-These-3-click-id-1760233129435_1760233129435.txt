@@ -1,0 +1,93 @@
+I don't think we can have the fbc and fbclid when we are running Facebook Lead Ads. These 3 click identifiers (fbc, fbp, and fbclid) are being sent on our web/browser-based workflow only and have been there (whenever available of course) for meta pixel optimization.
+
+
+2025-10-11_02-37-38.png
+
+
+
+We can pass these if we are going to apply our workflow from Facebook Lead Ads on our Web browser -based workflow as well.
+
+
+
+Currently, we have 2 different workflows that we can run ads on:
+
+Facebook Lead Ads
+Website (Gold Harbor Insurance)
+
+
+If we are running #2 which is the website, I think we need to update the latest template instructing the AI via Replit to capture these cookies (fbclid, fbc, and fbp) and pass them to Ringba. Ringba will then send it through pixel to Make and then Make will send to Facebook CAPI through its module (in this case we need to add the CRM pixel after sending it to our "Leads" pixel.
+can you interpret t this because i have no idea what it means. like i am 5 years old
+ChatGPT said:
+
+Alright, here’s the plain-English, “explain-it-to-a-5-year-old” version of that mess:
+
+What’s going on
+
+Your marketing setup can collect leads in two different ways:
+
+Facebook Lead Ads – people fill out a form inside Facebook.
+
+Your website – people fill out a form on goldharborinsurance.com.
+
+The confusing words
+
+fbclid / fbc / fbp:
+These are little tracking “crumbs” that Facebook drops on someone’s browser.
+They help Facebook remember who clicked what ad, so it can tell which ad brought that person in.
+
+CAPI (Conversions API):
+This is how you send data straight to Facebook’s servers instead of relying only on the browser pixel.
+
+Ringba:
+This is your call-tracking system. It can pass info about calls and leads to other tools.
+
+Make (formerly Integromat):
+It’s the automation middleman that moves data between systems like Ringba and Facebook.
+
+The problem
+
+When people use Facebook Lead Ads, they never touch your website, so those browser cookies (fbclid, fbc, fbp) don’t exist.
+That’s why you can’t send them — there’s nothing to send.
+
+When people fill out the form on your website, those cookies do exist, because Facebook’s pixel is installed there and collects them.
+
+What the message is really saying
+
+You have two different workflows:
+
+One for Facebook Lead Ads
+
+One for your website
+
+The Lead Ads workflow doesn’t need (and can’t have) those tracking cookies.
+
+The Website workflow should grab those cookies (fbclid, fbc, fbp) and pass them along.
+
+What you’re supposed to do
+
+They’re saying:
+
+Update your website workflow template (the one built in Replit).
+
+Make it grab the fbclid, fbc, and fbp cookies from visitors.
+
+Pass them to Ringba.
+
+Ringba forwards that data to Make.
+
+Make sends the data to Facebook CAPI (and maybe also your CRM pixel).
+
+That whole daisy chain helps Facebook connect a specific ad click to the lead that filled out the form, so it can optimize ads better.
+
+In baby terms
+
+Facebook wants to know who clicked the ad.
+
+The cookies tell it who.
+
+The website knows about those cookies, but Facebook Lead Ads do not.
+
+Your job is to make sure the website passes those cookies along the line (Website → Ringba → Make → Facebook).
+
+So basically, your friend is saying:
+“Hey, if we’re using the website funnel, we need to capture the Facebook tracking crumbs (cookies) and send them through all our systems so Facebook can learn which ads bring the best leads.”

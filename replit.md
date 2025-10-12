@@ -27,9 +27,17 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 3. **Thank You Page** (/thank-you)
    - Congratulations message
    - 45-second countdown timer with pulse animation
-   - Prominent phone number: (877) 745-7526 with click-to-call
+   - Prominent phone number: (877) 790-1817 (fallback) with click-to-call
+   - Ringba dynamic number insertion
    - Urgency messaging
    - Legal disclaimers and footer
+
+4. **Facebook Tracking Integration**
+   - Captures Facebook click ID (fbclid) from URL parameters
+   - Stores Facebook browser cookie (_fbc) and pixel ID (_fbp)
+   - Passes tracking data to Ringba for CAPI integration
+   - Data flows: Website → Ringba → Make → Facebook CAPI
+   - Enables Facebook ad optimization through conversion tracking
 
 ### Design System
 - **Brand Colors**: Gold Harbor Insurance gold (#D4AF37) with deep navy gradient background

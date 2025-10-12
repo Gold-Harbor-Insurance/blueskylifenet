@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
@@ -6,6 +6,7 @@ import OptionButton from "@/components/OptionButton";
 import StateSelector from "@/components/StateSelector";
 import LegalModal from "@/components/LegalModal";
 import { USState, AgeRange, Beneficiary, CoverageAmount, MonthlyBudget } from "@shared/schema";
+import { initFacebookTracking } from "@/utils/facebookTracking";
 
 export default function SeniorsLanding() {
   const [, setLocation] = useLocation();
@@ -18,6 +19,10 @@ export default function SeniorsLanding() {
     coverage: "" as CoverageAmount | "",
     budget: "" as MonthlyBudget | "",
   });
+
+  useEffect(() => {
+    initFacebookTracking();
+  }, []);
 
   const totalSteps = 5;
 

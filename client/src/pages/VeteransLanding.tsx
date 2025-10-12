@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
 import StateSelector from "@/components/StateSelector";
 import LegalModal from "@/components/LegalModal";
 import { MilitaryBranch, USState, AgeRange, Beneficiary, CoverageAmount, MonthlyBudget } from "@shared/schema";
+import { initFacebookTracking } from "@/utils/facebookTracking";
 
 export default function VeteransLanding() {
   const [, setLocation] = useLocation();
@@ -18,6 +19,10 @@ export default function VeteransLanding() {
     coverage: "" as CoverageAmount | "",
     budget: "" as MonthlyBudget | "",
   });
+
+  useEffect(() => {
+    initFacebookTracking();
+  }, []);
 
   const totalSteps = 6;
 

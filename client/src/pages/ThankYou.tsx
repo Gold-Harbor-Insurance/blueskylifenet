@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { getStoredFacebookTrackingData } from "@/utils/facebookTracking";
 
 declare global {
   interface Window {
     Ringba?: any;
     RingbaNumber?: string;
+    ringbaTracking?: any;
   }
 }
 
@@ -23,12 +25,38 @@ export default function ThankYou() {
   }, []);
 
   useEffect(() => {
+    // Get Facebook tracking data and make it available to Ringba
+    const fbData = getStoredFacebookTrackingData();
+    
+    // Set up Ringba custom tags with Facebook tracking data
+    if (typeof window !== 'undefined') {
+      window.ringbaTracking = {
+        fbclid: fbData.fbclid || '',
+        fbc: fbData.fbc || '',
+        fbp: fbData.fbp || '',
+      };
+      
+      // If Ringba is already loaded, set the tags
+      if (window.Ringba && typeof window.Ringba.setTags === 'function') {
+        window.Ringba.setTags(window.ringbaTracking);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     let attempts = 0;
     const maxAttempts = 50;
     let observer: MutationObserver | null = null;
 
     const checkRingba = () => {
       attempts++;
+      
+      // Set Facebook tracking tags when Ringba loads
+      if (window.Ringba && window.ringbaTracking) {
+        if (typeof window.Ringba.setTags === 'function') {
+          window.Ringba.setTags(window.ringbaTracking);
+        }
+      }
       
       if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number") {
         const number = phoneRef.current.textContent;
