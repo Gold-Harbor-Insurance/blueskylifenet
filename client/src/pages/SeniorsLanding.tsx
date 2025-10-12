@@ -33,7 +33,13 @@ export default function SeniorsLanding() {
 
   const handleStateSelect = (state: string) => {
     setFormData({ ...formData, state: state as USState });
-    setTimeout(() => setStep(3), 300);
+    
+    // Check if they qualify based on age
+    if (formData.age === "Under 45" || formData.age === "Over 85") {
+      setTimeout(() => setLocation("/not-qualified"), 300);
+    } else {
+      setTimeout(() => setStep(3), 300);
+    }
   };
 
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {

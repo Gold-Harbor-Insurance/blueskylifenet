@@ -38,7 +38,13 @@ export default function VeteransLanding() {
 
   const handleAgeSelect = (age: AgeRange) => {
     setFormData({ ...formData, age });
-    setTimeout(() => setStep(4), 300);
+    
+    // Check if they qualify based on age
+    if (age === "Under 45" || age === "Over 85") {
+      setTimeout(() => setLocation("/not-qualified"), 300);
+    } else {
+      setTimeout(() => setStep(4), 300);
+    }
   };
 
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {

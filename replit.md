@@ -9,6 +9,7 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 - `/seniors` - Landing page for seniors with 5-step quiz
 - `/veterans` - Landing page for veterans with 6-step quiz (includes military branch question)
 - `/thank-you` - Conversion page with countdown timer and phone number CTA
+- `/not-qualified` - Disqualification page for users who don't meet age criteria
 - `/` - Defaults to seniors landing page
 
 ### Features Implemented
@@ -38,6 +39,12 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Passes tracking data to Ringba for CAPI integration
    - Data flows: Website → Ringba → Make → Facebook CAPI
    - Enables Facebook ad optimization through conversion tracking
+
+5. **Age-Based Qualification Logic**
+   - Users under 54 (Under 45 value) are disqualified
+   - Users over 85 are disqualified
+   - Disqualified users are redirected to /not-qualified page
+   - Applies to both seniors and veterans landing pages
 
 ### Design System
 - **Brand Colors**: Gold Harbor Insurance gold (#D4AF37) with deep navy gradient background
