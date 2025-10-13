@@ -36,8 +36,8 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 3. **Thank You Page Integration** (embedded in quiz, not separate route)
    - Congratulations message
    - 142-second countdown timer (2:22) with pulse animation
-   - Prominent phone number: (877) 790-1817 (fallback) with click-to-call
-   - Ringba dynamic number insertion with advanced detection
+   - Dynamic phone number from Ringba API (fallback: (877) 790-1817) with click-to-call
+   - Custom Ringba API integration via POST to https://display.ringba.com/v2/nis/gn/
    - Facebook tracking data forwarded to Ringba (fbclid, fbc, fbp)
    - Urgency messaging
    - Legal disclaimers and footer
@@ -45,6 +45,7 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
      - Prevents users from bypassing quiz by directly accessing /thank-you
      - Ensures all tracking variables remain in DOM for GTM
      - Maintains form data persistence throughout flow
+     - Displays loading indicator while Ringba API call is in progress
 
 4. **Facebook Tracking Integration**
    - Captures Facebook click ID (fbclid) from URL parameters
@@ -80,6 +81,24 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Qualified users: 45-85 age range
    - Disqualified users are redirected to /not-qualified page
    - Applies to both seniors and veterans landing pages
+
+7. **Custom Ringba API Integration** (October 2025)
+   - Replaced Ringba script tag with custom API implementation
+   - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
+   - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
+   - **Timing**: API called after budget selection, before displaying thank you step
+   - **Loading State**: Shows processing indicator with spinner while API call is in progress
+   - **Data Sent as Ringba Tags**:
+     - All hidden input field values (quiz selections)
+     - URL parameters (fbclid, utm_campaign, etc.)
+     - Facebook cookies (_fbc, _fbp)
+     - Location properties (completeUrl, hostName, pathName, hash)
+   - **Response Handling**:
+     - Dynamic phone number from API response
+     - Auto-formats to (xxx) xxx-xxxx display format
+     - Tel link format: tel:+1XXXXXXXXXX (automatically prepends +1 for 10-digit US numbers)
+   - **Fallback**: If API fails, uses (877) 790-1817 as default number
+   - **Files**: client/src/utils/ringbaApi.ts contains the implementation
 
 ### Design System
 - **Brand Colors**: Gold Harbor Insurance gold (#D4AF37) with deep navy gradient background
