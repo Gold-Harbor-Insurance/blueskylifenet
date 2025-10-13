@@ -169,6 +169,13 @@ export default function VeteransLanding() {
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
+      {/* Hidden input for age classification tracking - persists across all steps */}
+      <input 
+        type="hidden" 
+        id="age-classification" 
+        value={formData.age}
+      />
+      
       {step === 2 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
           <div>

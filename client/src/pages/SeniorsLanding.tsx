@@ -62,6 +62,13 @@ export default function SeniorsLanding() {
   if (step === 1) {
     return (
       <>
+        {/* Hidden input for age classification tracking - persists across all steps */}
+        <input 
+          type="hidden" 
+          id="age-classification" 
+          value={formData.age}
+        />
+        
         <QuizLayout 
           headline="JUST ANNOUNCED FOR SENIORS"
           subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
@@ -140,6 +147,13 @@ export default function SeniorsLanding() {
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
+      {/* Hidden input for age classification tracking - persists across all steps */}
+      <input 
+        type="hidden" 
+        id="age-classification" 
+        value={formData.age}
+      />
+      
       {step === 2 && (
         <div className="max-w-xl mx-auto text-center space-y-6">
           <div>
