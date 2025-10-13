@@ -1,12 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { motion } from "framer-motion";
 import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
 import OptionButton from "@/components/OptionButton";
 import StateSelector from "@/components/StateSelector";
 import LegalModal from "@/components/LegalModal";
 import { USState, AgeRange, Beneficiary, CoverageAmount, MonthlyBudget } from "@shared/schema";
-import { initFacebookTracking } from "@/utils/facebookTracking";
+import { initFacebookTracking, getStoredFacebookTrackingData } from "@/utils/facebookTracking";
+
+declare global {
+  interface Window {
+    Ringba?: any;
+    RingbaNumber?: string;
+    ringbaTracking?: any;
+  }
+}
 
 export default function SeniorsLanding() {
   const [, setLocation] = useLocation();
@@ -19,18 +28,21 @@ export default function SeniorsLanding() {
     coverage: "" as CoverageAmount | "",
     budget: "" as MonthlyBudget | "",
   });
+  
+  // Thank you page state
+  const [timeLeft, setTimeLeft] = useState(142);
+  const [phoneNumber, setPhoneNumber] = useState("(877) 790-1817");
+  const [telLink, setTelLink] = useState("tel:+18777901817");
+  const phoneRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     initFacebookTracking();
   }, []);
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   const handleAgeSelect = (age: AgeRange) => {
     setFormData({ ...formData, age });
-    
-    // Store age in sessionStorage for GTM tracking on Thank You page
-    sessionStorage.setItem('ageClassification', age);
     
     // Check if they qualify based on age
     if (age === "Under 45" || age === "Over 85") {
@@ -57,8 +69,123 @@ export default function SeniorsLanding() {
 
   const handleBudgetSelect = (budget: MonthlyBudget) => {
     setFormData({ ...formData, budget });
-    setTimeout(() => setLocation("/thank-you"), 500);
+    setTimeout(() => setStep(6), 500);
   };
+  
+  // Timer effect for thank you page
+  useEffect(() => {
+    if (step === 6) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [step]);
+
+  // Ringba integration effect for thank you page
+  useEffect(() => {
+    if (step === 6) {
+      const fbData = getStoredFacebookTrackingData();
+      
+      if (typeof window !== 'undefined') {
+        window.ringbaTracking = {
+          fbclid: fbData.fbclid || '',
+          fbc: fbData.fbc || '',
+          fbp: fbData.fbp || '',
+        };
+        
+        if (window.Ringba && typeof window.Ringba.setTags === 'function') {
+          window.Ringba.setTags(window.ringbaTracking);
+        }
+      }
+      
+      let attempts = 0;
+      const maxAttempts = 50;
+      let observer: MutationObserver | null = null;
+
+      const checkRingba = () => {
+        attempts++;
+        
+        if (window.Ringba && window.ringbaTracking) {
+          if (typeof window.Ringba.setTags === 'function') {
+            window.Ringba.setTags(window.ringbaTracking);
+          }
+        }
+        
+        if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number") {
+          const number = phoneRef.current.textContent;
+          if (number && number !== "Loading...") {
+            setPhoneNumber(number);
+            const cleanNumber = number.replace(/\D/g, '');
+            setTelLink(`tel:+1${cleanNumber}`);
+            if (observer) observer.disconnect();
+            return;
+          }
+        }
+        
+        if (window.RingbaNumber) {
+          setPhoneNumber(window.RingbaNumber);
+          const cleanNumber = window.RingbaNumber.replace(/\D/g, '');
+          setTelLink(`tel:+1${cleanNumber}`);
+          if (observer) observer.disconnect();
+          return;
+        }
+        
+        if (window.Ringba) {
+          try {
+            if (typeof window.Ringba.getNumber === 'function') {
+              const number = window.Ringba.getNumber();
+              if (number) {
+                setPhoneNumber(number);
+                const cleanNumber = number.replace(/\D/g, '');
+                setTelLink(`tel:+1${cleanNumber}`);
+                if (observer) observer.disconnect();
+                return;
+              }
+            }
+            
+            if (typeof window.Ringba === 'object' && window.Ringba.number) {
+              setPhoneNumber(window.Ringba.number);
+              const cleanNumber = window.Ringba.number.replace(/\D/g, '');
+              setTelLink(`tel:+1${cleanNumber}`);
+              if (observer) observer.disconnect();
+              return;
+            }
+          } catch (error) {
+            console.error('Ringba error:', error);
+          }
+        }
+        
+        if (attempts < maxAttempts) {
+          setTimeout(checkRingba, 100);
+        } else {
+          console.warn('Ringba not available, using fallback number');
+          setPhoneNumber("(877) 790-1817");
+          setTelLink("tel:+18777901817");
+        }
+      };
+
+      if (phoneRef.current) {
+        observer = new MutationObserver(() => {
+          if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number" && phoneRef.current.textContent !== "Loading...") {
+            const number = phoneRef.current.textContent;
+            setPhoneNumber(number);
+            const cleanNumber = number.replace(/\D/g, '');
+            setTelLink(`tel:+1${cleanNumber}`);
+            if (observer) observer.disconnect();
+          }
+        });
+        
+        observer.observe(phoneRef.current, { childList: true, characterData: true, subtree: true });
+      }
+
+      checkRingba();
+
+      return () => {
+        if (observer) observer.disconnect();
+      };
+    }
+  }, [step]);
 
   const progress = ((step - 1) / totalSteps) * 100;
 
@@ -335,6 +462,71 @@ export default function SeniorsLanding() {
               $150+/month
             </button>
           </div>
+        </div>
+      )}
+
+      {step === 6 && (
+        <div className="w-full max-w-2xl mx-auto text-center bg-white p-4">
+          <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-black mb-6" data-testid="text-congratulations">
+              Congratulations!
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-black mb-4">
+              Make a quick <span className="bg-yellow-300 px-2 font-semibold">2-minute call</span> to claim your{" "}
+              <span className="text-red-600 font-bold">LIFE INSURANCE BENEFIT!</span>
+            </p>
+
+            <p className="text-lg md:text-xl text-black italic mb-3">
+              Hurry! Secure this benefit <span className="text-red-600">before time runs out...</span>
+            </p>
+
+            <div className="text-4xl md:text-5xl font-bold text-red-600 mb-6">
+              {Math.floor(timeLeft / 60).toString().padStart(2, '0')}:{(timeLeft % 60).toString().padStart(2, '0')}
+            </div>
+
+            <p className="text-lg md:text-xl text-black mb-6">
+              Call the number below to get your life insurance benefit* 👇
+            </p>
+
+            <motion.a
+              href={telLink || "#"}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
+              data-testid="button-call-now"
+            >
+              {phoneNumber}
+            </motion.a>
+
+            <p className="text-base md:text-lg font-bold mt-6">
+              <span className="text-red-600">NOTE:</span> This is the final call
+            </p>
+
+            <div className="mt-12 pt-8 border-t border-gray-300">
+              <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                The term "life insurance benefit" refers to a potential insurance policy that may be available 
+                to individuals who meet specific eligibility criteria. This is a marketing communication and 
+                does not constitute an offer or guarantee of coverage. All insurance plans are subject to 
+                underwriting approval, state availability, and applicable carrier terms and conditions. Actual 
+                benefit amounts, premiums, and availability will vary based on personal information including, 
+                but not limited to: age, health history, income, location, and the selected provider. To 
+                determine if you qualify and to receive specific coverage details, you must speak with a 
+                licensed insurance agent.
+              </p>
+              <div className="mt-6 flex items-center justify-center gap-4 text-xs text-gray-500">
+                <span>© 2025 Gold Harbor Insurance</span>
+                <span>•</span>
+                <span>All Rights Reserved</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>
