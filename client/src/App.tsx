@@ -9,7 +9,12 @@ import ThankYou from "@/pages/ThankYou";
 import NotQualified from "@/pages/NotQualified";
 import NotFound from "@/pages/not-found";
 
-const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Use Vite's dev mode check for client-side routing base path
+// In dev: use "/" so routes match in Replit preview
+// In prod: use the cPanel subdirectory path from Vite config
+const basePath = import.meta.env.DEV 
+  ? "" 
+  : import.meta.env.BASE_URL.replace(/\/$/, '');
 
 function Routes() {
   return (

@@ -1,9 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { BASE_PATH } from "../shared/constants";
 import path from "path";
 import fs from "fs";
+import viteConfig from "../vite.config";
 
 const app = express();
 app.use(express.json());
@@ -54,17 +54,19 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
-    // Strip BASE_PATH from URLs in development so Replit preview works
-    // Vite will see clean URLs without the production base path
+    // In dev, Vite's base config emits prefixed asset URLs
+    // Strip the base path from requests so Vite can serve them correctly
+    const basePath = (viteConfig.base as string) || "/";
     app.use((req, _res, next) => {
-      if (req.url.startsWith(BASE_PATH)) {
-        req.url = req.url.slice(BASE_PATH.length - 1); // Keep leading slash
+      if (basePath !== "/" && req.url.startsWith(basePath)) {
+        req.url = req.url.slice(basePath.length - 1); // Keep leading slash
       }
       next();
     });
     await setupVite(app, server);
   } else {
-    // Custom static serving for production with BASE_PATH
+    // Custom static serving for production with base path from Vite config
+    const basePath = (viteConfig.base as string) || "/";
     const distPath = path.resolve(import.meta.dirname, "public");
     
     if (!fs.existsSync(distPath)) {
@@ -73,11 +75,11 @@ app.use((req, res, next) => {
       );
     }
     
-    // Serve static files under BASE_PATH
-    app.use(BASE_PATH, express.static(distPath));
+    // Serve static files under base path
+    app.use(basePath, express.static(distPath));
     
-    // Fallback to index.html for SPA routing under BASE_PATH
-    app.use(`${BASE_PATH}*`, (_req, res) => {
+    // Fallback to index.html for SPA routing under base path
+    app.use(`${basePath}*`, (_req, res) => {
       res.sendFile(path.resolve(distPath, "index.html"));
     });
   }
