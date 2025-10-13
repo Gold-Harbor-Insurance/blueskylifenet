@@ -208,6 +208,12 @@ export default function VeteransLanding() {
           id="budget-classification" 
           value={formData.budget}
         />
+        <input type="hidden" name="military_branch" value={formData.militaryBranch} />
+        <input type="hidden" name="state" value={formData.state} />
+        <input type="hidden" name="age_classification" value={formData.age} />
+        <input type="hidden" name="beneficiary" value={formData.beneficiary} />
+        <input type="hidden" name="coverage_amount" value={formData.coverage} />
+        <input type="hidden" name="monthly_budget" value={formData.budget} />
         
         <QuizLayout 
           headline="JUST ANNOUNCED FOR VETERANS"
@@ -322,6 +328,12 @@ export default function VeteransLanding() {
         id="budget-classification" 
         value={formData.budget}
       />
+      <input type="hidden" name="military_branch" value={formData.militaryBranch} />
+      <input type="hidden" name="state" value={formData.state} />
+      <input type="hidden" name="age_classification" value={formData.age} />
+      <input type="hidden" name="beneficiary" value={formData.beneficiary} />
+      <input type="hidden" name="coverage_amount" value={formData.coverage} />
+      <input type="hidden" name="monthly_budget" value={formData.budget} />
       
       {step === 2 && (
         <div className="max-w-xl mx-auto text-center space-y-6">

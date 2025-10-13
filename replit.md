@@ -53,7 +53,27 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Data flows: Website → Ringba → Make → Facebook CAPI
    - Enables Facebook ad optimization through conversion tracking
 
-5. **Age-Based Qualification Logic**
+5. **GTM Data Layer Integration**
+   - All quiz selections captured in hidden input fields with specific names for GTM access
+   - **Veterans template** hidden inputs:
+     - `name="military_branch"` - Selected military branch
+     - `name="state"` - Selected US state
+     - `name="age_classification"` - Selected age range
+     - `name="beneficiary"` - Selected beneficiary
+     - `name="coverage_amount"` - Selected coverage amount
+     - `name="monthly_budget"` - Selected monthly budget
+   - **Seniors template** hidden inputs (same except no military_branch):
+     - `name="age_classification"` - Selected age range
+     - `name="state"` - Selected US state
+     - `name="beneficiary"` - Selected beneficiary
+     - `name="coverage_amount"` - Selected coverage amount
+     - `name="monthly_budget"` - Selected monthly budget
+   - Hidden inputs persist in DOM throughout quiz flow for GTM to read
+   - GTM can access values via: `document.querySelector('input[name="field_name"]').value`
+   - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
+   - High-quality click tracking: Age 45-85 AND budget above $50/month
+
+6. **Age-Based Qualification Logic**
    - Age buttons: "Under 45", "45-85", "Over 85"
    - Users 45 and under (Under 45) are disqualified
    - Users over 85 (Over 85) are disqualified
