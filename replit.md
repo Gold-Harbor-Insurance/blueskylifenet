@@ -69,3 +69,16 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 - Progressive disclosure: one question at a time to maximize completion
 - Countdown timer runs for 45 seconds on thank you page
 - Phone number has tel: link for mobile click-to-call functionality
+
+### Base Path Handling (Dev vs Production)
+**Issue**: vite.config.ts has `base: "/final-expense/rb-dhF5ke48DSslf/"` for cPanel deployment, which broke Replit preview
+
+**Solution**: 
+- **Client-side (App.tsx)**: Uses `import.meta.env.DEV` to determine wouter Router base path
+  - Dev: "" (empty) so routes match at root `/`
+  - Prod: `import.meta.env.BASE_URL` from vite.config.ts
+- **Server-side (server/index.ts)**: Dynamically imports base from viteConfig
+  - Dev: Middleware strips vite base path from asset requests before Vite processes them
+  - Prod: Serves static files under vite base path with SPA fallback
+
+This ensures Replit preview works while production builds deploy correctly to cPanel subdirectory. Any changes to vite.config.ts base are automatically reflected throughout the app.
