@@ -1,6 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { BASE_PATH } from "../shared/constants";
+import path from "path";
+import fs from "fs";
 
 const app = express();
 app.use(express.json());
@@ -51,9 +54,32 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
+    // Strip BASE_PATH from URLs in development so Replit preview works
+    // Vite will see clean URLs without the production base path
+    app.use((req, _res, next) => {
+      if (req.url.startsWith(BASE_PATH)) {
+        req.url = req.url.slice(BASE_PATH.length - 1); // Keep leading slash
+      }
+      next();
+    });
     await setupVite(app, server);
   } else {
-    serveStatic(app);
+    // Custom static serving for production with BASE_PATH
+    const distPath = path.resolve(import.meta.dirname, "public");
+    
+    if (!fs.existsSync(distPath)) {
+      throw new Error(
+        `Could not find the build directory: ${distPath}, make sure to build the client first`,
+      );
+    }
+    
+    // Serve static files under BASE_PATH
+    app.use(BASE_PATH, express.static(distPath));
+    
+    // Fallback to index.html for SPA routing under BASE_PATH
+    app.use(`${BASE_PATH}*`, (_req, res) => {
+      res.sendFile(path.resolve(distPath, "index.html"));
+    });
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
