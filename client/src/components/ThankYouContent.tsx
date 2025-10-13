@@ -6,15 +6,17 @@ interface ThankYouContentProps {
   telLink: string;
   phoneRef: React.RefObject<HTMLSpanElement>;
   ageClassification?: string;
+  budgetClassification?: string;
 }
 
-export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneRef, ageClassification }: ThankYouContentProps) {
+export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneRef, ageClassification, budgetClassification }: ThankYouContentProps) {
   return (
     <div className="w-full max-w-2xl mx-auto text-center bg-white p-4">
       <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
       
-      {/* Hidden input for GTM age classification tracking */}
+      {/* Hidden inputs for GTM tracking */}
       <input type="hidden" id="age-classification-final" value={ageClassification || ""} />
+      <input type="hidden" id="budget-classification-final" value={budgetClassification || ""} />
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -49,6 +51,7 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
           className="track-call-btn inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
           data-testid="button-call-now"
           data-age-classification={ageClassification || ""}
+          data-budget-classification={budgetClassification || ""}
         >
           {phoneNumber}
         </motion.a>

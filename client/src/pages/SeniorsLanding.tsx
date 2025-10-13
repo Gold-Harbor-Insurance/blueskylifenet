@@ -192,11 +192,16 @@ export default function SeniorsLanding() {
   if (step === 1) {
     return (
       <>
-        {/* Hidden input for age classification tracking - persists across all steps */}
+        {/* Hidden inputs for GTM tracking - persist across all steps */}
         <input 
           type="hidden" 
           id="age-classification" 
           value={formData.age}
+        />
+        <input 
+          type="hidden" 
+          id="budget-classification" 
+          value={formData.budget}
         />
         
         <QuizLayout 
@@ -277,11 +282,16 @@ export default function SeniorsLanding() {
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
-      {/* Hidden input for age classification tracking - persists across all steps */}
+      {/* Hidden inputs for GTM tracking - persist across all steps */}
       <input 
         type="hidden" 
         id="age-classification" 
         value={formData.age}
+      />
+      <input 
+        type="hidden" 
+        id="budget-classification" 
+        value={formData.budget}
       />
       
       {step === 2 && (
@@ -472,6 +482,7 @@ export default function SeniorsLanding() {
           telLink={telLink}
           phoneRef={phoneRef}
           ageClassification={formData.age}
+          budgetClassification={formData.budget}
         />
       )}
     </div>

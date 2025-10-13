@@ -197,6 +197,18 @@ export default function VeteransLanding() {
   if (step === 1) {
     return (
       <>
+        {/* Hidden inputs for GTM tracking - persist across all steps */}
+        <input 
+          type="hidden" 
+          id="age-classification" 
+          value={formData.age}
+        />
+        <input 
+          type="hidden" 
+          id="budget-classification" 
+          value={formData.budget}
+        />
+        
         <QuizLayout 
           headline="JUST ANNOUNCED FOR VETERANS"
           subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
@@ -299,11 +311,16 @@ export default function VeteransLanding() {
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center py-12 px-4">
-      {/* Hidden input for age classification tracking - persists across all steps */}
+      {/* Hidden inputs for GTM tracking - persist across all steps */}
       <input 
         type="hidden" 
         id="age-classification" 
         value={formData.age}
+      />
+      <input 
+        type="hidden" 
+        id="budget-classification" 
+        value={formData.budget}
       />
       
       {step === 2 && (
@@ -537,6 +554,7 @@ export default function VeteransLanding() {
           telLink={telLink}
           phoneRef={phoneRef}
           ageClassification={formData.age}
+          budgetClassification={formData.budget}
         />
       )}
     </div>
