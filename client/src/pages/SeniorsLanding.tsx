@@ -7,15 +7,8 @@ import StateSelector from "@/components/StateSelector";
 import LegalModal from "@/components/LegalModal";
 import ThankYouContent from "@/components/ThankYouContent";
 import { USState, AgeRange, Beneficiary, CoverageAmount, MonthlyBudget } from "@shared/schema";
-import { initFacebookTracking, getStoredFacebookTrackingData } from "@/utils/facebookTracking";
-
-declare global {
-  interface Window {
-    Ringba?: any;
-    RingbaNumber?: string;
-    ringbaTracking?: any;
-  }
-}
+import { initFacebookTracking } from "@/utils/facebookTracking";
+import { fetchRingbaNumber } from "@/utils/ringbaApi";
 
 export default function SeniorsLanding() {
   const [, setLocation] = useLocation();
@@ -34,6 +27,7 @@ export default function SeniorsLanding() {
   const [phoneNumber, setPhoneNumber] = useState("(877) 790-1817");
   const [telLink, setTelLink] = useState("tel:+18777901817");
   const phoneRef = useRef<HTMLSpanElement>(null);
+  const [isLoadingRingba, setIsLoadingRingba] = useState(false);
 
   useEffect(() => {
     initFacebookTracking();
@@ -67,9 +61,25 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(5), 300);
   };
 
-  const handleBudgetSelect = (budget: MonthlyBudget) => {
+  const handleBudgetSelect = async (budget: MonthlyBudget) => {
     setFormData({ ...formData, budget });
-    setTimeout(() => setStep(6), 500);
+    setIsLoadingRingba(true);
+    
+    setTimeout(async () => {
+      const hiddenInputNames = [
+        'age_classification',
+        'state',
+        'beneficiary',
+        'coverage_amount',
+        'monthly_budget'
+      ];
+      
+      const ringbaData = await fetchRingbaNumber(hiddenInputNames);
+      setPhoneNumber(ringbaData.phoneNumber);
+      setTelLink(ringbaData.telLink);
+      setIsLoadingRingba(false);
+      setStep(6);
+    }, 300);
   };
   
   // Timer effect for thank you page
@@ -79,111 +89,6 @@ export default function SeniorsLanding() {
         setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
       return () => clearInterval(timer);
-    }
-  }, [step]);
-
-  // Ringba integration effect for thank you page
-  useEffect(() => {
-    if (step === 6) {
-      const fbData = getStoredFacebookTrackingData();
-      
-      if (typeof window !== 'undefined') {
-        window.ringbaTracking = {
-          fbclid: fbData.fbclid || '',
-          fbc: fbData.fbc || '',
-          fbp: fbData.fbp || '',
-        };
-        
-        if (window.Ringba && typeof window.Ringba.setTags === 'function') {
-          window.Ringba.setTags(window.ringbaTracking);
-        }
-      }
-      
-      let attempts = 0;
-      const maxAttempts = 50;
-      let observer: MutationObserver | null = null;
-
-      const checkRingba = () => {
-        attempts++;
-        
-        if (window.Ringba && window.ringbaTracking) {
-          if (typeof window.Ringba.setTags === 'function') {
-            window.Ringba.setTags(window.ringbaTracking);
-          }
-        }
-        
-        if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number") {
-          const number = phoneRef.current.textContent;
-          if (number && number !== "Loading...") {
-            setPhoneNumber(number);
-            const cleanNumber = number.replace(/\D/g, '');
-            setTelLink(`tel:+1${cleanNumber}`);
-            if (observer) observer.disconnect();
-            return;
-          }
-        }
-        
-        if (window.RingbaNumber) {
-          setPhoneNumber(window.RingbaNumber);
-          const cleanNumber = window.RingbaNumber.replace(/\D/g, '');
-          setTelLink(`tel:+1${cleanNumber}`);
-          if (observer) observer.disconnect();
-          return;
-        }
-        
-        if (window.Ringba) {
-          try {
-            if (typeof window.Ringba.getNumber === 'function') {
-              const number = window.Ringba.getNumber();
-              if (number) {
-                setPhoneNumber(number);
-                const cleanNumber = number.replace(/\D/g, '');
-                setTelLink(`tel:+1${cleanNumber}`);
-                if (observer) observer.disconnect();
-                return;
-              }
-            }
-            
-            if (typeof window.Ringba === 'object' && window.Ringba.number) {
-              setPhoneNumber(window.Ringba.number);
-              const cleanNumber = window.Ringba.number.replace(/\D/g, '');
-              setTelLink(`tel:+1${cleanNumber}`);
-              if (observer) observer.disconnect();
-              return;
-            }
-          } catch (error) {
-            console.error('Ringba error:', error);
-          }
-        }
-        
-        if (attempts < maxAttempts) {
-          setTimeout(checkRingba, 100);
-        } else {
-          console.warn('Ringba not available, using fallback number');
-          setPhoneNumber("(877) 790-1817");
-          setTelLink("tel:+18777901817");
-        }
-      };
-
-      if (phoneRef.current) {
-        observer = new MutationObserver(() => {
-          if (phoneRef.current && phoneRef.current.textContent && phoneRef.current.textContent !== "ringba-number" && phoneRef.current.textContent !== "Loading...") {
-            const number = phoneRef.current.textContent;
-            setPhoneNumber(number);
-            const cleanNumber = number.replace(/\D/g, '');
-            setTelLink(`tel:+1${cleanNumber}`);
-            if (observer) observer.disconnect();
-          }
-        });
-        
-        observer.observe(phoneRef.current, { childList: true, characterData: true, subtree: true });
-      }
-
-      checkRingba();
-
-      return () => {
-        if (observer) observer.disconnect();
-      };
     }
   }, [step]);
 
@@ -485,7 +390,21 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 6 && (
+      {isLoadingRingba && (
+        <div className="max-w-xl mx-auto text-center space-y-6">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="w-16 h-16 border-4 border-[#5CB85C] border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xl font-semibold text-black">
+              Processing your information...
+            </p>
+            <p className="text-sm text-gray-600">
+              Please wait while we prepare your personalized quote
+            </p>
+          </div>
+        </div>
+      )}
+
+      {step === 6 && !isLoadingRingba && (
         <ThankYouContent
           timeLeft={timeLeft}
           phoneNumber={phoneNumber}

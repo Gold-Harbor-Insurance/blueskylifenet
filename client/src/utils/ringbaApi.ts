@@ -158,9 +158,14 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
       const formattedNumber = formatPhoneNumber(response.data.phoneNumber);
       const cleanNumber = response.data.phoneNumber.replace(/\D/g, '');
       
+      let telNumber = cleanNumber;
+      if (cleanNumber.length === 10) {
+        telNumber = '1' + cleanNumber;
+      }
+      
       return {
         phoneNumber: formattedNumber,
-        telLink: `tel:+${cleanNumber}`
+        telLink: `tel:+${telNumber}`
       };
     }
     
