@@ -471,6 +471,7 @@ export default function SeniorsLanding() {
           phoneNumber={phoneNumber}
           telLink={telLink}
           phoneRef={phoneRef}
+          ageClassification={formData.age}
         />
       )}
     </div>

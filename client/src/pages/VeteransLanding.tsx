@@ -536,6 +536,7 @@ export default function VeteransLanding() {
           phoneNumber={phoneNumber}
           telLink={telLink}
           phoneRef={phoneRef}
+          ageClassification={formData.age}
         />
       )}
     </div>
