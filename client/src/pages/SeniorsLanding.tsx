@@ -28,18 +28,18 @@ export default function SeniorsLanding() {
 
   const handleAgeSelect = (age: AgeRange) => {
     setFormData({ ...formData, age });
-    setTimeout(() => setStep(2), 300);
+    
+    // Check if they qualify based on age
+    if (age === "Under 45" || age === "Over 85") {
+      setTimeout(() => setLocation("/not-qualified"), 300);
+    } else {
+      setTimeout(() => setStep(2), 300);
+    }
   };
 
   const handleStateSelect = (state: string) => {
     setFormData({ ...formData, state: state as USState });
-    
-    // Check if they qualify based on age
-    if (formData.age === "Under 45" || formData.age === "Over 85") {
-      setTimeout(() => setLocation("/not-qualified"), 300);
-    } else {
-      setTimeout(() => setStep(3), 300);
-    }
+    setTimeout(() => setStep(3), 300);
   };
 
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
@@ -83,7 +83,7 @@ export default function SeniorsLanding() {
                   data-testid="button-age-under45"
                   className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
-                  Under 54
+                  Under 45
                 </button>
                 <button
                   type="button"
@@ -91,7 +91,7 @@ export default function SeniorsLanding() {
                   data-testid="button-age-45-85"
                   className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
-                  54 - 79
+                  45-85
                 </button>
                 <button
                   type="button"

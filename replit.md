@@ -41,8 +41,10 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Enables Facebook ad optimization through conversion tracking
 
 5. **Age-Based Qualification Logic**
-   - Users under 54 (Under 45 value) are disqualified
-   - Users over 85 are disqualified
+   - Age buttons: "Under 45", "45-85", "Over 85"
+   - Users 45 and under (Under 45) are disqualified
+   - Users over 85 (Over 85) are disqualified
+   - Qualified users: 45-85 age range
    - Disqualified users are redirected to /not-qualified page
    - Applies to both seniors and veterans landing pages
 
