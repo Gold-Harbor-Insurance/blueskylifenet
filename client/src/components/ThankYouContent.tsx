@@ -42,7 +42,7 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
           href={telLink || "#"}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
+          className="track-call-btn inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
           data-testid="button-call-now"
         >
           {phoneNumber}
