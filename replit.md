@@ -6,32 +6,45 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 ## Project Structure
 
 ### Pages
-- `/seniors` - Landing page for seniors with 5-step quiz
-- `/veterans` - Landing page for veterans with 6-step quiz (includes military branch question)
-- `/thank-you` - Conversion page with countdown timer and phone number CTA
+- `/seniors` - Landing page for seniors with 6-step quiz (step 6 = thank you)
+- `/veterans` - Landing page for veterans with 7-step quiz (step 7 = thank you, includes military branch question)
+- `/thank-you` - Legacy route (no longer used - redirects to seniors)
 - `/not-qualified` - Disqualification page for users who don't meet age criteria
 - `/` - Defaults to seniors landing page
 
 ### Features Implemented
 1. **Veterans Landing Page** (/veterans)
+   - 7-step quiz flow with thank you as final step
    - Military branch selection (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
    - State selection dropdown (all 50 US states)
    - Age range selection (Under 45, 45-85, Over 85)
    - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
    - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
    - Monthly budget selection (5 tiers from <$50 to $150+)
+   - **Step 7**: Thank you page integrated as final quiz step (not separate route)
 
 2. **Seniors Landing Page** (/seniors)
+   - 6-step quiz flow with thank you as final step
    - Same questions as veterans except no military branch question
-   - 5-step quiz flow instead of 6
+   - State selection dropdown (all 50 US states)
+   - Age range selection (Under 45, 45-85, Over 85)
+   - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
+   - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
+   - Monthly budget selection (5 tiers from <$50 to $150+)
+   - **Step 6**: Thank you page integrated as final quiz step (not separate route)
 
-3. **Thank You Page** (/thank-you)
+3. **Thank You Page Integration** (embedded in quiz, not separate route)
    - Congratulations message
-   - 45-second countdown timer with pulse animation
+   - 142-second countdown timer (2:22) with pulse animation
    - Prominent phone number: (877) 790-1817 (fallback) with click-to-call
-   - Ringba dynamic number insertion
+   - Ringba dynamic number insertion with advanced detection
+   - Facebook tracking data forwarded to Ringba (fbclid, fbc, fbp)
    - Urgency messaging
    - Legal disclaimers and footer
+   - **Architecture**: Thank you content is rendered as the final step of the quiz flow on the same page/URL
+     - Prevents users from bypassing quiz by directly accessing /thank-you
+     - Ensures all tracking variables remain in DOM for GTM
+     - Maintains form data persistence throughout flow
 
 4. **Facebook Tracking Integration**
    - Captures Facebook click ID (fbclid) from URL parameters
@@ -67,8 +80,9 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
 - No backend/database needed - client-side only quiz flow
 - All form data validated with Zod schemas
 - Progressive disclosure: one question at a time to maximize completion
-- Countdown timer runs for 45 seconds on thank you page
+- Countdown timer runs for 142 seconds (2:22) on thank you page
 - Phone number has tel: link for mobile click-to-call functionality
+- Thank you page is integrated as the final step of quiz (not a separate route) to maintain tracking data availability for GTM
 
 ### Base Path Handling (Dev vs Production)
 **Issue**: vite.config.ts has `base: "/final-expense/rb-dhF5ke48DSslf/"` for cPanel deployment, which broke Replit preview
