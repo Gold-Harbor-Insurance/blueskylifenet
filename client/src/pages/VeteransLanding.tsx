@@ -39,6 +39,9 @@ export default function VeteransLanding() {
   const handleAgeSelect = (age: AgeRange) => {
     setFormData({ ...formData, age });
     
+    // Store age in sessionStorage for GTM tracking on Thank You page
+    sessionStorage.setItem('ageClassification', age);
+    
     // Check if they qualify based on age
     if (age === "Under 45" || age === "Over 85") {
       setTimeout(() => setLocation("/not-qualified"), 300);
