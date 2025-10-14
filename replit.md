@@ -87,7 +87,12 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
    - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
    - **Timing**: API called after budget selection, before displaying thank you step
-   - **Loading State**: Shows processing indicator with spinner while API call is in progress
+   - **Loading State**: Full-screen overlay with semi-transparent backdrop and centered loading card
+     - Fixed position overlay covering entire viewport (`fixed inset-0`)
+     - Semi-transparent black background with backdrop blur (`bg-black/50 backdrop-blur-sm`)
+     - White centered card with spinner, heading, and subtext
+     - Accessibility: `role="status"` and `aria-live="polite"` for screen reader support
+     - Spinner marked `aria-hidden="true"` as decorative element
    - **Data Sent as Ringba Tags**:
      - All hidden input field values (quiz selections)
      - URL parameters (fbclid, utm_campaign, etc.)
