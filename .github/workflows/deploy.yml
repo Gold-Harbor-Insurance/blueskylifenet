@@ -32,38 +32,3 @@ jobs:
         local-dir: ./dist/public/  # CHANGE THIS: use ./build/ or ./dist/ if that's your build folder
         server-dir: /final-expense/rb-dhF5ke48DSslf  # CHANGE THIS: to your exact server path
         dangerous-clean-slate: false  # Set to true if you want to delete old files first
-```
-
-4. **Commit and push** this file to GitHub from Replit
-
-## Step 5: Add Secrets to GitHub
-
-1. Go to your GitHub repository in a web browser
-2. Click **Settings** (top menu)
-3. In the left sidebar, click **Secrets and variables** → **Actions**
-4. Click **"New repository secret"** button
-5. Add these three secrets one by one:
-
-   **Secret 1:**
-   - Name: `FTP_SERVER`
-   - Value: `ftp.yourdomain.com` (or your server IP)
-   - Click "Add secret"
-
-   **Secret 2:**
-   - Name: `FTP_USERNAME`
-   - Value: Your FTP username
-   - Click "Add secret"
-
-   **Secret 3:**
-   - Name: `FTP_PASSWORD`
-   - Value: Your FTP password
-   - Click "Add secret"
-
-## Step 6: Test the Workflow
-
-1. In Replit, make a small change to any file
-2. Commit and push to GitHub:
-```
-   git add .
-   git commit -m "Test deployment"
-   git push
