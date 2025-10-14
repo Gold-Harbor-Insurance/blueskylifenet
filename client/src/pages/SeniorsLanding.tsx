@@ -317,7 +317,7 @@ export default function SeniorsLanding() {
               data-testid="button-coverage-25k-50k"
               className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
-              $25,000-$50,000
+              $25000-$50,000
             </button>
             <button
               type="button"

@@ -1,0 +1,69 @@
+name: Build and Deploy to cPanel
+
+on:
+  push:
+    branches: [ main ]  # Change to 'master' if that's your branch name
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.19.3'  # Match your Node version (check with: node --version)
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Deploy to cPanel via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./dist/public/  # CHANGE THIS: use ./build/ or ./dist/ if that's your build folder
+        server-dir: /final-expense/rb-dhF5ke48DSslf  # CHANGE THIS: to your exact server path
+        dangerous-clean-slate: false  # Set to true if you want to delete old files first
+```
+
+4. **Commit and push** this file to GitHub from Replit
+
+## Step 5: Add Secrets to GitHub
+
+1. Go to your GitHub repository in a web browser
+2. Click **Settings** (top menu)
+3. In the left sidebar, click **Secrets and variables** → **Actions**
+4. Click **"New repository secret"** button
+5. Add these three secrets one by one:
+
+   **Secret 1:**
+   - Name: `FTP_SERVER`
+   - Value: `ftp.yourdomain.com` (or your server IP)
+   - Click "Add secret"
+
+   **Secret 2:**
+   - Name: `FTP_USERNAME`
+   - Value: Your FTP username
+   - Click "Add secret"
+
+   **Secret 3:**
+   - Name: `FTP_PASSWORD`
+   - Value: Your FTP password
+   - Click "Add secret"
+
+## Step 6: Test the Workflow
+
+1. In Replit, make a small change to any file
+2. Commit and push to GitHub:
+```
+   git add .
+   git commit -m "Test deployment"
+   git push
