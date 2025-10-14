@@ -466,15 +466,17 @@ export default function VeteransLanding() {
       )}
 
       {isLoadingRingba && (
-        <div className="max-w-xl mx-auto text-center space-y-6">
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="w-16 h-16 border-4 border-[#5CB85C] border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-xl font-semibold text-black">
-              Processing your information...
-            </p>
-            <p className="text-sm text-gray-600">
-              Please wait while we prepare your personalized quote
-            </p>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" role="status" aria-live="polite">
+          <div className="bg-white rounded-lg p-8 max-w-md mx-4 shadow-2xl">
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="w-16 h-16 border-4 border-[#5CB85C] border-t-transparent rounded-full animate-spin" aria-hidden="true"></div>
+              <p className="text-xl font-semibold text-black">
+                Processing your information...
+              </p>
+              <p className="text-sm text-gray-600">
+                Please wait while we prepare your personalized quote
+              </p>
+            </div>
           </div>
         </div>
       )}
