@@ -1,12 +1,18 @@
 name: Build and Deploy to cPanel
 
 on:
-  push:
-    branches: [ main ]  # Change to 'master' if that's your branch name
+  workflow_dispatch:
+    inputs:
+      confirm_deploy:
+        description: 'Type "DEPLOY" to confirm deployment to production'
+        required: true
+        type: string
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # Safety check: only deploy if user typed "DEPLOY"
+    if: github.event.inputs.confirm_deploy == 'DEPLOY'
     
     steps:
     - name: Checkout code
