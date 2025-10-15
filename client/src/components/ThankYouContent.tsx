@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface ThankYouContentProps {
   timeLeft: number;
@@ -10,6 +11,23 @@ interface ThankYouContentProps {
 }
 
 export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneRef, ageClassification, budgetClassification }: ThankYouContentProps) {
+  const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
+
+  useEffect(() => {
+    // Detect Facebook in-app browser
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const isFB = /FBAN|FBAV|Instagram/i.test(userAgent);
+    setIsFacebookBrowser(isFB);
+  }, []);
+
+  const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Force navigation to tel: link even in Facebook browser
+    if (isFacebookBrowser) {
+      e.preventDefault();
+      window.location.href = telLink || "#";
+    }
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto text-center bg-white p-4">
       <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
@@ -44,17 +62,30 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
           Call the number below to get your life insurance benefit* 👇
         </p>
 
-        <motion.a
-          href={telLink || "#"}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="track-call-btn inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
-          data-testid="button-call-now"
-          data-age-classification={ageClassification || ""}
-          data-budget-classification={budgetClassification || ""}
-        >
-          {phoneNumber}
-        </motion.a>
+        {isFacebookBrowser ? (
+          <a
+            href={telLink || "#"}
+            onClick={handlePhoneClick}
+            className="track-call-btn inline-block bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4 cursor-pointer"
+            data-testid="button-call-now"
+            data-age-classification={ageClassification || ""}
+            data-budget-classification={budgetClassification || ""}
+          >
+            {phoneNumber}
+          </a>
+        ) : (
+          <motion.a
+            href={telLink || "#"}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="track-call-btn inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
+            data-testid="button-call-now"
+            data-age-classification={ageClassification || ""}
+            data-budget-classification={budgetClassification || ""}
+          >
+            {phoneNumber}
+          </motion.a>
+        )}
 
         <p className="text-base md:text-lg font-bold mt-6">
           <span className="text-red-600">NOTE:</span> This is the final call
