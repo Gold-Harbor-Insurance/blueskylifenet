@@ -139,40 +139,40 @@ export default function FirstRespondersLanding() {
                 <button
                   type="button"
                   onClick={() => handleAgencySelect("Law enforcement")}
-                  data-testid="button-agency-law-enforcement"
-                  className="w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="first_responder_police"
+                  className="first_responder_police w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Law enforcement
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgencySelect("Fire and rescue")}
-                  data-testid="button-agency-fire-rescue"
-                  className="w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="first_responder_fire"
+                  className="first_responder_fire w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Fire and rescue
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgencySelect("Emergency Medical Services")}
-                  data-testid="button-agency-ems"
-                  className="w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="first_responder_ems"
+                  className="first_responder_ems w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Emergency Medical Services
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgencySelect("Public safety communications")}
-                  data-testid="button-agency-public-safety"
-                  className="w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="first_responder_psc"
+                  className="first_responder_psc w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Public safety communications
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAgencySelect("Other critical first responders")}
-                  data-testid="button-agency-other"
-                  className="w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="first_responder_other"
+                  className="first_responder_other w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Other critical first responders
                 </button>
@@ -184,7 +184,7 @@ export default function FirstRespondersLanding() {
             <div className="space-x-2">
               <button
                 onClick={() => setLegalModal("privacy")}
-                className="hover:underline"
+                className="link-privacy-policy hover:underline"
                 data-testid="link-privacy-policy"
               >
                 Privacy Policy
@@ -192,7 +192,7 @@ export default function FirstRespondersLanding() {
               <span>|</span>
               <button
                 onClick={() => setLegalModal("terms")}
-                className="hover:underline"
+                className="link-terms-of-use hover:underline"
                 data-testid="link-terms-of-use"
               >
                 Terms of Use
@@ -272,7 +272,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleAgeSelect("Under 45")}
               data-testid="button-age-under45"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-age-under45 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Under 45
             </button>
@@ -280,7 +280,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleAgeSelect("45-85")}
               data-testid="button-age-45-85"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-age-45-85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               45-85
             </button>
@@ -288,7 +288,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleAgeSelect("Over 85")}
               data-testid="button-age-over85"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-age-over85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Over 85
             </button>
@@ -315,7 +315,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Spouse")}
               data-testid="button-beneficiary-spouse"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-beneficiary-spouse w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Spouse
             </button>
@@ -323,7 +323,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Children")}
               data-testid="button-beneficiary-children"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-beneficiary-children w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Children
             </button>
@@ -331,7 +331,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Grandchildren")}
               data-testid="button-beneficiary-grandchildren"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-beneficiary-grandchildren w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Grandchildren
             </button>
@@ -339,7 +339,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBeneficiarySelect("Family Member")}
               data-testid="button-beneficiary-family"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-beneficiary-family w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Family Member
             </button>
@@ -366,7 +366,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleCoverageSelect("Under $10,000")}
               data-testid="button-coverage-under10k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-coverage-under10k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Under $10,000
             </button>
@@ -374,7 +374,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleCoverageSelect("$10,000-$24,999")}
               data-testid="button-coverage-10k-25k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-coverage-10k-25k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $10,000-$24,999
             </button>
@@ -382,7 +382,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleCoverageSelect("$25,000-$50,000")}
               data-testid="button-coverage-25k-50k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-coverage-25k-50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $25,000-$50,000
             </button>
@@ -390,7 +390,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleCoverageSelect("Over $50,000")}
               data-testid="button-coverage-over50k"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-coverage-over50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Over $50,000
             </button>
@@ -417,7 +417,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBudgetSelect("Less than $50/month")}
               data-testid="button-budget-under50"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-budget-under50 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Less than $50/month
             </button>
@@ -425,7 +425,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$50–$74/month")}
               data-testid="button-budget-50-74"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-budget-50-74 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $50–$74/month
             </button>
@@ -433,7 +433,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$75–$99/month")}
               data-testid="button-budget-75-99"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-budget-75-99 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $75–$99/month
             </button>
@@ -441,7 +441,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$100–$149/month")}
               data-testid="button-budget-100-149"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-budget-100-149 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $100–$149/month
             </button>
@@ -449,7 +449,7 @@ export default function FirstRespondersLanding() {
               type="button"
               onClick={() => handleBudgetSelect("$150+/month")}
               data-testid="button-budget-150plus"
-              className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              className="button-budget-150plus w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $150+/month
             </button>
