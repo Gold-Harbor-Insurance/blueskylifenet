@@ -139,48 +139,48 @@ export default function VeteransLanding() {
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Army")}
-                  data-testid="button-branch-army"
-                  className="button-branch-army w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_army"
+                  className="military_branch_army w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Army
                 </button>
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Marine Corps")}
-                  data-testid="button-branch-marines"
-                  className="button-branch-marines w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_marines"
+                  className="military_branch_marines w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Marine Corps
                 </button>
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Navy")}
-                  data-testid="button-branch-navy"
-                  className="button-branch-navy w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_navy"
+                  className="military_branch_navy w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Navy
                 </button>
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Air Force")}
-                  data-testid="button-branch-airforce"
-                  className="button-branch-airforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_airforce"
+                  className="military_branch_airforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Air Force
                 </button>
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Coast Guard")}
-                  data-testid="button-branch-coastguard"
-                  className="button-branch-coastguard w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_coastguard"
+                  className="military_branch_coastguard w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Coast Guard
                 </button>
                 <button
                   type="button"
                   onClick={() => handleBranchSelect("Space Force")}
-                  data-testid="button-branch-spaceforce"
-                  className="button-branch-spaceforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                  data-testid="military_branch_spaceforce"
+                  className="military_branch_spaceforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
                   Space Force
                 </button>
@@ -279,24 +279,24 @@ export default function VeteransLanding() {
             <button
               type="button"
               onClick={() => handleAgeSelect("Under 45")}
-              data-testid="button-age-under45"
-              className="button-age-under45 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="age_classification_under45"
+              className="age_classification_under45 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Under 45
             </button>
             <button
               type="button"
               onClick={() => handleAgeSelect("45-85")}
-              data-testid="button-age-45-85"
-              className="button-age-45-85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="age_classification_45_85"
+              className="age_classification_45_85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               45-85
             </button>
             <button
               type="button"
               onClick={() => handleAgeSelect("Over 85")}
-              data-testid="button-age-over85"
-              className="button-age-over85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="age_classification_over85"
+              className="age_classification_over85 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Over 85
             </button>
@@ -322,32 +322,32 @@ export default function VeteransLanding() {
             <button
               type="button"
               onClick={() => handleBeneficiarySelect("Spouse")}
-              data-testid="button-beneficiary-spouse"
-              className="button-beneficiary-spouse w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="beneficiary_spouse"
+              className="beneficiary_spouse w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Spouse
             </button>
             <button
               type="button"
               onClick={() => handleBeneficiarySelect("Children")}
-              data-testid="button-beneficiary-children"
-              className="button-beneficiary-children w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="beneficiary_children"
+              className="beneficiary_children w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Children
             </button>
             <button
               type="button"
               onClick={() => handleBeneficiarySelect("Grandchildren")}
-              data-testid="button-beneficiary-grandchildren"
-              className="button-beneficiary-grandchildren w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="beneficiary_grandchildren"
+              className="beneficiary_grandchildren w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Grandchildren
             </button>
             <button
               type="button"
               onClick={() => handleBeneficiarySelect("Family Member")}
-              data-testid="button-beneficiary-family"
-              className="button-beneficiary-family w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="beneficiary_family"
+              className="beneficiary_family w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Family Member
             </button>
@@ -373,32 +373,32 @@ export default function VeteransLanding() {
             <button
               type="button"
               onClick={() => handleCoverageSelect("Under $10,000")}
-              data-testid="button-coverage-under10k"
-              className="button-coverage-under10k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="coverage_amount_under10k"
+              className="coverage_amount_under10k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Under $10,000
             </button>
             <button
               type="button"
               onClick={() => handleCoverageSelect("$10,000-$24,999")}
-              data-testid="button-coverage-10k-25k"
-              className="button-coverage-10k-25k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="coverage_amount_10k_25k"
+              className="coverage_amount_10k_25k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $10,000-$24,999
             </button>
             <button
               type="button"
               onClick={() => handleCoverageSelect("$25,000-$50,000")}
-              data-testid="button-coverage-25k-50k"
-              className="button-coverage-25k-50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="coverage_amount_25k_50k"
+              className="coverage_amount_25k_50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $25,000-$50,000
             </button>
             <button
               type="button"
               onClick={() => handleCoverageSelect("Over $50,000")}
-              data-testid="button-coverage-over50k"
-              className="button-coverage-over50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="coverage_amount_over50k"
+              className="coverage_amount_over50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Over $50,000
             </button>
@@ -424,40 +424,40 @@ export default function VeteransLanding() {
             <button
               type="button"
               onClick={() => handleBudgetSelect("Less than $50/month")}
-              data-testid="button-budget-under50"
-              className="button-budget-under50 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="monthly_budget_under50"
+              className="monthly_budget_under50 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               Less than $50/month
             </button>
             <button
               type="button"
               onClick={() => handleBudgetSelect("$50–$74/month")}
-              data-testid="button-budget-50-74"
-              className="button-budget-50-74 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="monthly_budget_50_74"
+              className="monthly_budget_50_74 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $50–$74/month
             </button>
             <button
               type="button"
               onClick={() => handleBudgetSelect("$75–$99/month")}
-              data-testid="button-budget-75-99"
-              className="button-budget-75-99 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="monthly_budget_75_99"
+              className="monthly_budget_75_99 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $75–$99/month
             </button>
             <button
               type="button"
               onClick={() => handleBudgetSelect("$100–$149/month")}
-              data-testid="button-budget-100-149"
-              className="button-budget-100-149 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="monthly_budget_100_149"
+              className="monthly_budget_100_149 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $100–$149/month
             </button>
             <button
               type="button"
               onClick={() => handleBudgetSelect("$150+/month")}
-              data-testid="button-budget-150plus"
-              className="button-budget-150plus w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+              data-testid="monthly_budget_150plus"
+              className="monthly_budget_150plus w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
               $150+/month
             </button>
