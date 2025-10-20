@@ -35,7 +35,8 @@ export default function VeteransLanding() {
 
   const totalSteps = 7;
 
-  const handleBranchSelect = (branch: MilitaryBranch) => {
+  const handleBranchSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const branch = e.currentTarget.value as MilitaryBranch;
     setFormData({ ...formData, militaryBranch: branch });
     setTimeout(() => setStep(2), 300);
   };
@@ -141,7 +142,8 @@ export default function VeteransLanding() {
               <div className="grid gap-3 max-w-md mx-auto">
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Army")}
+                  value="Army"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_army"
                   className="military_branch_army w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -149,7 +151,8 @@ export default function VeteransLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Marine Corps")}
+                  value="Marine Corps"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_marines"
                   className="military_branch_marines w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -157,7 +160,8 @@ export default function VeteransLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Navy")}
+                  value="Navy"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_navy"
                   className="military_branch_navy w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -165,7 +169,8 @@ export default function VeteransLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Air Force")}
+                  value="Air Force"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_airforce"
                   className="military_branch_airforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -173,7 +178,8 @@ export default function VeteransLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Coast Guard")}
+                  value="Coast Guard"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_coastguard"
                   className="military_branch_coastguard w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -181,7 +187,8 @@ export default function VeteransLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleBranchSelect("Space Force")}
+                  value="Space Force"
+                  onClick={handleBranchSelect}
                   data-testid="military_branch_spaceforce"
                   className="military_branch_spaceforce w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >

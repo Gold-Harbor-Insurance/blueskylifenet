@@ -35,7 +35,8 @@ export default function FirstRespondersLanding() {
 
   const totalSteps = 7;
 
-  const handleAgencySelect = (agency: FirstResponderAgency) => {
+  const handleAgencySelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const agency = e.currentTarget.value as FirstResponderAgency;
     setFormData({ ...formData, agency });
     setTimeout(() => setStep(2), 300);
   };
@@ -141,7 +142,8 @@ export default function FirstRespondersLanding() {
               <div className="grid gap-3 max-w-md mx-auto">
                 <button
                   type="button"
-                  onClick={() => handleAgencySelect("Law enforcement")}
+                  value="Law enforcement"
+                  onClick={handleAgencySelect}
                   data-testid="first_responder_police"
                   className="first_responder_police w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -149,7 +151,8 @@ export default function FirstRespondersLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleAgencySelect("Fire and rescue")}
+                  value="Fire and rescue"
+                  onClick={handleAgencySelect}
                   data-testid="first_responder_fire"
                   className="first_responder_fire w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -157,7 +160,8 @@ export default function FirstRespondersLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleAgencySelect("Emergency Medical Services")}
+                  value="Emergency Medical Services"
+                  onClick={handleAgencySelect}
                   data-testid="first_responder_ems"
                   className="first_responder_ems w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -165,7 +169,8 @@ export default function FirstRespondersLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleAgencySelect("Public safety communications")}
+                  value="Public safety communications"
+                  onClick={handleAgencySelect}
                   data-testid="first_responder_psc"
                   className="first_responder_psc w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
@@ -173,7 +178,8 @@ export default function FirstRespondersLanding() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleAgencySelect("Other critical first responders")}
+                  value="Other critical first responders"
+                  onClick={handleAgencySelect}
                   data-testid="first_responder_other"
                   className="first_responder_other w-full min-h-[60px] px-10 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
                 >
