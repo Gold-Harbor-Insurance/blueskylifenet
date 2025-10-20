@@ -1,13 +1,14 @@
 # Gold Harbor Insurance Landing Pages
 
 ## Overview
-Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for seniors and one for veterans. Both pages guide users through a multi-step eligibility questionnaire and culminate in a thank you page with a countdown timer and phone call CTA.
+Three high-converting quiz-style landing pages for Gold Harbor Insurance - one for seniors, one for veterans, and one for first responders. All pages guide users through a multi-step eligibility questionnaire and culminate in a thank you page with a countdown timer and phone call CTA.
 
 ## Project Structure
 
 ### Pages
 - `/seniors` - Landing page for seniors with 6-step quiz (step 6 = thank you)
 - `/veterans` - Landing page for veterans with 7-step quiz (step 7 = thank you, includes military branch question)
+- `/firstresponders` - Landing page for first responders with 7-step quiz (step 7 = thank you, includes agency question)
 - `/thank-you` - Legacy route (no longer used - redirects to seniors)
 - `/not-qualified` - Disqualification page for users who don't meet age criteria
 - `/` - Defaults to seniors landing page
@@ -33,7 +34,17 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Monthly budget selection (5 tiers from <$50 to $150+)
    - **Step 6**: Thank you page integrated as final quiz step (not separate route)
 
-3. **Thank You Page Integration** (embedded in quiz, not separate route)
+3. **First Responders Landing Page** (/firstresponders)
+   - 7-step quiz flow with thank you as final step
+   - Agency selection (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
+   - State selection dropdown (all 50 US states)
+   - Age range selection (Under 45, 45-85, Over 85)
+   - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
+   - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
+   - Monthly budget selection (5 tiers from <$50 to $150+)
+   - **Step 7**: Thank you page integrated as final quiz step (not separate route)
+
+4. **Thank You Page Integration** (embedded in quiz, not separate route)
    - Congratulations message
    - 142-second countdown timer (2:22) with pulse animation
    - Dynamic phone number from Ringba API (fallback: (877) 790-1817) with click-to-call
@@ -47,14 +58,14 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
      - Maintains form data persistence throughout flow
      - Displays loading indicator while Ringba API call is in progress
 
-4. **Facebook Tracking Integration**
+5. **Facebook Tracking Integration**
    - Captures Facebook click ID (fbclid) from URL parameters
    - Stores Facebook browser cookie (_fbc) and pixel ID (_fbp)
    - Passes tracking data to Ringba for CAPI integration
    - Data flows: Website → Ringba → Make → Facebook CAPI
    - Enables Facebook ad optimization through conversion tracking
 
-5. **GTM Data Layer Integration**
+6. **GTM Data Layer Integration**
    - All quiz selections captured in hidden input fields with specific names for GTM access
    - **Veterans template** hidden inputs:
      - `name="military_branch"` - Selected military branch
@@ -63,7 +74,14 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
      - `name="beneficiary"` - Selected beneficiary
      - `name="coverage_amount"` - Selected coverage amount
      - `name="monthly_budget"` - Selected monthly budget
-   - **Seniors template** hidden inputs (same except no military_branch):
+   - **First Responders template** hidden inputs:
+     - `name="first_responder_agency"` - Selected first responder agency
+     - `name="state"` - Selected US state
+     - `name="age_classification"` - Selected age range
+     - `name="beneficiary"` - Selected beneficiary
+     - `name="coverage_amount"` - Selected coverage amount
+     - `name="monthly_budget"` - Selected monthly budget
+   - **Seniors template** hidden inputs (same except no military_branch or agency):
      - `name="age_classification"` - Selected age range
      - `name="state"` - Selected US state
      - `name="beneficiary"` - Selected beneficiary
@@ -74,15 +92,15 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
    - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
    - High-quality click tracking: Age 45-85 AND budget above $50/month
 
-6. **Age-Based Qualification Logic**
+7. **Age-Based Qualification Logic**
    - Age buttons: "Under 45", "45-85", "Over 85"
    - Users 45 and under (Under 45) are disqualified
    - Users over 85 (Over 85) are disqualified
    - Qualified users: 45-85 age range
    - Disqualified users are redirected to /not-qualified page
-   - Applies to both seniors and veterans landing pages
+   - Applies to all landing pages (seniors, veterans, first responders)
 
-7. **Custom Ringba API Integration** (October 2025)
+8. **Custom Ringba API Integration** (October 2025)
    - Replaced Ringba script tag with custom API implementation
    - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
    - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
@@ -104,6 +122,14 @@ Two high-converting quiz-style landing pages for Gold Harbor Insurance - one for
      - Tel link format: tel:+1XXXXXXXXXX (automatically prepends +1 for 10-digit US numbers)
    - **Fallback**: If API fails, uses (877) 790-1817 as default number
    - **Files**: client/src/utils/ringbaApi.ts contains the implementation
+
+9. **Facebook In-App Browser Fix** (October 2025)
+   - Facebook/Instagram WebView detection to fix unclickable call button
+   - Browser detection via user agent (FBAN/FBAV/Instagram)
+   - For Facebook browsers: Uses plain `<a>` tag with `window.location.href` fallback
+   - For regular browsers: Uses Framer Motion animated button
+   - Prevents tel: link blocking in Facebook/Instagram in-app browsers
+   - **Files**: client/src/components/ThankYouContent.tsx contains the implementation
 
 ### Design System
 - **Brand Colors**: Gold Harbor Insurance gold (#D4AF37) with deep navy gradient background

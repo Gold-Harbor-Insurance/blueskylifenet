@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import SeniorsLanding from "@/pages/SeniorsLanding";
 import VeteransLanding from "@/pages/VeteransLanding";
+import FirstRespondersLanding from "@/pages/FirstRespondersLanding";
 import ThankYou from "@/pages/ThankYou";
 import NotQualified from "@/pages/NotQualified";
 import NotFound from "@/pages/not-found";
@@ -21,6 +22,7 @@ function Routes() {
     <Switch>
       <Route path="/seniors" component={SeniorsLanding} />
       <Route path="/veterans" component={VeteransLanding} />
+      <Route path="/firstresponders" component={FirstRespondersLanding} />
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/not-qualified" component={NotQualified} />
       <Route path="/" component={SeniorsLanding} />

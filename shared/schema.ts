@@ -10,6 +10,14 @@ export const militaryBranchSchema = z.enum([
   "Space Force"
 ]);
 
+export const firstResponderAgencySchema = z.enum([
+  "Law enforcement",
+  "Fire and rescue",
+  "Emergency Medical Services",
+  "Public safety communications",
+  "Other critical first responders"
+]);
+
 export const usStateSchema = z.enum([
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
   "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", 
@@ -66,9 +74,20 @@ export const seniorQuizSchema = z.object({
   budget: monthlyBudgetSchema,
 });
 
+export const firstResponderQuizSchema = z.object({
+  agency: firstResponderAgencySchema,
+  state: usStateSchema,
+  age: ageRangeSchema,
+  beneficiary: beneficiarySchema,
+  coverage: coverageAmountSchema,
+  budget: monthlyBudgetSchema,
+});
+
 export type VeteranQuizData = z.infer<typeof veteranQuizSchema>;
 export type SeniorQuizData = z.infer<typeof seniorQuizSchema>;
+export type FirstResponderQuizData = z.infer<typeof firstResponderQuizSchema>;
 export type MilitaryBranch = z.infer<typeof militaryBranchSchema>;
+export type FirstResponderAgency = z.infer<typeof firstResponderAgencySchema>;
 export type USState = z.infer<typeof usStateSchema>;
 export type AgeRange = z.infer<typeof ageRangeSchema>;
 export type Beneficiary = z.infer<typeof beneficiarySchema>;
