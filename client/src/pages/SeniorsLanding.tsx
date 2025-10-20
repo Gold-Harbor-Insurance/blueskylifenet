@@ -51,17 +51,20 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(3), 300);
   };
 
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+  const handleBeneficiarySelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const beneficiary = e.currentTarget.value as Beneficiary;
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(4), 300);
   };
 
-  const handleCoverageSelect = (coverage: CoverageAmount) => {
+  const handleCoverageSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const coverage = e.currentTarget.value as CoverageAmount;
     setFormData({ ...formData, coverage });
     setTimeout(() => setStep(5), 300);
   };
 
-  const handleBudgetSelect = async (budget: MonthlyBudget) => {
+  const handleBudgetSelect = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const budget = e.currentTarget.value as MonthlyBudget;
     setFormData({ ...formData, budget });
     setIsLoadingRingba(true);
     
@@ -246,7 +249,8 @@ export default function SeniorsLanding() {
           <div className="max-w-md mx-auto grid gap-3">
             <button
               type="button"
-              onClick={() => handleBeneficiarySelect("Spouse")}
+              value="Spouse"
+              onClick={handleBeneficiarySelect}
               data-testid="beneficiary_spouse"
               className="beneficiary_spouse w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -254,7 +258,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBeneficiarySelect("Children")}
+              value="Children"
+              onClick={handleBeneficiarySelect}
               data-testid="beneficiary_children"
               className="beneficiary_children w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -262,7 +267,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBeneficiarySelect("Grandchildren")}
+              value="Grandchildren"
+              onClick={handleBeneficiarySelect}
               data-testid="beneficiary_grandchildren"
               className="beneficiary_grandchildren w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -270,7 +276,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBeneficiarySelect("Family Member")}
+              value="Family"
+              onClick={handleBeneficiarySelect}
               data-testid="beneficiary_family"
               className="beneficiary_family w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -297,7 +304,8 @@ export default function SeniorsLanding() {
           <div className="max-w-md mx-auto grid gap-3">
             <button
               type="button"
-              onClick={() => handleCoverageSelect("Under $10,000")}
+              value="Under$10000"
+              onClick={handleCoverageSelect}
               data-testid="coverage_amount_under10k"
               className="coverage_amount_under10k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -305,7 +313,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleCoverageSelect("$10,000-$24,999")}
+              value="$10000-$24999"
+              onClick={handleCoverageSelect}
               data-testid="coverage_amount_10k_25k"
               className="coverage_amount_10k_25k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -313,7 +322,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleCoverageSelect("$25,000-$50,000")}
+              value="$25000-$50000"
+              onClick={handleCoverageSelect}
               data-testid="coverage_amount_25k_50k"
               className="coverage_amount_25k_50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -321,7 +331,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleCoverageSelect("Over $50,000")}
+              value="Over$50000"
+              onClick={handleCoverageSelect}
               data-testid="coverage_amount_over50k"
               className="coverage_amount_over50k w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -348,7 +359,8 @@ export default function SeniorsLanding() {
           <div className="max-w-md mx-auto grid gap-3">
             <button
               type="button"
-              onClick={() => handleBudgetSelect("Less than $50/month")}
+              value="Under$50"
+              onClick={handleBudgetSelect}
               data-testid="monthly_budget_under50"
               className="monthly_budget_under50 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -356,7 +368,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBudgetSelect("$50–$74/month")}
+              value="$50–$74"
+              onClick={handleBudgetSelect}
               data-testid="monthly_budget_50_74"
               className="monthly_budget_50_74 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -364,7 +377,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBudgetSelect("$75–$99/month")}
+              value="$75–$99"
+              onClick={handleBudgetSelect}
               data-testid="monthly_budget_75_99"
               className="monthly_budget_75_99 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -372,7 +386,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBudgetSelect("$100–$149/month")}
+              value="$100–$149"
+              onClick={handleBudgetSelect}
               data-testid="monthly_budget_100_149"
               className="monthly_budget_100_149 w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
@@ -380,7 +395,8 @@ export default function SeniorsLanding() {
             </button>
             <button
               type="button"
-              onClick={() => handleBudgetSelect("$150+/month")}
+              value="Over$150"
+              onClick={handleBudgetSelect}
               data-testid="monthly_budget_150plus"
               className="monthly_budget_150plus w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
             >
