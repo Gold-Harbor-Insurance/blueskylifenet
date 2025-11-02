@@ -1,50 +1,92 @@
-# Gold Harbor Insurance Landing Pages
+# BlueSky Life Landing Pages
 
 ## Overview
-Three high-converting quiz-style landing pages for Gold Harbor Insurance - one for seniors, one for veterans, and one for first responders. All pages guide users through a multi-step eligibility questionnaire and culminate in a thank you page with a countdown timer and phone call CTA.
+Three high-converting quiz-style landing pages for BlueSky Life - one for seniors, one for veterans, and one for first responders. All pages guide users through a multi-step eligibility questionnaire with IP-based ZIP code auto-detection and culminate in a thank you page with a countdown timer and phone call CTA.
 
 ## Project Structure
 
 ### Pages
-- `/seniors` - Landing page for seniors with 6-step quiz (step 6 = thank you)
-- `/veterans` - Landing page for veterans with 7-step quiz (step 7 = thank you, includes military branch question)
-- `/firstresponders` - Landing page for first responders with 7-step quiz (step 7 = thank you, includes agency question)
-- `/thank-you` - Legacy route (no longer used - redirects to seniors)
-- `/not-qualified` - Disqualification page for users who don't meet age criteria
-- `/` - Defaults to seniors landing page
+- `/seniors` - Landing page for seniors with 16-step quiz (15 questions + thank you)
+- `/veterans` - Landing page for veterans with 17-step quiz (military branch + 15 questions + thank you)
+- `/firstresponders` - Landing page for first responders with 17-step quiz (agency + 15 questions + thank you)
+- `/` - Main homepage replicating blueskylife.com design
+- `/not-qualified` - Legacy disqualification page (no longer used - all ages accepted)
+
+### Quiz Flow Architecture (November 2025 Update)
+
+**Seniors Landing Page** (/seniors) - 16 Steps Total:
+- **Q1**: ZIP Code (auto-detected via IP geolocation, editable)
+- **Q2**: Gender
+- **Q3**: Has Life Insurance
+- **Q4**: Cash Amount Available
+- **Q5**: Beneficiary
+- **Q6**: Age Range (ALL ages now accepted - no disqualification)
+- **Q7**: Beneficiary Name
+- **Q8**: Hobby
+- **Q9**: First Name
+- **Q10**: Last Name
+- **Q11**: Email
+- **Q12**: Phone
+- **Q13**: Street Address (with disabled city/state/ZIP fields pre-filled from Q1)
+- **Q14**: County (dropdown based on state from Q1)
+- **Q15**: Monthly Budget (triggers Ringba API before proceeding)
+- **Step 16**: Thank you page (integrated as final step)
+
+**Veterans Landing Page** (/veterans) - 17 Steps Total:
+- **Q1**: Military Branch (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
+- **Q2**: ZIP Code (auto-detected via IP geolocation, editable)
+- **Q3**: Gender
+- **Q4**: Has Life Insurance
+- **Q5**: Cash Amount Available
+- **Q6**: Beneficiary
+- **Q7**: Age Range (ALL ages now accepted)
+- **Q8**: Beneficiary Name
+- **Q9**: Hobby
+- **Q10**: First Name
+- **Q11**: Last Name
+- **Q12**: Email
+- **Q13**: Phone
+- **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
+- **Q15**: County (dropdown based on state from Q2)
+- **Q16**: Monthly Budget (triggers Ringba API before proceeding)
+- **Step 17**: Thank you page (integrated as final step)
+
+**First Responders Landing Page** (/firstresponders) - 17 Steps Total:
+- **Q1**: First Responder Agency (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
+- **Q2**: ZIP Code (auto-detected via IP geolocation, editable)
+- **Q3**: Gender
+- **Q4**: Has Life Insurance
+- **Q5**: Cash Amount Available
+- **Q6**: Beneficiary
+- **Q7**: Age Range (ALL ages now accepted)
+- **Q8**: Beneficiary Name
+- **Q9**: Hobby
+- **Q10**: First Name
+- **Q11**: Last Name
+- **Q12**: Email
+- **Q13**: Phone
+- **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
+- **Q15**: County (dropdown based on state from Q2)
+- **Q16**: Monthly Budget (triggers Ringba API before proceeding)
+- **Step 17**: Thank you page (integrated as final step)
 
 ### Features Implemented
-1. **Veterans Landing Page** (/veterans)
-   - 7-step quiz flow with thank you as final step
-   - Military branch selection (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
-   - State selection dropdown (all 50 US states)
-   - Age range selection (Under 45, 45-85, Over 85)
-   - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
-   - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
-   - Monthly budget selection (5 tiers from <$50 to $150+)
-   - **Step 7**: Thank you page integrated as final quiz step (not separate route)
 
-2. **Seniors Landing Page** (/seniors)
-   - 6-step quiz flow with thank you as final step
-   - Same questions as veterans except no military branch question
-   - State selection dropdown (all 50 US states)
-   - Age range selection (Under 45, 45-85, Over 85)
-   - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
-   - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
-   - Monthly budget selection (5 tiers from <$50 to $150+)
-   - **Step 6**: Thank you page integrated as final quiz step (not separate route)
+1. **IP Geolocation Auto-Detection** (November 2025)
+   - Automatically detects user's ZIP code, city, and state on page load
+   - Uses ipapi.co API for IP-based geolocation
+   - Pre-fills ZIP code field on first question
+   - User can edit the auto-detected ZIP code
+   - Validates and updates city/state using Zippopotam.us API when ZIP is changed
+   - **Files**: client/src/utils/ipGeolocation.ts, client/src/utils/zipCodeLookup.ts
 
-3. **First Responders Landing Page** (/firstresponders)
-   - 7-step quiz flow with thank you as final step
-   - Agency selection (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
-   - State selection dropdown (all 50 US states)
-   - Age range selection (Under 45, 45-85, Over 85)
-   - Beneficiary selection (Spouse, Children, Grandchildren, Family Member)
-   - Coverage amount selection ($0-$10k, $10k-$25k, $25k-$50k, $50k+)
-   - Monthly budget selection (5 tiers from <$50 to $150+)
-   - **Step 7**: Thank you page integrated as final quiz step (not separate route)
+2. **County Data Utility** (November 2025)
+   - Comprehensive county database covering all 50 US states, DC, and Puerto Rico
+   - 3,243+ counties organized by state
+   - Dynamic county dropdown population based on selected state
+   - **Files**: client/src/utils/countyData.ts
 
-4. **Thank You Page Integration** (embedded in quiz, not separate route)
+3. **Thank You Page Integration**
    - Congratulations message
    - 142-second countdown timer (2:22) with pulse animation
    - Dynamic phone number from Ringba API (fallback: (877) 790-1817) with click-to-call
@@ -58,6 +100,36 @@ Three high-converting quiz-style landing pages for Gold Harbor Insurance - one f
      - Maintains form data persistence throughout flow
      - Displays loading indicator while Ringba API call is in progress
 
+4. **Google Tag Manager Integration** (November 2025 Update)
+   - BlueSky Life GTM container: `https://trk.blueskylife.io`
+   - Container ID: GTM-W9243JWT
+   - All quiz selections captured in hidden input fields for GTM access
+   - **All templates** hidden inputs:
+     - `name="gender"` - Selected gender
+     - `name="has_life_insurance"` - Life insurance status
+     - `name="cash_amount"` - Cash amount available
+     - `name="beneficiary"` - Selected beneficiary
+     - `name="age_classification"` - Selected age range
+     - `name="beneficiary_name"` - Beneficiary name
+     - `name="hobby"` - User's hobby
+     - `name="first_name"` - First name
+     - `name="last_name"` - Last name
+     - `name="zip_code"` - ZIP code
+     - `name="email"` - Email address
+     - `name="phone"` - Phone number
+     - `name="street_address"` - Street address
+     - `name="city"` - City (auto-filled from ZIP)
+     - `name="state"` - State (auto-filled from ZIP)
+     - `name="county"` - Selected county
+     - `name="monthly_budget"` - Selected monthly budget
+   - **Veterans template** additional input:
+     - `name="military_branch"` - Selected military branch
+   - **First Responders template** additional input:
+     - `name="first_responder_agency"` - Selected first responder agency
+   - Hidden inputs ALWAYS rendered in DOM throughout quiz flow for GTM to read
+   - GTM can access values via: `document.querySelector('input[name="field_name"]').value`
+   - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
+
 5. **Facebook Tracking Integration**
    - Captures Facebook click ID (fbclid) from URL parameters
    - Stores Facebook browser cookie (_fbc) and pixel ID (_fbp)
@@ -65,56 +137,28 @@ Three high-converting quiz-style landing pages for Gold Harbor Insurance - one f
    - Data flows: Website → Ringba → Make → Facebook CAPI
    - Enables Facebook ad optimization through conversion tracking
 
-6. **GTM Data Layer Integration**
-   - All quiz selections captured in hidden input fields with specific names for GTM access
-   - **Veterans template** hidden inputs:
-     - `name="military_branch"` - Selected military branch
-     - `name="state"` - Selected US state
-     - `name="age_classification"` - Selected age range
-     - `name="beneficiary"` - Selected beneficiary
-     - `name="coverage_amount"` - Selected coverage amount
-     - `name="monthly_budget"` - Selected monthly budget
-   - **First Responders template** hidden inputs:
-     - `name="first_responder_agency"` - Selected first responder agency
-     - `name="state"` - Selected US state
-     - `name="age_classification"` - Selected age range
-     - `name="beneficiary"` - Selected beneficiary
-     - `name="coverage_amount"` - Selected coverage amount
-     - `name="monthly_budget"` - Selected monthly budget
-   - **Seniors template** hidden inputs (same except no military_branch or agency):
-     - `name="age_classification"` - Selected age range
-     - `name="state"` - Selected US state
-     - `name="beneficiary"` - Selected beneficiary
-     - `name="coverage_amount"` - Selected coverage amount
-     - `name="monthly_budget"` - Selected monthly budget
-   - Hidden inputs persist in DOM throughout quiz flow for GTM to read
-   - GTM can access values via: `document.querySelector('input[name="field_name"]').value`
-   - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
-   - High-quality click tracking: Age 45-85 AND budget above $50/month
-
-7. **Age-Based Qualification Logic**
+6. **Age Qualification Logic Update** (November 2025)
+   - **CRITICAL CHANGE**: ALL ages now accepted - no disqualification
    - Age buttons: "Under 45", "45-85", "Over 85"
-   - Users 45 and under (Under 45) are disqualified
-   - Users over 85 (Over 85) are disqualified
-   - Qualified users: 45-85 age range
-   - Disqualified users are redirected to /not-qualified page
-   - Applies to all landing pages (seniors, veterans, first responders)
+   - All age ranges proceed through quiz without redirecting to /not-qualified
+   - Age data still captured for tracking and analytics purposes
 
-8. **Custom Ringba API Integration** (October 2025)
+7. **Custom Ringba API Integration** (October 2025)
    - Replaced Ringba script tag with custom API implementation
    - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
    - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
-   - **Timing**: API called after budget selection, before displaying thank you step
+   - **Timing**: API called after monthly budget selection (Q15/Q16), before displaying thank you step
    - **Loading State**: Full-screen overlay with semi-transparent backdrop and centered loading card
      - Fixed position overlay covering entire viewport (`fixed inset-0`)
      - Semi-transparent black background with backdrop blur (`bg-black/50 backdrop-blur-sm`)
      - White centered card with spinner, heading, and subtext
      - Accessibility: `role="status"` and `aria-live="polite"` for screen reader support
      - Spinner marked `aria-hidden="true"` as decorative element
-   - **Data Sent as Ringba Tags**:
-     - All hidden input field values (quiz selections)
-     - URL parameters (fbclid, utm_campaign, etc.)
-     - Facebook cookies (_fbc, _fbp)
+     - **IMPORTANT**: Hidden inputs remain in DOM during loading screen for Ringba API to access
+   - **Data Collection**:
+     - All hidden input field values (17 form fields)
+     - URL parameters (fbclid, gclid, utm_campaign, etc.) - captured automatically
+     - Facebook cookies (_fbc, _fbp) - read automatically from browser
      - Location properties (completeUrl, hostName, pathName, hash)
    - **Response Handling**:
      - Dynamic phone number from API response
@@ -123,7 +167,7 @@ Three high-converting quiz-style landing pages for Gold Harbor Insurance - one f
    - **Fallback**: If API fails, uses (877) 790-1817 as default number
    - **Files**: client/src/utils/ringbaApi.ts contains the implementation
 
-9. **Facebook In-App Browser Fix** (October 2025)
+8. **Facebook In-App Browser Fix** (October 2025)
    - Facebook/Instagram WebView detection to fix unclickable call button
    - Browser detection via user agent (FBAN/FBAV/Instagram)
    - For Facebook browsers: Uses plain `<a>` tag with `window.location.href` fallback
@@ -132,7 +176,7 @@ Three high-converting quiz-style landing pages for Gold Harbor Insurance - one f
    - **Files**: client/src/components/ThankYouContent.tsx contains the implementation
 
 ### Design System
-- **Brand Colors**: Gold Harbor Insurance gold (#D4AF37) with deep navy gradient background
+- **Brand Colors**: BlueSky Life green (#5CB85C) with gradient backgrounds
 - **Typography**: Inter for headings/body, Space Mono for countdown timer
 - **Components**: Card-based quiz interface with smooth animations
 - **Responsive**: Mobile-first design with optimized touch targets
@@ -153,6 +197,8 @@ Three high-converting quiz-style landing pages for Gold Harbor Insurance - one f
 - Countdown timer runs for 142 seconds (2:22) on thank you page
 - Phone number has tel: link for mobile click-to-call functionality
 - Thank you page is integrated as the final step of quiz (not a separate route) to maintain tracking data availability for GTM
+- **ZIP Auto-Detection**: Uses IP geolocation on component mount to pre-fill location data
+- **Address Pre-Fill**: City, state, and ZIP are shown as disabled fields in street address question
 
 ### Base Path Handling (Dev vs Production)
 **Issue**: vite.config.ts has `base: "/final-expense/rb-dhF5ke48DSslf/"` for cPanel deployment, which broke Replit preview
