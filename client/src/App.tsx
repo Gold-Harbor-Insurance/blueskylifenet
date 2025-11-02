@@ -3,6 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import HomePage from "@/pages/HomePage";
 import SeniorsLanding from "@/pages/SeniorsLanding";
 import VeteransLanding from "@/pages/VeteransLanding";
 import FirstRespondersLanding from "@/pages/FirstRespondersLanding";
@@ -20,12 +21,12 @@ const basePath = import.meta.env.DEV
 function Routes() {
   return (
     <Switch>
+      <Route path="/" component={HomePage} />
       <Route path="/seniors" component={SeniorsLanding} />
       <Route path="/veterans" component={VeteransLanding} />
       <Route path="/firstresponders" component={FirstRespondersLanding} />
       <Route path="/thank-you" component={ThankYou} />
       <Route path="/not-qualified" component={NotQualified} />
-      <Route path="/" component={SeniorsLanding} />
       <Route component={NotFound} />
     </Switch>
   );
