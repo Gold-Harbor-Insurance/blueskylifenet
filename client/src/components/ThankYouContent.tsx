@@ -103,7 +103,7 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
             licensed insurance agent.
           </p>
           <div className="mt-6 flex items-center justify-center gap-4 text-xs text-gray-500">
-            <span>© 2025 Gold Harbor Insurance</span>
+            <span>© 2025 BlueSky Life</span>
             <span>•</span>
             <span>All Rights Reserved</span>
           </div>

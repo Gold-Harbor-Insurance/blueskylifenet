@@ -3,7 +3,7 @@ import QuizLayout from "@/components/QuizLayout";
 export default function NotQualified() {
   return (
     <QuizLayout 
-      headline="GOLD HARBOR INSURANCE"
+      headline="BLUESKY LIFE"
       subheadline="Life Insurance Benefits"
     >
       <div className="max-w-2xl mx-auto text-center py-12 px-4">
@@ -15,7 +15,7 @@ export default function NotQualified() {
             Unfortunately, you do not qualify for coverage at this time.
           </p>
           <p className="text-base md:text-lg text-gray-600">
-            Based on your age and location, we are unable to provide coverage options. Thank you for your interest in Gold Harbor Insurance.
+            Based on your age and location, we are unable to provide coverage options. Thank you for your interest in BlueSky Life.
           </p>
         </div>
       </div>

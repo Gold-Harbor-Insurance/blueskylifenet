@@ -208,7 +208,7 @@ export default function FirstRespondersLanding() {
               </button>
             </div>
             <p className="mt-2">
-              © 2025 Gold Harbor Insurance LLC. All Rights Reserved.
+              © 2025 BlueSky Life. All Rights Reserved.
             </p>
           </div>
         </QuizLayout>

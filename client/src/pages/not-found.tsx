@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--gradient-navy-start))] to-[hsl(var(--gradient-navy-end))] flex flex-col items-center justify-center p-4">
       <div className="text-center space-y-6 max-w-md">
-        <h1 className="text-6xl font-bold text-gold">404</h1>
+        <h1 className="text-6xl font-bold text-[hsl(var(--bluesky-primary))]">404</h1>
         <h2 className="text-2xl md:text-3xl font-semibold text-foreground">
           Page Not Found
         </h2>
