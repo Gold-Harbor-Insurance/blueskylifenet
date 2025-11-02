@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { initFacebookTracking } from "@/utils/facebookTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
+import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
 import { getCountiesByState } from "@/utils/countyData";
 import type { 
   FirstResponderAgency,
@@ -31,6 +32,9 @@ export default function FirstRespondersLanding() {
   
   const [formData, setFormData] = useState({
     agency: "" as FirstResponderAgency | "",
+    zipCode: "",
+    city: "",
+    state: "" as USState | "",
     gender: "" as Gender | "",
     hasLifeInsurance: "" as LifeInsuranceStatus | "",
     cashAmount: "" as CashAmount | "",
@@ -40,13 +44,11 @@ export default function FirstRespondersLanding() {
     hobby: "",
     firstName: "",
     lastName: "",
-    zipCode: "",
     email: "",
     phone: "",
     streetAddress: "",
-    city: "",
-    state: "" as USState | "",
     county: "",
+    monthlyBudget: "",
   });
   
   // Thank you page state
@@ -57,6 +59,23 @@ export default function FirstRespondersLanding() {
 
   useEffect(() => {
     initFacebookTracking();
+    
+    // Auto-detect ZIP code from IP on component mount
+    const detectLocation = async () => {
+      const geoData = await detectZipCodeFromIP();
+      if (geoData) {
+        setFormData(prev => ({
+          ...prev,
+          zipCode: geoData.zipCode,
+          city: geoData.city,
+          state: geoData.state as USState,
+        }));
+        const counties = getCountiesByState(geoData.state);
+        setAvailableCounties(counties);
+      }
+    };
+    
+    detectLocation();
   }, []);
 
   const totalSteps = 17; // Agency + 15 questions + thank you page
@@ -67,69 +86,7 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Gender
-  const handleGenderSelect = (gender: Gender) => {
-    setFormData({ ...formData, gender });
-    setTimeout(() => setStep(3), 300);
-  };
-
-  // Q3: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
-    setTimeout(() => setStep(4), 300);
-  };
-
-  // Q4: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
-    setTimeout(() => setStep(5), 300);
-  };
-
-  // Q5: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
-    setTimeout(() => setStep(6), 300);
-  };
-
-  // Q6: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSelect = (age: AgeRange) => {
-    setFormData({ ...formData, age });
-    setTimeout(() => setStep(7), 300);
-  };
-
-  // Q7: Beneficiary Name
-  const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.beneficiaryName.trim()) {
-      setTimeout(() => setStep(8), 300);
-    }
-  };
-
-  // Q8: Hobby
-  const handleHobbySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.hobby.trim()) {
-      setTimeout(() => setStep(9), 300);
-    }
-  };
-
-  // Q9: First Name
-  const handleFirstNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.firstName.trim()) {
-      setTimeout(() => setStep(10), 300);
-    }
-  };
-
-  // Q10: Last Name
-  const handleLastNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.lastName.trim()) {
-      setTimeout(() => setStep(11), 300);
-    }
-  };
-
-  // Q11: Zip Code (with auto-population of city/state)
+  // Q2: Zip Code (auto-detected, editable)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.zipCode.match(/^\d{5}$/)) {
@@ -137,17 +94,79 @@ export default function FirstRespondersLanding() {
       const zipData = await lookupZipCode(formData.zipCode);
       
       if (zipData) {
-        setFormData({
-          ...formData,
+        setFormData(prev => ({
+          ...prev,
           city: zipData.city,
-          state: zipData.state as USState,
-        });
+          state: zipData.stateAbbr as USState,
+        }));
         // Update available counties for the state
-        const counties = getCountiesByState(zipData.state);
+        const counties = getCountiesByState(zipData.stateAbbr);
         setAvailableCounties(counties);
       }
       
       setIsLoadingZip(false);
+      setTimeout(() => setStep(3), 300);
+    }
+  };
+
+  // Q3: Gender
+  const handleGenderSelect = (gender: Gender) => {
+    setFormData({ ...formData, gender });
+    setTimeout(() => setStep(4), 300);
+  };
+
+  // Q4: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
+    setTimeout(() => setStep(5), 300);
+  };
+
+  // Q5: Cash Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
+    setTimeout(() => setStep(6), 300);
+  };
+
+  // Q6: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
+    setTimeout(() => setStep(7), 300);
+  };
+
+  // Q7: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSelect = (age: AgeRange) => {
+    setFormData({ ...formData, age });
+    setTimeout(() => setStep(8), 300);
+  };
+
+  // Q8: Beneficiary Name
+  const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.beneficiaryName.trim()) {
+      setTimeout(() => setStep(9), 300);
+    }
+  };
+
+  // Q9: Hobby
+  const handleHobbySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.hobby.trim()) {
+      setTimeout(() => setStep(10), 300);
+    }
+  };
+
+  // Q10: First Name
+  const handleFirstNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.firstName.trim()) {
+      setTimeout(() => setStep(11), 300);
+    }
+  };
+
+  // Q11: Last Name
+  const handleLastNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.lastName.trim()) {
       setTimeout(() => setStep(12), 300);
     }
   };
@@ -169,7 +188,7 @@ export default function FirstRespondersLanding() {
     }
   };
 
-  // Q14: Street Address
+  // Q14: Street Address (with disabled city/state/zip fields)
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.streetAddress.trim()) {
@@ -177,22 +196,21 @@ export default function FirstRespondersLanding() {
     }
   };
 
-  // Q15: City (pre-filled from zip, editable)
-  const handleCitySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.city.trim()) {
-      setTimeout(() => setStep(16), 300);
-    }
+  // Q15: County
+  const handleCountySelect = (county: string) => {
+    setFormData({ ...formData, county });
+    setTimeout(() => setStep(16), 300);
   };
 
-  // Q16: County
-  const handleCountySelect = async (county: string) => {
-    setFormData({ ...formData, county });
+  // Q16: Monthly Budget (triggers Ringba API)
+  const handleMonthlyBudgetSelect = async (budget: string) => {
+    setFormData({ ...formData, monthlyBudget: budget });
     setIsLoadingRingba(true);
     
     setTimeout(async () => {
       const hiddenInputNames = [
         'first_responder_agency',
+        'zip_code',
         'gender',
         'has_life_insurance',
         'cash_amount',
@@ -202,13 +220,13 @@ export default function FirstRespondersLanding() {
         'hobby',
         'first_name',
         'last_name',
-        'zip_code',
         'email',
         'phone',
         'street_address',
         'city',
         'state',
-        'county'
+        'county',
+        'monthly_budget'
       ];
       
       const ringbaData = await fetchRingbaNumber(hiddenInputNames);
@@ -253,6 +271,7 @@ export default function FirstRespondersLanding() {
     <>
       {/* Hidden inputs for GTM tracking - ALWAYS rendered, persist across all steps */}
       <input type="hidden" name="first_responder_agency" value={formData.agency} />
+      <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="gender" value={formData.gender} />
       <input type="hidden" name="has_life_insurance" value={formData.hasLifeInsurance} />
       <input type="hidden" name="cash_amount" value={formData.cashAmount} />
@@ -262,13 +281,13 @@ export default function FirstRespondersLanding() {
       <input type="hidden" name="hobby" value={formData.hobby} />
       <input type="hidden" name="first_name" value={formData.firstName} />
       <input type="hidden" name="last_name" value={formData.lastName} />
-      <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="email" value={formData.email} />
       <input type="hidden" name="phone" value={formData.phone} />
       <input type="hidden" name="street_address" value={formData.streetAddress} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
       <input type="hidden" name="county" value={formData.county} />
+      <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
 
       {/* Ringba loading screen overlay */}
       {isLoadingRingba && (
@@ -327,8 +346,42 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q2: Gender */}
+            {/* Q2: Zip Code (auto-detected, editable) */}
             {step === 2 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What is your zip code?
+                  </h2>
+                </div>
+                <form onSubmit={handleZipCodeSubmit} className="max-w-md mx-auto">
+                  <Input
+                    type="text"
+                    value={formData.zipCode}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
+                      setFormData({ ...formData, zipCode: value });
+                    }}
+                    placeholder="Enter 5-digit zip code"
+                    className="text-lg min-h-[50px]"
+                    data-testid="input-zip-code"
+                    maxLength={5}
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    data-testid="button-submit-zip-code"
+                    disabled={isLoadingZip}
+                  >
+                    {isLoadingZip ? "Looking up..." : "Continue"}
+                  </Button>
+                </form>
+              </div>
+            )}
+
+            {/* Q3: Gender */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -356,10 +409,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q3-16: Continue with all remaining questions similar to Veterans/Seniors */}
-            {/* For brevity, I'll include the complete implementation - same pattern as Veterans landing */}
-            
-            {step === 3 && (
+            {/* Q4: Has Life Insurance */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -387,7 +438,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 4 && (
+            {/* Q5: Cash Amount */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -410,7 +462,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 5 && (
+            {/* Q6: Beneficiary */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -433,7 +486,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 6 && (
+            {/* Q7: Age */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -469,7 +523,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 7 && (
+            {/* Q8: Beneficiary Name */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -497,7 +552,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 8 && (
+            {/* Q9: Hobby */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -525,7 +581,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 9 && (
+            {/* Q10: First Name */}
+            {step === 10 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -553,7 +610,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 10 && (
+            {/* Q11: Last Name */}
+            {step === 11 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -581,39 +639,7 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {step === 11 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your zip code?
-                  </h2>
-                </div>
-                <form onSubmit={handleZipCodeSubmit} className="max-w-md mx-auto">
-                  <Input
-                    type="text"
-                    value={formData.zipCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
-                      setFormData({ ...formData, zipCode: value });
-                    }}
-                    placeholder="Enter 5-digit zip code"
-                    className="text-lg min-h-[50px]"
-                    data-testid="input-zip-code"
-                    maxLength={5}
-                    required
-                  />
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
-                    data-testid="button-submit-zip-code"
-                    disabled={isLoadingZip}
-                  >
-                    {isLoadingZip ? "Looking up..." : "Continue"}
-                  </Button>
-                </form>
-              </div>
-            )}
-
+            {/* Q12: Email */}
             {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
@@ -642,6 +668,7 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
+            {/* Q13: Phone */}
             {step === 13 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
@@ -671,6 +698,7 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
+            {/* Q14: Street Address with disabled City/State/Zip */}
             {step === 14 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
@@ -678,16 +706,42 @@ export default function FirstRespondersLanding() {
                     What is your street address?
                   </h2>
                 </div>
-                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto">
+                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto space-y-3">
                   <Input
                     type="text"
                     value={formData.streetAddress}
                     onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                    placeholder="Enter your street address"
+                    placeholder="Street address"
                     className="text-lg min-h-[50px]"
                     data-testid="input-street-address"
                     required
                   />
+                  <Input
+                    type="text"
+                    value={formData.city}
+                    disabled
+                    placeholder="City"
+                    className="text-lg min-h-[50px] bg-gray-100"
+                    data-testid="input-city-disabled"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <Input
+                      type="text"
+                      value={formData.state}
+                      disabled
+                      placeholder="State"
+                      className="text-lg min-h-[50px] bg-gray-100"
+                      data-testid="input-state-disabled"
+                    />
+                    <Input
+                      type="text"
+                      value={formData.zipCode}
+                      disabled
+                      placeholder="ZIP"
+                      className="text-lg min-h-[50px] bg-gray-100"
+                      data-testid="input-zip-disabled"
+                    />
+                  </div>
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
@@ -699,40 +753,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
+            {/* Q15: County */}
             {step === 15 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Confirm your city
-                  </h2>
-                  {formData.state && (
-                    <p className="text-sm text-gray-600 mt-2">
-                      State: {formData.state}
-                    </p>
-                  )}
-                </div>
-                <form onSubmit={handleCitySubmit} className="max-w-md mx-auto">
-                  <Input
-                    type="text"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    placeholder="Enter your city"
-                    className="text-lg min-h-[50px]"
-                    data-testid="input-city"
-                    required
-                  />
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
-                    data-testid="button-submit-city"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {step === 16 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -759,6 +781,30 @@ export default function FirstRespondersLanding() {
                       )}
                     </SelectContent>
                   </Select>
+                </div>
+              </div>
+            )}
+
+            {/* Q16: Monthly Budget for Life Insurance */}
+            {step === 16 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What is your monthly budget for life insurance?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["Under $50", "$50-$100", "$100-$200", "$200-$300", "$300+"].map((budget) => (
+                    <button
+                      key={budget}
+                      type="button"
+                      onClick={() => handleMonthlyBudgetSelect(budget)}
+                      data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200"
+                    >
+                      {budget}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
