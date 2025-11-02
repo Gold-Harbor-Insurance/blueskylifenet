@@ -91,17 +91,19 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-  /* Gold Harbor Insurance Brand Colors */
-  --gold: 45 85% 50%;
-  --gold-foreground: 220 30% 8%;
+  /* BlueSky Life Brand Colors */
+  --bluesky-primary: 207 61% 60%;
+  --bluesky-primary-foreground: 0 0% 100%;
+  --bluesky-navy: 210 50% 25%;
+  --bluesky-navy-foreground: 0 0% 100%;
   --urgency: 25 95% 60%;
   --urgency-foreground: 0 0% 100%;
   
-  /* Gradient colors for Gold Harbor branding */
-  --gradient-gold-start: 45 85% 50%;
-  --gradient-gold-end: 35 90% 55%;
-  --gradient-navy-start: 220 25% 12%;
-  --gradient-navy-end: 220 30% 8%;
+  /* Gradient colors for BlueSky branding */
+  --gradient-blue-start: 207 61% 60%;
+  --gradient-blue-end: 207 61% 50%;
+  --gradient-navy-start: 210 50% 25%;
+  --gradient-navy-end: 210 50% 20%;
 
   /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
 
@@ -215,17 +217,19 @@
   --shadow-xl: 0px 24px 48px -12px hsl(220 30% 8% / 0.60);
   --shadow-2xl: 0px 32px 64px -12px hsl(220 30% 8% / 0.60);
 
-  /* Gold Harbor Insurance Brand Colors */
-  --gold: 45 85% 60%;
-  --gold-foreground: 220 30% 8%;
+  /* BlueSky Life Brand Colors */
+  --bluesky-primary: 207 61% 65%;
+  --bluesky-primary-foreground: 0 0% 100%;
+  --bluesky-navy: 210 50% 30%;
+  --bluesky-navy-foreground: 0 0% 100%;
   --urgency: 25 95% 65%;
   --urgency-foreground: 0 0% 100%;
   
-  /* Gradient colors for Gold Harbor branding */
-  --gradient-gold-start: 45 85% 60%;
-  --gradient-gold-end: 35 90% 65%;
-  --gradient-navy-start: 220 25% 12%;
-  --gradient-navy-end: 220 30% 8%;
+  /* Gradient colors for BlueSky branding */
+  --gradient-blue-start: 207 61% 65%;
+  --gradient-blue-end: 207 61% 55%;
+  --gradient-navy-start: 210 50% 30%;
+  --gradient-navy-end: 210 50% 25%;
 
   /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
