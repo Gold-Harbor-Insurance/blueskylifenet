@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+$load_array = ['config', 'geolite-init', 'utils'];
+require_once realpath(__DIR__ . '/prv-loader.php');
+
+try {
+    $loc_zip = geolite_getzip($geolite_reader, getClientIP());
+} catch (GeoIp2\Exception\AddressNotFoundException $err) {
+    $loc_zip = null;
+}
+
+$manifest_filepath = realpath(__DIR__ . '/.vite/manifest.json');
+$manifest_array = getManifest($manifest_filepath);
+$mainCssTag = getCssTag($manifest_array, 'public/assets/css/home.css');
+$mainJsTag = getJsTag($manifest_array, 'public/assets/js/home.js');
+
+$page_title = 'Final Expense Quotes and Plan Today! | ' . $site_name;
+
+$add_trustedform = true;
+$add_jornaya = true;
+$is_zip_lookup = true;
+
+require_once realpath(__DIR__ . '/components/home-header.php');
+?>
+
+<body>
+    <?php require_once $gtm_body; ?>
+    <div id="main">
+        <?php require_once realpath(__DIR__ . '/components/partials/home-header-partial.php'); ?>
+        <section class="custom-bg-89cff0 py-10 text-white border-b-8 border-solid border-cyan-500">
+            <div class="container">
+                <form id="main-form" @submit.prevent="submit">
+                    <?php require_once realpath(__DIR__ . '/components/hidden-form-fields-primary.php'); ?>
+                    <input type="hidden" id="geo-zip" value="<?php echo $loc_zip ?? ''; ?>">
+                    <input type="hidden" class="zip-lookup-field-city" name="geo_city" id="geo-city" value="">
+                    <input type="hidden" class="zip-lookup-field-state-short" name="geo_state_short"
+                        id="geo-state-short" value="">
+                    <div id="step1" class="steps-n text-center lg:text-left">
+                        <div
+                            class="flex flex-col justify-center lg:justify-start text-3xl md:text-4xl lg:text-5xl py-1 font-semibold custom-color-0000ab md:mb-6">
+                            <div>Find Your Updated Final Expense Plan Today!</div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div class="w-full lg:w-3/5 relative">
+                                <div class="text-xl md:text-2xl lg:text-3xl py-4 text-black">Find how much you can save
+                                    with a fast personalized quote!</div>
+                                <div
+                                    class="flex flex-col md:flex-row justify-start items-center py-2 w-full lg:w-10/12">
+                                    <div class="w-full md:w-1/2 mb-2 md:mb-0">
+                                        <input type="tel" id="zip"
+                                            class="zip-lookup-field-zipcode w-full rounded-md px-3 py-4 text-center focus:outline-none text-xl text-black shadow-sm border border-solid border-white hover:border-slate-700 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.zip.$error }"
+                                            placeholder="Enter Zip Code" v-mask="zipCodeMaskUS" v-model="form.zip">
+                                        <div class="error-msg" v-cloak v-if="formSubmitted && !$v.form.zip.required">
+                                            Please enter your zip code.</div>
+                                        <div class="error-msg" v-cloak
+                                            v-else-if="formSubmitted && !$v.form.zip.validZipCodeUS">
+                                            Please enter a
+                                            valid U.S. zip code.</div>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-0 md:px-2">
+                                        <button @click="submit()" type="button"
+                                            class="w-full bg-red-600 hover:bg-red-500 text-xl font-bold px-3 py-4 rounded-md shadow-sm tracking-wide transition-colors duration-500 anim-wiggle">GET
+                                            A QUOTE</button>
+                                        <div class="text-sm" v-if="formSubmitted && !$v.form.zip.required">&nbsp;</div>
+                                        <div class="text-sm" v-else-if="formSubmitted && !$v.form.zip.validZipCodeUS">
+                                            &nbsp;</div>
+                                    </div>
+                                </div>
+                                <div class="hidden lg:flex justify-center items-center py-14 px-4 w-full lg:w-10/12">
+                                </div>
+                                <div class="absolute bottom-0 right-1 hidden lg:block">
+                                    <img src="/assets/img/arrow.png" alt="Arrow" />
+                                </div>
+                            </div>
+                            <div class="w-2/5 relative hidden lg:block">
+                                <div class="absolute -top-4 p-2 rounded-lg">
+                                    <img src="/assets/img/hero-img-2-502x366.png" alt="Hero Image" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="next-steps" class="max-w-2xl mx-auto text-center !hidden">
+                        <div class="bg-white text-blue-600 shadow-lg rounded-md p-5 md:p-8">
+                            <div id="progress-bar-wrap" class="mb-5" v-if="currStep!==(steps+1)">
+                                <div class="mb-1 text-base text-stone-700 font-medium"><span
+                                        class="font-bold">{{ setCompletionStat }}%</span> complete</div>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4">
+                                    <div class="bg-amber-500 h-1.5 rounded-full transition-all duration-500"
+                                        :style="{ width: setCompletionStat+'%' }"></div>
+                                </div>
+                            </div>
+                            <div id="step2" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What type of burial do you prefer?</div>
+                                <div class="step-box-btn" @click="selCoverageAmount('Burial-Variable')">Burial</div>
+                                <div class="step-box-btn" @click="selCoverageAmount('Cremation-10000')">Cremation</div>
+                                <div class="step-box-btn" @click="selCoverageAmount('Other-Variable')">Other</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step3" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What are you looking for in a final expense policy?</div>
+                                <div class="step-box-btn" @click="selInsuranceType('Burial')">Just cover the expenses
+                                    for my burial and leave nothing behind after that</div>
+                                <div class="step-box-btn" @click="selInsuranceType('Whole')">Leave a little extra behind
+                                    for my family</div>
+                                <div class="step-box-btn" @click="selInsuranceType('Not Sure')">Not sure</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step4" class="steps-n step-box !hidden">
+                                <div class="step-box-header">Who will this benefit be left behind to?</div>
+                                <div class="step-box-btn" @click="selBeneficiary('Spouse')">Spouse</div>
+                                <div class="step-box-btn" @click="selBeneficiary('Family')">Family</div>
+                                <div class="step-box-btn" @click="selBeneficiary('Children')">Children</div>
+                                <div class="step-box-btn" @click="selBeneficiary('Other')">Other</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step5" class="steps-n step-box !hidden">
+                                <div class="step-box-header">Do you smoke?</div>
+                                <div class="step-box-btn" @click="selSmoker('Yes')">Yes</div>
+                                <div class="step-box-btn" @click="selSmoker('No')">No</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step6" class="steps-n step-box !hidden">
+                                <div class="step-box-header">Do you currently have any major health conditions like
+                                    cancer, heart disease, stroke, or
+                                    kidney failure?</div>
+                                <div class="step-box-btn" @click="selMedicalConditions('Yes')">Yes</div>
+                                <div class="step-box-btn" @click="selMedicalConditions('No')">No</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step7" class="steps-n step-box !hidden">
+                                <div class="step-box-header">Do you have a checking account?</div>
+                                <div class="step-box-btn" @click="selHasCheckingAccount('Yes')">Yes</div>
+                                <div class="step-box-btn" @click="selHasCheckingAccount('No')">No</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step8" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What is your gender?</div>
+                                <div class="step-box-btn" @click="selGender('Male')">Male</div>
+                                <div class="step-box-btn" @click="selGender('Female')">Female</div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step9" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What's your date of birth?</div>
+                                <div class="w-full mb-3">
+                                    <div class="flex flex-col sm:flex-row">
+                                        <select id="dob-month" name="dob-m"
+                                            class="w-full sm:w-1/3 rounded-md px-3 py-4 mb-2 sm:mb-0 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.dobM.$error }"
+                                            v-model="form.dobM">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <input type="tel" id="dob-day" name="dob-d"
+                                            class="w-full sm:w-1/3 rounded-md px-3 py-4 sm:mx-2 mb-2 sm:mb-0 text-center focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.dobD.$error }"
+                                            placeholder="Day (DD)" v-mask="dobDayMask" v-model="form.dobD">
+                                        <input type="tel" id="dob-year" name="dob-y"
+                                            class="w-full sm:w-1/3 rounded-md px-3 py-4 mb-2 sm:mb-0 text-center focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.dobY.$error }"
+                                            placeholder="Year (YYYY)" v-mask="dobYearMask" v-model="form.dobY">
+                                    </div>
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.dobM.required">Please enter
+                                        your month of birth.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.dobD.required">Please
+                                        enter your day of birth.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.dobY.required">Please
+                                        enter your year of birth.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.dobY.isValidYear">Please
+                                        enter a year between {{ form.yMn }} and {{ form.yMx }}.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.dobD.isValidDate">Please
+                                        enter a valid day of birth.</div>
+                                </div>
+                                <div class="step-box-btn" @click="dobCheck()">Next <i
+                                        class="fas fa-right-long fa-fw"></i></div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                                <div class="step-box-skip" @click="skipDob()">Skip</div>
+                            </div>
+                            <div id="step10" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What is your estimated height and weight?</div>
+                                <div class="w-full mb-3">
+                                    <div class="font-medium w-full text-left">Height</div>
+                                    <div class="flex flex-col sm:flex-row items-center gap-1">
+                                        <input type="tel" name="height-ft"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.heightFt.$error }"
+                                            placeholder="Feet" v-mask="heightFtMask" v-model="form.heightFt">
+                                        <input type="tel" name="height-in"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.heightIn.$error }"
+                                            placeholder="Inches" v-mask="heightInMask" v-model="form.heightIn">
+                                    </div>
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.heightFt.required">Please
+                                        enter
+                                        your height (feet).</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.heightIn.required">
+                                        Please
+                                        enter your height (inches).</div>
+                                </div>
+                                <div class="w-full mb-3">
+                                    <div class="font-medium w-full text-left">Weight</div>
+                                    <div class="flex flex-col sm:flex-row items-center gap-1">
+                                        <input type="tel" name="weight-lbs"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.weightLbs.$error }"
+                                            placeholder="Pounds (lbs)" v-mask="weightLbsMask" v-model="form.weightLbs">
+                                    </div>
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.weightLbs.required">Please
+                                        enter
+                                        your weight (lbs).</div>
+                                </div>
+                                <div class="step-box-btn" @click="submit()">Next <i class="fas fa-right-long fa-fw"></i>
+                                </div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i>
+                                    Back
+                                </div>
+                            </div>
+                            <div id="step11" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What is your address?</div>
+                                <div
+                                    class="w-full text-blue-600 bg-blue-100 border border-solid border-blue-300 rounded-md p-3 mb-3">
+                                    <i class="fas fa-circle-info fa-fw"></i> We verify your location to provide local
+                                    quotes in your area.
+                                </div>
+                                <div class="w-full mb-3">
+                                    <input type="text" name="address"
+                                        class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500 uppercase placeholder:normal-case"
+                                        :class="{ 'error-input': formSubmitted && $v.form.address.$error }"
+                                        placeholder="Enter Your Address" v-model="form.address">
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.address.required">Please
+                                        enter your address.</div>
+                                </div>
+                                <div id="csz-text-wrap" class="w-full bg-gray-200 mb-3 text-left p-3 rounded-md"><a
+                                        class="text-slate-400 hover:text-blue-500 transition-colors duration-500"
+                                        href="#"
+                                        @click.prevent="editCsz()">{{ form.city+' '+form.state+', '+form.zip }}&nbsp;&nbsp;<i
+                                            class="fas fa-pen-to-square fa-fw"></i></a></div>
+                                <div id="csz-fields-wrap" class="w-full">
+                                    <div class="w-full mb-3">
+                                        <input type="text" name="city"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500 uppercase placeholder:normal-case"
+                                            :class="{ 'error-input': formSubmitted && $v.form.city.$error }"
+                                            placeholder="Enter Your City" v-model="form.city">
+                                        <div class="error-msg" v-if="formSubmitted && !$v.form.city.required">Please
+                                            enter your city.</div>
+                                    </div>
+                                    <div class="w-full mb-3">
+                                        <select name="state"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.state.$error }"
+                                            v-model="form.state">
+                                            <option value="">Select a State</option>
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <option value="AR">Arkansas</option>
+                                            <option value="CA">California</option>
+                                            <option value="CO">Colorado</option>
+                                            <option value="CT">Connecticut</option>
+                                            <option value="DE">Delaware</option>
+                                            <option value="DC">District Of Columbia</option>
+                                            <option value="FL">Florida</option>
+                                            <option value="GA">Georgia</option>
+                                            <option value="HI">Hawaii</option>
+                                            <option value="ID">Idaho</option>
+                                            <option value="IL">Illinois</option>
+                                            <option value="IN">Indiana</option>
+                                            <option value="IA">Iowa</option>
+                                            <option value="KS">Kansas</option>
+                                            <option value="KY">Kentucky</option>
+                                            <option value="LA">Louisiana</option>
+                                            <option value="ME">Maine</option>
+                                            <option value="MD">Maryland</option>
+                                            <option value="MA">Massachusetts</option>
+                                            <option value="MI">Michigan</option>
+                                            <option value="MN">Minnesota</option>
+                                            <option value="MS">Mississippi</option>
+                                            <option value="MO">Missouri</option>
+                                            <option value="MT">Montana</option>
+                                            <option value="NE">Nebraska</option>
+                                            <option value="NV">Nevada</option>
+                                            <option value="NH">New Hampshire</option>
+                                            <option value="NJ">New Jersey</option>
+                                            <option value="NM">New Mexico</option>
+                                            <option value="NY">New York</option>
+                                            <option value="NC">North Carolina</option>
+                                            <option value="ND">North Dakota</option>
+                                            <option value="OH">Ohio</option>
+                                            <option value="OK">Oklahoma</option>
+                                            <option value="OR">Oregon</option>
+                                            <option value="PA">Pennsylvania</option>
+                                            <option value="RI">Rhode Island</option>
+                                            <option value="SC">South Carolina</option>
+                                            <option value="SD">South Dakota</option>
+                                            <option value="TN">Tennessee</option>
+                                            <option value="TX">Texas</option>
+                                            <option value="UT">Utah</option>
+                                            <option value="VT">Vermont</option>
+                                            <option value="VA">Virginia</option>
+                                            <option value="WA">Washington</option>
+                                            <option value="WV">West Virginia</option>
+                                            <option value="WI">Wisconsin</option>
+                                            <option value="WY">Wyoming</option>
+                                        </select>
+                                        <div class="error-msg" v-if="formSubmitted && !$v.form.state.required">Please
+                                            select your state.</div>
+                                    </div>
+                                    <div class="w-full mb-3">
+                                        <input type="tel" name="zip"
+                                            class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                            :class="{ 'error-input': formSubmitted && $v.form.zip.$error }"
+                                            placeholder="Enter Your Zip Code" v-mask="zipCodeMaskUS" v-model="form.zip">
+                                        <div class="error-msg" v-if="formSubmitted && !$v.form.zip.required">Please
+                                            enter your zip code.</div>
+                                        <div class="error-msg" v-else-if="formSubmitted && !$v.form.zip.validZipCodeUS">
+                                            Please enter a valid U.S. zip code.</div>
+                                    </div>
+                                </div>
+                                <div class="step-box-btn" @click="submit()">Next <i class="fas fa-right-long fa-fw"></i>
+                                </div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step12" class="steps-n step-box !hidden">
+                                <div class="step-box-header">What is your full name?</div>
+                                <div class="w-full mb-3">
+                                    <input type="text" name="firstname"
+                                        class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500 uppercase placeholder:normal-case"
+                                        :class="{ 'error-input': formSubmitted && $v.form.firstName.$error }"
+                                        placeholder="Enter Your First Name" v-model="form.firstName">
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.firstName.required">Please
+                                        enter your first name.</div>
+                                </div>
+                                <div class="w-full mb-3">
+                                    <input type="text" name="lastname"
+                                        class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500 uppercase placeholder:normal-case"
+                                        :class="{ 'error-input': formSubmitted && $v.form.lastName.$error }"
+                                        placeholder="Enter Your Last Name" v-model="form.lastName">
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.lastName.required">Please
+                                        enter your last name.</div>
+                                </div>
+                                <div class="step-box-btn" @click="submit()">Next <i class="fas fa-right-long fa-fw"></i>
+                                </div>
+                                <div class="step-box-back" @click="back()"><i class="fas fa-left-long fa-fw"></i> Back
+                                </div>
+                            </div>
+                            <div id="step13" class="steps-n step-box !hidden">
+                                <div class="step-box-header">Thanks {{ form.firstName }}, your
+                                    quote is almost ready! Where do we send it?</div>
+                                <div class="w-full mb-3">
+                                    <input type="email" name="email-address"
+                                        class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500 lowercase placeholder:normal-case"
+                                        :class="{ 'error-input': formSubmitted && $v.form.email.$error }"
+                                        placeholder="Enter Your Email Address" v-model="form.email">
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.email.required">Please enter
+                                        your email address.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.email.email">Please
+                                        enter a valid email address.</div>
+                                </div>
+                                <div class="w-full mb-3">
+                                    <input type="tel" name="phone-number"
+                                        class="w-full rounded-md px-3 py-4 focus:outline-none text-xl text-black shadow-sm border border-solid border-slate-300 hover:border-slate-500 transition-colors duration-500"
+                                        :class="{ 'error-input': formSubmitted && $v.form.phone.$error }"
+                                        placeholder="Enter Your Phone Number" v-mask="phoneMaskUS" v-model="form.phone">
+                                    <div class="error-msg" v-if="formSubmitted && !$v.form.phone.required">Please enter
+                                        your phone number.</div>
+                                    <div class="error-msg" v-else-if="formSubmitted && !$v.form.phone.validPhoneUS">
+                                        Please enter a valid U.S. phone number.</div>
+                                </div>
+                                <div class="step-box-btn anim-wiggle" @click="submit()">Get My Quote</div>
+                                <div id="consent-language"
+                                    class="bg-slate-50 text-gray-700 text-xs text-left p-3 mb-3 rounded-md">
+                                    <label><input type="hidden" id="leadid_tcpa_disclosure" />DISCLAIMER: By clicking
+                                        “Get My Quote” and submitting your information, you provide your express written
+                                        consent via electronic signature to receive emails, telephone calls, text
+                                        messages (SMS), artificial or pre-recorded messages, and chat communications
+                                        from <span class="link"><?php echo $domain_styled; ?></span>, its subsidiaries,
+                                        licensed insurance agents, and
+                                        third-party marketing or service partners regarding their life insurance
+                                        products and services, including Final Expense policies, at the email address
+                                        and phone number you provided, including wireless numbers, even if your number
+                                        is listed on any state or federal Do Not Call registry. You may be contacted via
+                                        a live agent, automated dialing system, pre-recorded voice, or SMS text for
+                                        marketing purposes in compliance with applicable federal and state laws. Your
+                                        consent is not required to make a purchase, and you may obtain a quote by
+                                        calling <?php echo $ringba_did; ?>. Message and data rates may apply. Message
+                                        frequency
+                                        varies. Text STOP to opt out at any time.
+                                        <br><br>
+                                        By submitting this form, you also agree to our <a class="link"
+                                            href="<?php echo $privacy_url; ?>" target="_blank">Privacy Policy</a> and <a
+                                            class="link" href="<?php echo $terms_url; ?>" target="_blank">Terms of
+                                            Use</a>. This website collects your phone number, email, name, address, date
+                                        of
+                                        birth, income, and ZIP code to provide you with a quote and connect you with
+                                        licensed agents offering available plans. Availability of products and carriers
+                                        may vary by state.</label>
+                                </div>
+                            </div>
+                            <div id="step14" class="step-box step-result !hidden">
+                                <div class="w-full"><img
+                                        class="w-12 mx-auto animate__animated animate__bounceIn animate__slow"
+                                        src="/assets/img/checkmark-green-100x100.png" alt="Success!" /></div>
+                                <div class="h-text py-3">
+                                    Congratulations! You're pre-qualified for a <span>Final Expense Insurance
+                                        program</span> with up to <span>$25,000 in funeral and burial coverage</span>.
+                                </div>
+                                <div class="sub-text pb-3">Your loved ones
+                                    can use it to pay for your final expenses and provide cash relief for funeral,
+                                    cemetery plot, headstone, funeral home services, etc…</div>
+                                <div class="sub-text font-bold">
+                                    <strong>Tap Below to Call and Activate Your Benefits, It only takes 2
+                                        minutes.</strong>
+                                </div>
+                                <div class="w-full">
+                                    <a id="call-btn" href="<?php echo $ringba_did_href; ?>"
+                                        class="call-btn phone-icon block w-full anim-wiggle">
+                                        <span class="call-btn-text"><?php echo $ringba_did; ?></span>
+                                        <span class="call-btn-tty"><?php echo " | TTY {$default_tty}"; ?></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="py-10">
+            <div class="container">
+                <div class="text-gray-600 text-sm" v-if="currStep===1">
+                    <p class="mb-3"><b>DISCLAIMER:</b> By using this website, you consent to the real-time collection,
+                        storage, use,
+                        and sharing of information from your device or provided by you (such as mouse movements, clicks,
+                        and form entries) by <a class="link" href="/"><?php echo $domain_styled; ?></a> and/or its
+                        third-party service providers. Please review our <a class="link"
+                            href="<?php echo $privacy_url; ?>" target="_blank">Privacy Policy</a> for more details. This
+                        website helps consumers learn about and compare Final Expense life insurance options by
+                        connecting them with licensed insurance agents.</p>
+                    <p class="mb-3"><a class="link" href="/"><?php echo $domain_styled; ?></a> is a privately owned and
+                        operated
+                        insurance marketing website. This site is
+                        <b>not affiliated with or endorsed by any government agency</b>, and there is <b>no obligation
+                            to
+                            purchase</b>.
+                        License numbers are available upon request and are provided where required by law. Insurance
+                        product availability and features may vary by carrier and location. Certain benefits and
+                        features are not available in all states and may be subject to limitations and exclusions.
+                    </p>
+                    <p>If you are a California resident and wish to opt out of the sale or sharing of your personal
+                        information, please click on <a class="link" href="<?php echo $dontsellmyinfo_url; ?>"
+                            target="_blank">Do Not Sell My Personal Information</a> for more information. We are
+                        committed to protecting your privacy.</p>
+                </div>
+            </div>
+        </section>
+        <?php require_once realpath(__DIR__ . '/components/home-footer.php'); ?>
+    </div>
+
+    <?php if (isset($add_trustedform) && $add_trustedform) {
+        require_once $trusted_form;
+    } ?>
+    <?php if (isset($add_jornaya) && $add_jornaya) {
+        require_once $jornaya_v2;
+    } ?>
+    <?php if (isset($is_zip_lookup) && $is_zip_lookup) : ?>
+    <script src="/zip-lookup/zip-lookup.min.js"></script>
+    <?php endif; ?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"
+        integrity="sha512-BUlWdwDeJo24GIubM+z40xcj/pjw7RuULBkxOTc+0L9BaGwZPwiwtbiSVzv31qR7TWx7bs6OPTE5IyfLOorboQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.7/dist/vuelidate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuelidate@0.7.7/dist/validators.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/v-mask/dist/v-mask.min.js"></script>
+    <?php echo $mainJsTag ?? ""; ?>
+    <?php if (isset($ringba_implementation) && $ringba_implementation === IMPLEMENTATION_JS) {
+        require_once $ringba_call_tracking_option1;
+    } ?>
+</body>
+
+</html>

@@ -57,30 +57,82 @@ export const monthlyBudgetSchema = z.enum([
   "$150+/month"
 ]);
 
-export const veteranQuizSchema = z.object({
-  militaryBranch: militaryBranchSchema,
-  state: usStateSchema,
-  age: ageRangeSchema,
+export const genderSchema = z.enum([
+  "Male",
+  "Female"
+]);
+
+export const lifeInsuranceStatusSchema = z.enum([
+  "Yes",
+  "No"
+]);
+
+export const cashAmountSchema = z.enum([
+  "$0-$5,000",
+  "$5,000-$10,000",
+  "$10,000-$15,000",
+  "$15,000-$20,000",
+  "$20,000+"
+]);
+
+// New comprehensive quiz schema with all 15 questions
+export const seniorQuizSchema = z.object({
+  gender: genderSchema,
+  hasLifeInsurance: lifeInsuranceStatusSchema,
+  cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  coverage: coverageAmountSchema,
-  budget: monthlyBudgetSchema,
+  age: ageRangeSchema,
+  beneficiaryName: z.string().min(1),
+  hobby: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  zipCode: z.string().regex(/^\d{5}$/),
+  email: z.string().email(),
+  phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/),
+  streetAddress: z.string().min(1),
+  city: z.string().min(1),
+  state: usStateSchema,
+  county: z.string().min(1),
 });
 
-export const seniorQuizSchema = z.object({
-  state: usStateSchema,
-  age: ageRangeSchema,
+export const veteranQuizSchema = z.object({
+  militaryBranch: militaryBranchSchema,
+  gender: genderSchema,
+  hasLifeInsurance: lifeInsuranceStatusSchema,
+  cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  coverage: coverageAmountSchema,
-  budget: monthlyBudgetSchema,
+  age: ageRangeSchema,
+  beneficiaryName: z.string().min(1),
+  hobby: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  zipCode: z.string().regex(/^\d{5}$/),
+  email: z.string().email(),
+  phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/),
+  streetAddress: z.string().min(1),
+  city: z.string().min(1),
+  state: usStateSchema,
+  county: z.string().min(1),
 });
 
 export const firstResponderQuizSchema = z.object({
   agency: firstResponderAgencySchema,
-  state: usStateSchema,
-  age: ageRangeSchema,
+  gender: genderSchema,
+  hasLifeInsurance: lifeInsuranceStatusSchema,
+  cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  coverage: coverageAmountSchema,
-  budget: monthlyBudgetSchema,
+  age: ageRangeSchema,
+  beneficiaryName: z.string().min(1),
+  hobby: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  zipCode: z.string().regex(/^\d{5}$/),
+  email: z.string().email(),
+  phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/),
+  streetAddress: z.string().min(1),
+  city: z.string().min(1),
+  state: usStateSchema,
+  county: z.string().min(1),
 });
 
 export type VeteranQuizData = z.infer<typeof veteranQuizSchema>;
@@ -93,3 +145,6 @@ export type AgeRange = z.infer<typeof ageRangeSchema>;
 export type Beneficiary = z.infer<typeof beneficiarySchema>;
 export type CoverageAmount = z.infer<typeof coverageAmountSchema>;
 export type MonthlyBudget = z.infer<typeof monthlyBudgetSchema>;
+export type Gender = z.infer<typeof genderSchema>;
+export type LifeInsuranceStatus = z.infer<typeof lifeInsuranceStatusSchema>;
+export type CashAmount = z.infer<typeof cashAmountSchema>;
