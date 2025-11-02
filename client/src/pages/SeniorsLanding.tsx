@@ -315,7 +315,7 @@ export default function SeniorsLanding() {
                     What is your zip code?
                   </h2>
                 </div>
-                <form onSubmit={handleZipCodeSubmit} className="max-w-md mx-auto">
+                <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
                   <Input
                     type="text"
                     value={formData.zipCode}
@@ -323,15 +323,15 @@ export default function SeniorsLanding() {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 5);
                       setFormData({ ...formData, zipCode: value });
                     }}
-                    placeholder="Enter 5-digit zip code"
-                    className="text-lg min-h-[50px]"
+                    placeholder="12345"
+                    className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center"
                     data-testid="input-zip-code"
                     maxLength={5}
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
                     data-testid="button-submit-zip-code"
                     disabled={isLoadingZip}
                   >
