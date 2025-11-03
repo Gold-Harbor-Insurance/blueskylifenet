@@ -91,8 +91,8 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
             <span className="text-xl md:text-2xl font-bold text-blue-500">50%</span>
           </div>
 
-          {/* Progress Steps - Stacked on mobile, horizontal on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          {/* Progress Steps - 2 per row on mobile, horizontal on desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             {progressSteps.map((step, index) => (
               <div key={index} className="flex items-start gap-3">
                 <div className={`flex-shrink-0 w-10 h-10 rounded flex items-center justify-center ${step.iconBg}`}>
