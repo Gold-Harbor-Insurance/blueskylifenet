@@ -610,7 +610,6 @@ export default function SeniorsLanding() {
                     pattern="[0-9]*"
                     value={formData.age}
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    onWheel={(e) => e.currentTarget.blur()}
                     min="18"
                     max="100"
                     className="text-2xl min-h-[60px] font-semibold text-center md:hidden"
