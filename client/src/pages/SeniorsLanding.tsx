@@ -221,6 +221,10 @@ export default function SeniorsLanding() {
       setErrors(prev => ({ ...prev, hobby: "Hobby must be at least 2 characters" }));
       return;
     }
+    if (!/^[a-zA-Z0-9\s]+$/.test(hobby)) {
+      setErrors(prev => ({ ...prev, hobby: "Hobby can only contain letters, numbers, and spaces" }));
+      return;
+    }
     
     setErrors(prev => ({ ...prev, hobby: "" }));
     setTimeout(() => setStep(9), 300);
@@ -425,6 +429,7 @@ export default function SeniorsLanding() {
     }
     
     setFormData({ ...formData, phone: formatted });
+    if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
   };
 
   const progress = (step / totalSteps) * 100;
@@ -710,12 +715,18 @@ export default function SeniorsLanding() {
                   <Input
                     type="text"
                     value={formData.beneficiaryName}
-                    onChange={(e) => setFormData({ ...formData, beneficiaryName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, beneficiaryName: e.target.value });
+                      if (errors.beneficiaryName) setErrors(prev => ({ ...prev, beneficiaryName: "" }));
+                    }}
                     placeholder="Enter beneficiary name"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.beneficiaryName ? 'border-red-500' : ''}`}
                     data-testid="input-beneficiary-name"
                     required
                   />
+                  {errors.beneficiaryName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.beneficiaryName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
@@ -739,12 +750,18 @@ export default function SeniorsLanding() {
                   <Input
                     type="text"
                     value={formData.hobby}
-                    onChange={(e) => setFormData({ ...formData, hobby: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, hobby: e.target.value });
+                      if (errors.hobby) setErrors(prev => ({ ...prev, hobby: "" }));
+                    }}
                     placeholder="Enter your hobby"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.hobby ? 'border-red-500' : ''}`}
                     data-testid="input-hobby"
                     required
                   />
+                  {errors.hobby && (
+                    <p className="text-red-600 text-sm mt-1">{errors.hobby}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
@@ -768,12 +785,18 @@ export default function SeniorsLanding() {
                   <Input
                     type="text"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, firstName: e.target.value });
+                      if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                    }}
                     placeholder="Enter your first name"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                     data-testid="input-first-name"
                     required
                   />
+                  {errors.firstName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
@@ -797,12 +820,18 @@ export default function SeniorsLanding() {
                   <Input
                     type="text"
                     value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, lastName: e.target.value });
+                      if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
+                    }}
                     placeholder="Enter your last name"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
                     data-testid="input-last-name"
                     required
                   />
+                  {errors.lastName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
@@ -826,12 +855,18 @@ export default function SeniorsLanding() {
                   <Input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                    }}
                     placeholder="Enter your email"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.email ? 'border-red-500' : ''}`}
                     data-testid="input-email"
                     required
                   />
+                  {errors.email && (
+                    <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
@@ -857,11 +892,14 @@ export default function SeniorsLanding() {
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     placeholder="(555) 555-5555"
-                    className="text-lg min-h-[50px]"
+                    className={`text-lg min-h-[50px] ${errors.phone ? 'border-red-500' : ''}`}
                     data-testid="input-phone"
                     maxLength={14}
                     required
                   />
+                  {errors.phone && (
+                    <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
@@ -882,15 +920,23 @@ export default function SeniorsLanding() {
                   </h2>
                 </div>
                 <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto space-y-3">
-                  <Input
-                    type="text"
-                    value={formData.streetAddress}
-                    onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                    placeholder="Street address"
-                    className="text-lg min-h-[50px]"
-                    data-testid="input-street-address"
-                    required
-                  />
+                  <div>
+                    <Input
+                      type="text"
+                      value={formData.streetAddress}
+                      onChange={(e) => {
+                        setFormData({ ...formData, streetAddress: e.target.value });
+                        if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
+                      }}
+                      placeholder="Street address"
+                      className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
+                      data-testid="input-street-address"
+                      required
+                    />
+                    {errors.streetAddress && (
+                      <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
+                    )}
+                  </div>
                   <Input
                     type="text"
                     value={formData.city}
@@ -940,16 +986,24 @@ export default function SeniorsLanding() {
                   </p>
                 </div>
                 <form onSubmit={handleCountySubmit} className="max-w-md mx-auto space-y-4">
-                  <Input
-                    type="text"
-                    list="county-list"
-                    value={formData.county}
-                    onChange={(e) => setFormData({ ...formData, county: e.target.value })}
-                    placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
-                    className="text-lg min-h-[50px]"
-                    data-testid="input-county"
-                    required
-                  />
+                  <div>
+                    <Input
+                      type="text"
+                      list="county-list"
+                      value={formData.county}
+                      onChange={(e) => {
+                        setFormData({ ...formData, county: e.target.value });
+                        if (errors.county) setErrors(prev => ({ ...prev, county: "" }));
+                      }}
+                      placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
+                      className={`text-lg min-h-[50px] ${errors.county ? 'border-red-500' : ''}`}
+                      data-testid="input-county"
+                      required
+                    />
+                    {errors.county && (
+                      <p className="text-red-600 text-sm mt-1">{errors.county}</p>
+                    )}
+                  </div>
                   <datalist id="county-list">
                     {availableCounties.map((county) => (
                       <option key={county} value={county} />

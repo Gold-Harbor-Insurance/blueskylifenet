@@ -64,6 +64,17 @@ export default function FirstRespondersLanding() {
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [availableCounties, setAvailableCounties] = useState<string[]>([]);
+  const [errors, setErrors] = useState({
+    zipCode: "",
+    beneficiaryName: "",
+    hobby: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    streetAddress: "",
+    county: ""
+  });
   
   const [formData, setFormData] = useState({
     agency: "" as FirstResponderAgency | "",
@@ -128,24 +139,28 @@ export default function FirstRespondersLanding() {
   // Q2: Zip Code (auto-detected, editable)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.zipCode.match(/^\d{5}$/)) {
-      setIsLoadingZip(true);
-      const zipData = await lookupZipCode(formData.zipCode);
-      
-      if (zipData) {
-        setFormData(prev => ({
-          ...prev,
-          city: zipData.city,
-          state: zipData.stateAbbr as USState,
-        }));
-        // Update available counties for the state
-        const counties = getCountiesByState(zipData.stateAbbr);
-        setAvailableCounties(counties);
-      }
-      
-      setIsLoadingZip(false);
-      setTimeout(() => setStep(3), 300);
+    if (!formData.zipCode.match(/^\d{5}$/)) {
+      setErrors(prev => ({ ...prev, zipCode: "Please enter a valid 5-digit ZIP code" }));
+      return;
     }
+    
+    setErrors(prev => ({ ...prev, zipCode: "" }));
+    setIsLoadingZip(true);
+    const zipData = await lookupZipCode(formData.zipCode);
+    
+    if (zipData) {
+      setFormData(prev => ({
+        ...prev,
+        city: zipData.city,
+        state: zipData.stateAbbr as USState,
+      }));
+      // Update available counties for the state
+      const counties = getCountiesByState(zipData.stateAbbr);
+      setAvailableCounties(counties);
+    }
+    
+    setIsLoadingZip(false);
+    setTimeout(() => setStep(3), 300);
   };
 
   // Q3: Gender
@@ -181,66 +196,160 @@ export default function FirstRespondersLanding() {
   // Q8: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.beneficiaryName.trim()) {
-      setTimeout(() => setStep(9), 300);
+    const name = formData.beneficiaryName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Please enter beneficiary name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, beneficiaryName: "" }));
+    setTimeout(() => setStep(9), 300);
   };
 
   // Q9: Hobby
   const handleHobbySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.hobby.trim()) {
-      setTimeout(() => setStep(10), 300);
+    const hobby = formData.hobby.trim();
+    
+    if (!hobby) {
+      setErrors(prev => ({ ...prev, hobby: "Please enter your hobby" }));
+      return;
     }
+    if (hobby.length < 2) {
+      setErrors(prev => ({ ...prev, hobby: "Hobby must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z0-9\s]+$/.test(hobby)) {
+      setErrors(prev => ({ ...prev, hobby: "Hobby can only contain letters, numbers, and spaces" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, hobby: "" }));
+    setTimeout(() => setStep(10), 300);
   };
 
   // Q10: First Name
   const handleFirstNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.firstName.trim()) {
-      setTimeout(() => setStep(11), 300);
+    const name = formData.firstName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, firstName: "" }));
+    setTimeout(() => setStep(11), 300);
   };
 
   // Q11: Last Name
   const handleLastNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.lastName.trim()) {
-      setTimeout(() => setStep(12), 300);
+    const name = formData.lastName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, lastName: "" }));
+    setTimeout(() => setStep(12), 300);
   };
 
   // Q12: Email
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(formData.email)) {
-      setTimeout(() => setStep(13), 300);
+    
+    if (!formData.email.trim()) {
+      setErrors(prev => ({ ...prev, email: "Please enter your email address" }));
+      return;
     }
+    if (!emailRegex.test(formData.email)) {
+      setErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, email: "" }));
+    setTimeout(() => setStep(13), 300);
   };
 
   // Q13: Phone
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
-      setTimeout(() => setStep(14), 300);
+    
+    if (!formData.phone.trim()) {
+      setErrors(prev => ({ ...prev, phone: "Please enter your phone number" }));
+      return;
     }
+    if (!formData.phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
+      setErrors(prev => ({ ...prev, phone: "Please enter a valid phone number" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, phone: "" }));
+    setTimeout(() => setStep(14), 300);
   };
 
   // Q14: Street Address (with disabled city/state/zip fields)
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.streetAddress.trim()) {
-      setTimeout(() => setStep(15), 300);
+    const address = formData.streetAddress.trim();
+    
+    if (!address) {
+      setErrors(prev => ({ ...prev, streetAddress: "Please enter your street address" }));
+      return;
     }
+    if (address.length < 5) {
+      setErrors(prev => ({ ...prev, streetAddress: "Address must be at least 5 characters" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, streetAddress: "" }));
+    setTimeout(() => setStep(15), 300);
   };
 
   // Q15: County
   const handleCountySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.county.trim()) {
-      setTimeout(() => setStep(16), 300);
+    const county = formData.county.trim();
+    
+    if (!county) {
+      setErrors(prev => ({ ...prev, county: "Please enter your county" }));
+      return;
     }
+    if (county.length < 2) {
+      setErrors(prev => ({ ...prev, county: "County must be at least 2 characters" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, county: "" }));
+    setTimeout(() => setStep(16), 300);
   };
 
   // Q16: Monthly Budget (triggers Ringba API)
@@ -329,6 +438,7 @@ export default function FirstRespondersLanding() {
     }
     
     setFormData({ ...formData, phone: formatted });
+    if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
   };
 
   const progress = (step / totalSteps) * 100;
@@ -467,13 +577,17 @@ export default function FirstRespondersLanding() {
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 5);
                       setFormData({ ...formData, zipCode: value });
+                      if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
                     }}
                     placeholder="12345"
-                    className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center input-zip-code"
+                    className={`text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center ${errors.zipCode ? 'border-red-500' : ''}`}
                     data-testid="input-zip-code"
                     maxLength={5}
                     required
                   />
+                  {errors.zipCode && (
+                    <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-zip-code"
@@ -641,12 +755,18 @@ export default function FirstRespondersLanding() {
                   <Input
                     type="text"
                     value={formData.beneficiaryName}
-                    onChange={(e) => setFormData({ ...formData, beneficiaryName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, beneficiaryName: e.target.value });
+                      if (errors.beneficiaryName) setErrors(prev => ({ ...prev, beneficiaryName: "" }));
+                    }}
                     placeholder="Enter beneficiary name"
-                    className="text-lg min-h-[50px] input-beneficiary-name"
+                    className={`text-lg min-h-[50px] ${errors.beneficiaryName ? 'border-red-500' : ''}`}
                     data-testid="input-beneficiary-name"
                     required
                   />
+                  {errors.beneficiaryName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.beneficiaryName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
@@ -670,12 +790,18 @@ export default function FirstRespondersLanding() {
                   <Input
                     type="text"
                     value={formData.hobby}
-                    onChange={(e) => setFormData({ ...formData, hobby: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, hobby: e.target.value });
+                      if (errors.hobby) setErrors(prev => ({ ...prev, hobby: "" }));
+                    }}
                     placeholder="Enter your hobby"
-                    className="text-lg min-h-[50px] input-hobby"
+                    className={`text-lg min-h-[50px] ${errors.hobby ? 'border-red-500' : ''}`}
                     data-testid="input-hobby"
                     required
                   />
+                  {errors.hobby && (
+                    <p className="text-red-600 text-sm mt-1">{errors.hobby}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
@@ -699,12 +825,18 @@ export default function FirstRespondersLanding() {
                   <Input
                     type="text"
                     value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, firstName: e.target.value });
+                      if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                    }}
                     placeholder="Enter your first name"
-                    className="text-lg min-h-[50px] input-first-name"
+                    className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                     data-testid="input-first-name"
                     required
                   />
+                  {errors.firstName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
@@ -728,12 +860,18 @@ export default function FirstRespondersLanding() {
                   <Input
                     type="text"
                     value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, lastName: e.target.value });
+                      if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
+                    }}
                     placeholder="Enter your last name"
-                    className="text-lg min-h-[50px] input-last-name"
+                    className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
                     data-testid="input-last-name"
                     required
                   />
+                  {errors.lastName && (
+                    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
@@ -757,12 +895,18 @@ export default function FirstRespondersLanding() {
                   <Input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, email: e.target.value });
+                      if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                    }}
                     placeholder="Enter your email"
-                    className="text-lg min-h-[50px] input-email"
+                    className={`text-lg min-h-[50px] ${errors.email ? 'border-red-500' : ''}`}
                     data-testid="input-email"
                     required
                   />
+                  {errors.email && (
+                    <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
@@ -788,11 +932,14 @@ export default function FirstRespondersLanding() {
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     placeholder="(555) 555-5555"
-                    className="text-lg min-h-[50px] input-phone"
+                    className={`text-lg min-h-[50px] ${errors.phone ? 'border-red-500' : ''}`}
                     data-testid="input-phone"
                     maxLength={14}
                     required
                   />
+                  {errors.phone && (
+                    <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
@@ -813,15 +960,23 @@ export default function FirstRespondersLanding() {
                   </h2>
                 </div>
                 <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto space-y-3">
-                  <Input
-                    type="text"
-                    value={formData.streetAddress}
-                    onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                    placeholder="Street address"
-                    className="text-lg min-h-[50px] input-street-address"
-                    data-testid="input-street-address"
-                    required
-                  />
+                  <div>
+                    <Input
+                      type="text"
+                      value={formData.streetAddress}
+                      onChange={(e) => {
+                        setFormData({ ...formData, streetAddress: e.target.value });
+                        if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
+                      }}
+                      placeholder="Street address"
+                      className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
+                      data-testid="input-street-address"
+                      required
+                    />
+                    {errors.streetAddress && (
+                      <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
+                    )}
+                  </div>
                   <Input
                     type="text"
                     value={formData.city}
@@ -871,16 +1026,24 @@ export default function FirstRespondersLanding() {
                   </p>
                 </div>
                 <form onSubmit={handleCountySubmit} className="max-w-md mx-auto space-y-4">
-                  <Input
-                    type="text"
-                    list="county-list"
-                    value={formData.county}
-                    onChange={(e) => setFormData({ ...formData, county: e.target.value })}
-                    placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
-                    className="text-lg min-h-[50px] input-county"
-                    data-testid="input-county"
-                    required
-                  />
+                  <div>
+                    <Input
+                      type="text"
+                      list="county-list"
+                      value={formData.county}
+                      onChange={(e) => {
+                        setFormData({ ...formData, county: e.target.value });
+                        if (errors.county) setErrors(prev => ({ ...prev, county: "" }));
+                      }}
+                      placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
+                      className={`text-lg min-h-[50px] ${errors.county ? 'border-red-500' : ''}`}
+                      data-testid="input-county"
+                      required
+                    />
+                    {errors.county && (
+                      <p className="text-red-600 text-sm mt-1">{errors.county}</p>
+                    )}
+                  </div>
                   <datalist id="county-list">
                     {availableCounties.map((county) => (
                       <option key={county} value={county} />
