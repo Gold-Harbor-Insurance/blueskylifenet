@@ -639,19 +639,21 @@ export default function VeteransLanding() {
                   </h2>
                 </div>
                 <form onSubmit={handleAgeSubmit} className="max-w-xs mx-auto">
-                  {/* Mobile/Tablet: Native scroll wheel */}
-                  <Input
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
+                  {/* Mobile/Tablet: Native scroll wheel picker */}
+                  <select
                     value={formData.age}
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    min="18"
-                    max="100"
-                    className="text-2xl min-h-[60px] font-semibold text-center md:hidden"
-                    data-testid="input-age-mobile"
+                    className="w-full text-2xl min-h-[60px] font-semibold text-center md:hidden border-2 border-gray-300 rounded-md px-4"
+                    data-testid="select-age-mobile"
                     required
-                  />
+                  >
+                    <option value="">Select your age</option>
+                    {Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+                      <option key={age} value={age.toString()}>
+                        {age}
+                      </option>
+                    ))}
+                  </select>
                   
                   {/* Desktop: Dropdown menu */}
                   <div className="hidden md:flex md:justify-center">
