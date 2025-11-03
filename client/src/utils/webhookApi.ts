@@ -9,7 +9,7 @@ interface WebhookPayload {
   life_insurance: string;
   coverage_amount: string;
   beneficiary: string;
-  age_classification: string;
+  age: string;
   beneficiary_name: string;
   first_name: string;
   last_name: string;

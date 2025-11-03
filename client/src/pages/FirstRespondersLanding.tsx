@@ -368,7 +368,7 @@ export default function FirstRespondersLanding() {
         coverage_amount: formData.cashAmount,
         monthly_budget: formData.monthlyBudget,
         beneficiary: formData.beneficiary,
-        age_classification: formData.age,
+        age: formData.age,
         beneficiary_name: formData.beneficiaryName,
         first_name: formData.firstName,
         last_name: formData.lastName,
