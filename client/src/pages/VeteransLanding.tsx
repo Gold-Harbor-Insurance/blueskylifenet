@@ -67,12 +67,12 @@ export default function VeteransLanding() {
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
-    hobby: "",
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     streetAddress: "",
+    city: "",
     county: ""
   });
   
@@ -87,7 +87,6 @@ export default function VeteransLanding() {
     beneficiary: "" as Beneficiary | "",
     age: "" as AgeRange | "",
     beneficiaryName: "",
-    hobby: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -136,7 +135,103 @@ export default function VeteransLanding() {
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Zip Code (auto-detected, editable)
+  // Q2: Gender
+  const handleGenderSelect = (gender: Gender) => {
+    setFormData({ ...formData, gender });
+    setTimeout(() => setStep(3), 300);
+  };
+
+  // Q3: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
+    setTimeout(() => setStep(4), 300);
+  };
+
+  // Q4: Cash Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
+    setTimeout(() => setStep(5), 300);
+  };
+
+  // Q5: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
+    setTimeout(() => setStep(6), 300);
+  };
+
+  // Q6: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSelect = (age: AgeRange) => {
+    setFormData({ ...formData, age });
+    setTimeout(() => setStep(7), 300);
+  };
+
+  // Q7: Beneficiary Name
+  const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = formData.beneficiaryName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Please enter beneficiary name" }));
+      return;
+    }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, beneficiaryName: "" }));
+    setTimeout(() => setStep(8), 300);
+  };
+
+  // Q8: First Name
+  const handleFirstNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = formData.firstName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
+      return;
+    }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, firstName: "" }));
+    setTimeout(() => setStep(9), 300);
+  };
+
+  // Q9: Last Name
+  const handleLastNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const name = formData.lastName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
+      return;
+    }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, lastName: "" }));
+    setTimeout(() => setStep(10), 300);
+  };
+
+  // Q10: Zip Code (auto-detected, editable)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.zipCode.match(/^\d{5}$/)) {
@@ -160,128 +255,10 @@ export default function VeteransLanding() {
     }
     
     setIsLoadingZip(false);
-    setTimeout(() => setStep(3), 300);
-  };
-
-  // Q3: Gender
-  const handleGenderSelect = (gender: Gender) => {
-    setFormData({ ...formData, gender });
-    setTimeout(() => setStep(4), 300);
-  };
-
-  // Q4: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
-    setTimeout(() => setStep(5), 300);
-  };
-
-  // Q5: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
-    setTimeout(() => setStep(6), 300);
-  };
-
-  // Q6: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
-    setTimeout(() => setStep(7), 300);
-  };
-
-  // Q7: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSelect = (age: AgeRange) => {
-    setFormData({ ...formData, age });
-    setTimeout(() => setStep(8), 300);
-  };
-
-  // Q8: Beneficiary Name
-  const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = formData.beneficiaryName.trim();
-    
-    if (!name) {
-      setErrors(prev => ({ ...prev, beneficiaryName: "Please enter beneficiary name" }));
-      return;
-    }
-    if (name.length < 2) {
-      setErrors(prev => ({ ...prev, beneficiaryName: "Name must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
-      setErrors(prev => ({ ...prev, beneficiaryName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(9), 300);
-  };
-
-  // Q9: Hobby
-  const handleHobbySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const hobby = formData.hobby.trim();
-    
-    if (!hobby) {
-      setErrors(prev => ({ ...prev, hobby: "Please enter your hobby" }));
-      return;
-    }
-    if (hobby.length < 2) {
-      setErrors(prev => ({ ...prev, hobby: "Hobby must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z0-9\s]+$/.test(hobby)) {
-      setErrors(prev => ({ ...prev, hobby: "Hobby can only contain letters, numbers, and spaces" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, hobby: "" }));
-    setTimeout(() => setStep(10), 300);
-  };
-
-  // Q10: First Name
-  const handleFirstNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = formData.firstName.trim();
-    
-    if (!name) {
-      setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
-      return;
-    }
-    if (name.length < 2) {
-      setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
-      setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, firstName: "" }));
     setTimeout(() => setStep(11), 300);
   };
 
-  // Q11: Last Name
-  const handleLastNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = formData.lastName.trim();
-    
-    if (!name) {
-      setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
-      return;
-    }
-    if (name.length < 2) {
-      setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
-      setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, lastName: "" }));
-    setTimeout(() => setStep(12), 300);
-  };
-
-  // Q12: Email
+  // Q11: Email
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -296,10 +273,10 @@ export default function VeteransLanding() {
     }
     
     setErrors(prev => ({ ...prev, email: "" }));
-    setTimeout(() => setStep(13), 300);
+    setTimeout(() => setStep(12), 300);
   };
 
-  // Q13: Phone
+  // Q12: Phone
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -313,10 +290,10 @@ export default function VeteransLanding() {
     }
     
     setErrors(prev => ({ ...prev, phone: "" }));
-    setTimeout(() => setStep(14), 300);
+    setTimeout(() => setStep(13), 300);
   };
 
-  // Q14: Street Address (with disabled city/state/zip fields)
+  // Q13: Street Address (only street address, no city/state/zip)
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const address = formData.streetAddress.trim();
@@ -331,6 +308,28 @@ export default function VeteransLanding() {
     }
     
     setErrors(prev => ({ ...prev, streetAddress: "" }));
+    setTimeout(() => setStep(14), 300);
+  };
+
+  // Q14: City (new editable field)
+  const handleCitySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const city = formData.city.trim();
+    
+    if (!city) {
+      setErrors(prev => ({ ...prev, city: "Please enter your city" }));
+      return;
+    }
+    if (city.length < 2) {
+      setErrors(prev => ({ ...prev, city: "City must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s-]+$/.test(city)) {
+      setErrors(prev => ({ ...prev, city: "City can only contain letters, spaces, and hyphens" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, city: "" }));
     setTimeout(() => setStep(15), 300);
   };
 
@@ -360,16 +359,15 @@ export default function VeteransLanding() {
     setTimeout(async () => {
       const hiddenInputNames = [
         'military_branch',
-        'zip_code',
         'gender',
         'life_insurance',
         'coverage_amount',
         'beneficiary',
         'age_classification',
         'beneficiary_name',
-        'hobby',
         'first_name',
         'last_name',
+        'zip_code',
         'email',
         'phone',
         'street_address',
@@ -386,16 +384,15 @@ export default function VeteransLanding() {
       await sendWebhookData({
         angle: 'veterans',
         military_branch: formData.militaryBranch,
-        zip_code: formData.zipCode,
         gender: formData.gender,
         life_insurance: formData.hasLifeInsurance,
         coverage_amount: formData.cashAmount,
         beneficiary: formData.beneficiary,
         age_classification: formData.age,
         beneficiary_name: formData.beneficiaryName,
-        hobby: formData.hobby,
         first_name: formData.firstName,
         last_name: formData.lastName,
+        zip_code: formData.zipCode,
         email: formData.email,
         phone: formData.phone,
         street_address: formData.streetAddress,
@@ -447,16 +444,15 @@ export default function VeteransLanding() {
     <>
       {/* Hidden inputs for GTM tracking - ALWAYS rendered, persist across all steps */}
       <input type="hidden" name="military_branch" value={formData.militaryBranch} />
-      <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="gender" value={formData.gender} />
       <input type="hidden" name="life_insurance" value={formData.hasLifeInsurance} />
       <input type="hidden" name="coverage_amount" value={formData.cashAmount} />
       <input type="hidden" name="beneficiary" value={formData.beneficiary} />
       <input type="hidden" name="age_classification" value={formData.age} />
       <input type="hidden" name="beneficiary_name" value={formData.beneficiaryName} />
-      <input type="hidden" name="hobby" value={formData.hobby} />
       <input type="hidden" name="first_name" value={formData.firstName} />
       <input type="hidden" name="last_name" value={formData.lastName} />
+      <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="email" value={formData.email} />
       <input type="hidden" name="phone" value={formData.phone} />
       <input type="hidden" name="street_address" value={formData.streetAddress} />
@@ -520,7 +516,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleMilitaryBranchSelect(branch as MilitaryBranch)}
                     data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
+                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
                   >
                     {branch}
                   </button>
@@ -556,46 +552,8 @@ export default function VeteransLanding() {
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
             {/* Q1 is handled above, start from Q2 */}
 
-            {/* Q2: Zip Code (auto-detected, editable) */}
+            {/* Q2: Gender */}
             {step === 2 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your zip code?
-                  </h2>
-                </div>
-                <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
-                  <Input
-                    type="text"
-                    value={formData.zipCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
-                      setFormData({ ...formData, zipCode: value });
-                      if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
-                    }}
-                    placeholder="12345"
-                    className={`text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center ${errors.zipCode ? 'border-red-500' : ''}`}
-                    data-testid="input-zip-code"
-                    maxLength={5}
-                    required
-                  />
-                  {errors.zipCode && (
-                    <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-zip-code"
-                    data-testid="button-submit-zip-code"
-                    disabled={isLoadingZip}
-                  >
-                    {isLoadingZip ? "Looking up..." : "Continue"}
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q3: Gender */}
-            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -607,7 +565,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Male")}
                     data-testid="button-gender-male"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                   >
                     Male
                   </button>
@@ -615,7 +573,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Female")}
                     data-testid="button-gender-female"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                   >
                     Female
                   </button>
@@ -623,8 +581,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q4: Has Life Insurance */}
-            {step === 4 && (
+            {/* Q3: Has Life Insurance */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -652,8 +610,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q5: Cash Amount */}
-            {step === 5 && (
+            {/* Q4: Cash Amount */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -661,7 +619,7 @@ export default function VeteransLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000"].map((amount) => (
+                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => (
                     <button
                       key={amount}
                       type="button"
@@ -669,15 +627,15 @@ export default function VeteransLanding() {
                       data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                       className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
-                      {amount}
+                      {amount === "Over$50000" ? "Over $50,000" : amount}
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Q6: Beneficiary */}
-            {step === 6 && (
+            {/* Q5: Beneficiary */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -700,8 +658,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q7: Age (NO disqualification - all ages accepted) */}
-            {step === 7 && (
+            {/* Q6: Age (NO disqualification - all ages accepted) */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -713,7 +671,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Under 45")}
                     data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
                   >
                     Under 45
                   </button>
@@ -721,7 +679,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("45-85")}
                     data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
                   >
                     45-85
                   </button>
@@ -729,7 +687,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Over 85")}
                     data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
                   >
                     Over 85
                   </button>
@@ -737,8 +695,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q8: Beneficiary Name */}
-            {step === 8 && (
+            {/* Q7: Beneficiary Name */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -763,7 +721,7 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
                     data-testid="button-submit-beneficiary-name"
                   >
                     Continue
@@ -772,43 +730,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q9: Hobby */}
-            {step === 9 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your favorite hobby or activity?
-                  </h2>
-                </div>
-                <form onSubmit={handleHobbySubmit} className="max-w-md mx-auto">
-                  <Input
-                    type="text"
-                    value={formData.hobby}
-                    onChange={(e) => {
-                      setFormData({ ...formData, hobby: e.target.value });
-                      if (errors.hobby) setErrors(prev => ({ ...prev, hobby: "" }));
-                    }}
-                    placeholder="Enter your hobby"
-                    className={`text-lg min-h-[50px] ${errors.hobby ? 'border-red-500' : ''}`}
-                    data-testid="input-hobby"
-                    required
-                  />
-                  {errors.hobby && (
-                    <p className="text-red-600 text-sm mt-1">{errors.hobby}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
-                    data-testid="button-submit-hobby"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q10: First Name */}
-            {step === 10 && (
+            {/* Q8: First Name */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -833,7 +756,7 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-first-name"
                     data-testid="button-submit-first-name"
                   >
                     Continue
@@ -842,8 +765,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q11: Last Name */}
-            {step === 11 && (
+            {/* Q9: Last Name */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -868,7 +791,7 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-last-name"
                     data-testid="button-submit-last-name"
                   >
                     Continue
@@ -877,8 +800,46 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q12: Email */}
-            {step === 12 && (
+            {/* Q10: Zip Code (auto-detected, editable) */}
+            {step === 10 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What is your zip code?
+                  </h2>
+                </div>
+                <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
+                  <Input
+                    type="text"
+                    value={formData.zipCode}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
+                      setFormData({ ...formData, zipCode: value });
+                      if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
+                    }}
+                    placeholder="12345"
+                    className={`text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center ${errors.zipCode ? 'border-red-500' : ''}`}
+                    data-testid="input-zip-code"
+                    maxLength={5}
+                    required
+                  />
+                  {errors.zipCode && (
+                    <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
+                  )}
+                  <Button 
+                    type="submit" 
+                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
+                    data-testid="button-submit-zip-code"
+                    disabled={isLoadingZip}
+                  >
+                    {isLoadingZip ? "Looking up..." : "Continue"}
+                  </Button>
+                </form>
+              </div>
+            )}
+
+            {/* Q11: Email */}
+            {step === 11 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -903,7 +864,7 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-email"
                     data-testid="button-submit-email"
                   >
                     Continue
@@ -912,8 +873,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q13: Phone */}
-            {step === 13 && (
+            {/* Q12: Phone */}
+            {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -936,7 +897,7 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-phone"
                     data-testid="button-submit-phone"
                   >
                     Continue
@@ -945,62 +906,69 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q14: Street Address with disabled City/State/Zip */}
-            {step === 14 && (
+            {/* Q13: Street Address (only street address) */}
+            {step === 13 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
                     What is your street address?
                   </h2>
                 </div>
-                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto space-y-3">
-                  <div>
-                    <Input
-                      type="text"
-                      value={formData.streetAddress}
-                      onChange={(e) => {
-                        setFormData({ ...formData, streetAddress: e.target.value });
-                        if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
-                      }}
-                      placeholder="Street address"
-                      className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
-                      data-testid="input-street-address"
-                      required
-                    />
-                    {errors.streetAddress && (
-                      <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
-                    )}
-                  </div>
+                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto">
+                  <Input
+                    type="text"
+                    value={formData.streetAddress}
+                    onChange={(e) => {
+                      setFormData({ ...formData, streetAddress: e.target.value });
+                      if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
+                    }}
+                    placeholder="Street address"
+                    className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
+                    data-testid="input-street-address"
+                    required
+                  />
+                  {errors.streetAddress && (
+                    <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
+                  )}
+                  <Button 
+                    type="submit" 
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
+                    data-testid="button-submit-street-address"
+                  >
+                    Continue
+                  </Button>
+                </form>
+              </div>
+            )}
+
+            {/* Q14: City (new editable field) */}
+            {step === 14 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What is your city?
+                  </h2>
+                </div>
+                <form onSubmit={handleCitySubmit} className="max-w-md mx-auto">
                   <Input
                     type="text"
                     value={formData.city}
-                    disabled
-                    placeholder="City"
-                    className="text-lg min-h-[50px] bg-gray-100 input-city-disabled"
-                    data-testid="input-city-disabled"
+                    onChange={(e) => {
+                      setFormData({ ...formData, city: e.target.value });
+                      if (errors.city) setErrors(prev => ({ ...prev, city: "" }));
+                    }}
+                    placeholder="Enter your city"
+                    className={`text-lg min-h-[50px] ${errors.city ? 'border-red-500' : ''}`}
+                    data-testid="input-city"
+                    required
                   />
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      type="text"
-                      value={formData.state}
-                      disabled
-                      placeholder="State"
-                      className="text-lg min-h-[50px] bg-gray-100 input-state-disabled"
-                      data-testid="input-state-disabled"
-                    />
-                    <Input
-                      type="text"
-                      value={formData.zipCode}
-                      disabled
-                      placeholder="ZIP"
-                      className="text-lg min-h-[50px] bg-gray-100 input-zip-disabled"
-                      data-testid="input-zip-disabled"
-                    />
-                  </div>
+                  {errors.city && (
+                    <p className="text-red-600 text-sm mt-1">{errors.city}</p>
+                  )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-street-address"
-                    data-testid="button-submit-street-address"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-city"
+                    data-testid="button-submit-city"
                   >
                     Continue
                   </Button>
@@ -1045,7 +1013,7 @@ export default function VeteransLanding() {
                   </datalist>
                   <Button 
                     type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-county"
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-county"
                     data-testid="button-submit-county"
                   >
                     Continue
@@ -1069,7 +1037,7 @@ export default function VeteransLanding() {
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
                       data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
                     </button>

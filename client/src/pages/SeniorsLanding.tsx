@@ -504,7 +504,7 @@ export default function SeniorsLanding() {
                   type="button"
                   onClick={() => handleGenderSelect("Male")}
                   data-testid="button-gender-male"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                 >
                   Male
                 </button>
@@ -512,7 +512,7 @@ export default function SeniorsLanding() {
                   type="button"
                   onClick={() => handleGenderSelect("Female")}
                   data-testid="button-gender-female"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                 >
                   Female
                 </button>
@@ -584,7 +584,7 @@ export default function SeniorsLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000"].map((amount) => (
+                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => (
                     <button
                       key={amount}
                       type="button"
@@ -592,7 +592,7 @@ export default function SeniorsLanding() {
                       data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                       className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
-                      {amount}
+                      {amount === "Over$50000" ? "Over $50,000" : amount}
                     </button>
                   ))}
                 </div>
@@ -636,7 +636,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Under 45")}
                     data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
                   >
                     Under 45
                   </button>
@@ -644,7 +644,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("45-85")}
                     data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
                   >
                     45-85
                   </button>
@@ -652,7 +652,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Over 85")}
                     data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
                   >
                     Over 85
                   </button>
@@ -686,7 +686,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
                     data-testid="button-submit-beneficiary-name"
                   >
                     Continue
@@ -721,7 +721,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-first-name"
                     data-testid="button-submit-first-name"
                   >
                     Continue
@@ -756,7 +756,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-last-name"
                     data-testid="button-submit-last-name"
                   >
                     Continue
@@ -793,7 +793,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-zip-code"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
                     data-testid="button-submit-zip-code"
                     disabled={isLoadingZip}
                   >
@@ -829,7 +829,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-email"
                     data-testid="button-submit-email"
                   >
                     Continue
@@ -862,7 +862,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-phone"
                     data-testid="button-submit-phone"
                   >
                     Continue
@@ -897,7 +897,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-street-address"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
                     data-testid="button-submit-street-address"
                   >
                     Continue
@@ -932,7 +932,7 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-city"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-city"
                     data-testid="button-submit-city"
                   >
                     Continue
@@ -978,7 +978,7 @@ export default function SeniorsLanding() {
                   </datalist>
                   <Button 
                     type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-county"
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-county"
                     data-testid="button-submit-county"
                   >
                     Continue
@@ -1002,7 +1002,7 @@ export default function SeniorsLanding() {
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
                       data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
                     </button>

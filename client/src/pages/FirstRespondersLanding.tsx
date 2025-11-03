@@ -67,12 +67,12 @@ export default function FirstRespondersLanding() {
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
-    hobby: "",
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     streetAddress: "",
+    city: "",
     county: ""
   });
   
@@ -87,7 +87,6 @@ export default function FirstRespondersLanding() {
     beneficiary: "" as Beneficiary | "",
     age: "" as AgeRange | "",
     beneficiaryName: "",
-    hobby: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -215,27 +214,6 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(9), 300);
   };
 
-  // Q9: Hobby
-  const handleHobbySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const hobby = formData.hobby.trim();
-    
-    if (!hobby) {
-      setErrors(prev => ({ ...prev, hobby: "Please enter your hobby" }));
-      return;
-    }
-    if (hobby.length < 2) {
-      setErrors(prev => ({ ...prev, hobby: "Hobby must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z0-9\s]+$/.test(hobby)) {
-      setErrors(prev => ({ ...prev, hobby: "Hobby can only contain letters, numbers, and spaces" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, hobby: "" }));
-    setTimeout(() => setStep(10), 300);
-  };
 
   // Q10: First Name
   const handleFirstNameSubmit = (e: React.FormEvent) => {
@@ -367,7 +345,6 @@ export default function FirstRespondersLanding() {
         'beneficiary',
         'age_classification',
         'beneficiary_name',
-        'hobby',
         'first_name',
         'last_name',
         'email',
@@ -393,7 +370,6 @@ export default function FirstRespondersLanding() {
         beneficiary: formData.beneficiary,
         age_classification: formData.age,
         beneficiary_name: formData.beneficiaryName,
-        hobby: formData.hobby,
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
@@ -454,7 +430,6 @@ export default function FirstRespondersLanding() {
       <input type="hidden" name="beneficiary" value={formData.beneficiary} />
       <input type="hidden" name="age_classification" value={formData.age} />
       <input type="hidden" name="beneficiary_name" value={formData.beneficiaryName} />
-      <input type="hidden" name="hobby" value={formData.hobby} />
       <input type="hidden" name="first_name" value={formData.firstName} />
       <input type="hidden" name="last_name" value={formData.lastName} />
       <input type="hidden" name="email" value={formData.email} />
@@ -526,7 +501,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleAgencySelect(agency as FirstResponderAgency)}
                     data-testid={`button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
+                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
                   >
                     {agency}
                   </button>
@@ -590,7 +565,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-zip-code"
+                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
                     data-testid="button-submit-zip-code"
                     disabled={isLoadingZip}
                   >
@@ -613,7 +588,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Male")}
                     data-testid="button-gender-male"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                   >
                     Male
                   </button>
@@ -621,7 +596,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Female")}
                     data-testid="button-gender-female"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                   >
                     Female
                   </button>
@@ -667,7 +642,7 @@ export default function FirstRespondersLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000"].map((amount) => (
+                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => (
                     <button
                       key={amount}
                       type="button"
@@ -675,7 +650,7 @@ export default function FirstRespondersLanding() {
                       data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                       className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
-                      {amount}
+                      {amount === "Over$50000" ? "Over $50,000" : amount}
                     </button>
                   ))}
                 </div>
@@ -719,7 +694,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Under 45")}
                     data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
                   >
                     Under 45
                   </button>
@@ -727,7 +702,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("45-85")}
                     data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
                   >
                     45-85
                   </button>
@@ -735,7 +710,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Over 85")}
                     data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
                   >
                     Over 85
                   </button>
@@ -769,7 +744,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
                     data-testid="button-submit-beneficiary-name"
                   >
                     Continue
@@ -778,40 +753,6 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q9: Hobby */}
-            {step === 9 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your favorite hobby or activity?
-                  </h2>
-                </div>
-                <form onSubmit={handleHobbySubmit} className="max-w-md mx-auto">
-                  <Input
-                    type="text"
-                    value={formData.hobby}
-                    onChange={(e) => {
-                      setFormData({ ...formData, hobby: e.target.value });
-                      if (errors.hobby) setErrors(prev => ({ ...prev, hobby: "" }));
-                    }}
-                    placeholder="Enter your hobby"
-                    className={`text-lg min-h-[50px] ${errors.hobby ? 'border-red-500' : ''}`}
-                    data-testid="input-hobby"
-                    required
-                  />
-                  {errors.hobby && (
-                    <p className="text-red-600 text-sm mt-1">{errors.hobby}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
-                    data-testid="button-submit-hobby"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
 
             {/* Q10: First Name */}
             {step === 10 && (
@@ -839,7 +780,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-first-name"
                     data-testid="button-submit-first-name"
                   >
                     Continue
@@ -874,7 +815,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-last-name"
                     data-testid="button-submit-last-name"
                   >
                     Continue
@@ -909,7 +850,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-email"
                     data-testid="button-submit-email"
                   >
                     Continue
@@ -942,7 +883,7 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-phone"
                     data-testid="button-submit-phone"
                   >
                     Continue
@@ -1005,7 +946,7 @@ export default function FirstRespondersLanding() {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-street-address"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
                     data-testid="button-submit-street-address"
                   >
                     Continue
@@ -1051,7 +992,7 @@ export default function FirstRespondersLanding() {
                   </datalist>
                   <Button 
                     type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-county"
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-county"
                     data-testid="button-submit-county"
                   >
                     Continue
@@ -1075,7 +1016,7 @@ export default function FirstRespondersLanding() {
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
                       data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
                     </button>

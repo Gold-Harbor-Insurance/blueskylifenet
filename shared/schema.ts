@@ -72,7 +72,8 @@ export const cashAmountSchema = z.enum([
   "$5,000-$10,000",
   "$10,000-$15,000",
   "$15,000-$20,000",
-  "$20,000+"
+  "$20,000+",
+  "Over$50000"
 ]);
 
 // New comprehensive quiz schema with all 14 questions (hobby removed)
