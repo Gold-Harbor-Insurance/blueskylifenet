@@ -317,9 +317,6 @@ export default function VeteransLanding() {
             {step === 1 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
-                  <p className="text-base md:text-lg text-black mb-3">
-                    Answer 16 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
-                  </p>
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
                     Which branch of the military did you serve in?
                   </h2>

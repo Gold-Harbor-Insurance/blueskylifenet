@@ -308,9 +308,6 @@ export default function SeniorsLanding() {
             {step === 1 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
-                  <p className="text-base md:text-lg text-black mb-3">
-                    Answer 15 Quick Questions Below to <span className="underline font-semibold">Check Eligibility!</span>
-                  </p>
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
                     What is your zip code?
                   </h2>

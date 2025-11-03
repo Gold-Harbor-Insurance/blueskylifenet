@@ -15,20 +15,37 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4 }}
+      className="w-full"
     >
-      <div className="p-4 md:p-6 bg-gradient-to-br from-cyan-50 to-blue-50 border border-gray-300 shadow-lg rounded-2xl">
-        <AnimatePresence mode="wait">
+      {/* Progress indicator */}
+      <div className="mb-8">
+        <div className="flex items-center justify-center mb-2">
+          <span className="text-sm text-gray-600 font-medium">
+            Question {currentStep}/{totalSteps}
+          </span>
+        </div>
+        <div className="w-full bg-gray-300 h-1.5 rounded-full overflow-hidden">
           <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+            className="h-full bg-[#5CB85C]"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          />
+        </div>
       </div>
+
+      {/* Question content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentStep}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </motion.div>
   );
 }
