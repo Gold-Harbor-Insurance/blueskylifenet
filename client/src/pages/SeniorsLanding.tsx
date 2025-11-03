@@ -63,6 +63,17 @@ export default function SeniorsLanding() {
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [availableCounties, setAvailableCounties] = useState<string[]>([]);
+  const [errors, setErrors] = useState({
+    zipCode: "",
+    beneficiaryName: "",
+    hobby: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    streetAddress: "",
+    county: ""
+  });
   
   const [formData, setFormData] = useState({
     zipCode: "",
@@ -121,24 +132,28 @@ export default function SeniorsLanding() {
   // Q1: Zip Code (auto-detected, editable)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.zipCode.match(/^\d{5}$/)) {
-      setIsLoadingZip(true);
-      const zipData = await lookupZipCode(formData.zipCode);
-      
-      if (zipData) {
-        setFormData(prev => ({
-          ...prev,
-          city: zipData.city,
-          state: zipData.stateAbbr as USState,
-        }));
-        // Update available counties for the state
-        const counties = getCountiesByState(zipData.stateAbbr);
-        setAvailableCounties(counties);
-      }
-      
-      setIsLoadingZip(false);
-      setTimeout(() => setStep(2), 300);
+    if (!formData.zipCode.match(/^\d{5}$/)) {
+      setErrors(prev => ({ ...prev, zipCode: "Please enter a valid 5-digit ZIP code" }));
+      return;
     }
+    
+    setErrors(prev => ({ ...prev, zipCode: "" }));
+    setIsLoadingZip(true);
+    const zipData = await lookupZipCode(formData.zipCode);
+    
+    if (zipData) {
+      setFormData(prev => ({
+        ...prev,
+        city: zipData.city,
+        state: zipData.stateAbbr as USState,
+      }));
+      // Update available counties for the state
+      const counties = getCountiesByState(zipData.stateAbbr);
+      setAvailableCounties(counties);
+    }
+    
+    setIsLoadingZip(false);
+    setTimeout(() => setStep(2), 300);
   };
 
   // Q2: Gender
@@ -174,66 +189,156 @@ export default function SeniorsLanding() {
   // Q7: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.beneficiaryName.trim()) {
-      setTimeout(() => setStep(8), 300);
+    const name = formData.beneficiaryName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Please enter beneficiary name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, beneficiaryName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, beneficiaryName: "" }));
+    setTimeout(() => setStep(8), 300);
   };
 
   // Q8: Hobby
   const handleHobbySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.hobby.trim()) {
-      setTimeout(() => setStep(9), 300);
+    const hobby = formData.hobby.trim();
+    
+    if (!hobby) {
+      setErrors(prev => ({ ...prev, hobby: "Please enter your hobby" }));
+      return;
     }
+    if (hobby.length < 2) {
+      setErrors(prev => ({ ...prev, hobby: "Hobby must be at least 2 characters" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, hobby: "" }));
+    setTimeout(() => setStep(9), 300);
   };
 
   // Q9: First Name
   const handleFirstNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.firstName.trim()) {
-      setTimeout(() => setStep(10), 300);
+    const name = formData.firstName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, firstName: "" }));
+    setTimeout(() => setStep(10), 300);
   };
 
   // Q10: Last Name
   const handleLastNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.lastName.trim()) {
-      setTimeout(() => setStep(11), 300);
+    const name = formData.lastName.trim();
+    
+    if (!name) {
+      setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
+      return;
     }
+    if (name.length < 2) {
+      setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
+      return;
+    }
+    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+      setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, lastName: "" }));
+    setTimeout(() => setStep(11), 300);
   };
 
   // Q11: Email
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(formData.email)) {
-      setTimeout(() => setStep(12), 300);
+    
+    if (!formData.email.trim()) {
+      setErrors(prev => ({ ...prev, email: "Please enter your email address" }));
+      return;
     }
+    if (!emailRegex.test(formData.email)) {
+      setErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, email: "" }));
+    setTimeout(() => setStep(12), 300);
   };
 
   // Q12: Phone
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
-      setTimeout(() => setStep(13), 300);
+    
+    if (!formData.phone.trim()) {
+      setErrors(prev => ({ ...prev, phone: "Please enter your phone number" }));
+      return;
     }
+    if (!formData.phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
+      setErrors(prev => ({ ...prev, phone: "Please enter a valid phone number" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, phone: "" }));
+    setTimeout(() => setStep(13), 300);
   };
 
   // Q13: Street Address (with disabled city/state/zip fields)
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.streetAddress.trim()) {
-      setTimeout(() => setStep(14), 300);
+    const address = formData.streetAddress.trim();
+    
+    if (!address) {
+      setErrors(prev => ({ ...prev, streetAddress: "Please enter your street address" }));
+      return;
     }
+    if (address.length < 5) {
+      setErrors(prev => ({ ...prev, streetAddress: "Address must be at least 5 characters" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, streetAddress: "" }));
+    setTimeout(() => setStep(14), 300);
   };
 
   // Q14: County
   const handleCountySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.county.trim()) {
-      setTimeout(() => setStep(15), 300);
+    const county = formData.county.trim();
+    
+    if (!county) {
+      setErrors(prev => ({ ...prev, county: "Please enter your county" }));
+      return;
     }
+    if (county.length < 2) {
+      setErrors(prev => ({ ...prev, county: "County must be at least 2 characters" }));
+      return;
+    }
+    
+    setErrors(prev => ({ ...prev, county: "" }));
+    setTimeout(() => setStep(15), 300);
   };
 
   // Q15: Monthly Budget (triggers Ringba API)
@@ -400,13 +505,17 @@ export default function SeniorsLanding() {
                   onChange={(e) => {
                     const value = e.target.value.replace(/\D/g, '').substring(0, 5);
                     setFormData({ ...formData, zipCode: value });
+                    if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
                   }}
                   placeholder="12345"
-                  className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[200px] md:w-[240px] text-center mb-6"
+                  className={`text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[200px] md:w-[240px] text-center ${errors.zipCode ? 'border-red-500' : ''}`}
                   data-testid="input-zip-code"
                   maxLength={5}
                   required
                 />
+                {errors.zipCode && (
+                  <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
+                )}
                 <Button 
                   type="submit" 
                   className="w-[200px] md:w-[240px] min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full button-submit-zip-code"
