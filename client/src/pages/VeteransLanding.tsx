@@ -899,7 +899,7 @@ export default function VeteransLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under $50", "$50-$100", "$100-$200", "$200-$300", "$300+"].map((budget) => (
+                  {["$50-$74/month", "$75-$99/month", "$100-$149/month", "$150+/month"].map((budget) => (
                     <button
                       key={budget}
                       type="button"
