@@ -384,7 +384,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleMilitaryBranchSelect(branch as MilitaryBranch)}
                     data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
-                    className="w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200"
+                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
                   >
                     {branch}
                   </button>
@@ -397,7 +397,7 @@ export default function VeteransLanding() {
               <div className="space-x-2 mb-2">
                 <button
                   onClick={() => setLegalModal("privacy")}
-                  className="hover:underline"
+                  className="hover:underline link-privacy-policy"
                   data-testid="link-privacy-policy"
                 >
                   Privacy Policy
@@ -405,7 +405,7 @@ export default function VeteransLanding() {
                 <span>|</span>
                 <button
                   onClick={() => setLegalModal("terms")}
-                  className="hover:underline"
+                  className="hover:underline link-terms-of-use"
                   data-testid="link-terms-of-use"
                 >
                   Terms of Use
@@ -437,14 +437,14 @@ export default function VeteransLanding() {
                       setFormData({ ...formData, zipCode: value });
                     }}
                     placeholder="12345"
-                    className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center"
+                    className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center input-zip-code"
                     data-testid="input-zip-code"
                     maxLength={5}
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-zip-code"
                     data-testid="button-submit-zip-code"
                     disabled={isLoadingZip}
                   >
@@ -467,7 +467,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Male")}
                     data-testid="button-gender-male"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                   >
                     Male
                   </button>
@@ -475,7 +475,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Female")}
                     data-testid="button-gender-female"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                   >
                     Female
                   </button>
@@ -496,7 +496,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("Yes")}
                     data-testid="button-life-insurance-yes"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-yes"
                   >
                     Yes
                   </button>
@@ -504,7 +504,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("No")}
                     data-testid="button-life-insurance-no"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-no"
                   >
                     No
                   </button>
@@ -527,7 +527,7 @@ export default function VeteransLanding() {
                       type="button"
                       onClick={() => handleCashAmountSelect(amount as CashAmount)}
                       data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {amount}
                     </button>
@@ -551,7 +551,7 @@ export default function VeteransLanding() {
                       type="button"
                       onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
                       data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
                     >
                       {ben}
                     </button>
@@ -573,7 +573,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Under 45")}
                     data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
                   >
                     Under 45
                   </button>
@@ -581,7 +581,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("45-85")}
                     data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
                   >
                     45-85
                   </button>
@@ -589,7 +589,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Over 85")}
                     data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
                   >
                     Over 85
                   </button>
@@ -611,13 +611,13 @@ export default function VeteransLanding() {
                     value={formData.beneficiaryName}
                     onChange={(e) => setFormData({ ...formData, beneficiaryName: e.target.value })}
                     placeholder="Enter beneficiary name"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-beneficiary-name"
                     data-testid="input-beneficiary-name"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
                     data-testid="button-submit-beneficiary-name"
                   >
                     Continue
@@ -640,13 +640,13 @@ export default function VeteransLanding() {
                     value={formData.hobby}
                     onChange={(e) => setFormData({ ...formData, hobby: e.target.value })}
                     placeholder="Enter your hobby"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-hobby"
                     data-testid="input-hobby"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
                     data-testid="button-submit-hobby"
                   >
                     Continue
@@ -669,13 +669,13 @@ export default function VeteransLanding() {
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     placeholder="Enter your first name"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-first-name"
                     data-testid="input-first-name"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
                     data-testid="button-submit-first-name"
                   >
                     Continue
@@ -698,13 +698,13 @@ export default function VeteransLanding() {
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     placeholder="Enter your last name"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-last-name"
                     data-testid="input-last-name"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
                     data-testid="button-submit-last-name"
                   >
                     Continue
@@ -727,13 +727,13 @@ export default function VeteransLanding() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="Enter your email"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-email"
                     data-testid="input-email"
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
                     data-testid="button-submit-email"
                   >
                     Continue
@@ -756,14 +756,14 @@ export default function VeteransLanding() {
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     placeholder="(555) 555-5555"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-phone"
                     data-testid="input-phone"
                     maxLength={14}
                     required
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
                     data-testid="button-submit-phone"
                   >
                     Continue
@@ -786,7 +786,7 @@ export default function VeteransLanding() {
                     value={formData.streetAddress}
                     onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
                     placeholder="Street address"
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-street-address"
                     data-testid="input-street-address"
                     required
                   />
@@ -795,7 +795,7 @@ export default function VeteransLanding() {
                     value={formData.city}
                     disabled
                     placeholder="City"
-                    className="text-lg min-h-[50px] bg-gray-100"
+                    className="text-lg min-h-[50px] bg-gray-100 input-city-disabled"
                     data-testid="input-city-disabled"
                   />
                   <div className="grid grid-cols-2 gap-3">
@@ -804,7 +804,7 @@ export default function VeteransLanding() {
                       value={formData.state}
                       disabled
                       placeholder="State"
-                      className="text-lg min-h-[50px] bg-gray-100"
+                      className="text-lg min-h-[50px] bg-gray-100 input-state-disabled"
                       data-testid="input-state-disabled"
                     />
                     <Input
@@ -812,13 +812,13 @@ export default function VeteransLanding() {
                       value={formData.zipCode}
                       disabled
                       placeholder="ZIP"
-                      className="text-lg min-h-[50px] bg-gray-100"
+                      className="text-lg min-h-[50px] bg-gray-100 input-zip-disabled"
                       data-testid="input-zip-disabled"
                     />
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-street-address"
                     data-testid="button-submit-street-address"
                   >
                     Continue
@@ -845,7 +845,7 @@ export default function VeteransLanding() {
                     value={formData.county}
                     onChange={(e) => setFormData({ ...formData, county: e.target.value })}
                     placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
-                    className="text-lg min-h-[50px]"
+                    className="text-lg min-h-[50px] input-county"
                     data-testid="input-county"
                     required
                   />
@@ -856,7 +856,7 @@ export default function VeteransLanding() {
                   </datalist>
                   <Button 
                     type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-county"
                     data-testid="button-submit-county"
                   >
                     Continue
@@ -880,7 +880,7 @@ export default function VeteransLanding() {
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
                       data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
                     </button>

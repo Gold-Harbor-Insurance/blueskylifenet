@@ -384,7 +384,7 @@ export default function SeniorsLanding() {
                 />
                 <Button 
                   type="submit" 
-                  className="w-[200px] md:w-[240px] min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full"
+                  className="w-[200px] md:w-[240px] min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full button-submit-zip-code"
                   data-testid="button-submit-zip-code"
                   disabled={isLoadingZip}
                 >
@@ -398,7 +398,7 @@ export default function SeniorsLanding() {
               <div className="space-x-2 mb-2">
                 <button
                   onClick={() => setLegalModal("privacy")}
-                  className="hover:underline"
+                  className="hover:underline link-privacy-policy"
                   data-testid="link-privacy-policy"
                 >
                   Privacy Policy
@@ -406,7 +406,7 @@ export default function SeniorsLanding() {
                 <span>|</span>
                 <button
                   onClick={() => setLegalModal("terms")}
-                  className="hover:underline"
+                  className="hover:underline link-terms-of-use"
                   data-testid="link-terms-of-use"
                 >
                   Terms of Use
@@ -434,7 +434,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Male")}
                     data-testid="button-gender-male"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                   >
                     Male
                   </button>
@@ -442,7 +442,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleGenderSelect("Female")}
                     data-testid="button-gender-female"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                   >
                     Female
                   </button>
@@ -463,7 +463,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("Yes")}
                     data-testid="button-life-insurance-yes"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-yes"
                   >
                     Yes
                   </button>
@@ -471,7 +471,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("No")}
                     data-testid="button-life-insurance-no"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-no"
                   >
                     No
                   </button>
@@ -494,7 +494,7 @@ export default function SeniorsLanding() {
                       type="button"
                       onClick={() => handleCashAmountSelect(amount as CashAmount)}
                       data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {amount}
                     </button>
@@ -518,7 +518,7 @@ export default function SeniorsLanding() {
                       type="button"
                       onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
                       data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
                     >
                       {ben}
                     </button>
@@ -540,7 +540,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Under 45")}
                     data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
                   >
                     Under 45
                   </button>
@@ -548,7 +548,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("45-85")}
                     data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
                   >
                     45-85
                   </button>
@@ -556,7 +556,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleAgeSelect("Over 85")}
                     data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
                   >
                     Over 85
                   </button>
@@ -584,7 +584,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-beneficiary-name"
                     data-testid="button-submit-beneficiary-name"
                   >
                     Continue
@@ -613,7 +613,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-hobby"
                     data-testid="button-submit-hobby"
                   >
                     Continue
@@ -642,7 +642,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-first-name"
                     data-testid="button-submit-first-name"
                   >
                     Continue
@@ -671,7 +671,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-last-name"
                     data-testid="button-submit-last-name"
                   >
                     Continue
@@ -700,7 +700,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-email"
                     data-testid="button-submit-email"
                   >
                     Continue
@@ -730,7 +730,7 @@ export default function SeniorsLanding() {
                   />
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-phone"
                     data-testid="button-submit-phone"
                   >
                     Continue
@@ -785,7 +785,7 @@ export default function SeniorsLanding() {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-street-address"
                     data-testid="button-submit-street-address"
                   >
                     Continue
@@ -823,7 +823,7 @@ export default function SeniorsLanding() {
                   </datalist>
                   <Button 
                     type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] button-submit-county"
                     data-testid="button-submit-county"
                   >
                     Continue
@@ -847,7 +847,7 @@ export default function SeniorsLanding() {
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
                       data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className="w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200"
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
                     </button>

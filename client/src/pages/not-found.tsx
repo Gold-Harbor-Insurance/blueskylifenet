@@ -19,7 +19,7 @@ export default function NotFound() {
           <Button
             onClick={() => setLocation("/seniors")}
             size="lg"
-            className="gap-2"
+            className="gap-2 button-seniors"
             data-testid="button-seniors"
           >
             <Home className="w-5 h-5" />
@@ -29,7 +29,7 @@ export default function NotFound() {
             onClick={() => setLocation("/veterans")}
             size="lg"
             variant="outline"
-            className="gap-2"
+            className="gap-2 button-veterans"
             data-testid="button-veterans"
           >
             <Home className="w-5 h-5" />
