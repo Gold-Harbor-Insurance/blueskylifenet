@@ -304,53 +304,100 @@ export default function SeniorsLanding() {
           telLink={telLink}
           phoneRef={phoneRef}
         />
+      ) : step === 1 ? (
+        // First page with special design matching screenshot
+        <div className="min-h-screen bg-gray-200 flex flex-col">
+          {/* Blue bar at top */}
+          <div className="w-full h-[18px] bg-[#63b1f9]"></div>
+          
+          {/* Testimonial */}
+          <div className="w-full flex justify-center py-4">
+            <div className="bg-[#b3d9f2] px-6 py-3 rounded-lg max-w-xs text-center">
+              <div className="flex justify-center gap-1 mb-1">
+                <span className="text-yellow-400 text-xl">⭐</span>
+                <span className="text-yellow-400 text-xl">⭐</span>
+                <span className="text-yellow-400 text-xl">⭐</span>
+                <span className="text-yellow-400 text-xl">⭐</span>
+                <span className="text-yellow-400 text-xl">⭐</span>
+              </div>
+              <p className="text-sm font-semibold text-gray-800">"Quick and easy to understand"</p>
+              <p className="text-xs text-gray-600">— Margaret L.</p>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className="flex-1 flex flex-col items-center px-4 py-8">
+            {/* Headline */}
+            <div className="text-center mb-6 max-w-4xl">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                <span className="text-[#dc3545]">JUST ANNOUNCED FOR SENIORS</span>{" "}
+                <span className="text-black">Get up to $25,000 To Cover Funeral Costs and Unpaid Debt</span>
+              </h1>
+            </div>
+
+            {/* White card with question */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 max-w-3xl w-full">
+              <div className="text-center mb-8">
+                <p className="text-lg md:text-xl mb-2">
+                  Answer a 5 Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
+                </p>
+                <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
+                  What is your zip code?
+                </h2>
+              </div>
+              
+              <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
+                <Input
+                  type="text"
+                  value={formData.zipCode}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '').substring(0, 5);
+                    setFormData({ ...formData, zipCode: value });
+                  }}
+                  placeholder="12345"
+                  className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[200px] md:w-[240px] text-center mb-6"
+                  data-testid="input-zip-code"
+                  maxLength={5}
+                  required
+                />
+                <Button 
+                  type="submit" 
+                  className="w-[200px] md:w-[240px] min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full"
+                  data-testid="button-submit-zip-code"
+                  disabled={isLoadingZip}
+                >
+                  {isLoadingZip ? "Looking up..." : "Continue"}
+                </Button>
+              </form>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-auto pt-16 pb-8 text-center text-sm text-gray-600">
+              <div className="space-x-2 mb-2">
+                <button
+                  onClick={() => setLegalModal("privacy")}
+                  className="hover:underline"
+                  data-testid="link-privacy-policy"
+                >
+                  Privacy Policy
+                </button>
+                <span>|</span>
+                <button
+                  onClick={() => setLegalModal("terms")}
+                  className="hover:underline"
+                  data-testid="link-terms-of-use"
+                >
+                  Terms of Use
+                </button>
+              </div>
+              <p>© 2025 BlueSky Life. All Rights Reserved.</p>
+            </div>
+          </div>
+        </div>
       ) : (
         <QuizLayout>
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
-            {/* Q1: Zip Code (auto-detected, editable) */}
-            {step === 1 && (
-              <div className="space-y-6">
-                <div className="text-center mb-6 space-y-4">
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">
-                    JUST ANNOUNCED FOR SENIORS
-                  </h1>
-                  <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#5CB85C]">
-                    Get up to $25,000 To Cover Funeral Costs and Unpaid Debt
-                  </p>
-                  <div className="max-w-2xl mx-auto mt-4">
-                    <p className="text-base md:text-lg text-gray-700">
-                      Enter your ZIP code and complete a short survey to get a personalized quote on <span className="font-semibold">final expense insurance</span> — with <span className="font-semibold text-[#5CB85C]">no medical exams required</span>!
-                    </p>
-                  </div>
-                  <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
-                    What is your zip code?
-                  </h2>
-                </div>
-                <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
-                  <Input
-                    type="text"
-                    value={formData.zipCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
-                      setFormData({ ...formData, zipCode: value });
-                    }}
-                    placeholder="12345"
-                    className="text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center"
-                    data-testid="input-zip-code"
-                    maxLength={5}
-                    required
-                  />
-                  <Button 
-                    type="submit" 
-                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
-                    data-testid="button-submit-zip-code"
-                    disabled={isLoadingZip}
-                  >
-                    {isLoadingZip ? "Looking up..." : "Continue"}
-                  </Button>
-                </form>
-              </div>
-            )}
+            {/* Q1 is handled above, start from Q2 */}
 
             {/* Q2: Gender */}
             {step === 2 && (
