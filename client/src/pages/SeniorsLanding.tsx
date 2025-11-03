@@ -12,7 +12,6 @@ import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
-import { getCountiesByState } from "@/utils/countyData";
 import type { 
   Gender, 
   LifeInsuranceStatus, 
@@ -62,7 +61,6 @@ export default function SeniorsLanding() {
   const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
-  const [availableCounties, setAvailableCounties] = useState<string[]>([]);
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
@@ -71,8 +69,7 @@ export default function SeniorsLanding() {
     email: "",
     phone: "",
     streetAddress: "",
-    city: "",
-    county: ""
+    city: ""
   });
   
   const [formData, setFormData] = useState({
@@ -90,7 +87,6 @@ export default function SeniorsLanding() {
     email: "",
     phone: "",
     streetAddress: "",
-    county: "",
     monthlyBudget: "",
   });
   
@@ -114,9 +110,6 @@ export default function SeniorsLanding() {
             city: geoData.city,
             state: geoData.state as USState,
           }));
-          // Update available counties for the detected state
-          const counties = getCountiesByState(geoData.state);
-          setAvailableCounties(counties);
         }
       } catch (error) {
         console.log('Failed to detect location from IP, user can enter manually');
@@ -126,7 +119,7 @@ export default function SeniorsLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 16; // 15 questions + thank you page
+  const totalSteps = 14; // 13 questions + thank you page
 
   // Q1: Gender
   const handleGenderSelect = (gender: Gender) => {
@@ -242,9 +235,6 @@ export default function SeniorsLanding() {
         city: zipData.city,
         state: zipData.stateAbbr as USState,
       }));
-      // Update available counties for the state
-      const counties = getCountiesByState(zipData.stateAbbr);
-      setAvailableCounties(counties);
     }
     
     setIsLoadingZip(false);
@@ -326,25 +316,7 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(14), 300);
   };
 
-  // Q14: County
-  const handleCountySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const county = formData.county.trim();
-    
-    if (!county) {
-      setErrors(prev => ({ ...prev, county: "Please enter your county" }));
-      return;
-    }
-    if (county.length < 2) {
-      setErrors(prev => ({ ...prev, county: "County must be at least 2 characters" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, county: "" }));
-    setTimeout(() => setStep(15), 300);
-  };
-
-  // Q15: Monthly Budget (triggers Ringba API)
+  // Q14: Monthly Budget (triggers Ringba API)
   const handleMonthlyBudgetSelect = async (budget: string) => {
     setFormData({ ...formData, monthlyBudget: budget });
     setIsLoadingRingba(true);
@@ -365,7 +337,6 @@ export default function SeniorsLanding() {
         'street_address',
         'city',
         'state',
-        'county',
         'monthly_budget'
       ];
       
@@ -389,20 +360,19 @@ export default function SeniorsLanding() {
         street_address: formData.streetAddress,
         city: formData.city,
         state: formData.state,
-        county: formData.county,
         monthly_budget: budget,
         landing_page: 'seniors',
         submitted_at: new Date().toISOString()
       });
       
       setIsLoadingRingba(false);
-      setStep(16);
+      setStep(15);
     }, 300);
   };
   
   // Timer effect for thank you page
   useEffect(() => {
-    if (step === 16) {
+    if (step === 15) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
@@ -448,7 +418,6 @@ export default function SeniorsLanding() {
       <input type="hidden" name="street_address" value={formData.streetAddress} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
-      <input type="hidden" name="county" value={formData.county} />
       <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
 
       {/* Ringba loading screen overlay */}
@@ -462,7 +431,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 16 ? (
+      {step === 15 ? (
         <ThankYouContent
           timeLeft={timeLeft}
           phoneNumber={phoneNumber}
@@ -504,7 +473,7 @@ export default function SeniorsLanding() {
                   type="button"
                   onClick={() => handleGenderSelect("Male")}
                   data-testid="button-gender-male"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
                 >
                   Male
                 </button>
@@ -512,7 +481,7 @@ export default function SeniorsLanding() {
                   type="button"
                   onClick={() => handleGenderSelect("Female")}
                   data-testid="button-gender-female"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
+                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
                 >
                   Female
                 </button>
@@ -791,6 +760,21 @@ export default function SeniorsLanding() {
                   {errors.zipCode && (
                     <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>
                   )}
+                  {formData.city && formData.state && (
+                    <div className="mt-3 text-center">
+                      <p className="text-gray-700 text-base">
+                        {formData.city}, {formData.state}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, city: "", state: "" })}
+                        className="text-sm text-blue-600 hover:text-blue-800 underline mt-1"
+                        data-testid="button-edit-location"
+                      >
+                        Wrong location? Click to edit
+                      </button>
+                    </div>
+                  )}
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
@@ -941,54 +925,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q14: County */}
+            {/* Q14: Monthly Budget for Life Insurance */}
             {step === 14 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Select your county
-                  </h2>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {formData.city}, {formData.state}
-                  </p>
-                </div>
-                <form onSubmit={handleCountySubmit} className="max-w-md mx-auto space-y-4">
-                  <div>
-                    <Input
-                      type="text"
-                      list="county-list"
-                      value={formData.county}
-                      onChange={(e) => {
-                        setFormData({ ...formData, county: e.target.value });
-                        if (errors.county) setErrors(prev => ({ ...prev, county: "" }));
-                      }}
-                      placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
-                      className={`text-lg min-h-[50px] ${errors.county ? 'border-red-500' : ''}`}
-                      data-testid="input-county"
-                      required
-                    />
-                    {errors.county && (
-                      <p className="text-red-600 text-sm mt-1">{errors.county}</p>
-                    )}
-                  </div>
-                  <datalist id="county-list">
-                    {availableCounties.map((county) => (
-                      <option key={county} value={county} />
-                    ))}
-                  </datalist>
-                  <Button 
-                    type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-county"
-                    data-testid="button-submit-county"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q15: Monthly Budget for Life Insurance */}
-            {step === 15 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">

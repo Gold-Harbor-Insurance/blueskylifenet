@@ -501,7 +501,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleAgencySelect(agency as FirstResponderAgency)}
                     data-testid={`button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
+                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
                   >
                     {agency}
                   </button>
@@ -562,6 +562,21 @@ export default function FirstRespondersLanding() {
                   />
                   {errors.zipCode && (
                     <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
+                  )}
+                  {formData.city && formData.state && (
+                    <div className="mt-3 text-center">
+                      <p className="text-gray-700 text-base">
+                        {formData.city}, {formData.state}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, city: "", state: "" })}
+                        className="text-sm text-blue-600 hover:text-blue-800 underline mt-1"
+                        data-testid="button-edit-location"
+                      >
+                        Wrong location? Click to edit
+                      </button>
+                    </div>
                   )}
                   <Button 
                     type="submit" 

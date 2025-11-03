@@ -76,13 +76,13 @@ export const cashAmountSchema = z.enum([
   "Over$50000"
 ]);
 
-// New comprehensive quiz schema with all 14 questions (hobby removed)
+// New comprehensive quiz schema with all 13 questions (hobby and county removed)
 export const seniorQuizSchema = z.object({
   gender: genderSchema,
   hasLifeInsurance: lifeInsuranceStatusSchema,
   cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  age: ageRangeSchema,
+  age: z.string(),
   beneficiaryName: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
@@ -92,7 +92,6 @@ export const seniorQuizSchema = z.object({
   streetAddress: z.string().min(1),
   city: z.string().min(1),
   state: usStateSchema,
-  county: z.string().min(1),
 });
 
 export const veteranQuizSchema = z.object({
@@ -101,7 +100,7 @@ export const veteranQuizSchema = z.object({
   hasLifeInsurance: lifeInsuranceStatusSchema,
   cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  age: ageRangeSchema,
+  age: z.string(),
   beneficiaryName: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
@@ -111,7 +110,6 @@ export const veteranQuizSchema = z.object({
   streetAddress: z.string().min(1),
   city: z.string().min(1),
   state: usStateSchema,
-  county: z.string().min(1),
 });
 
 export const firstResponderQuizSchema = z.object({
@@ -120,7 +118,7 @@ export const firstResponderQuizSchema = z.object({
   hasLifeInsurance: lifeInsuranceStatusSchema,
   cashAmount: cashAmountSchema,
   beneficiary: beneficiarySchema,
-  age: ageRangeSchema,
+  age: z.string(),
   beneficiaryName: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
@@ -130,7 +128,6 @@ export const firstResponderQuizSchema = z.object({
   streetAddress: z.string().min(1),
   city: z.string().min(1),
   state: usStateSchema,
-  county: z.string().min(1),
 });
 
 export type VeteranQuizData = z.infer<typeof veteranQuizSchema>;
