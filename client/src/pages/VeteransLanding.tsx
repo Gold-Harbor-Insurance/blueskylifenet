@@ -700,6 +700,7 @@ export default function VeteransLanding() {
                     placeholder="Enter beneficiary name"
                     className={`text-lg min-h-[50px] ${errors.beneficiaryName ? 'border-red-500' : ''}`}
                     data-testid="input-beneficiary-name"
+                    autoFocus
                     required
                   />
                   {errors.beneficiaryName && (
@@ -735,6 +736,7 @@ export default function VeteransLanding() {
                     placeholder="Enter your first name"
                     className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                     data-testid="input-first-name"
+                    autoFocus
                     required
                   />
                   {errors.firstName && (
@@ -770,6 +772,7 @@ export default function VeteransLanding() {
                     placeholder="Enter your last name"
                     className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
                     data-testid="input-last-name"
+                    autoFocus
                     required
                   />
                   {errors.lastName && (
@@ -859,6 +862,7 @@ export default function VeteransLanding() {
                     placeholder="Enter your email"
                     className={`text-lg min-h-[50px] ${errors.email ? 'border-red-500' : ''}`}
                     data-testid="input-email"
+                    autoFocus
                     required
                   />
                   {errors.email && (
@@ -892,6 +896,7 @@ export default function VeteransLanding() {
                     className={`text-lg min-h-[50px] ${errors.phone ? 'border-red-500' : ''}`}
                     data-testid="input-phone"
                     maxLength={14}
+                    autoFocus
                     required
                   />
                   {errors.phone && (
@@ -927,6 +932,7 @@ export default function VeteransLanding() {
                     placeholder="Street address"
                     className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
                     data-testid="input-street-address"
+                    autoFocus
                     required
                   />
                   {errors.streetAddress && (
