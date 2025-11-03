@@ -6,69 +6,66 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 ## Project Structure
 
 ### Pages
-- `/seniors` - Landing page for seniors with 16-step quiz (15 questions + thank you)
-- `/veterans` - Landing page for veterans with 17-step quiz (military branch + 15 questions + thank you)
-- `/firstresponders` - Landing page for first responders with 17-step quiz (agency + 15 questions + thank you)
+- `/seniors` - Landing page for seniors with 14-step quiz (13 questions + thank you)
+- `/veterans` - Landing page for veterans with 17-step quiz (military branch + 14 questions + thank you)
+- `/firstresponders` - Landing page for first responders with 17-step quiz (agency + 14 questions + county + thank you)
 - `/` - Main homepage replicating blueskylife.com design
 - `/not-qualified` - Legacy disqualification page (no longer used - all ages accepted)
 
-### Quiz Flow Architecture (November 2025 Update)
+### Quiz Flow Architecture (December 2025 Update - Optimized Conversion Flow)
 
-**Seniors Landing Page** (/seniors) - 16 Steps Total:
-- **Q1**: ZIP Code (auto-detected via IP geolocation, editable)
-- **Q2**: Gender
-- **Q3**: Has Life Insurance
-- **Q4**: Cash Amount Available
+**CRITICAL CHANGE**: Monthly budget question moved earlier in the flow (step 4/6) to improve conversion rates and reduce drop-off.
+
+**Seniors Landing Page** (/seniors) - 14 Steps Total:
+- **Q1**: Gender
+- **Q2**: Has Life Insurance
+- **Q3**: Cash Amount Available
+- **Q4**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
 - **Q5**: Beneficiary
 - **Q6**: Age Range (ALL ages now accepted - no disqualification)
 - **Q7**: Beneficiary Name
-- **Q8**: Hobby
-- **Q9**: First Name
-- **Q10**: Last Name
+- **Q8**: First Name
+- **Q9**: Last Name
+- **Q10**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
 - **Q11**: Email
 - **Q12**: Phone
-- **Q13**: Street Address (with disabled city/state/ZIP fields pre-filled from Q1)
-- **Q14**: County (input with autocomplete suggestions based on state from Q1)
-- **Q15**: Monthly Budget (triggers Ringba API before proceeding)
-- **Step 16**: Thank you page (integrated as final step)
+- **Q13**: Street Address (triggers Ringba API and webhook before proceeding)
+- **Step 14**: Thank you page (integrated as final step)
 
 **Veterans Landing Page** (/veterans) - 17 Steps Total:
 - **Q1**: Military Branch (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
-- **Q2**: ZIP Code (auto-detected via IP geolocation, editable)
-- **Q3**: Gender
-- **Q4**: Has Life Insurance
-- **Q5**: Cash Amount Available
+- **Q2**: Gender
+- **Q3**: Has Life Insurance
+- **Q4**: Cash Amount Available
+- **Q5**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
 - **Q6**: Beneficiary
 - **Q7**: Age Range (ALL ages now accepted)
 - **Q8**: Beneficiary Name
-- **Q9**: Hobby
-- **Q10**: First Name
-- **Q11**: Last Name
+- **Q9**: First Name
+- **Q10**: Last Name
+- **Q11**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
 - **Q12**: Email
 - **Q13**: Phone
-- **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
-- **Q15**: County (input with autocomplete suggestions based on state from Q2)
-- **Q16**: Monthly Budget (triggers Ringba API before proceeding)
-- **Step 17**: Thank you page (integrated as final step)
+- **Q14**: Street Address (triggers Ringba API and webhook before proceeding)
+- **Step 15**: Thank you page (integrated as final step)
 
 **First Responders Landing Page** (/firstresponders) - 17 Steps Total:
 - **Q1**: First Responder Agency (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
-- **Q2**: ZIP Code (auto-detected via IP geolocation, editable)
+- **Q2**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
 - **Q3**: Gender
 - **Q4**: Has Life Insurance
 - **Q5**: Cash Amount Available
-- **Q6**: Beneficiary
-- **Q7**: Age Range (ALL ages now accepted)
-- **Q8**: Beneficiary Name
-- **Q9**: Hobby
+- **Q6**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
+- **Q7**: Beneficiary
+- **Q8**: Age Range (ALL ages now accepted)
+- **Q9**: Beneficiary Name
 - **Q10**: First Name
 - **Q11**: Last Name
 - **Q12**: Email
 - **Q13**: Phone
-- **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
-- **Q15**: County (input with autocomplete suggestions based on state from Q2)
-- **Q16**: Monthly Budget (triggers Ringba API before proceeding)
-- **Step 17**: Thank you page (integrated as final step)
+- **Q14**: Street Address
+- **Q15**: County (triggers Ringba API and webhook before proceeding)
+- **Step 16**: Thank you page (integrated as final step)
 
 ### Features Implemented
 
@@ -80,12 +77,13 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
    - Validates and updates city/state using Zippopotam.us API when ZIP is changed
    - **Files**: client/src/utils/ipGeolocation.ts, client/src/utils/zipCodeLookup.ts
 
-2. **County Selection with Manual Entry Fallback** (November 2025)
+2. **County Selection with Manual Entry Fallback** (November 2025) - FirstResponders Only
    - Comprehensive county database covering all 50 US states, DC, and Puerto Rico
    - 3,243+ counties organized by state
    - Uses Input field with datalist for autocomplete suggestions
    - Allows manual typing when county lookup fails or user wants to enter custom value
    - Shows "Select or type your county" when counties available, "Type your county" when list empty
+   - **Note**: County question only appears in FirstResponders landing page
    - **Files**: client/src/utils/countyData.ts
 
 3. **Thank You Page Integration**
@@ -102,7 +100,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
      - Maintains form data persistence throughout flow
      - Displays loading indicator while Ringba API call is in progress
 
-4. **Google Tag Manager Integration** (November 2025 Update)
+4. **Google Tag Manager Integration** (December 2025 Update)
    - BlueSky Life GTM container: `https://trk.blueskylife.io`
    - Container ID: GTM-W9243JWT
    - All quiz selections captured in hidden input fields for GTM access
@@ -110,10 +108,10 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
      - `name="gender"` - Selected gender
      - `name="life_insurance"` - Life insurance status
      - `name="coverage_amount"` - Cash amount available
+     - `name="monthly_budget"` - Selected monthly budget
      - `name="beneficiary"` - Selected beneficiary
      - `name="age_classification"` - Selected age range
      - `name="beneficiary_name"` - Beneficiary name
-     - `name="hobby"` - User's hobby
      - `name="first_name"` - First name
      - `name="last_name"` - Last name
      - `name="zip_code"` - ZIP code
@@ -122,12 +120,11 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
      - `name="street_address"` - Street address
      - `name="city"` - City (auto-filled from ZIP)
      - `name="state"` - State (auto-filled from ZIP)
-     - `name="county"` - Selected county
-     - `name="monthly_budget"` - Selected monthly budget
    - **Veterans template** additional input:
      - `name="military_branch"` - Selected military branch
-   - **First Responders template** additional input:
+   - **First Responders template** additional inputs:
      - `name="first_responder_agency"` - Selected first responder agency
+     - `name="county"` - Selected county (only in FirstResponders)
    - Hidden inputs ALWAYS rendered in DOM throughout quiz flow for GTM to read
    - GTM can access values via: `document.querySelector('input[name="field_name"]').value`
    - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
@@ -145,11 +142,13 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
    - All age ranges proceed through quiz without redirecting to /not-qualified
    - Age data still captured for tracking and analytics purposes
 
-7. **Custom Ringba API Integration** (October 2025)
+7. **Custom Ringba API Integration** (December 2025 Update)
    - Replaced Ringba script tag with custom API implementation
    - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
    - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
-   - **Timing**: API called after monthly budget selection (Q15/Q16), before displaying thank you step
+   - **Timing**: API called at final substantive question before thank you page
+     - Seniors/Veterans: Street Address submission (Q13/Q14)
+     - FirstResponders: County submission (Q15)
    - **Loading State**: Full-screen overlay with semi-transparent backdrop and centered loading card
      - Fixed position overlay covering entire viewport (`fixed inset-0`)
      - Semi-transparent black background with backdrop blur (`bg-black/50 backdrop-blur-sm`)
