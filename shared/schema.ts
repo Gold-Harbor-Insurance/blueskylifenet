@@ -75,7 +75,7 @@ export const cashAmountSchema = z.enum([
   "$20,000+"
 ]);
 
-// New comprehensive quiz schema with all 15 questions
+// New comprehensive quiz schema with all 14 questions (hobby removed)
 export const seniorQuizSchema = z.object({
   gender: genderSchema,
   hasLifeInsurance: lifeInsuranceStatusSchema,
@@ -83,7 +83,6 @@ export const seniorQuizSchema = z.object({
   beneficiary: beneficiarySchema,
   age: ageRangeSchema,
   beneficiaryName: z.string().min(1),
-  hobby: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   zipCode: z.string().regex(/^\d{5}$/),
@@ -103,7 +102,6 @@ export const veteranQuizSchema = z.object({
   beneficiary: beneficiarySchema,
   age: ageRangeSchema,
   beneficiaryName: z.string().min(1),
-  hobby: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   zipCode: z.string().regex(/^\d{5}$/),
@@ -123,7 +121,6 @@ export const firstResponderQuizSchema = z.object({
   beneficiary: beneficiarySchema,
   age: ageRangeSchema,
   beneficiaryName: z.string().min(1),
-  hobby: z.string().min(1),
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   zipCode: z.string().regex(/^\d{5}$/),
