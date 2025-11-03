@@ -126,7 +126,7 @@ export default function FirstRespondersLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 17; // Agency + 15 questions + thank you page
+  const totalSteps = 17; // Agency + 14 questions + county + thank you page
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
@@ -179,19 +179,25 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(6), 300);
   };
 
-  // Q6: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q6: Monthly Budget
+  const handleMonthlyBudgetSelect = (budget: string) => {
+    setFormData({ ...formData, monthlyBudget: budget });
     setTimeout(() => setStep(7), 300);
   };
 
-  // Q7: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Q7: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(8), 300);
   };
 
-  // Q8: Beneficiary Name
+  // Q8: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTimeout(() => setStep(9), 300);
+  };
+
+  // Q9: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -210,7 +216,7 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(9), 300);
+    setTimeout(() => setStep(10), 300);
   };
 
 
@@ -293,7 +299,7 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(14), 300);
   };
 
-  // Q14: Street Address (with disabled city/state/zip fields)
+  // Q14: Street Address
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const address = formData.streetAddress.trim();
@@ -311,8 +317,8 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(15), 300);
   };
 
-  // Q15: County
-  const handleCountySubmit = (e: React.FormEvent) => {
+  // Q15: County (triggers Ringba API and final submission)
+  const handleCountySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const county = formData.county.trim();
     
@@ -326,12 +332,6 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, county: "" }));
-    setTimeout(() => setStep(16), 300);
-  };
-
-  // Q16: Monthly Budget (triggers Ringba API)
-  const handleMonthlyBudgetSelect = async (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
     setIsLoadingRingba(true);
     
     setTimeout(async () => {
@@ -341,6 +341,7 @@ export default function FirstRespondersLanding() {
         'gender',
         'life_insurance',
         'coverage_amount',
+        'monthly_budget',
         'beneficiary',
         'age_classification',
         'beneficiary_name',
@@ -351,8 +352,7 @@ export default function FirstRespondersLanding() {
         'street_address',
         'city',
         'state',
-        'county',
-        'monthly_budget'
+        'county'
       ];
       
       const ringbaData = await fetchRingbaNumber(hiddenInputNames);
@@ -366,6 +366,7 @@ export default function FirstRespondersLanding() {
         gender: formData.gender,
         life_insurance: formData.hasLifeInsurance,
         coverage_amount: formData.cashAmount,
+        monthly_budget: formData.monthlyBudget,
         beneficiary: formData.beneficiary,
         age_classification: formData.age,
         beneficiary_name: formData.beneficiaryName,
@@ -377,7 +378,6 @@ export default function FirstRespondersLanding() {
         city: formData.city,
         state: formData.state,
         county: formData.county,
-        monthly_budget: budget,
         landing_page: 'first_responders',
         submitted_at: new Date().toISOString()
       });
@@ -672,8 +672,32 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q6: Beneficiary */}
+            {/* Q6: Monthly Budget */}
             {step === 6 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What monthly budget would you feel comfortable investing to protect your family?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["$50-$74/month", "$75-$99/month", "$100-$149/month", "$150+/month"].map((budget) => (
+                    <button
+                      key={budget}
+                      type="button"
+                      onClick={() => handleMonthlyBudgetSelect(budget)}
+                      data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                    >
+                      {budget}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q7: Beneficiary */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -696,8 +720,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q7: Age (NO disqualification - all ages accepted) */}
-            {step === 7 && (
+            {/* Q8: Age (NO disqualification - all ages accepted) */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -712,6 +736,7 @@ export default function FirstRespondersLanding() {
                     pattern="[0-9]*"
                     value={formData.age}
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                    onWheel={(e) => e.currentTarget.blur()}
                     min="18"
                     max="100"
                     className="text-2xl min-h-[60px] font-semibold text-center md:hidden"
@@ -749,8 +774,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q8: Beneficiary Name */}
-            {step === 8 && (
+            {/* Q9: Beneficiary Name */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -923,7 +948,7 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q14: Street Address with disabled City/State/Zip */}
+            {/* Q14: Street Address */}
             {step === 14 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
@@ -1029,30 +1054,6 @@ export default function FirstRespondersLanding() {
                     Continue
                   </Button>
                 </form>
-              </div>
-            )}
-
-            {/* Q16: Monthly Budget for Life Insurance */}
-            {step === 16 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your monthly budget for life insurance?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["$50-$74/month", "$75-$99/month", "$100-$149/month", "$150+/month"].map((budget) => (
-                    <button
-                      key={budget}
-                      type="button"
-                      onClick={() => handleMonthlyBudgetSelect(budget)}
-                      data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                    >
-                      {budget}
-                    </button>
-                  ))}
-                </div>
               </div>
             )}
           </QuizCard>
