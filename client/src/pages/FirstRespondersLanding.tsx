@@ -7,19 +7,18 @@ import ThankYouContent from "@/components/ThankYouContent";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
-import { getCountiesByState } from "@/utils/countyData";
 import type { 
   FirstResponderAgency,
   Gender, 
   LifeInsuranceStatus, 
   CashAmount, 
-  Beneficiary, 
-  AgeRange,
+  Beneficiary,
   USState 
 } from "@shared/schema";
 
@@ -85,7 +84,7 @@ export default function FirstRespondersLanding() {
     hasLifeInsurance: "" as LifeInsuranceStatus | "",
     cashAmount: "" as CashAmount | "",
     beneficiary: "" as Beneficiary | "",
-    age: "" as AgeRange | "",
+    age: "50",
     beneficiaryName: "",
     firstName: "",
     lastName: "",
@@ -187,8 +186,8 @@ export default function FirstRespondersLanding() {
   };
 
   // Q7: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSelect = (age: AgeRange) => {
-    setFormData({ ...formData, age });
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setTimeout(() => setStep(8), 300);
   };
 
@@ -564,17 +563,18 @@ export default function FirstRespondersLanding() {
                     <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
                   )}
                   {formData.city && formData.state && (
-                    <div className="mt-3 text-center">
+                    <div className="mt-3 text-center flex items-center justify-center gap-2">
                       <p className="text-gray-700 text-base">
                         {formData.city}, {formData.state}
                       </p>
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, city: "", state: "" })}
-                        className="text-sm text-blue-600 hover:text-blue-800 underline mt-1"
+                        className="text-gray-600 hover:text-gray-800 transition-colors"
                         data-testid="button-edit-location"
+                        aria-label="Edit location"
                       >
-                        Wrong location? Click to edit
+                        <Pencil className="w-4 h-4" />
                       </button>
                     </div>
                   )}
@@ -696,40 +696,56 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q7: Age */}
+            {/* Q7: Age (NO disqualification - all ages accepted) */}
             {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your age range?
+                    What is your age?
                   </h2>
                 </div>
-                <div className="flex flex-col md:flex-row gap-4 justify-center max-w-3xl mx-auto">
-                  <button
-                    type="button"
-                    onClick={() => handleAgeSelect("Under 45")}
-                    data-testid="button-age-under-45"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-under-45"
+                <form onSubmit={handleAgeSubmit} className="max-w-xs mx-auto">
+                  {/* Mobile/Tablet: Native scroll wheel */}
+                  <Input
+                    type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={formData.age}
+                    onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                    min="18"
+                    max="100"
+                    className="text-2xl min-h-[60px] font-semibold text-center md:hidden"
+                    data-testid="input-age-mobile"
+                    required
+                  />
+                  
+                  {/* Desktop: Dropdown menu */}
+                  <div className="hidden md:flex md:justify-center">
+                    <Select
+                      value={formData.age}
+                      onValueChange={(value) => setFormData({ ...formData, age: value })}
+                    >
+                      <SelectTrigger className="text-2xl min-h-[60px] font-semibold w-32 justify-center" data-testid="select-age-desktop">
+                        <SelectValue placeholder="Select your age" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px] w-32">
+                        {Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+                          <SelectItem key={age} value={age.toString()} className="text-xl py-3 justify-center cursor-pointer">
+                            {age}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-age"
+                    data-testid="button-submit-age"
                   >
-                    Under 45
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleAgeSelect("45-85")}
-                    data-testid="button-age-45-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-45-85"
-                  >
-                    45-85
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleAgeSelect("Over 85")}
-                    data-testid="button-age-over-85"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-age-over-85"
-                  >
-                    Over 85
-                  </button>
-                </div>
+                    Continue
+                  </Button>
+                </form>
               </div>
             )}
 
