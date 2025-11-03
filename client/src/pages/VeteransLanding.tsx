@@ -824,6 +824,8 @@ export default function VeteransLanding() {
                 <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
                   <Input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     value={formData.zipCode}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 5);

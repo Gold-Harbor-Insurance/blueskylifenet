@@ -788,6 +788,8 @@ export default function SeniorsLanding() {
                 <form onSubmit={handleZipCodeSubmit} className="max-w-md mx-auto">
                   <Input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     value={formData.zipCode}
                     onChange={(e) => {
                       const value = e.target.value.replace(/\D/g, '').substring(0, 5);
