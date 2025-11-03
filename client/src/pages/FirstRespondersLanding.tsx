@@ -310,16 +310,24 @@ export default function FirstRespondersLanding() {
           phoneRef={phoneRef}
         />
       ) : (
-        <QuizLayout 
-          headline="EXCLUSIVE FOR FIRST RESPONDERS"
-          subheadline="Get up to $25,000 To Cover Funeral Costs and Unpaid Debt"
-        >
+        <QuizLayout>
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
             {/* Q1: First Responder Agency (First Responders-specific) */}
             {step === 1 && (
               <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                <div className="text-center mb-6 space-y-4">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">
+                    EXCLUSIVE FOR FIRST RESPONDERS
+                  </h1>
+                  <p className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#5CB85C]">
+                    Get up to $25,000 To Cover Funeral Costs and Unpaid Debt
+                  </p>
+                  <div className="max-w-2xl mx-auto mt-4">
+                    <p className="text-base md:text-lg text-gray-700">
+                      Enter your ZIP code and complete a short survey to get a personalized quote on <span className="font-semibold">final expense insurance</span> — with <span className="font-semibold text-[#5CB85C]">no medical exams required</span>!
+                    </p>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
                     Which agency do you serve with?
                   </h2>
                 </div>
