@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Calendar, Clock, Zap } from "lucide-react";
 
 interface ThankYouContentProps {
   phoneNumber: string;
@@ -33,10 +33,34 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   };
 
   const progressSteps = [
-    { label: "Application Submitted", status: "complete" as const, icon: <Check className="w-4 h-4" /> },
-    { label: "Strategy Call Booked", status: "current" as const, subtext: "within 24 hours" },
-    { label: "Coverage Discovery", status: "pending" as const, subtext: "pending" },
-    { label: "Policy Approval", status: "pending" as const, subtext: "pending" }
+    { 
+      label: "Application Submitted", 
+      subtext: "Just now",
+      icon: <Check className="w-5 h-5" />,
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600"
+    },
+    { 
+      label: "Strategy Call Booked", 
+      subtext: "Within 24 hours",
+      icon: <Calendar className="w-5 h-5" />,
+      iconBg: "bg-yellow-100",
+      iconColor: "text-yellow-600"
+    },
+    { 
+      label: "Custom Campaign Build", 
+      subtext: "2-3 business days",
+      icon: <Clock className="w-5 h-5" />,
+      iconBg: "bg-gray-100",
+      iconColor: "text-gray-400"
+    },
+    { 
+      label: "First Leads Delivered", 
+      subtext: "Within 10 days",
+      icon: <Zap className="w-5 h-5" />,
+      iconBg: "bg-gray-100",
+      iconColor: "text-gray-400"
+    }
   ];
 
   return (
@@ -59,40 +83,42 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           <span className="text-green-600">You're Pre-Approved!</span>
         </h1>
 
-        {/* Progress Tracker */}
-        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-          {progressSteps.map((step, index) => (
-            <div key={index} className="flex items-center gap-3 text-left">
-              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
-                step.status === 'complete' ? 'bg-green-600 text-white' :
-                step.status === 'current' ? 'bg-yellow-400 text-black' :
-                'bg-gray-300 text-gray-600'
-              }`}>
-                {step.status === 'complete' ? step.icon : <span className="text-xs font-bold">{index + 1}</span>}
-              </div>
-              <div className="flex-1">
-                <div className={`text-sm font-semibold ${
-                  step.status === 'complete' ? 'text-green-600' :
-                  step.status === 'current' ? 'text-yellow-600' :
-                  'text-gray-500'
-                }`}>
-                  {step.label}
+        {/* Application Progress */}
+        <div className="bg-white border border-gray-200 rounded-lg p-4">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-black">Application Progress</h2>
+            <span className="text-xl md:text-2xl font-bold text-blue-500">50%</span>
+          </div>
+
+          {/* Progress Steps - Stacked on mobile, horizontal on desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            {progressSteps.map((step, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <div className={`flex-shrink-0 w-10 h-10 rounded flex items-center justify-center ${step.iconBg}`}>
+                  <span className={step.iconColor}>
+                    {step.icon}
+                  </span>
                 </div>
-                {step.subtext && (
-                  <div className={`text-xs ${
-                    step.status === 'current' ? 'text-yellow-600 font-medium' : 'text-gray-400'
-                  }`}>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-semibold text-black leading-tight">
+                    {step.label}
+                  </div>
+                  <div className="text-xs text-gray-500 mt-0.5">
                     {step.subtext}
                   </div>
-                )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div className="bg-green-600 h-2 rounded-full" style={{ width: '25%' }}></div>
+          {/* Progress Bar */}
+          <div>
+            <div className="text-xs text-gray-600 mb-1">Progress</div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-blue-500 h-2 rounded-full transition-all duration-500" style={{ width: '50%' }}></div>
+            </div>
+          </div>
         </div>
 
         {/* What You're Getting */}
