@@ -62,16 +62,20 @@ export default function FirstRespondersLanding() {
     
     // Auto-detect ZIP code from IP on component mount
     const detectLocation = async () => {
-      const geoData = await detectZipCodeFromIP();
-      if (geoData) {
-        setFormData(prev => ({
-          ...prev,
-          zipCode: geoData.zipCode,
-          city: geoData.city,
-          state: geoData.state as USState,
-        }));
-        const counties = getCountiesByState(geoData.state);
-        setAvailableCounties(counties);
+      try {
+        const geoData = await detectZipCodeFromIP();
+        if (geoData) {
+          setFormData(prev => ({
+            ...prev,
+            zipCode: geoData.zipCode,
+            city: geoData.city,
+            state: geoData.state as USState,
+          }));
+          const counties = getCountiesByState(geoData.state);
+          setAvailableCounties(counties);
+        }
+      } catch (error) {
+        console.log('Failed to detect location from IP, user can enter manually');
       }
     };
     
