@@ -18,7 +18,7 @@ interface WebhookPayload {
   street_address: string;
   city: string;
   state: string;
-  county: string;
+  county?: string;
   monthly_budget: string;
   landing_page: 'seniors' | 'veterans' | 'first_responders';
   submitted_at: string;

@@ -127,27 +127,27 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q2: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
-  // Q3: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
+  // Q3: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Monthly Budget
-  const handleMonthlyBudgetSelect = (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
+  // Q4: Cash Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(5), 300);
   };
 
-  // Q5: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q5: Monthly Budget
+  const handleMonthlyBudgetSelect = (budget: string) => {
+    setFormData({ ...formData, monthlyBudget: budget });
     setTimeout(() => setStep(6), 300);
   };
 
@@ -493,8 +493,32 @@ export default function SeniorsLanding() {
         <QuizLayout>
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
             
-            {/* Q2: Has Life Insurance */}
+            {/* Q2: Beneficiary */}
             {step === 2 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    Who would you want to receive this benefit?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
+                    <button
+                      key={ben}
+                      type="button"
+                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
+                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                    >
+                      {ben}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q3: Has Life Insurance */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -522,8 +546,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q3: Cash Amount */}
-            {step === 3 && (
+            {/* Q4: Cash Amount */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -546,8 +570,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q4: Monthly Budget */}
-            {step === 4 && (
+            {/* Q5: Monthly Budget */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -564,30 +588,6 @@ export default function SeniorsLanding() {
                       className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Q5: Beneficiary */}
-            {step === 5 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Who would you want to receive this benefit?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
-                    <button
-                      key={ben}
-                      type="button"
-                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {ben}
                     </button>
                   ))}
                 </div>

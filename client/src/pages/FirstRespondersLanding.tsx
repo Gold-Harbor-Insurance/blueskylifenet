@@ -13,6 +13,7 @@ import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
+import { getCountiesByState } from "@/utils/countyData";
 import type { 
   FirstResponderAgency,
   Gender, 
@@ -167,27 +168,27 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q4: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(5), 300);
   };
 
-  // Q5: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
+  // Q5: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(6), 300);
   };
 
-  // Q6: Monthly Budget
-  const handleMonthlyBudgetSelect = (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
+  // Q6: Cash Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(7), 300);
   };
 
-  // Q7: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q7: Monthly Budget
+  const handleMonthlyBudgetSelect = (budget: string) => {
+    setFormData({ ...formData, monthlyBudget: budget });
     setTimeout(() => setStep(8), 300);
   };
 
@@ -619,8 +620,32 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q4: Has Life Insurance */}
+            {/* Q4: Beneficiary */}
             {step === 4 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    Who would you want to receive this benefit?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
+                    <button
+                      key={ben}
+                      type="button"
+                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
+                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                    >
+                      {ben}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q5: Has Life Insurance */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -648,8 +673,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q5: Cash Amount */}
-            {step === 5 && (
+            {/* Q6: Cash Amount */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -672,8 +697,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q6: Monthly Budget */}
-            {step === 6 && (
+            {/* Q7: Monthly Budget */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -690,30 +715,6 @@ export default function FirstRespondersLanding() {
                       className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
                       {budget}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Q7: Beneficiary */}
-            {step === 7 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Who would you want to receive this benefit?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
-                    <button
-                      key={ben}
-                      type="button"
-                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {ben}
                     </button>
                   ))}
                 </div>

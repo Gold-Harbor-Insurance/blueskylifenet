@@ -14,14 +14,16 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 
 ### Quiz Flow Architecture (December 2025 Update - Optimized Conversion Flow)
 
-**CRITICAL CHANGE**: Monthly budget question moved earlier in the flow (step 4/6) to improve conversion rates and reduce drop-off.
+**CRITICAL CHANGES**: 
+1. Monthly budget question moved earlier in the flow (step 4/5/6) to improve conversion rates and reduce drop-off
+2. Beneficiary question moved to position 2/3/4 (right after gender) to establish emotional connection early
 
 **Seniors Landing Page** (/seniors) - 14 Steps Total:
 - **Q1**: Gender
-- **Q2**: Has Life Insurance
-- **Q3**: Cash Amount Available
-- **Q4**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
-- **Q5**: Beneficiary
+- **Q2**: Beneficiary ("Who would you want to receive this benefit?")
+- **Q3**: Has Life Insurance
+- **Q4**: Cash Amount Available
+- **Q5**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
 - **Q6**: Age Range (ALL ages now accepted - no disqualification)
 - **Q7**: Beneficiary Name
 - **Q8**: First Name
@@ -35,10 +37,10 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 **Veterans Landing Page** (/veterans) - 17 Steps Total:
 - **Q1**: Military Branch (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
 - **Q2**: Gender
-- **Q3**: Has Life Insurance
-- **Q4**: Cash Amount Available
-- **Q5**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
-- **Q6**: Beneficiary
+- **Q3**: Beneficiary ("Who would you want to receive this benefit?")
+- **Q4**: Has Life Insurance
+- **Q5**: Cash Amount Available
+- **Q6**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
 - **Q7**: Age Range (ALL ages now accepted)
 - **Q8**: Beneficiary Name
 - **Q9**: First Name
@@ -47,16 +49,16 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Q12**: Email
 - **Q13**: Phone
 - **Q14**: Street Address (triggers Ringba API and webhook before proceeding)
-- **Step 15**: Thank you page (integrated as final step)
+- **Step 17**: Thank you page (integrated as final step)
 
 **First Responders Landing Page** (/firstresponders) - 17 Steps Total:
 - **Q1**: First Responder Agency (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
 - **Q2**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
 - **Q3**: Gender
-- **Q4**: Has Life Insurance
-- **Q5**: Cash Amount Available
-- **Q6**: Monthly Budget (NEW POSITION - "What monthly budget would you feel comfortable investing to protect your family?")
-- **Q7**: Beneficiary
+- **Q4**: Beneficiary ("Who would you want to receive this benefit?")
+- **Q5**: Has Life Insurance
+- **Q6**: Cash Amount Available
+- **Q7**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
 - **Q8**: Age Range (ALL ages now accepted)
 - **Q9**: Beneficiary Name
 - **Q10**: First Name
@@ -65,7 +67,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Q13**: Phone
 - **Q14**: Street Address
 - **Q15**: County (triggers Ringba API and webhook before proceeding)
-- **Step 16**: Thank you page (integrated as final step)
+- **Step 17**: Thank you page (integrated as final step)
 
 ### Features Implemented
 
