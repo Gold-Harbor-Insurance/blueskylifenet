@@ -22,6 +22,40 @@ import type {
   USState 
 } from "@shared/schema";
 
+const testimonials = [
+  { quote: "Quick and easy to understand", author: "Margaret L." },
+  { quote: "Great coverage options", author: "James B." },
+  { quote: "Simple process, excellent service", author: "Linda M." },
+  { quote: "Peace of mind for my family", author: "Robert T." },
+];
+
+function TestimonialCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="w-full flex justify-center py-4">
+      <div className="bg-[#b3d9f2] px-6 py-3 rounded-lg max-w-xs text-center transition-all duration-500">
+        <div className="flex justify-center gap-1 mb-1">
+          <span className="text-yellow-400 text-xl">⭐</span>
+          <span className="text-yellow-400 text-xl">⭐</span>
+          <span className="text-yellow-400 text-xl">⭐</span>
+          <span className="text-yellow-400 text-xl">⭐</span>
+          <span className="text-yellow-400 text-xl">⭐</span>
+        </div>
+        <p className="text-sm font-semibold text-gray-800">"{testimonials[currentIndex].quote}"</p>
+        <p className="text-xs text-gray-600">— {testimonials[currentIndex].author}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function VeteransLanding() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
@@ -319,23 +353,11 @@ export default function VeteransLanding() {
           {/* Blue bar at top */}
           <div className="w-full h-[18px] bg-[#63b1f9]"></div>
           
-          {/* Testimonial */}
-          <div className="w-full flex justify-center py-4">
-            <div className="bg-[#b3d9f2] px-6 py-3 rounded-lg max-w-xs text-center">
-              <div className="flex justify-center gap-1 mb-1">
-                <span className="text-yellow-400 text-xl">⭐</span>
-                <span className="text-yellow-400 text-xl">⭐</span>
-                <span className="text-yellow-400 text-xl">⭐</span>
-                <span className="text-yellow-400 text-xl">⭐</span>
-                <span className="text-yellow-400 text-xl">⭐</span>
-              </div>
-              <p className="text-sm font-semibold text-gray-800">"Quick and easy to understand"</p>
-              <p className="text-xs text-gray-600">— Margaret L.</p>
-            </div>
-          </div>
+          {/* Auto-scrolling Testimonial Carousel */}
+          <TestimonialCarousel />
 
-          {/* Main content */}
-          <div className="flex-1 flex flex-col items-center px-4 py-8">
+          {/* Main content - vertically centered */}
+          <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
             {/* Headline */}
             <div className="text-center mb-6 max-w-4xl">
               <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -344,8 +366,8 @@ export default function VeteransLanding() {
               </h1>
             </div>
 
-            {/* White card with question */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 max-w-3xl w-full">
+            {/* Light blue card with question */}
+            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-8 md:p-12 max-w-3xl w-full">
               <div className="text-center mb-8">
                 <p className="text-lg md:text-xl mb-2">
                   Answer a 5 Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
