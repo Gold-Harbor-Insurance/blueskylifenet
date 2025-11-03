@@ -252,8 +252,8 @@ export default function FirstRespondersLanding() {
         'first_responder_agency',
         'zip_code',
         'gender',
-        'has_life_insurance',
-        'cash_amount',
+        'life_insurance',
+        'coverage_amount',
         'beneficiary',
         'age_classification',
         'beneficiary_name',
@@ -313,8 +313,8 @@ export default function FirstRespondersLanding() {
       <input type="hidden" name="first_responder_agency" value={formData.agency} />
       <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="gender" value={formData.gender} />
-      <input type="hidden" name="has_life_insurance" value={formData.hasLifeInsurance} />
-      <input type="hidden" name="cash_amount" value={formData.cashAmount} />
+      <input type="hidden" name="life_insurance" value={formData.hasLifeInsurance} />
+      <input type="hidden" name="coverage_amount" value={formData.cashAmount} />
       <input type="hidden" name="beneficiary" value={formData.beneficiary} />
       <input type="hidden" name="age_classification" value={formData.age} />
       <input type="hidden" name="beneficiary_name" value={formData.beneficiaryName} />
