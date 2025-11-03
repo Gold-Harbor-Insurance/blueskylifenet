@@ -64,19 +64,20 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 py-6">
-      <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
-      
-      {/* Hidden inputs for GTM tracking */}
-      <input type="hidden" id="age-classification-final" value={ageClassification || ""} />
-      <input type="hidden" id="budget-classification-final" value={budgetClassification || ""} />
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-6"
-      >
+    <>
+      <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 py-6 pb-32">
+        <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
+        
+        {/* Hidden inputs for GTM tracking */}
+        <input type="hidden" id="age-classification-final" value={ageClassification || ""} />
+        <input type="hidden" id="budget-classification-final" value={budgetClassification || ""} />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-6"
+        >
         {/* Personalized Headline */}
         <h1 className="text-3xl md:text-4xl font-bold text-black leading-tight" data-testid="text-congratulations">
           Congratulations {firstName}!<br />
@@ -143,43 +144,10 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         {/* Urgency Message */}
         <div className="bg-red-50 border-l-4 border-red-600 p-4">
           <p className="text-base font-bold text-red-600">
-            Don't Wait — Plans Get Pricier as You Get Older
+            Don't Wait! Prices Increase as You Age!
           </p>
         </div>
 
-        {/* Call to Action */}
-        <div className="space-y-3">
-          <p className="text-base font-semibold text-black">
-            CALL NOW to finalize your options with a licensed specialist:
-          </p>
-          
-          {isFacebookBrowser ? (
-            <a
-              href={telLink || "#"}
-              onClick={handlePhoneClick}
-              className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-xl md:text-2xl font-bold py-4 px-8 rounded-lg shadow-lg transition-colors duration-200 cursor-pointer"
-              data-testid="button-call-now"
-              data-age-classification={ageClassification || ""}
-              data-budget-classification={budgetClassification || ""}
-            >
-              TAP TO CALL<br />
-              <span className="text-lg">{phoneNumber}</span>
-            </a>
-          ) : (
-            <motion.a
-              href={telLink || "#"}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-xl md:text-2xl font-bold py-4 px-8 rounded-lg shadow-lg transition-colors duration-200"
-              data-testid="button-call-now"
-              data-age-classification={ageClassification || ""}
-              data-budget-classification={budgetClassification || ""}
-            >
-              TAP TO CALL<br />
-              <span className="text-lg">{phoneNumber}</span>
-            </motion.a>
-          )}
-        </div>
 
         {/* Book Appointment */}
         <div className="pt-2">
@@ -215,5 +183,44 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         </div>
       </motion.div>
     </div>
+
+    {/* Sticky Call Button at Bottom */}
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-lg">
+      <div className="max-w-2xl mx-auto p-4">
+        {isFacebookBrowser ? (
+          <a
+            href={telLink || "#"}
+            onClick={handlePhoneClick}
+            className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer animate-pulse"
+            data-testid="button-call-now"
+            data-age-classification={ageClassification || ""}
+            data-budget-classification={budgetClassification || ""}
+          >
+            TAP TO CALL
+          </a>
+        ) : (
+          <motion.a
+            href={telLink || "#"}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            animate={{
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+            className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200"
+            data-testid="button-call-now"
+            data-age-classification={ageClassification || ""}
+            data-budget-classification={budgetClassification || ""}
+          >
+            TAP TO CALL
+          </motion.a>
+        )}
+      </div>
+    </div>
+  </>
   );
 }
