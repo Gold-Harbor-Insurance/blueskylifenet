@@ -603,7 +603,7 @@ export default function SeniorsLanding() {
                   <select
                     value={formData.age}
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    className="w-full text-2xl min-h-[60px] font-semibold text-center md:hidden border-2 border-gray-300 rounded-md px-4"
+                    className="w-32 text-2xl min-h-[60px] font-semibold text-center md:hidden border-2 border-gray-300 rounded-md px-4 mx-auto block"
                     data-testid="select-age-mobile"
                     required
                   >
