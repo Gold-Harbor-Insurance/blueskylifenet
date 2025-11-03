@@ -1,19 +1,23 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
 
 interface ThankYouContentProps {
-  timeLeft: number;
   phoneNumber: string;
   telLink: string;
   phoneRef: React.RefObject<HTMLSpanElement>;
   ageClassification?: string;
   budgetClassification?: string;
+  firstName?: string;
 }
 
-export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneRef, ageClassification, budgetClassification }: ThankYouContentProps) {
+export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName }: ThankYouContentProps) {
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     // Detect Facebook in-app browser
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
     const isFB = /FBAN|FBAV|Instagram/i.test(userAgent);
@@ -28,8 +32,15 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
     }
   };
 
+  const progressSteps = [
+    { label: "Application Submitted", status: "complete" as const, icon: <Check className="w-4 h-4" /> },
+    { label: "Strategy Call Booked", status: "current" as const, subtext: "within 24 hours" },
+    { label: "Coverage Discovery", status: "pending" as const, subtext: "pending" },
+    { label: "Policy Approval", status: "pending" as const, subtext: "pending" }
+  ];
+
   return (
-    <div className="w-full max-w-2xl mx-auto text-center bg-white p-4">
+    <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 py-6">
       <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
       
       {/* Hidden inputs for GTM tracking */}
@@ -40,59 +51,127 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="space-y-6"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-black mb-6" data-testid="text-congratulations">
-          Congratulations!
+        {/* Personalized Headline */}
+        <h1 className="text-3xl md:text-4xl font-bold text-black leading-tight" data-testid="text-congratulations">
+          Congratulations {firstName}!<br />
+          <span className="text-green-600">You're Pre-Approved!</span>
         </h1>
-        
-        <p className="text-xl md:text-2xl text-black mb-4">
-          Make a quick <span className="bg-yellow-300 px-2 font-semibold">2-minute call</span> to claim your{" "}
-          <span className="text-red-600 font-bold">LIFE INSURANCE BENEFIT!</span>
-        </p>
 
-        <p className="text-lg md:text-xl text-black italic mb-3">
-          Hurry! Secure this benefit <span className="text-red-600">before time runs out...</span>
-        </p>
-
-        <div className="text-4xl md:text-5xl font-bold text-red-600 mb-6" data-testid="text-countdown">
-          {Math.floor(timeLeft / 60).toString().padStart(2, '0')}:{(timeLeft % 60).toString().padStart(2, '0')}
+        {/* Progress Tracker */}
+        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+          {progressSteps.map((step, index) => (
+            <div key={index} className="flex items-center gap-3 text-left">
+              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                step.status === 'complete' ? 'bg-green-600 text-white' :
+                step.status === 'current' ? 'bg-yellow-400 text-black' :
+                'bg-gray-300 text-gray-600'
+              }`}>
+                {step.status === 'complete' ? step.icon : <span className="text-xs font-bold">{index + 1}</span>}
+              </div>
+              <div className="flex-1">
+                <div className={`text-sm font-semibold ${
+                  step.status === 'complete' ? 'text-green-600' :
+                  step.status === 'current' ? 'text-yellow-600' :
+                  'text-gray-500'
+                }`}>
+                  {step.label}
+                </div>
+                {step.subtext && (
+                  <div className={`text-xs ${
+                    step.status === 'current' ? 'text-yellow-600 font-medium' : 'text-gray-400'
+                  }`}>
+                    {step.subtext}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
 
-        <p className="text-lg md:text-xl text-black mb-6">
-          Call the number below to get your life insurance benefit* 👇
-        </p>
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="bg-green-600 h-2 rounded-full" style={{ width: '25%' }}></div>
+        </div>
 
-        {isFacebookBrowser ? (
+        {/* What You're Getting */}
+        <div className="bg-blue-50 rounded-lg p-5 text-left space-y-3">
+          <h2 className="text-xl font-bold text-black text-center mb-3">What You're Getting</h2>
+          <div className="space-y-2">
+            {[
+              "Up to $25,000 in coverage",
+              "100% tax-free cash payout to your family",
+              "No medical exam required",
+              "Guaranteed lifetime protection — your coverage never expires",
+              "Rates locked in for life — no price hikes as you age"
+            ].map((benefit, index) => (
+              <div key={index} className="flex items-start gap-2">
+                <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-black">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Urgency Message */}
+        <div className="bg-red-50 border-l-4 border-red-600 p-4">
+          <p className="text-base font-bold text-red-600">
+            Don't Wait — Plans Get Pricier as You Get Older
+          </p>
+        </div>
+
+        {/* Call to Action */}
+        <div className="space-y-3">
+          <p className="text-base font-semibold text-black">
+            CALL NOW to finalize your options with a licensed specialist:
+          </p>
+          
+          {isFacebookBrowser ? (
+            <a
+              href={telLink || "#"}
+              onClick={handlePhoneClick}
+              className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-xl md:text-2xl font-bold py-4 px-8 rounded-lg shadow-lg transition-colors duration-200 cursor-pointer"
+              data-testid="button-call-now"
+              data-age-classification={ageClassification || ""}
+              data-budget-classification={budgetClassification || ""}
+            >
+              TAP TO CALL<br />
+              <span className="text-lg">{phoneNumber}</span>
+            </a>
+          ) : (
+            <motion.a
+              href={telLink || "#"}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-xl md:text-2xl font-bold py-4 px-8 rounded-lg shadow-lg transition-colors duration-200"
+              data-testid="button-call-now"
+              data-age-classification={ageClassification || ""}
+              data-budget-classification={budgetClassification || ""}
+            >
+              TAP TO CALL<br />
+              <span className="text-lg">{phoneNumber}</span>
+            </motion.a>
+          )}
+        </div>
+
+        {/* Book Appointment */}
+        <div className="pt-2">
+          <p className="text-sm text-gray-600 mb-2">Need to schedule a better time?</p>
           <a
-            href={telLink || "#"}
-            onClick={handlePhoneClick}
-            className="track-call-btn inline-block bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4 cursor-pointer"
-            data-testid="button-call-now"
-            data-age-classification={ageClassification || ""}
-            data-budget-classification={budgetClassification || ""}
+            href="https://calendly.com/blueskylife"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+            data-testid="button-book-appointment"
           >
-            {phoneNumber}
+            📅 Book an Appointment
           </a>
-        ) : (
-          <motion.a
-            href={telLink || "#"}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="track-call-btn inline-block bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-4 px-12 rounded-lg shadow-lg transition-colors duration-200 mb-4"
-            data-testid="button-call-now"
-            data-age-classification={ageClassification || ""}
-            data-budget-classification={budgetClassification || ""}
-          >
-            {phoneNumber}
-          </motion.a>
-        )}
+        </div>
 
-        <p className="text-base md:text-lg font-bold mt-6">
-          <span className="text-red-600">NOTE:</span> This is the final call
-        </p>
-
-        <div className="mt-12 pt-8 border-t border-gray-300">
-          <p className="text-xs md:text-sm text-gray-600 leading-relaxed max-w-3xl mx-auto">
+        {/* Legal Disclaimer */}
+        <div className="mt-8 pt-6 border-t border-gray-300">
+          <p className="text-xs text-gray-600 leading-relaxed max-w-3xl mx-auto">
             The term "life insurance benefit" refers to a potential insurance policy that may be available 
             to individuals who meet specific eligibility criteria. This is a marketing communication and 
             does not constitute an offer or guarantee of coverage. All insurance plans are subject to 
@@ -102,7 +181,7 @@ export default function ThankYouContent({ timeLeft, phoneNumber, telLink, phoneR
             determine if you qualify and to receive specific coverage details, you must speak with a 
             licensed insurance agent.
           </p>
-          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-gray-500">
+          <div className="mt-4 flex items-center justify-center gap-4 text-xs text-gray-500">
             <span>© 2025 BlueSky Life</span>
             <span>•</span>
             <span>All Rights Reserved</span>

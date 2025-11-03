@@ -97,7 +97,6 @@ export default function FirstRespondersLanding() {
   });
   
   // Thank you page state
-  const [timeLeft, setTimeLeft] = useState(142);
   const [phoneNumber, setPhoneNumber] = useState("(877) 790-1817");
   const [telLink, setTelLink] = useState("tel:+18777901817");
   const phoneRef = useRef<HTMLSpanElement>(null);
@@ -388,13 +387,10 @@ export default function FirstRespondersLanding() {
     }, 300);
   };
   
-  // Timer effect for thank you page
+  // Scroll to top when showing thank you page
   useEffect(() => {
     if (step === 17) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-      }, 1000);
-      return () => clearInterval(timer);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
 
@@ -453,10 +449,10 @@ export default function FirstRespondersLanding() {
 
       {step === 17 ? (
         <ThankYouContent
-          timeLeft={timeLeft}
           phoneNumber={phoneNumber}
           telLink={telLink}
           phoneRef={phoneRef}
+          firstName={formData.firstName}
         />
       ) : step === 1 ? (
         // First page with special design matching screenshot
