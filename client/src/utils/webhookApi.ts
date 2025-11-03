@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 interface WebhookPayload {
+  angle: 'seniors' | 'veterans' | 'firstresponders';
   military_branch?: string;
   first_responder_agency?: string;
   zip_code: string;

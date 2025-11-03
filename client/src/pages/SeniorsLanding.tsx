@@ -267,6 +267,7 @@ export default function SeniorsLanding() {
       setTelLink(ringbaData.telLink);
       
       await sendWebhookData({
+        angle: 'seniors',
         zip_code: formData.zipCode,
         gender: formData.gender,
         life_insurance: formData.hasLifeInsurance,

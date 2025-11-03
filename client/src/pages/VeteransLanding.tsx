@@ -275,6 +275,7 @@ export default function VeteransLanding() {
       setTelLink(ringbaData.telLink);
       
       await sendWebhookData({
+        angle: 'veterans',
         military_branch: formData.militaryBranch,
         zip_code: formData.zipCode,
         gender: formData.gender,
@@ -403,7 +404,7 @@ export default function VeteransLanding() {
               </div>
               
               <div className="max-w-md mx-auto grid gap-3">
-                {["Army", "Marine Corps", "Navy", "Air Force", "Coast Guard", "Space Force"].map((branch) => (
+                {["army", "navy", "marines", "air_force", "coast_guard"].map((branch) => (
                   <button
                     key={branch}
                     type="button"

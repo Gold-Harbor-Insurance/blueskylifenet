@@ -33,12 +33,11 @@ SeniorsLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
 SeniorsLanding,Step 1 (Alt),Privacy Policy,link-privacy-policy,Opens privacy modal (on first page)
 SeniorsLanding,Step 1 (Alt),Terms of Use,link-terms-of-use,Opens terms modal (on first page)
 
-VeteransLanding,Step 1,Army,button-military-branch-army,Military branch selection
-VeteransLanding,Step 1,Marine Corps,button-military-branch-marine-corps,Military branch selection
-VeteransLanding,Step 1,Navy,button-military-branch-navy,Military branch selection
-VeteransLanding,Step 1,Air Force,button-military-branch-air-force,Military branch selection
-VeteransLanding,Step 1,Coast Guard,button-military-branch-coast-guard,Military branch selection
-VeteransLanding,Step 1,Space Force,button-military-branch-space-force,Military branch selection
+VeteransLanding,Step 1,army,button-military-branch-army,Military branch selection
+VeteransLanding,Step 1,navy,button-military-branch-navy,Military branch selection
+VeteransLanding,Step 1,marines,button-military-branch-marines,Military branch selection
+VeteransLanding,Step 1,air_force,button-military-branch-air-force,Military branch selection
+VeteransLanding,Step 1,coast_guard,button-military-branch-coast-guard,Military branch selection
 VeteransLanding,Step 2,Continue (ZIP Code),button-submit-zip-code,Submit ZIP code form
 VeteransLanding,Step 3,Male,button-gender-male,Gender selection
 VeteransLanding,Step 3,Female,button-gender-female,Gender selection
