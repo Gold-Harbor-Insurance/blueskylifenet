@@ -133,7 +133,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
               "Rates locked in for life — no price hikes as you age"
             ].map((benefit, index) => (
               <div key={index} className="flex items-start gap-2">
-                <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                <span className="text-lg flex-shrink-0">✅</span>
                 <span className="text-sm text-black">{benefit}</span>
               </div>
             ))}
