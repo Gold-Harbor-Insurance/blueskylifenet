@@ -108,8 +108,8 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
    - All quiz selections captured in hidden input fields for GTM access
    - **All templates** hidden inputs:
      - `name="gender"` - Selected gender
-     - `name="has_life_insurance"` - Life insurance status
-     - `name="cash_amount"` - Cash amount available
+     - `name="life_insurance"` - Life insurance status
+     - `name="coverage_amount"` - Cash amount available
      - `name="beneficiary"` - Selected beneficiary
      - `name="age_classification"` - Selected age range
      - `name="beneficiary_name"` - Beneficiary name
@@ -176,6 +176,22 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
    - For regular browsers: Uses Framer Motion animated button
    - Prevents tel: link blocking in Facebook/Instagram in-app browsers
    - **Files**: client/src/components/ThankYouContent.tsx contains the implementation
+
+9. **Webhook Integration for Form Submissions** (November 2025)
+   - Automatically sends all form data to Make.com webhook upon survey completion
+   - **Endpoint**: https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5
+   - Triggered after monthly budget selection, alongside Ringba API call
+   - **Payload includes**:
+     - All 17 form fields with standardized `underscore_case` naming
+     - `landing_page` identifier (seniors/veterans/first_responders)
+     - `submitted_at` ISO timestamp
+   - Field naming convention (all use underscore_case):
+     - `life_insurance` (not has_life_insurance)
+     - `coverage_amount` (not cash_amount)
+     - `military_branch` (veterans only)
+     - `first_responder_agency` (first responders only)
+   - Non-blocking: Webhook errors don't prevent user from seeing thank you page
+   - **Files**: client/src/utils/webhookApi.ts
 
 ### Design System
 - **Brand Colors**: BlueSky Life green (#5CB85C) with gradient backgrounds

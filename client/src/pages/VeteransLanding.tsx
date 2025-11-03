@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { initFacebookTracking } from "@/utils/facebookTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
+import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
 import { getCountiesByState } from "@/utils/countyData";
@@ -272,6 +273,30 @@ export default function VeteransLanding() {
       const ringbaData = await fetchRingbaNumber(hiddenInputNames);
       setPhoneNumber(ringbaData.phoneNumber);
       setTelLink(ringbaData.telLink);
+      
+      await sendWebhookData({
+        military_branch: formData.militaryBranch,
+        zip_code: formData.zipCode,
+        gender: formData.gender,
+        life_insurance: formData.hasLifeInsurance,
+        coverage_amount: formData.cashAmount,
+        beneficiary: formData.beneficiary,
+        age_classification: formData.age,
+        beneficiary_name: formData.beneficiaryName,
+        hobby: formData.hobby,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        street_address: formData.streetAddress,
+        city: formData.city,
+        state: formData.state,
+        county: formData.county,
+        monthly_budget: budget,
+        landing_page: 'veterans',
+        submitted_at: new Date().toISOString()
+      });
+      
       setIsLoadingRingba(false);
       setStep(17);
     }, 300);
