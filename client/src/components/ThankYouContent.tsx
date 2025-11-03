@@ -41,22 +41,22 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       iconColor: "text-green-600"
     },
     { 
-      label: "Strategy Call Booked", 
-      subtext: "Within 24 hours",
+      label: "Intro Call Booked", 
+      subtext: "within 24 hours",
       icon: <Calendar className="w-5 h-5" />,
       iconBg: "bg-yellow-100",
       iconColor: "text-yellow-600"
     },
     { 
-      label: "Custom Campaign Build", 
-      subtext: "2-3 business days",
+      label: "Coverage Review Call", 
+      subtext: "30 minutes",
       icon: <Clock className="w-5 h-5" />,
       iconBg: "bg-gray-100",
       iconColor: "text-gray-400"
     },
     { 
-      label: "First Leads Delivered", 
-      subtext: "Within 10 days",
+      label: "Policy Approval", 
+      subtext: "2-3 business days",
       icon: <Zap className="w-5 h-5" />,
       iconBg: "bg-gray-100",
       iconColor: "text-gray-400"
