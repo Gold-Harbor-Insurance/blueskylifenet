@@ -190,9 +190,11 @@ export default function SeniorsLanding() {
   };
 
   // Q14: County
-  const handleCountySelect = (county: string) => {
-    setFormData({ ...formData, county });
-    setTimeout(() => setStep(15), 300);
+  const handleCountySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formData.county.trim()) {
+      setTimeout(() => setStep(15), 300);
+    }
   };
 
   // Q15: Monthly Budget (triggers Ringba API)
@@ -722,24 +724,30 @@ export default function SeniorsLanding() {
                     {formData.city}, {formData.state}
                   </p>
                 </div>
-                <div className="max-w-md mx-auto">
-                  <Select onValueChange={handleCountySelect} value={formData.county}>
-                    <SelectTrigger className="text-lg min-h-[50px]" data-testid="select-county">
-                      <SelectValue placeholder="Select your county" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableCounties.length > 0 ? (
-                        availableCounties.map((county) => (
-                          <SelectItem key={county} value={county} data-testid={`option-county-${county.replace(/\s+/g, '-').toLowerCase()}`}>
-                            {county}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="Unknown" data-testid="option-county-unknown">Unknown County</SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <form onSubmit={handleCountySubmit} className="max-w-md mx-auto space-y-4">
+                  <Input
+                    type="text"
+                    list="county-list"
+                    value={formData.county}
+                    onChange={(e) => setFormData({ ...formData, county: e.target.value })}
+                    placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
+                    className="text-lg min-h-[50px]"
+                    data-testid="input-county"
+                    required
+                  />
+                  <datalist id="county-list">
+                    {availableCounties.map((county) => (
+                      <option key={county} value={county} />
+                    ))}
+                  </datalist>
+                  <Button 
+                    type="submit" 
+                    className="w-full min-h-[50px] text-lg font-semibold bg-[#5CB85C] hover:bg-[#4CAF50]"
+                    data-testid="button-submit-county"
+                  >
+                    Continue
+                  </Button>
+                </form>
               </div>
             )}
 

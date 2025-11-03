@@ -28,7 +28,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Q11**: Email
 - **Q12**: Phone
 - **Q13**: Street Address (with disabled city/state/ZIP fields pre-filled from Q1)
-- **Q14**: County (dropdown based on state from Q1)
+- **Q14**: County (input with autocomplete suggestions based on state from Q1)
 - **Q15**: Monthly Budget (triggers Ringba API before proceeding)
 - **Step 16**: Thank you page (integrated as final step)
 
@@ -47,7 +47,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Q12**: Email
 - **Q13**: Phone
 - **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
-- **Q15**: County (dropdown based on state from Q2)
+- **Q15**: County (input with autocomplete suggestions based on state from Q2)
 - **Q16**: Monthly Budget (triggers Ringba API before proceeding)
 - **Step 17**: Thank you page (integrated as final step)
 
@@ -66,7 +66,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Q12**: Email
 - **Q13**: Phone
 - **Q14**: Street Address (with disabled city/state/ZIP fields pre-filled from Q2)
-- **Q15**: County (dropdown based on state from Q2)
+- **Q15**: County (input with autocomplete suggestions based on state from Q2)
 - **Q16**: Monthly Budget (triggers Ringba API before proceeding)
 - **Step 17**: Thank you page (integrated as final step)
 
@@ -80,10 +80,12 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
    - Validates and updates city/state using Zippopotam.us API when ZIP is changed
    - **Files**: client/src/utils/ipGeolocation.ts, client/src/utils/zipCodeLookup.ts
 
-2. **County Data Utility** (November 2025)
+2. **County Selection with Manual Entry Fallback** (November 2025)
    - Comprehensive county database covering all 50 US states, DC, and Puerto Rico
    - 3,243+ counties organized by state
-   - Dynamic county dropdown population based on selected state
+   - Uses Input field with datalist for autocomplete suggestions
+   - Allows manual typing when county lookup fails or user wants to enter custom value
+   - Shows "Select or type your county" when counties available, "Type your county" when list empty
    - **Files**: client/src/utils/countyData.ts
 
 3. **Thank You Page Integration**
