@@ -96,6 +96,14 @@ export default function VeteransLanding() {
   const [phoneNumber, setPhoneNumber] = useState("(877) 790-1817");
   const [telLink, setTelLink] = useState("tel:+18777901817");
   const phoneRef = useRef<HTMLSpanElement>(null);
+  
+  // Refs for auto-focusing input fields
+  const beneficiaryNameRef = useRef<HTMLInputElement>(null);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  const streetAddressRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     initFacebookTracking();
@@ -362,6 +370,22 @@ export default function VeteransLanding() {
     if (step === 17) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }, [step]);
+  
+  // Auto-focus input fields on mobile/tablet/desktop
+  useEffect(() => {
+    const focusInput = (ref: React.RefObject<HTMLInputElement>) => {
+      setTimeout(() => {
+        ref.current?.focus();
+      }, 100);
+    };
+    
+    if (step === 8) focusInput(beneficiaryNameRef);
+    else if (step === 9) focusInput(firstNameRef);
+    else if (step === 10) focusInput(lastNameRef);
+    else if (step === 12) focusInput(emailRef);
+    else if (step === 13) focusInput(phoneInputRef);
+    else if (step === 14) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -691,6 +715,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handleBeneficiaryNameSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={beneficiaryNameRef}
                     type="text"
                     value={formData.beneficiaryName}
                     onChange={(e) => {
@@ -700,7 +725,6 @@ export default function VeteransLanding() {
                     placeholder="Enter beneficiary name"
                     className={`text-lg min-h-[50px] ${errors.beneficiaryName ? 'border-red-500' : ''}`}
                     data-testid="input-beneficiary-name"
-                    autoFocus
                     required
                   />
                   {errors.beneficiaryName && (
@@ -727,6 +751,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handleFirstNameSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={firstNameRef}
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => {
@@ -736,7 +761,6 @@ export default function VeteransLanding() {
                     placeholder="Enter your first name"
                     className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                     data-testid="input-first-name"
-                    autoFocus
                     required
                   />
                   {errors.firstName && (
@@ -763,6 +787,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handleLastNameSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={lastNameRef}
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => {
@@ -772,7 +797,6 @@ export default function VeteransLanding() {
                     placeholder="Enter your last name"
                     className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
                     data-testid="input-last-name"
-                    autoFocus
                     required
                   />
                   {errors.lastName && (
@@ -853,6 +877,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={emailRef}
                     type="email"
                     value={formData.email}
                     onChange={(e) => {
@@ -862,7 +887,6 @@ export default function VeteransLanding() {
                     placeholder="Enter your email"
                     className={`text-lg min-h-[50px] ${errors.email ? 'border-red-500' : ''}`}
                     data-testid="input-email"
-                    autoFocus
                     required
                   />
                   {errors.email && (
@@ -889,6 +913,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handlePhoneSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={phoneInputRef}
                     type="tel"
                     value={formData.phone}
                     onChange={handlePhoneChange}
@@ -896,7 +921,6 @@ export default function VeteransLanding() {
                     className={`text-lg min-h-[50px] ${errors.phone ? 'border-red-500' : ''}`}
                     data-testid="input-phone"
                     maxLength={14}
-                    autoFocus
                     required
                   />
                   {errors.phone && (
@@ -923,6 +947,7 @@ export default function VeteransLanding() {
                 </div>
                 <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto">
                   <Input
+                    ref={streetAddressRef}
                     type="text"
                     value={formData.streetAddress}
                     onChange={(e) => {
@@ -932,7 +957,6 @@ export default function VeteransLanding() {
                     placeholder="Street address"
                     className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
                     data-testid="input-street-address"
-                    autoFocus
                     required
                   />
                   {errors.streetAddress && (
