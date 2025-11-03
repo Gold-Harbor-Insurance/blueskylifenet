@@ -86,7 +86,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         {/* Application Progress */}
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           {/* Header */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3 mb-4">
             <h2 className="text-xl md:text-2xl font-bold text-black">Application Progress</h2>
             <span className="text-xl md:text-2xl font-bold text-blue-500">50%</span>
           </div>
