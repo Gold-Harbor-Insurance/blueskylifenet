@@ -404,11 +404,11 @@ export default function FirstRespondersLanding() {
               
               <div className="max-w-md mx-auto grid gap-3">
                 {[
-                  "Law enforcement",
-                  "Fire and rescue",
-                  "Emergency Medical Services",
-                  "Public safety communications",
-                  "Other critical first responders"
+                  "law_enforcement",
+                  "ems",
+                  "fire_services",
+                  "public_safety_communications",
+                  "other"
                 ].map((agency) => (
                   <button
                     key={agency}

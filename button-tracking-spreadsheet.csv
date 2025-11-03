@@ -71,11 +71,11 @@ VeteransLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
 VeteransLanding,Step 1 (Alt),Privacy Policy,link-privacy-policy,Opens privacy modal (on first page)
 VeteransLanding,Step 1 (Alt),Terms of Use,link-terms-of-use,Opens terms modal (on first page)
 
-FirstRespondersLanding,Step 1,Law enforcement,button-agency-law-enforcement,First responder agency
-FirstRespondersLanding,Step 1,Fire and rescue,button-agency-fire-and-rescue,First responder agency
-FirstRespondersLanding,Step 1,Emergency Medical Services,button-agency-emergency-medical-services,First responder agency
-FirstRespondersLanding,Step 1,Public safety communications,button-agency-public-safety-communications,First responder agency
-FirstRespondersLanding,Step 1,Other critical first responders,button-agency-other-critical-first-responders,First responder agency
+FirstRespondersLanding,Step 1,law_enforcement,button-agency-law-enforcement,First responder agency
+FirstRespondersLanding,Step 1,ems,button-agency-ems,First responder agency
+FirstRespondersLanding,Step 1,fire_services,button-agency-fire-services,First responder agency
+FirstRespondersLanding,Step 1,public_safety_communications,button-agency-public-safety-communications,First responder agency
+FirstRespondersLanding,Step 1,other,button-agency-other,First responder agency
 FirstRespondersLanding,Step 2,Continue (ZIP Code),button-submit-zip-code,Submit ZIP code form
 FirstRespondersLanding,Step 3,Male,button-gender-male,Gender selection
 FirstRespondersLanding,Step 3,Female,button-gender-female,Gender selection
