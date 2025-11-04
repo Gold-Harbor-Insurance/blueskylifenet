@@ -575,7 +575,7 @@ export default function VeteransLanding() {
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    How much cash do you have set aside for final expenses?
+                    How much instant cash is needed to handle your last affairs?
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
