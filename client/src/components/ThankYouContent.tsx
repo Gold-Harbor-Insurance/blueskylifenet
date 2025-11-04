@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Check, Calendar, Clock, Zap } from "lucide-react";
-import logoImage from "@assets/BlueSky Life Landscape_1762271025279.png";
+import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 
 interface ThankYouContentProps {
   phoneNumber: string;
@@ -129,7 +129,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         <img 
           src={logoImage} 
           alt="BlueSky Life" 
-          className="h-8 md:h-10 w-auto"
+          className="h-10 md:h-12 w-auto"
           data-testid="img-bluesky-logo"
         />
       </div>

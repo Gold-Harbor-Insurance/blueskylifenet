@@ -14,6 +14,7 @@ import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
+import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 import type { 
   FirstResponderAgency,
   Gender, 
@@ -470,6 +471,16 @@ export default function FirstRespondersLanding() {
 
             {/* Footer */}
             <div className="mt-auto pt-16 pb-8 text-center text-sm text-gray-600">
+              {/* Logo */}
+              <div className="flex justify-center mb-6">
+                <img 
+                  src={logoImage} 
+                  alt="BlueSky Life" 
+                  className="h-10 md:h-12 w-auto"
+                  data-testid="img-bluesky-logo-footer"
+                />
+              </div>
+              
               <div className="space-x-2 mb-2">
                 <button
                   onClick={() => setLegalModal("privacy")}
