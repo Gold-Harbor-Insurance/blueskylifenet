@@ -516,17 +516,26 @@ export default function SeniorsLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => (
-                    <button
-                      key={amount}
-                      type="button"
-                      onClick={() => handleCashAmountSelect(amount as CashAmount)}
-                      data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                    >
-                      {amount === "Over$50000" ? "Over $50,000" : amount}
-                    </button>
-                  ))}
+                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => {
+                    const displayNames: Record<string, string> = {
+                      "Under$10000": "Under $10,000",
+                      "$10000-$24999": "$10,000 - $25,000",
+                      "$25000-$50000": "$25,000 - $50,000",
+                      "Over$50000": "Over $50,000"
+                    };
+                    
+                    return (
+                      <button
+                        key={amount}
+                        type="button"
+                        onClick={() => handleCashAmountSelect(amount as CashAmount)}
+                        data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      >
+                        {displayNames[amount]}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
