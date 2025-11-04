@@ -348,7 +348,7 @@ export default function FirstRespondersLanding() {
   useEffect(() => {
     const focusInput = (ref: React.RefObject<HTMLInputElement>) => {
       setTimeout(() => {
-        ref.current?.focus();
+        ref.current?.focus({ preventScroll: true });
         ref.current?.select(); // Also select the text if any exists
       }, 150);
     };
