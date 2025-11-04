@@ -471,7 +471,7 @@ export default function VeteransLanding() {
             <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-8 md:p-12 max-w-3xl w-full">
               <div className="text-center mb-8">
                 <p className="text-lg md:text-xl mb-2">
-                  Answer a 5 Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
+                  Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
                 <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
                   Which branch of the military did you serve in?
