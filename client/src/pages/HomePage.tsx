@@ -1,7 +1,12 @@
+import { useState } from "react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
+import LegalModal from "@/components/LegalModal";
 
 export default function HomePage() {
+  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
+
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
       <header className="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center">
@@ -122,10 +127,37 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-16">
-        <div className="max-w-4xl mx-auto px-6 text-center text-sm text-gray-600">
-          <p>&copy; 2025 BlueSky Life. All rights reserved.</p>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="space-x-2 mb-4 text-sm text-gray-600">
+            <button
+              onClick={() => setLegalModal("privacy")}
+              className="hover:underline cursor-pointer"
+              data-testid="link-privacy-policy"
+            >
+              Privacy Policy
+            </button>
+            <span>|</span>
+            <button
+              onClick={() => setLegalModal("terms")}
+              className="hover:underline cursor-pointer"
+              data-testid="link-terms-of-use"
+            >
+              Terms of Use
+            </button>
+          </div>
+          <p className="text-sm text-gray-600">&copy; 2025 BlueSky Life. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* Legal Modals */}
+      {legalModal && (
+        <LegalModal
+          isOpen={!!legalModal}
+          onClose={() => setLegalModal(null)}
+          type={legalModal}
+        />
+      )}
     </div>
+    </>
   );
 }
