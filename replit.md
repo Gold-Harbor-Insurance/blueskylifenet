@@ -1,243 +1,33 @@
 # BlueSky Life Landing Pages
 
 ## Overview
-Three high-converting quiz-style landing pages for BlueSky Life - one for seniors, one for veterans, and one for first responders. All pages guide users through a multi-step eligibility questionnaire with IP-based ZIP code auto-detection and culminate in a thank you page with a countdown timer and phone call CTA.
+This project develops three high-converting, quiz-style landing pages for BlueSky Life, targeting seniors, veterans, and first responders. The core purpose is to guide users through a multi-step eligibility questionnaire with features like IP-based ZIP code auto-detection, culminating in a thank you page with a countdown timer and a phone call to action (CTA). The project aims to optimize conversion rates for lead generation.
 
-## Project Structure
+## User Preferences
+I prefer iterative development with a focus on clear, concise explanations. Please ask for my approval before implementing any major architectural changes or significant feature modifications. I value a clean and well-structured codebase.
 
-### Pages
-- `/seniors` - Landing page for seniors with 13-step quiz (12 questions + thank you)
-- `/veterans` - Landing page for veterans with 16-step quiz (military branch + 13 questions + thank you)
-- `/firstresponders` - Landing page for first responders with 16-step quiz (agency + 13 questions + county + thank you)
-- `/` - Main homepage replicating blueskylife.com design
-- `/not-qualified` - Legacy disqualification page (no longer used - all ages accepted)
+## System Architecture
+The application is a client-side only quiz flow with no dedicated backend or database. It utilizes a card-based UI with smooth Framer Motion animations for transitions between questions, ensuring a responsive, mobile-first design. Key architectural decisions include:
 
-### Quiz Flow Architecture (December 2025 Update - Optimized Conversion Flow)
+-   **Quiz Flow Optimization**: Critical changes implemented to improve conversion rates, such as moving the monthly budget and beneficiary questions earlier in the flow. All age ranges are now accepted without disqualification.
+-   **Dynamic Content Integration**: Thank you page content, including countdown timer and dynamic phone number, is integrated as the final step of the quiz flow on the same URL to maintain tracking data and prevent direct access.
+-   **Tracking & Analytics**: Extensive Google Tag Manager (GTM) and Facebook tracking integration is achieved by capturing all quiz selections in hidden input fields and passing data to Ringba and a Make.com webhook.
+-   **Custom Ringba API Integration**: Replaced the standard Ringba script with a custom API implementation for greater control over data collection, loading states, and dynamic phone number retrieval. This call is triggered at the final substantive question before the thank you page.
+-   **Webhook Integration**: All form data, along with tracking information and user IP, is automatically sent to a Make.com webhook upon survey completion, triggered after the monthly budget selection.
+-   **UI/UX**: Brand colors based on BlueSky Life green, Inter and Space Mono typography, and Shadcn UI components.
+-   **Progressive Disclosure**: Questions are presented one at a time to maximize completion rates.
 
-**CRITICAL CHANGES**: 
-1. Monthly budget question moved earlier in the flow (step 4/5/6) to improve conversion rates and reduce drop-off
-2. Beneficiary question moved to position 2/3/4 (right after gender) to establish emotional connection early
-3. First name and last name combined into single step with progressive disclosure (November 2025)
+### Technology Stack
+-   **Frontend**: React, TypeScript, Wouter (routing), Tailwind CSS (styling), Framer Motion (animations), Shadcn UI (components), Zod (validation).
 
-**Seniors Landing Page** (/seniors) - 13 Steps Total:
-- **Q1**: Gender
-- **Q2**: Beneficiary ("Who would you want to receive this benefit?")
-- **Q3**: Has Life Insurance
-- **Q4**: Cash Amount Available
-- **Q5**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
-- **Q6**: Age Range (ALL ages now accepted - no disqualification)
-- **Q7**: Beneficiary Name
-- **Q8**: First Name & Last Name (combined with progressive disclosure - last name field appears on first name focus)
-- **Q9**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
-- **Q10**: Email
-- **Q11**: Phone
-- **Q12**: Street Address (triggers Ringba API and webhook before proceeding)
-- **Step 13**: Thank you page (integrated as final step)
-
-**Veterans Landing Page** (/veterans) - 16 Steps Total:
-- **Q1**: Military Branch (Army, Marine Corps, Navy, Air Force, Coast Guard, Space Force)
-- **Q2**: Gender
-- **Q3**: Beneficiary ("Who would you want to receive this benefit?")
-- **Q4**: Has Life Insurance
-- **Q5**: Cash Amount Available
-- **Q6**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
-- **Q7**: Age Range (ALL ages now accepted)
-- **Q8**: Beneficiary Name
-- **Q9**: First Name & Last Name (combined with progressive disclosure - last name field appears on first name focus)
-- **Q10**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
-- **Q11**: Email
-- **Q12**: Phone
-- **Q13**: Street Address (triggers Ringba API and webhook before proceeding)
-- **Step 16**: Thank you page (integrated as final step)
-
-**First Responders Landing Page** (/firstresponders) - 16 Steps Total:
-- **Q1**: First Responder Agency (Law enforcement, Fire and rescue, Emergency Medical Services, Public safety communications, Other critical first responders)
-- **Q2**: ZIP Code (auto-detected via IP geolocation, editable; city/state auto-filled)
-- **Q3**: Gender
-- **Q4**: Beneficiary ("Who would you want to receive this benefit?")
-- **Q5**: Has Life Insurance
-- **Q6**: Cash Amount Available
-- **Q7**: Monthly Budget ("What monthly budget would you feel comfortable investing to protect your family?")
-- **Q8**: Age Range (ALL ages now accepted)
-- **Q9**: Beneficiary Name
-- **Q10**: First Name & Last Name (combined with progressive disclosure - last name field appears on first name focus)
-- **Q11**: Email
-- **Q12**: Phone
-- **Q13**: Street Address
-- **Q14**: County (triggers Ringba API and webhook before proceeding)
-- **Step 16**: Thank you page (integrated as final step)
-
-### Features Implemented
-
-1. **IP Geolocation Auto-Detection** (November 2025)
-   - Automatically detects user's ZIP code, city, and state on page load
-   - Uses ipapi.co API for IP-based geolocation
-   - Pre-fills ZIP code field on first question
-   - User can edit the auto-detected ZIP code
-   - Validates and updates city/state using Zippopotam.us API when ZIP is changed
-   - **Files**: client/src/utils/ipGeolocation.ts, client/src/utils/zipCodeLookup.ts
-
-2. **County Selection with Manual Entry Fallback** (November 2025) - FirstResponders Only
-   - Comprehensive county database covering all 50 US states, DC, and Puerto Rico
-   - 3,243+ counties organized by state
-   - Uses Input field with datalist for autocomplete suggestions
-   - Allows manual typing when county lookup fails or user wants to enter custom value
-   - Shows "Select or type your county" when counties available, "Type your county" when list empty
-   - **Note**: County question only appears in FirstResponders landing page
-   - **Files**: client/src/utils/countyData.ts
-
-3. **Thank You Page Integration**
-   - Congratulations message
-   - 142-second countdown timer (2:22) with pulse animation
-   - Dynamic phone number from Ringba API (fallback: (877) 790-1817) with click-to-call
-   - Custom Ringba API integration via POST to https://display.ringba.com/v2/nis/gn/
-   - Facebook tracking data forwarded to Ringba (fbclid, fbc, fbp)
-   - Urgency messaging
-   - Legal disclaimers and footer
-   - **Architecture**: Thank you content is rendered as the final step of the quiz flow on the same page/URL
-     - Prevents users from bypassing quiz by directly accessing /thank-you
-     - Ensures all tracking variables remain in DOM for GTM
-     - Maintains form data persistence throughout flow
-     - Displays loading indicator while Ringba API call is in progress
-
-4. **Google Tag Manager Integration** (December 2025 Update)
-   - BlueSky Life GTM container: `https://trk.blueskylife.io`
-   - Container ID: GTM-W9243JWT
-   - All quiz selections captured in hidden input fields for GTM access
-   - **All templates** hidden inputs:
-     - `name="gender"` - Selected gender
-     - `name="life_insurance"` - Life insurance status
-     - `name="coverage_amount"` - Cash amount available
-     - `name="monthly_budget"` - Selected monthly budget
-     - `name="beneficiary"` - Selected beneficiary
-     - `name="age_classification"` - Selected age range
-     - `name="beneficiary_name"` - Beneficiary name
-     - `name="first_name"` - First name
-     - `name="last_name"` - Last name
-     - `name="zip_code"` - ZIP code
-     - `name="email"` - Email address
-     - `name="phone"` - Phone number
-     - `name="street_address"` - Street address
-     - `name="city"` - City (auto-filled from ZIP)
-     - `name="state"` - State (auto-filled from ZIP)
-   - **Veterans template** additional input:
-     - `name="military_branch"` - Selected military branch
-   - **First Responders template** additional inputs:
-     - `name="first_responder_agency"` - Selected first responder agency
-     - `name="county"` - Selected county (only in FirstResponders)
-   - Hidden inputs ALWAYS rendered in DOM throughout quiz flow for GTM to read
-   - GTM can access values via: `document.querySelector('input[name="field_name"]').value`
-   - Additional tracking: data attributes on call button (data-age-classification, data-budget-classification)
-
-5. **Facebook Tracking Integration**
-   - Captures Facebook click ID (fbclid) from URL parameters
-   - Stores Facebook browser cookie (_fbc) and pixel ID (_fbp)
-   - Passes tracking data to Ringba for CAPI integration
-   - Data flows: Website → Ringba → Make → Facebook CAPI
-   - Enables Facebook ad optimization through conversion tracking
-
-6. **Age Qualification Logic Update** (November 2025)
-   - **CRITICAL CHANGE**: ALL ages now accepted - no disqualification
-   - Age buttons: "Under 45", "45-85", "Over 85"
-   - All age ranges proceed through quiz without redirecting to /not-qualified
-   - Age data still captured for tracking and analytics purposes
-
-7. **Custom Ringba API Integration** (December 2025 Update)
-   - Replaced Ringba script tag with custom API implementation
-   - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
-   - **JsTagId**: JSd4de0752fe324d99a3a107e29c0de4a8
-   - **Timing**: API called at final substantive question before thank you page
-     - Seniors: Street Address submission (Q12)
-     - Veterans: Street Address submission (Q13)
-     - FirstResponders: County submission (Q14)
-   - **Loading State**: Full-screen overlay with semi-transparent backdrop and centered loading card
-     - Fixed position overlay covering entire viewport (`fixed inset-0`)
-     - Semi-transparent black background with backdrop blur (`bg-black/50 backdrop-blur-sm`)
-     - White centered card with spinner, heading, and subtext
-     - Accessibility: `role="status"` and `aria-live="polite"` for screen reader support
-     - Spinner marked `aria-hidden="true"` as decorative element
-     - **IMPORTANT**: Hidden inputs remain in DOM during loading screen for Ringba API to access
-   - **Data Collection**:
-     - All hidden input field values (17 form fields)
-     - URL parameters (fbclid, gclid, utm_campaign, etc.) - captured automatically
-     - Facebook cookies (_fbc, _fbp) - read automatically from browser
-     - Location properties (completeUrl, hostName, pathName, hash)
-   - **Response Handling**:
-     - Dynamic phone number from API response
-     - Auto-formats to (xxx) xxx-xxxx display format
-     - Tel link format: tel:+1XXXXXXXXXX (automatically prepends +1 for 10-digit US numbers)
-   - **Fallback**: If API fails, uses (877) 790-1817 as default number
-   - **Files**: client/src/utils/ringbaApi.ts contains the implementation
-
-8. **Facebook In-App Browser Fix** (October 2025)
-   - Facebook/Instagram WebView detection to fix unclickable call button
-   - Browser detection via user agent (FBAN/FBAV/Instagram)
-   - For Facebook browsers: Uses plain `<a>` tag with `window.location.href` fallback
-   - For regular browsers: Uses Framer Motion animated button
-   - Prevents tel: link blocking in Facebook/Instagram in-app browsers
-   - **Files**: client/src/components/ThankYouContent.tsx contains the implementation
-
-9. **Webhook Integration for Form Submissions** (November 2025)
-   - Automatically sends all form data to Make.com webhook upon survey completion
-   - **Endpoint**: https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5
-   - Triggered after monthly budget selection, alongside Ringba API call
-   - **Payload includes**:
-     - All 17 form fields with standardized `underscore_case` naming
-     - `landing_page` identifier (seniors/veterans/first_responders)
-     - `submitted_at` ISO timestamp
-     - Facebook tracking cookies: `fbc`, `fbp`, `fbclid` (when available)
-     - `ip_address` - User's IP address fetched from ipapi.co
-   - Field naming convention (all use underscore_case):
-     - `life_insurance` (not has_life_insurance)
-     - `coverage_amount` (not cash_amount)
-     - `military_branch` (veterans only)
-     - `first_responder_agency` (first responders only)
-   - Facebook tracking integration:
-     - Reads `_fbc` and `_fbp` cookies from browser
-     - Extracts `fbclid` from URL parameters
-     - Includes in webhook payload for Facebook CAPI integration
-   - IP address detection:
-     - Fetches user's IP address via ipapi.co API
-     - Includes in webhook payload as `ip_address` field
-   - Non-blocking: Webhook errors don't prevent user from seeing thank you page
-   - **Files**: client/src/utils/webhookApi.ts
-
-### Design System
-- **Brand Colors**: BlueSky Life green (#5CB85C) with gradient backgrounds
-- **Typography**: Inter for headings/body, Space Mono for countdown timer
-- **Components**: Card-based quiz interface with smooth animations
-- **Responsive**: Mobile-first design with optimized touch targets
-- **Animations**: Framer Motion for smooth transitions between questions
-
-### Tech Stack
-- React + TypeScript
-- Wouter (routing)
-- Tailwind CSS (styling)
-- Framer Motion (animations)
-- Shadcn UI (components)
-- Zod (validation schemas)
-
-## Development Notes
-- No backend/database needed - client-side only quiz flow
-- All form data validated with Zod schemas
-- Progressive disclosure: one question at a time to maximize completion
-- Countdown timer runs for 142 seconds (2:22) on thank you page
-- Phone number has tel: link for mobile click-to-call functionality
-- Thank you page is integrated as the final step of quiz (not a separate route) to maintain tracking data availability for GTM
-- **ZIP Auto-Detection**: Uses IP geolocation on component mount to pre-fill location data
-- **Address Pre-Fill**: City, state, and ZIP are shown as disabled fields in street address question
-
-### Deployment Configuration
-**Domain**: blueskylife.io
-**Structure**:
-- `/` - Homepage
-- `/final-expense/rb-f3q8n1z7rp0x/seniors` - Seniors landing page with quiz
-- `/final-expense/rb-f3q8n1z7rp0x/veterans` - Veterans landing page with quiz
-- `/final-expense/rb-f3q8n1z7rp0x/firstresponders` - First responders landing page with quiz
-
-**Build Configuration**:
-- Routes configured for `/final-expense/rb-f3q8n1z7rp0x/` subdirectory
-- .htaccess - Apache routing configuration for clean URLs (no hash routing)
-- Uses browser history API for client-side routing
-
-**Deployment**: Upload `dist/public/` contents to `/final-expense/rb-f3q8n1z7rp0x/` directory on blueskylife.io
+## External Dependencies
+-   **Geolocation**:
+    -   `ipapi.co`: For IP-based ZIP code, city, and state auto-detection.
+    -   `Zippopotam.us`: For validating and updating city/state based on ZIP code changes.
+-   **Telephony & Call Tracking**:
+    -   `Ringba API`: Custom integration for dynamic phone number generation, call tracking, and forwarding Facebook tracking data.
+-   **Automation & Webhooks**:
+    -   `Make.com`: Endpoint (`https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5`) for receiving all form submission data.
+-   **Marketing & Analytics**:
+    -   `Google Tag Manager (GTM)`: For comprehensive event tracking and data layer management (`GTM-W9243JWT`, `https://trk.blueskylife.io`).
+    -   `Facebook Pixel/CAPI`: For ad optimization and conversion tracking via data passed to Ringba and Make.com.
