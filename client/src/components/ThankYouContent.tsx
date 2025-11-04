@@ -13,6 +13,7 @@ interface ThankYouContentProps {
 
 export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName }: ThankYouContentProps) {
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
+  const [isSticky, setIsSticky] = useState(true);
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -22,6 +23,26 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
     const isFB = /FBAN|FBAV|Instagram/i.test(userAgent);
     setIsFacebookBrowser(isFB);
+  }, []);
+
+  useEffect(() => {
+    // Handle scroll to toggle sticky behavior
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Make button static when user scrolls down more than 100px
+      // Make it sticky again when at the top
+      if (scrollPosition > 100) {
+        setIsSticky(false);
+      } else {
+        setIsSticky(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -62,6 +83,46 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       iconColor: "text-gray-400"
     }
   ];
+
+  // Reusable Call Button Component
+  const CallButton = () => {
+    if (isFacebookBrowser) {
+      return (
+        <a
+          href={telLink || "#"}
+          onClick={handlePhoneClick}
+          className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer animate-pulse"
+          data-testid="button-call-now"
+          data-age-classification={ageClassification || ""}
+          data-budget-classification={budgetClassification || ""}
+        >
+          TAP TO CALL
+        </a>
+      );
+    }
+    
+    return (
+      <motion.a
+        href={telLink || "#"}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        animate={{
+          scale: [1, 1.05, 1],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+        className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200"
+        data-testid="button-call-now"
+        data-age-classification={ageClassification || ""}
+        data-budget-classification={budgetClassification || ""}
+      >
+        TAP TO CALL
+      </motion.a>
+    );
+  };
 
   return (
     <>
@@ -148,6 +209,12 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           </p>
         </div>
 
+        {/* Inline Call Button (shows when user scrolls down) */}
+        {!isSticky && (
+          <div className="w-full">
+            <CallButton />
+          </div>
+        )}
 
         {/* Book Appointment */}
         <div className="pt-2">
@@ -184,43 +251,14 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       </motion.div>
     </div>
 
-    {/* Sticky Call Button at Bottom */}
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-lg">
-      <div className="max-w-2xl mx-auto p-4">
-        {isFacebookBrowser ? (
-          <a
-            href={telLink || "#"}
-            onClick={handlePhoneClick}
-            className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer animate-pulse"
-            data-testid="button-call-now"
-            data-age-classification={ageClassification || ""}
-            data-budget-classification={budgetClassification || ""}
-          >
-            TAP TO CALL
-          </a>
-        ) : (
-          <motion.a
-            href={telLink || "#"}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            animate={{
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}
-            className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200"
-            data-testid="button-call-now"
-            data-age-classification={ageClassification || ""}
-            data-budget-classification={budgetClassification || ""}
-          >
-            TAP TO CALL
-          </motion.a>
-        )}
+    {/* Sticky Call Button at Bottom (shows when at top of page) */}
+    {isSticky && (
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-lg">
+        <div className="max-w-2xl mx-auto p-4">
+          <CallButton />
+        </div>
       </div>
-    </div>
+    )}
   </>
   );
 }
