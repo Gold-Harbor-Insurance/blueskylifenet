@@ -337,14 +337,12 @@ export default function FirstRespondersLanding() {
     }, 300);
   };
   
-  // Scroll to top when showing thank you page
+  // Scroll to top on every step change
   useEffect(() => {
-    if (step === 11) {
-      // Use requestAnimationFrame to ensure DOM is fully rendered before scrolling
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-      });
-    }
+    // Use requestAnimationFrame to ensure DOM is fully rendered before scrolling
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    });
   }, [step]);
   
   // Auto-focus input fields on mobile/tablet/desktop
