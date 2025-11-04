@@ -698,8 +698,9 @@ export default function SeniorsLanding() {
             {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
-                  <h2 className="text-3xl md:text-4xl font-bold text-black mb-2">
-                    Get Your Custom Quote
+                  <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                    <span className="text-black">Get Your </span>
+                    <span className="text-[#3498DB]">Custom Quote</span>
                   </h2>
                   <p className="text-lg text-gray-700">Let's get your free coverage review call</p>
                   <p className="text-base text-gray-600">We'll contact you within 24 hours to discuss your needs</p>
@@ -806,8 +807,18 @@ export default function SeniorsLanding() {
                     Book Your Free Coverage Review Call
                   </Button>
 
-                  {/* Terms and Consent Text */}
-                  <div className="mt-4 text-xs text-gray-600 leading-relaxed space-y-2">
+                  {/* 100% Completion Progress Bar */}
+                  <div className="w-full bg-gray-200 rounded-full h-8 flex items-center overflow-hidden mb-12">
+                    <div 
+                      className="h-full bg-[#5CB85C] flex items-center justify-center transition-all duration-300"
+                      style={{ width: '100%' }}
+                    >
+                      <span className="text-white font-semibold text-sm">100%</span>
+                    </div>
+                  </div>
+
+                  {/* Terms and Consent Text - Moved below with generous spacing */}
+                  <div className="mt-16 text-xs text-gray-600 leading-relaxed space-y-2">
                     <p>
                       By clicking "Submit" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
                     </p>
