@@ -124,16 +124,6 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
 
   return (
     <>
-      {/* BlueSky Life Logo - Top Center */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-10">
-        <img 
-          src={logoImage} 
-          alt="BlueSky Life" 
-          className="h-10 md:h-12 w-auto"
-          data-testid="img-bluesky-logo"
-        />
-      </div>
-      
       <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 pt-16 pb-32">
         <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
         
@@ -238,8 +228,18 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           </a>
         </div>
 
+        {/* BlueSky Life Logo - Footer */}
+        <div className="flex justify-center mt-8">
+          <img 
+            src={logoImage} 
+            alt="BlueSky Life" 
+            className="h-10 md:h-12 w-auto"
+            data-testid="img-bluesky-logo-footer"
+          />
+        </div>
+
         {/* Legal Disclaimer */}
-        <div className="mt-8 pt-6 border-t border-gray-300">
+        <div className="mt-6 pt-6 border-t border-gray-300">
           <p className="text-xs text-gray-600 leading-relaxed max-w-3xl mx-auto">
             The term "life insurance benefit" refers to a potential insurance policy that may be available 
             to individuals who meet specific eligibility criteria. This is a marketing communication and 
