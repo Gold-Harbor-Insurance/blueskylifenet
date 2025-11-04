@@ -91,7 +91,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         <a
           href={telLink || "#"}
           onClick={handlePhoneClick}
-          className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer animate-pulse"
+          className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer animate-pulse text-center"
           data-testid="button-call-now"
           data-age-classification={ageClassification || ""}
           data-budget-classification={budgetClassification || ""}
@@ -114,7 +114,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           repeat: Infinity,
           repeatType: "reverse"
         }}
-        className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200"
+        className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center"
         data-testid="button-call-now"
         data-age-classification={ageClassification || ""}
         data-budget-classification={budgetClassification || ""}
