@@ -69,8 +69,7 @@ export default function SeniorsLanding() {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    streetAddress: ""
+    phone: ""
   });
   
   const [formData, setFormData] = useState({
@@ -87,7 +86,6 @@ export default function SeniorsLanding() {
     lastName: "",
     email: "",
     phone: "",
-    streetAddress: "",
     monthlyBudget: "",
   });
   
@@ -102,7 +100,6 @@ export default function SeniorsLanding() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
-  const streetAddressRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     initFacebookTracking();
@@ -127,7 +124,7 @@ export default function SeniorsLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 10; // 9 questions + thank you page
+  const totalSteps = 9; // 8 questions + thank you page
 
   // Q1: Gender
   const handleGenderSelect = (gender: Gender) => {
@@ -187,8 +184,8 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(8), 300);
   };
 
-  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone)
-  const handleContactInfoSubmit = (e: React.FormEvent) => {
+  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
@@ -252,48 +249,7 @@ export default function SeniorsLanding() {
     
     if (hasError) return;
     
-    setTimeout(() => setStep(9), 300);
-  };
-
-  // (No longer used - ZIP is auto-detected, not a separate step)
-  const handleZipCodeSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.zipCode.match(/^\d{5}$/)) {
-      setErrors(prev => ({ ...prev, zipCode: "Please enter a valid 5-digit ZIP code" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, zipCode: "" }));
-    setIsLoadingZip(true);
-    const zipData = await lookupZipCode(formData.zipCode);
-    
-    if (zipData) {
-      setFormData(prev => ({
-        ...prev,
-        city: zipData.city,
-        state: zipData.stateAbbr as USState,
-      }));
-    }
-    
-    setIsLoadingZip(false);
-    setTimeout(() => setStep(10), 300);
-  };
-
-  // Q9: Street Address (triggers Ringba API and final submission)
-  const handleStreetAddressSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const address = formData.streetAddress.trim();
-    
-    if (!address) {
-      setErrors(prev => ({ ...prev, streetAddress: "Please enter your street address" }));
-      return;
-    }
-    if (address.length < 5) {
-      setErrors(prev => ({ ...prev, streetAddress: "Address must be at least 5 characters" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, streetAddress: "" }));
+    // All validations passed - trigger Ringba and webhook
     setIsLoadingRingba(true);
     
     setTimeout(async () => {
@@ -310,7 +266,6 @@ export default function SeniorsLanding() {
         'last_name',
         'email',
         'phone',
-        'street_address',
         'city',
         'state'
       ];
@@ -333,7 +288,6 @@ export default function SeniorsLanding() {
         last_name: formData.lastName,
         email: formData.email,
         phone: formData.phone,
-        street_address: formData.streetAddress,
         city: formData.city,
         state: formData.state,
         landing_page: 'seniors',
@@ -341,13 +295,14 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(10);
+      setStep(9);
     }, 300);
   };
+
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 10) {
+    if (step === 9) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -363,7 +318,6 @@ export default function SeniorsLanding() {
     
     if (step === 7) focusInput(beneficiaryNameRef);
     else if (step === 8) focusInput(firstNameRef);
-    else if (step === 9) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -401,7 +355,6 @@ export default function SeniorsLanding() {
       <input type="hidden" name="last_name" value={formData.lastName} />
       <input type="hidden" name="email" value={formData.email} />
       <input type="hidden" name="phone" value={formData.phone} />
-      <input type="hidden" name="street_address" value={formData.streetAddress} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
       <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
@@ -417,7 +370,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 10 ? (
+      {step === 9 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -866,41 +819,6 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q9: Street Address (ONLY street address) */}
-            {step === 9 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your street address?
-                  </h2>
-                </div>
-                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={streetAddressRef}
-                    type="text"
-                    value={formData.streetAddress}
-                    onChange={(e) => {
-                      setFormData({ ...formData, streetAddress: e.target.value });
-                      if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
-                    }}
-                    placeholder="Street address"
-                    className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
-                    data-testid="input-street-address"
-                    required
-                  />
-                  {errors.streetAddress && (
-                    <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
-                    data-testid="button-submit-street-address"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
           </QuizCard>
         </QuizLayout>
       )}

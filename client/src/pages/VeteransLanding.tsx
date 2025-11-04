@@ -70,8 +70,7 @@ export default function VeteransLanding() {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    streetAddress: ""
+    phone: ""
   });
   
   const [formData, setFormData] = useState({
@@ -89,7 +88,6 @@ export default function VeteransLanding() {
     lastName: "",
     email: "",
     phone: "",
-    streetAddress: "",
     monthlyBudget: "",
   });
   
@@ -104,7 +102,6 @@ export default function VeteransLanding() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
-  const streetAddressRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     initFacebookTracking();
@@ -129,7 +126,7 @@ export default function VeteransLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 13; // Military branch + 12 questions + thank you page
+  const totalSteps = 12; // Military branch + 11 questions + thank you page
 
   // Q1: Military Branch (Veterans-specific)
   const handleMilitaryBranchSelect = (branch: MilitaryBranch) => {
@@ -195,8 +192,8 @@ export default function VeteransLanding() {
     setTimeout(() => setStep(9), 300);
   };
 
-  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone)
-  const handleContactInfoSubmit = (e: React.FormEvent) => {
+  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
@@ -260,24 +257,7 @@ export default function VeteransLanding() {
     
     if (hasError) return;
     
-    setTimeout(() => setStep(10), 300);
-  };
-
-  // Q10: Street Address (triggers Ringba API and final submission)
-  const handleStreetAddressSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const address = formData.streetAddress.trim();
-    
-    if (!address) {
-      setErrors(prev => ({ ...prev, streetAddress: "Please enter your street address" }));
-      return;
-    }
-    if (address.length < 5) {
-      setErrors(prev => ({ ...prev, streetAddress: "Address must be at least 5 characters" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, streetAddress: "" }));
+    // All validations passed - trigger Ringba and webhook
     setIsLoadingRingba(true);
     
     setTimeout(async () => {
@@ -295,7 +275,6 @@ export default function VeteransLanding() {
         'zip_code',
         'email',
         'phone',
-        'street_address',
         'city',
         'state'
       ];
@@ -319,7 +298,6 @@ export default function VeteransLanding() {
         zip_code: formData.zipCode,
         email: formData.email,
         phone: formData.phone,
-        street_address: formData.streetAddress,
         city: formData.city,
         state: formData.state,
         landing_page: 'veterans',
@@ -327,13 +305,14 @@ export default function VeteransLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(11);
+      setStep(10);
     }, 300);
   };
 
+
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 11) {
+    if (step === 10) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -349,7 +328,6 @@ export default function VeteransLanding() {
     
     if (step === 8) focusInput(beneficiaryNameRef);
     else if (step === 9) focusInput(firstNameRef);
-    else if (step === 10) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -388,7 +366,6 @@ export default function VeteransLanding() {
       <input type="hidden" name="zip_code" value={formData.zipCode} />
       <input type="hidden" name="email" value={formData.email} />
       <input type="hidden" name="phone" value={formData.phone} />
-      <input type="hidden" name="street_address" value={formData.streetAddress} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
       <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
@@ -404,7 +381,7 @@ export default function VeteransLanding() {
         </div>
       )}
 
-      {step === 11 ? (
+      {step === 10 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -878,41 +855,6 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q10: Street Address */}
-            {step === 10 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your street address?
-                  </h2>
-                </div>
-                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={streetAddressRef}
-                    type="text"
-                    value={formData.streetAddress}
-                    onChange={(e) => {
-                      setFormData({ ...formData, streetAddress: e.target.value });
-                      if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
-                    }}
-                    placeholder="Street address"
-                    className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
-                    data-testid="input-street-address"
-                    required
-                  />
-                  {errors.streetAddress && (
-                    <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
-                    data-testid="button-submit-street-address"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
           </QuizCard>
         </QuizLayout>
       )}

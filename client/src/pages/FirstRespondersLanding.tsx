@@ -73,7 +73,6 @@ export default function FirstRespondersLanding() {
     lastName: "",
     email: "",
     phone: "",
-    streetAddress: "",
     city: "",
     county: ""
   });
@@ -93,7 +92,6 @@ export default function FirstRespondersLanding() {
     lastName: "",
     email: "",
     phone: "",
-    streetAddress: "",
     county: "",
     monthlyBudget: "",
   });
@@ -109,7 +107,6 @@ export default function FirstRespondersLanding() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
-  const streetAddressRef = useRef<HTMLInputElement>(null);
   const countyRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -137,7 +134,7 @@ export default function FirstRespondersLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 13; // Agency + 12 questions + county + thank you page
+  const totalSteps = 12; // Agency + 11 questions + county + thank you page
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
@@ -299,25 +296,7 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(11), 300);
   };
 
-  // Q11: Street Address
-  const handleStreetAddressSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const address = formData.streetAddress.trim();
-    
-    if (!address) {
-      setErrors(prev => ({ ...prev, streetAddress: "Please enter your street address" }));
-      return;
-    }
-    if (address.length < 5) {
-      setErrors(prev => ({ ...prev, streetAddress: "Address must be at least 5 characters" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, streetAddress: "" }));
-    setTimeout(() => setStep(12), 300);
-  };
-
-  // Q12: County (triggers Ringba API and final submission)
+  // Q11: County (FINAL STEP - triggers Ringba API and final submission)
   const handleCountySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const county = formData.county.trim();
@@ -349,7 +328,6 @@ export default function FirstRespondersLanding() {
         'last_name',
         'email',
         'phone',
-        'street_address',
         'city',
         'state',
         'county'
@@ -374,7 +352,6 @@ export default function FirstRespondersLanding() {
         last_name: formData.lastName,
         email: formData.email,
         phone: formData.phone,
-        street_address: formData.streetAddress,
         city: formData.city,
         state: formData.state,
         county: formData.county,
@@ -383,13 +360,13 @@ export default function FirstRespondersLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(13);
+      setStep(12);
     }, 300);
   };
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 13) {
+    if (step === 12) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -405,8 +382,7 @@ export default function FirstRespondersLanding() {
     
     if (step === 9) focusInput(beneficiaryNameRef);
     else if (step === 10) focusInput(firstNameRef);
-    else if (step === 11) focusInput(streetAddressRef);
-    else if (step === 12) focusInput(countyRef);
+    else if (step === 11) focusInput(countyRef);
   }, [step]);
 
   // Format phone number as user types
@@ -445,7 +421,6 @@ export default function FirstRespondersLanding() {
       <input type="hidden" name="last_name" value={formData.lastName} />
       <input type="hidden" name="email" value={formData.email} />
       <input type="hidden" name="phone" value={formData.phone} />
-      <input type="hidden" name="street_address" value={formData.streetAddress} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
       <input type="hidden" name="county" value={formData.county} />
@@ -462,7 +437,7 @@ export default function FirstRespondersLanding() {
         </div>
       )}
 
-      {step === 13 ? (
+      {step === 12 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -999,72 +974,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q11: Street Address */}
+            {/* Q11: County (FINAL QUESTION) */}
             {step === 11 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your street address?
-                  </h2>
-                </div>
-                <form onSubmit={handleStreetAddressSubmit} className="max-w-md mx-auto space-y-3">
-                  <div>
-                    <Input
-                      ref={streetAddressRef}
-                      type="text"
-                      value={formData.streetAddress}
-                      onChange={(e) => {
-                        setFormData({ ...formData, streetAddress: e.target.value });
-                        if (errors.streetAddress) setErrors(prev => ({ ...prev, streetAddress: "" }));
-                      }}
-                      placeholder="Street address"
-                      className={`text-lg min-h-[50px] ${errors.streetAddress ? 'border-red-500' : ''}`}
-                      data-testid="input-street-address"
-                      required
-                    />
-                    {errors.streetAddress && (
-                      <p className="text-red-600 text-sm mt-1">{errors.streetAddress}</p>
-                    )}
-                  </div>
-                  <Input
-                    type="text"
-                    value={formData.city}
-                    disabled
-                    placeholder="City"
-                    className="text-lg min-h-[50px] bg-gray-100 input-city-disabled"
-                    data-testid="input-city-disabled"
-                  />
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      type="text"
-                      value={formData.state}
-                      disabled
-                      placeholder="State"
-                      className="text-lg min-h-[50px] bg-gray-100 input-state-disabled"
-                      data-testid="input-state-disabled"
-                    />
-                    <Input
-                      type="text"
-                      value={formData.zipCode}
-                      disabled
-                      placeholder="ZIP"
-                      className="text-lg min-h-[50px] bg-gray-100 input-zip-disabled"
-                      data-testid="input-zip-disabled"
-                    />
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-street-address"
-                    data-testid="button-submit-street-address"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q12: County */}
-            {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
