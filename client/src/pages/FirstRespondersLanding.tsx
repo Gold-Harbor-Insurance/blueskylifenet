@@ -440,32 +440,22 @@ export default function FirstRespondersLanding() {
               
               <div className="max-w-md mx-auto grid gap-3">
                 {[
-                  "law_enforcement",
-                  "ems",
-                  "fire_services",
-                  "public_safety_communications",
-                  "other"
-                ].map((agency) => {
-                  const displayNames: Record<string, string> = {
-                    law_enforcement: "Law Enforcement",
-                    ems: "EMS",
-                    fire_services: "Fire Services",
-                    public_safety_communications: "Public Safety Communications",
-                    other: "Other"
-                  };
-                  
-                  return (
-                    <button
-                      key={agency}
-                      type="button"
-                      onClick={() => handleAgencySelect(agency as FirstResponderAgency)}
-                      data-testid={`button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {displayNames[agency]}
-                    </button>
-                  );
-                })}
+                  { value: "Law enforcement", display: "Law Enforcement" },
+                  { value: "Fire and rescue", display: "Fire Services" },
+                  { value: "Emergency Medical Services", display: "EMS" },
+                  { value: "Public safety communications", display: "Public Safety Communications" },
+                  { value: "Other critical first responders", display: "Other" }
+                ].map((agency) => (
+                  <button
+                    key={agency.value}
+                    type="button"
+                    onClick={() => handleAgencySelect(agency.value as FirstResponderAgency)}
+                    data-testid={`button-agency-${agency.value.replace(/\s+/g, '-').toLowerCase()}`}
+                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.value.replace(/\s+/g, '-').toLowerCase()}`}
+                  >
+                    {agency.display}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -601,7 +591,7 @@ export default function FirstRespondersLanding() {
                   {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => {
                     const displayNames: Record<string, string> = {
                       "Under$10000": "Under $10,000",
-                      "$10000-$24999": "$10,000 - $25,000",
+                      "$10000-$24999": "$10,000 - $24,999",
                       "$25000-$50000": "$25,000 - $50,000",
                       "Over$50000": "Over $50,000"
                     };
@@ -631,15 +621,20 @@ export default function FirstRespondersLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["$50-$74/month", "$75-$99/month", "$100-$149/month", "$150+/month"].map((budget) => (
+                  {[
+                    { value: "$50–$74", display: "$50-$74/month" },
+                    { value: "$75–$99", display: "$75-$99/month" },
+                    { value: "$100–$149", display: "$100-$149/month" },
+                    { value: "Over$150", display: "$150+/month" }
+                  ].map((budget) => (
                     <button
-                      key={budget}
+                      key={budget.value}
                       type="button"
-                      onClick={() => handleMonthlyBudgetSelect(budget)}
-                      data-testid={`button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      onClick={() => handleMonthlyBudgetSelect(budget.value)}
+                      data-testid={`button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
+                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
                     >
-                      {budget}
+                      {budget.display}
                     </button>
                   ))}
                 </div>

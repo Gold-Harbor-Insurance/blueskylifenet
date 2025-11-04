@@ -39,7 +39,8 @@ export const beneficiarySchema = z.enum([
   "Spouse",
   "Children",
   "Grandchildren",
-  "Family Member"
+  "Family",
+  "Other"
 ]);
 
 export const coverageAmountSchema = z.enum([
@@ -50,11 +51,10 @@ export const coverageAmountSchema = z.enum([
 ]);
 
 export const monthlyBudgetSchema = z.enum([
-  "Less than $50/month",
-  "$50–$74/month",
-  "$75–$99/month",
-  "$100–$149/month",
-  "$150+/month"
+  "$50–$74",
+  "$75–$99",
+  "$100–$149",
+  "Over$150"
 ]);
 
 export const genderSchema = z.enum([
@@ -68,11 +68,9 @@ export const lifeInsuranceStatusSchema = z.enum([
 ]);
 
 export const cashAmountSchema = z.enum([
-  "$0-$5,000",
-  "$5,000-$10,000",
-  "$10,000-$15,000",
-  "$15,000-$20,000",
-  "$20,000+",
+  "Under$10000",
+  "$10000-$24999",
+  "$25000-$50000",
   "Over$50000"
 ]);
 
