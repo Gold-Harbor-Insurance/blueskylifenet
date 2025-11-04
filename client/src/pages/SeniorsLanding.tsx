@@ -367,7 +367,8 @@ export default function SeniorsLanding() {
     const focusInput = (ref: React.RefObject<HTMLInputElement>) => {
       setTimeout(() => {
         ref.current?.focus();
-      }, 100);
+        ref.current?.select(); // Also select the text if any exists
+      }, 150);
     };
     
     if (step === 7) focusInput(beneficiaryNameRef);

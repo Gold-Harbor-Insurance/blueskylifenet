@@ -407,7 +407,8 @@ export default function FirstRespondersLanding() {
     const focusInput = (ref: React.RefObject<HTMLInputElement>) => {
       setTimeout(() => {
         ref.current?.focus();
-      }, 100);
+        ref.current?.select(); // Also select the text if any exists
+      }, 150);
     };
     
     if (step === 9) focusInput(beneficiaryNameRef);
