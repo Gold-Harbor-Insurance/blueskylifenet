@@ -698,13 +698,12 @@ export default function SeniorsLanding() {
             {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
-                  <p className="text-base text-gray-600 mb-4">Answer a few quick questions to get your personalized lead generation strategy and see exactly how much you could save with our pay-per-lead model.</p>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-8">
                     <span className="text-black">Get Your </span>
                     <span className="text-[#3498DB]">Custom Quote</span>
                   </h2>
-                  <p className="text-lg text-gray-700">Let's get your free strategy call</p>
-                  <p className="text-base text-gray-600">We'll contact you within 24 hours to discuss your needs</p>
+                  <p className="text-lg text-gray-700">Let's get your FREE coverage review call.</p>
+                  <p className="text-base text-gray-600">We will contact you in 24 hours to explore your options.</p>
                 </div>
                 
                 <form onSubmit={handleContactInfoSubmit} className="max-w-lg mx-auto space-y-4">
@@ -800,7 +799,7 @@ export default function SeniorsLanding() {
                     className={`w-full mt-6 min-h-[52px] text-lg font-semibold transition-opacity ${
                       formData.firstName && formData.lastName && formData.email && formData.phone
                         ? 'bg-[#5AC8FA] hover:bg-[#4AB8E8] opacity-100'
-                        : 'bg-gray-300 cursor-not-allowed opacity-50'
+                        : 'bg-[#5AC8FA] cursor-not-allowed opacity-60'
                     }`}
                     data-testid="button-submit-contact-info"
                     disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
@@ -808,18 +807,21 @@ export default function SeniorsLanding() {
                     Book Your Free Strategy Call
                   </Button>
 
-                  {/* 100% Completion Progress Bar */}
-                  <div className="w-full bg-gray-200 rounded-full h-8 flex items-center overflow-hidden mb-12">
-                    <div 
-                      className="h-full bg-[#5CB85C] flex items-center justify-center transition-all duration-300"
-                      style={{ width: '100%' }}
-                    >
-                      <span className="text-white font-semibold text-sm">100%</span>
+                  {/* 100% Completion Progress Bar - Below Button */}
+                  <div className="w-full mt-4 mb-6">
+                    <div className="text-center mb-2">
+                      <span className="text-[#5CB85C] font-semibold text-sm">100%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                      <div 
+                        className="h-full bg-[#5CB85C] transition-all duration-300"
+                        style={{ width: '100%' }}
+                      />
                     </div>
                   </div>
 
                   {/* Terms and Consent Text - Moved below with generous spacing */}
-                  <div className="mt-16 text-xs text-gray-600 leading-relaxed space-y-2">
+                  <div className="mt-8 text-xs text-gray-600 leading-relaxed space-y-2">
                     <p>
                       By clicking "Submit" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
                     </p>

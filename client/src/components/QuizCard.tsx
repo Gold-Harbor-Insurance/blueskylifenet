@@ -10,6 +10,11 @@ interface QuizCardProps {
 export default function QuizCard({ children, currentStep, totalSteps, questionNumber }: QuizCardProps) {
   // Custom percentage mapping for progress display
   const getProgressPercentage = (step: number, total: number): number => {
+    // Contact info step shows 100% (step 8 for Seniors, step 9 for Veterans, step 10 for FirstResponders)
+    if ((step === 8 && total === 10) || (step === 9 && total === 13) || (step === 10 && total === 13)) {
+      return 100;
+    }
+    
     // Base percentages for steps 2-6
     const basePercentages: { [key: number]: number } = {
       2: 20,
