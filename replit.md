@@ -237,7 +237,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 
 **Build Configuration**:
 - vite.config.ts `base: "/"` - Configured for root domain deployment
-- .htaccess - Apache routing configuration for client-side routing
-- All routes use hash routing (#/) for compatibility
+- .htaccess - Apache routing configuration for clean URLs (no hash routing)
+- Uses browser history API for client-side routing
 
 **Deployment**: Upload `dist/public/` contents to root of blueskylife.io web directory
