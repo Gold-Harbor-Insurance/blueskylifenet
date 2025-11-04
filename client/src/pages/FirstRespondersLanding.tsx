@@ -404,7 +404,26 @@ export default function FirstRespondersLanding() {
     if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
   };
 
-  const progress = (step / totalSteps) * 100;
+  // Custom progress percentages based on question weights
+  const getProgressPercentage = (currentStep: number): number => {
+    const progressMap: Record<number, number> = {
+      1: 0,   // Agency (first page, no progress bar)
+      2: 10,  // ZIP Code
+      3: 20,  // Gender
+      4: 40,  // Beneficiary
+      5: 50,  // Life Insurance
+      6: 70,  // Cash Amount
+      7: 80,  // Monthly Budget
+      8: 90,  // Age
+      9: 95,  // Beneficiary Name
+      10: 100, // Contact Info
+      11: 100, // County (progress hidden on this page)
+      12: 100  // Thank You
+    };
+    return progressMap[currentStep] || 0;
+  };
+
+  const progress = getProgressPercentage(step);
 
   return (
     <>

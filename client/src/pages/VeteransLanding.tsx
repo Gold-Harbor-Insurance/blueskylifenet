@@ -349,7 +349,24 @@ export default function VeteransLanding() {
     if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
   };
 
-  const progress = (step / totalSteps) * 100;
+  // Custom progress percentages based on question weights
+  const getProgressPercentage = (currentStep: number): number => {
+    const progressMap: Record<number, number> = {
+      1: 0,   // Military Branch (first page, no progress bar)
+      2: 20,  // Gender
+      3: 40,  // Beneficiary
+      4: 50,  // Life Insurance
+      5: 70,  // Cash Amount
+      6: 80,  // Monthly Budget
+      7: 90,  // Age
+      8: 95,  // Beneficiary Name
+      9: 100, // Contact Info
+      10: 100 // Thank You
+    };
+    return progressMap[currentStep] || 0;
+  };
+
+  const progress = getProgressPercentage(step);
 
   return (
     <>
