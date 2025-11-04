@@ -719,8 +719,8 @@ export default function VeteransLanding() {
                 </div>
                 
                 <form onSubmit={handleContactInfoSubmit}>
-                  {/* Form fields container with bottom padding for sticky button */}
-                  <div className="max-w-lg mx-auto space-y-6 pb-48">
+                  {/* Form fields container */}
+                  <div className="max-w-lg mx-auto space-y-6">
                     {/* First Name and Last Name - Side by Side */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
@@ -806,42 +806,37 @@ export default function VeteransLanding() {
                         )}
                       </motion.div>
                     )}
-                  </div>
 
-                  {/* Sticky button container at bottom */}
-                  <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200 p-4 md:px-8">
-                    <div className="max-w-lg mx-auto">
-                      {/* Submit Button - Disabled until all fields filled */}
-                      <Button 
-                        type="submit" 
-                        className={`w-full min-h-[52px] text-lg font-semibold transition-opacity ${
-                          formData.firstName && formData.lastName && formData.email && formData.phone
-                            ? 'bg-[#1A3E7A] hover:bg-[#152F5F] opacity-100'
-                            : 'bg-[#1A3E7A] cursor-not-allowed opacity-60'
-                        }`}
-                        data-testid="button-submit-contact-info"
-                        disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
-                      >
-                        Book Your Free Strategy Call
-                      </Button>
+                    {/* Submit Button - In normal flow */}
+                    <Button 
+                      type="submit" 
+                      className={`w-full mt-8 min-h-[52px] text-lg font-semibold transition-opacity ${
+                        formData.firstName && formData.lastName && formData.email && formData.phone
+                          ? 'bg-[#1A3E7A] hover:bg-[#152F5F] opacity-100'
+                          : 'bg-[#1A3E7A] cursor-not-allowed opacity-60'
+                      }`}
+                      data-testid="button-submit-contact-info"
+                      disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
+                    >
+                      Book Your Free Strategy Call
+                    </Button>
 
-                      {/* 100% Completion Progress Bar - Below Button */}
-                      <div className="w-full mt-3">
-                        <div className="text-center mb-2">
-                          <span className="text-[#5CB85C] font-semibold text-sm">100%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                          <div 
-                            className="h-full bg-[#5CB85C] transition-all duration-300"
-                            style={{ width: '100%' }}
-                          />
-                        </div>
+                    {/* 100% Completion Progress Bar - Below Button */}
+                    <div className="w-full mt-4 mb-6">
+                      <div className="text-center mb-2">
+                        <span className="text-[#5CB85C] font-semibold text-sm">100%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div 
+                          className="h-full bg-[#5CB85C] transition-all duration-300"
+                          style={{ width: '100%' }}
+                        />
                       </div>
                     </div>
                   </div>
 
-                  {/* Terms and Consent Text - Way below with huge margin to prevent showing in viewport */}
-                  <div className="mt-96 max-w-lg mx-auto text-xs text-gray-600 leading-relaxed space-y-2">
+                  {/* Terms and Consent Text - Moderate spacing so a bit shows */}
+                  <div className="mt-12 max-w-lg mx-auto text-xs text-gray-600 leading-relaxed space-y-2">
                     <p>
                       By clicking "Submit" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
                     </p>
