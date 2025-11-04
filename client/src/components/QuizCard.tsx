@@ -30,7 +30,7 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
     
     // For steps 7+, calculate remaining progress
     if (step === 7) return 90;
-    if (step === 8) return 90;
+    if (step === 8) return 95;
     if (step >= 9) return 95;
     
     // Fallback (shouldn't happen for steps 2-9)
