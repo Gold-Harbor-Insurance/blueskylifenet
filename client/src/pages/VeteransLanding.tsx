@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { motion } from "framer-motion";
 import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
 import LegalModal from "@/components/LegalModal";
@@ -737,7 +738,7 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q9: First Name and Last Name (combined) */}
+            {/* Q9: First Name & Last Name */}
             {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
@@ -752,10 +753,13 @@ export default function VeteransLanding() {
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => {
-                        setFormData({ ...formData, firstName: e.target.value });
+                        const value = e.target.value.replace(/\s/g, '');
+                        setFormData({ ...formData, firstName: value });
                         if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                        if (value.length > 0 && !showLastName) {
+                          setShowLastName(true);
+                        }
                       }}
-                      onFocus={() => setShowLastName(true)}
                       placeholder="Enter your first name"
                       className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                       data-testid="input-first-name"
@@ -765,8 +769,13 @@ export default function VeteransLanding() {
                       <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
                     )}
                   </div>
+                  
                   {showLastName && (
-                    <div>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
                       <Input
                         ref={lastNameRef}
                         type="text"
@@ -783,8 +792,9 @@ export default function VeteransLanding() {
                       {errors.lastName && (
                         <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
                       )}
-                    </div>
+                    </motion.div>
                   )}
+                  
                   <Button 
                     type="submit" 
                     className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-name"

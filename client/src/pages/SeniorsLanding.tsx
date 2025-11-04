@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { motion } from "framer-motion";
 import QuizLayout from "@/components/QuizLayout";
 import QuizCard from "@/components/QuizCard";
 import LegalModal from "@/components/LegalModal";
@@ -701,12 +702,12 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q8: First Name */}
+            {/* Q8: First Name & Last Name */}
             {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your first name?
+                    What is your name?
                   </h2>
                 </div>
                 <form onSubmit={handleNameSubmit} className="max-w-md mx-auto space-y-4">
@@ -716,10 +717,13 @@ export default function SeniorsLanding() {
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => {
-                        setFormData({ ...formData, firstName: e.target.value });
+                        const value = e.target.value.replace(/\s/g, '');
+                        setFormData({ ...formData, firstName: value });
                         if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                        if (value.length > 0 && !showLastName) {
+                          setShowLastName(true);
+                        }
                       }}
-                      onFocus={() => setShowLastName(true)}
                       placeholder="Enter your first name"
                       className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
                       data-testid="input-first-name"
@@ -731,7 +735,11 @@ export default function SeniorsLanding() {
                   </div>
                   
                   {showLastName && (
-                    <div>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
                       <Input
                         ref={lastNameRef}
                         type="text"
@@ -748,7 +756,7 @@ export default function SeniorsLanding() {
                       {errors.lastName && (
                         <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
                       )}
-                    </div>
+                    </motion.div>
                   )}
                   
                   <Button 
