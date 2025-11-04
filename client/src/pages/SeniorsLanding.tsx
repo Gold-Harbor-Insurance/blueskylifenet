@@ -697,8 +697,8 @@ export default function SeniorsLanding() {
             {/* Q8: Get Your Custom Quote (Contact Info) */}
             {step === 8 && (
               <div className="space-y-6">
-                <div className="text-center mb-6">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-8">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-12">
                     <span className="text-black">Get Your </span>
                     <span className="text-[#3498DB]">Custom Quote</span>
                   </h2>
@@ -706,122 +706,130 @@ export default function SeniorsLanding() {
                   <p className="text-base text-gray-600">We will contact you in 24 hours to explore your options.</p>
                 </div>
                 
-                <form onSubmit={handleContactInfoSubmit} className="max-w-lg mx-auto space-y-4">
-                  {/* First Name and Last Name - Side by Side */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Input
-                        ref={firstNameRef}
-                        type="text"
-                        value={formData.firstName}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\s/g, '');
-                          setFormData({ ...formData, firstName: value });
-                          if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
-                        }}
-                        placeholder="First Name *"
-                        className={`text-base min-h-[48px] ${errors.firstName ? 'border-red-500' : ''}`}
-                        data-testid="input-first-name"
-                        required
-                      />
-                      {errors.firstName && (
-                        <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>
-                      )}
+                <form onSubmit={handleContactInfoSubmit}>
+                  {/* Form fields container with bottom padding for sticky button */}
+                  <div className="max-w-lg mx-auto space-y-4 pb-40">
+                    {/* First Name and Last Name - Side by Side */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <Input
+                          ref={firstNameRef}
+                          type="text"
+                          value={formData.firstName}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\s/g, '');
+                            setFormData({ ...formData, firstName: value });
+                            if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                          }}
+                          placeholder="First Name *"
+                          className={`text-base min-h-[48px] ${errors.firstName ? 'border-red-500' : ''}`}
+                          data-testid="input-first-name"
+                          required
+                        />
+                        {errors.firstName && (
+                          <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>
+                        )}
+                      </div>
+                      <div>
+                        <Input
+                          ref={lastNameRef}
+                          type="text"
+                          value={formData.lastName}
+                          onChange={(e) => {
+                            setFormData({ ...formData, lastName: e.target.value });
+                            if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
+                          }}
+                          placeholder="Last Name *"
+                          className={`text-base min-h-[48px] ${errors.lastName ? 'border-red-500' : ''}`}
+                          data-testid="input-last-name"
+                          required
+                        />
+                        {errors.lastName && (
+                          <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <Input
-                        ref={lastNameRef}
-                        type="text"
-                        value={formData.lastName}
-                        onChange={(e) => {
-                          setFormData({ ...formData, lastName: e.target.value });
-                          if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
-                        }}
-                        placeholder="Last Name *"
-                        className={`text-base min-h-[48px] ${errors.lastName ? 'border-red-500' : ''}`}
-                        data-testid="input-last-name"
-                        required
-                      />
-                      {errors.lastName && (
-                        <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>
-                      )}
-                    </div>
-                  </div>
 
-                  {/* Email Address */}
-                  <div>
-                    <Input
-                      ref={emailRef}
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => {
-                        setFormData({ ...formData, email: e.target.value });
-                        if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
-                      }}
-                      onFocus={() => setShowPhone(true)}
-                      placeholder="Email Address *"
-                      className={`text-base min-h-[48px] ${errors.email ? 'border-red-500' : ''}`}
-                      data-testid="input-email"
-                      required
-                    />
-                    {errors.email && (
-                      <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+                    {/* Email Address */}
+                    <div>
+                      <Input
+                        ref={emailRef}
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => {
+                          setFormData({ ...formData, email: e.target.value });
+                          if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                        }}
+                        onFocus={() => setShowPhone(true)}
+                        placeholder="Email Address *"
+                        className={`text-base min-h-[48px] ${errors.email ? 'border-red-500' : ''}`}
+                        data-testid="input-email"
+                        required
+                      />
+                      {errors.email && (
+                        <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+                      )}
+                    </div>
+
+                    {/* Phone Number - Shows when email is focused */}
+                    {showPhone && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                      >
+                        <Input
+                          ref={phoneInputRef}
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handlePhoneChange}
+                          placeholder="Phone Number *"
+                          className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
+                          data-testid="input-phone"
+                          maxLength={14}
+                          required
+                        />
+                        {errors.phone && (
+                          <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
+                        )}
+                      </motion.div>
                     )}
                   </div>
 
-                  {/* Phone Number - Shows when email is focused */}
-                  {showPhone && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                    >
-                      <Input
-                        ref={phoneInputRef}
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handlePhoneChange}
-                        placeholder="Phone Number *"
-                        className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
-                        data-testid="input-phone"
-                        maxLength={14}
-                        required
-                      />
-                      {errors.phone && (
-                        <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
-                      )}
-                    </motion.div>
-                  )}
+                  {/* Sticky button container at bottom */}
+                  <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t border-gray-200 p-4 md:px-8">
+                    <div className="max-w-lg mx-auto">
+                      {/* Submit Button - Disabled until all fields filled */}
+                      <Button 
+                        type="submit" 
+                        className={`w-full min-h-[52px] text-lg font-semibold transition-opacity ${
+                          formData.firstName && formData.lastName && formData.email && formData.phone
+                            ? 'bg-[#5AC8FA] hover:bg-[#4AB8E8] opacity-100'
+                            : 'bg-[#5AC8FA] cursor-not-allowed opacity-60'
+                        }`}
+                        data-testid="button-submit-contact-info"
+                        disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
+                      >
+                        Book Your Free Strategy Call
+                      </Button>
 
-                  {/* Submit Button - Disabled until all fields filled */}
-                  <Button 
-                    type="submit" 
-                    className={`w-full mt-6 min-h-[52px] text-lg font-semibold transition-opacity ${
-                      formData.firstName && formData.lastName && formData.email && formData.phone
-                        ? 'bg-[#5AC8FA] hover:bg-[#4AB8E8] opacity-100'
-                        : 'bg-[#5AC8FA] cursor-not-allowed opacity-60'
-                    }`}
-                    data-testid="button-submit-contact-info"
-                    disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
-                  >
-                    Book Your Free Strategy Call
-                  </Button>
-
-                  {/* 100% Completion Progress Bar - Below Button */}
-                  <div className="w-full mt-4 mb-6">
-                    <div className="text-center mb-2">
-                      <span className="text-[#5CB85C] font-semibold text-sm">100%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                      <div 
-                        className="h-full bg-[#5CB85C] transition-all duration-300"
-                        style={{ width: '100%' }}
-                      />
+                      {/* 100% Completion Progress Bar - Below Button */}
+                      <div className="w-full mt-3">
+                        <div className="text-center mb-2">
+                          <span className="text-[#5CB85C] font-semibold text-sm">100%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                          <div 
+                            className="h-full bg-[#5CB85C] transition-all duration-300"
+                            style={{ width: '100%' }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Terms and Consent Text - Moved below with generous spacing */}
-                  <div className="mt-8 text-xs text-gray-600 leading-relaxed space-y-2">
+                  {/* Terms and Consent Text - Way below with huge margin to prevent showing in viewport */}
+                  <div className="mt-96 max-w-lg mx-auto text-xs text-gray-600 leading-relaxed space-y-2">
                     <p>
                       By clicking "Submit" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
                     </p>
