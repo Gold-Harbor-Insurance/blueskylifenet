@@ -124,8 +124,8 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
 
   return (
     <>
-      {/* BlueSky Life Logo - Top Left */}
-      <div className="fixed top-4 left-4 z-10">
+      {/* BlueSky Life Logo - Top Center */}
+      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-10">
         <img 
           src={logoImage} 
           alt="BlueSky Life" 
