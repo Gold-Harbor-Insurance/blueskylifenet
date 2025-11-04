@@ -185,11 +185,16 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
      - All 17 form fields with standardized `underscore_case` naming
      - `landing_page` identifier (seniors/veterans/first_responders)
      - `submitted_at` ISO timestamp
+     - Facebook tracking cookies: `fbc`, `fbp`, `fbclid` (when available)
    - Field naming convention (all use underscore_case):
      - `life_insurance` (not has_life_insurance)
      - `coverage_amount` (not cash_amount)
      - `military_branch` (veterans only)
      - `first_responder_agency` (first responders only)
+   - Facebook tracking integration:
+     - Reads `_fbc` and `_fbp` cookies from browser
+     - Extracts `fbclid` from URL parameters
+     - Includes in webhook payload for Facebook CAPI integration
    - Non-blocking: Webhook errors don't prevent user from seeing thank you page
    - **Files**: client/src/utils/webhookApi.ts
 
