@@ -64,6 +64,7 @@ export default function FirstRespondersLanding() {
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [availableCounties, setAvailableCounties] = useState<string[]>([]);
+  const [showLastName, setShowLastName] = useState(false);
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
@@ -134,7 +135,7 @@ export default function FirstRespondersLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 17; // Agency + 14 questions + county + thank you page
+  const totalSteps = 16; // Agency + 13 questions + county + thank you page
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
@@ -228,51 +229,46 @@ export default function FirstRespondersLanding() {
   };
 
 
-  // Q10: First Name
-  const handleFirstNameSubmit = (e: React.FormEvent) => {
+  // Q10: First Name and Last Name (combined)
+  const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const name = formData.firstName.trim();
+    const firstName = formData.firstName.trim();
+    const lastName = formData.lastName.trim();
     
-    if (!name) {
+    // Validate first name
+    if (!firstName) {
       setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
       return;
     }
-    if (name.length < 2) {
+    if (firstName.length < 2) {
       setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
       return;
     }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
       setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
       return;
     }
     
-    setErrors(prev => ({ ...prev, firstName: "" }));
-    setTimeout(() => setStep(11), 300);
-  };
-
-  // Q11: Last Name
-  const handleLastNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = formData.lastName.trim();
-    
-    if (!name) {
+    // Validate last name
+    if (!lastName) {
       setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
+      setShowLastName(true); // Make sure last name field is visible
       return;
     }
-    if (name.length < 2) {
+    if (lastName.length < 2) {
       setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
       return;
     }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
       setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
       return;
     }
     
-    setErrors(prev => ({ ...prev, lastName: "" }));
-    setTimeout(() => setStep(12), 300);
+    setErrors(prev => ({ ...prev, firstName: "", lastName: "" }));
+    setTimeout(() => setStep(11), 300);
   };
 
-  // Q12: Email
+  // Q11: Email
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -287,10 +283,10 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, email: "" }));
-    setTimeout(() => setStep(13), 300);
+    setTimeout(() => setStep(12), 300);
   };
 
-  // Q13: Phone
+  // Q12: Phone
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -304,10 +300,10 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, phone: "" }));
-    setTimeout(() => setStep(14), 300);
+    setTimeout(() => setStep(13), 300);
   };
 
-  // Q14: Street Address
+  // Q13: Street Address
   const handleStreetAddressSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const address = formData.streetAddress.trim();
@@ -322,10 +318,10 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, streetAddress: "" }));
-    setTimeout(() => setStep(15), 300);
+    setTimeout(() => setStep(14), 300);
   };
 
-  // Q15: County (triggers Ringba API and final submission)
+  // Q14: County (triggers Ringba API and final submission)
   const handleCountySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const county = formData.county.trim();
@@ -391,13 +387,13 @@ export default function FirstRespondersLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(17);
+      setStep(16);
     }, 300);
   };
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 17) {
+    if (step === 16) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -413,10 +409,9 @@ export default function FirstRespondersLanding() {
     
     if (step === 9) focusInput(beneficiaryNameRef);
     else if (step === 10) focusInput(firstNameRef);
-    else if (step === 11) focusInput(lastNameRef);
-    else if (step === 12) focusInput(emailRef);
-    else if (step === 13) focusInput(phoneInputRef);
-    else if (step === 14) focusInput(streetAddressRef);
+    else if (step === 11) focusInput(emailRef);
+    else if (step === 12) focusInput(phoneInputRef);
+    else if (step === 13) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -472,7 +467,7 @@ export default function FirstRespondersLanding() {
         </div>
       )}
 
-      {step === 17 ? (
+      {step === 16 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -836,35 +831,58 @@ export default function FirstRespondersLanding() {
             )}
 
 
-            {/* Q10: First Name */}
+            {/* Q10: First Name and Last Name (combined) */}
             {step === 10 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your first name?
+                    What is your name?
                   </h2>
                 </div>
-                <form onSubmit={handleFirstNameSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={firstNameRef}
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => {
-                      setFormData({ ...formData, firstName: e.target.value });
-                      if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
-                    }}
-                    placeholder="Enter your first name"
-                    className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
-                    data-testid="input-first-name"
-                    required
-                  />
-                  {errors.firstName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                <form onSubmit={handleNameSubmit} className="max-w-md mx-auto space-y-4">
+                  <div>
+                    <Input
+                      ref={firstNameRef}
+                      type="text"
+                      value={formData.firstName}
+                      onChange={(e) => {
+                        setFormData({ ...formData, firstName: e.target.value });
+                        if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                      }}
+                      onFocus={() => setShowLastName(true)}
+                      placeholder="Enter your first name"
+                      className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
+                      data-testid="input-first-name"
+                      required
+                    />
+                    {errors.firstName && (
+                      <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                    )}
+                  </div>
+                  {showLastName && (
+                    <div>
+                      <Input
+                        ref={lastNameRef}
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) => {
+                          setFormData({ ...formData, lastName: e.target.value });
+                          if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
+                        }}
+                        placeholder="Enter your last name"
+                        className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
+                        data-testid="input-last-name"
+                        required
+                      />
+                      {errors.lastName && (
+                        <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                      )}
+                    </div>
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-first-name"
-                    data-testid="button-submit-first-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-name"
+                    data-testid="button-submit-name"
                   >
                     Continue
                   </Button>
@@ -872,44 +890,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q11: Last Name */}
+            {/* Q11: Email */}
             {step === 11 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your last name?
-                  </h2>
-                </div>
-                <form onSubmit={handleLastNameSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={lastNameRef}
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => {
-                      setFormData({ ...formData, lastName: e.target.value });
-                      if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
-                    }}
-                    placeholder="Enter your last name"
-                    className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
-                    data-testid="input-last-name"
-                    required
-                  />
-                  {errors.lastName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-last-name"
-                    data-testid="button-submit-last-name"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q12: Email */}
-            {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -944,8 +926,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q13: Phone */}
-            {step === 13 && (
+            {/* Q12: Phone */}
+            {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -978,8 +960,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q14: Street Address */}
-            {step === 14 && (
+            {/* Q13: Street Address */}
+            {step === 13 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -1042,8 +1024,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q15: County */}
-            {step === 15 && (
+            {/* Q14: County */}
+            {step === 14 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">

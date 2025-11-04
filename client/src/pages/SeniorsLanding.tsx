@@ -62,6 +62,7 @@ export default function SeniorsLanding() {
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [emailInputFocused, setEmailInputFocused] = useState(false);
+  const [showLastName, setShowLastName] = useState(false);
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
@@ -126,7 +127,7 @@ export default function SeniorsLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 14; // 13 questions + thank you page
+  const totalSteps = 13; // 12 questions + thank you page
 
   // Q1: Gender
   const handleGenderSelect = (gender: Gender) => {
@@ -186,51 +187,46 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(8), 300);
   };
 
-  // Q8: First Name
-  const handleFirstNameSubmit = (e: React.FormEvent) => {
+  // Q8: First Name and Last Name (combined)
+  const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const name = formData.firstName.trim();
+    const firstName = formData.firstName.trim();
+    const lastName = formData.lastName.trim();
     
-    if (!name) {
+    // Validate first name
+    if (!firstName) {
       setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
       return;
     }
-    if (name.length < 2) {
+    if (firstName.length < 2) {
       setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
       return;
     }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
       setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
       return;
     }
     
-    setErrors(prev => ({ ...prev, firstName: "" }));
-    setTimeout(() => setStep(9), 300);
-  };
-
-  // Q9: Last Name
-  const handleLastNameSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = formData.lastName.trim();
-    
-    if (!name) {
+    // Validate last name
+    if (!lastName) {
       setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
+      setShowLastName(true); // Make sure last name field is visible
       return;
     }
-    if (name.length < 2) {
+    if (lastName.length < 2) {
       setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
       return;
     }
-    if (!/^[a-zA-Z\s'-]+$/.test(name)) {
+    if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
       setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
       return;
     }
     
-    setErrors(prev => ({ ...prev, lastName: "" }));
-    setTimeout(() => setStep(10), 300);
+    setErrors(prev => ({ ...prev, firstName: "", lastName: "" }));
+    setTimeout(() => setStep(9), 300);
   };
 
-  // Q10: Zip Code (auto-detected, editable)
+  // Q9: Zip Code (auto-detected, editable)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.zipCode.match(/^\d{5}$/)) {
@@ -251,10 +247,10 @@ export default function SeniorsLanding() {
     }
     
     setIsLoadingZip(false);
-    setTimeout(() => setStep(11), 300);
+    setTimeout(() => setStep(10), 300);
   };
 
-  // Q11: Email
+  // Q10: Email
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -269,10 +265,10 @@ export default function SeniorsLanding() {
     }
     
     setErrors(prev => ({ ...prev, email: "" }));
-    setTimeout(() => setStep(12), 300);
+    setTimeout(() => setStep(11), 300);
   };
 
-  // Q12: Phone
+  // Q11: Phone
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -286,10 +282,10 @@ export default function SeniorsLanding() {
     }
     
     setErrors(prev => ({ ...prev, phone: "" }));
-    setTimeout(() => setStep(13), 300);
+    setTimeout(() => setStep(12), 300);
   };
 
-  // Q13: Street Address (triggers Ringba API and final submission)
+  // Q12: Street Address (triggers Ringba API and final submission)
   const handleStreetAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const address = formData.streetAddress.trim();
@@ -351,13 +347,13 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(14);
+      setStep(13);
     }, 300);
   };
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 14) {
+    if (step === 13) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -373,10 +369,9 @@ export default function SeniorsLanding() {
     
     if (step === 7) focusInput(beneficiaryNameRef);
     else if (step === 8) focusInput(firstNameRef);
-    else if (step === 9) focusInput(lastNameRef);
-    else if (step === 11) focusInput(emailRef);
-    else if (step === 12) focusInput(phoneInputRef);
-    else if (step === 13) focusInput(streetAddressRef);
+    else if (step === 10) focusInput(emailRef);
+    else if (step === 11) focusInput(phoneInputRef);
+    else if (step === 12) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -430,7 +425,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 14 ? (
+      {step === 13 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -714,27 +709,52 @@ export default function SeniorsLanding() {
                     What is your first name?
                   </h2>
                 </div>
-                <form onSubmit={handleFirstNameSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={firstNameRef}
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => {
-                      setFormData({ ...formData, firstName: e.target.value });
-                      if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
-                    }}
-                    placeholder="Enter your first name"
-                    className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
-                    data-testid="input-first-name"
-                    required
-                  />
-                  {errors.firstName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                <form onSubmit={handleNameSubmit} className="max-w-md mx-auto space-y-4">
+                  <div>
+                    <Input
+                      ref={firstNameRef}
+                      type="text"
+                      value={formData.firstName}
+                      onChange={(e) => {
+                        setFormData({ ...formData, firstName: e.target.value });
+                        if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                      }}
+                      onFocus={() => setShowLastName(true)}
+                      placeholder="Enter your first name"
+                      className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
+                      data-testid="input-first-name"
+                      required
+                    />
+                    {errors.firstName && (
+                      <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+                    )}
+                  </div>
+                  
+                  {showLastName && (
+                    <div>
+                      <Input
+                        ref={lastNameRef}
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) => {
+                          setFormData({ ...formData, lastName: e.target.value });
+                          if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
+                        }}
+                        placeholder="Enter your last name"
+                        className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
+                        data-testid="input-last-name"
+                        required
+                      />
+                      {errors.lastName && (
+                        <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                      )}
+                    </div>
                   )}
+                  
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-first-name"
-                    data-testid="button-submit-first-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-name"
+                    data-testid="button-submit-name"
                   >
                     Continue
                   </Button>
@@ -742,44 +762,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q9: Last Name */}
+            {/* Q9: Zip Code */}
             {step === 9 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your last name?
-                  </h2>
-                </div>
-                <form onSubmit={handleLastNameSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={lastNameRef}
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => {
-                      setFormData({ ...formData, lastName: e.target.value });
-                      if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
-                    }}
-                    placeholder="Enter your last name"
-                    className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
-                    data-testid="input-last-name"
-                    required
-                  />
-                  {errors.lastName && (
-                    <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-last-name"
-                    data-testid="button-submit-last-name"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q10: Zip Code */}
-            {step === 10 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -834,8 +818,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q11: Email */}
-            {step === 11 && (
+            {/* Q10: Email */}
+            {step === 10 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -893,8 +877,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q12: Phone */}
-            {step === 12 && (
+            {/* Q11: Phone */}
+            {step === 11 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -927,8 +911,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q13: Street Address (ONLY street address) */}
-            {step === 13 && (
+            {/* Q12: Street Address (ONLY street address) */}
+            {step === 12 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
