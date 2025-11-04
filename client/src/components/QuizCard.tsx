@@ -5,39 +5,11 @@ interface QuizCardProps {
   currentStep: number;
   totalSteps: number;
   questionNumber?: number;
+  progress?: number;
 }
 
-export default function QuizCard({ children, currentStep, totalSteps, questionNumber }: QuizCardProps) {
-  // Custom percentage mapping for progress display
-  const getProgressPercentage = (step: number, total: number): number => {
-    // Contact info step shows 100% (step 8 for Seniors, step 9 for Veterans, step 10 for FirstResponders)
-    if ((step === 8 && total === 10) || (step === 9 && total === 13) || (step === 10 && total === 13)) {
-      return 100;
-    }
-    
-    // Base percentages for steps 2-6
-    const basePercentages: { [key: number]: number } = {
-      2: 20,
-      3: 40,
-      4: 50,
-      5: 70,
-      6: 80,
-    };
-    
-    if (basePercentages[step] !== undefined) {
-      return basePercentages[step];
-    }
-    
-    // For steps 7+, calculate remaining progress
-    if (step === 7) return 90;
-    if (step === 8) return 95;
-    if (step >= 9) return 95;
-    
-    // Fallback (shouldn't happen for steps 2-9)
-    return (step / total) * 100;
-  };
-
-  const progress = getProgressPercentage(currentStep, totalSteps);
+export default function QuizCard({ children, currentStep, totalSteps, questionNumber, progress: progressProp }: QuizCardProps) {
+  const progress = progressProp !== undefined ? progressProp : (currentStep / totalSteps) * 100;
 
   return (
     <motion.div

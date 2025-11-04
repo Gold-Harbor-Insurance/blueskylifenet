@@ -485,7 +485,7 @@ export default function VeteransLanding() {
         </div>
       ) : (
         <QuizLayout>
-          <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
+          <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step} progress={progress}>
             {/* Q1 is handled above, start from Q2 */}
 
             {/* Q2: Gender */}
