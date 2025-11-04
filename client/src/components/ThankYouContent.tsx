@@ -17,7 +17,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
 
   useEffect(() => {
     // Scroll to top when component mounts
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
     
     // Detect Facebook in-app browser
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;

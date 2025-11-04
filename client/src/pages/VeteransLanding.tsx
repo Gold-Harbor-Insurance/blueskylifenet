@@ -313,7 +313,7 @@ export default function VeteransLanding() {
   // Scroll to top when showing thank you page
   useEffect(() => {
     if (step === 10) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [step]);
   

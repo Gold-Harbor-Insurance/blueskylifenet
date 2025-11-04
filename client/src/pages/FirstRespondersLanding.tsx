@@ -340,7 +340,7 @@ export default function FirstRespondersLanding() {
   // Scroll to top when showing thank you page
   useEffect(() => {
     if (step === 11) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [step]);
   
