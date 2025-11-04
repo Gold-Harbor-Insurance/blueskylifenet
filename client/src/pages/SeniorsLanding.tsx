@@ -698,11 +698,12 @@ export default function SeniorsLanding() {
             {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-6">
+                  <p className="text-base text-gray-600 mb-4">Answer a few quick questions to get your personalized lead generation strategy and see exactly how much you could save with our pay-per-lead model.</p>
                   <h2 className="text-3xl md:text-4xl font-bold mb-2">
                     <span className="text-black">Get Your </span>
                     <span className="text-[#3498DB]">Custom Quote</span>
                   </h2>
-                  <p className="text-lg text-gray-700">Let's get your free coverage review call</p>
+                  <p className="text-lg text-gray-700">Let's get your free strategy call</p>
                   <p className="text-base text-gray-600">We'll contact you within 24 hours to discuss your needs</p>
                 </div>
                 
@@ -798,13 +799,13 @@ export default function SeniorsLanding() {
                     type="submit" 
                     className={`w-full mt-6 min-h-[52px] text-lg font-semibold transition-opacity ${
                       formData.firstName && formData.lastName && formData.email && formData.phone
-                        ? 'bg-[#3498DB] hover:bg-[#2980B9] opacity-100'
+                        ? 'bg-[#5AC8FA] hover:bg-[#4AB8E8] opacity-100'
                         : 'bg-gray-300 cursor-not-allowed opacity-50'
                     }`}
                     data-testid="button-submit-contact-info"
                     disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
                   >
-                    Book Your Free Coverage Review Call
+                    Book Your Free Strategy Call
                   </Button>
 
                   {/* 100% Completion Progress Bar */}
