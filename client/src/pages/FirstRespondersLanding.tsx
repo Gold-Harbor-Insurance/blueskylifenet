@@ -340,7 +340,10 @@ export default function FirstRespondersLanding() {
   // Scroll to top when showing thank you page
   useEffect(() => {
     if (step === 11) {
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      // Use requestAnimationFrame to ensure DOM is fully rendered before scrolling
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
     }
   }, [step]);
   

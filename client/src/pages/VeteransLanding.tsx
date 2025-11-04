@@ -313,7 +313,10 @@ export default function VeteransLanding() {
   // Scroll to top when showing thank you page
   useEffect(() => {
     if (step === 10) {
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      // Use requestAnimationFrame to ensure DOM is fully rendered before scrolling
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      });
     }
   }, [step]);
   

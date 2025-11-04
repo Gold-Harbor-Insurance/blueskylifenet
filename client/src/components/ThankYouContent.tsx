@@ -16,9 +16,6 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   const [isSticky, setIsSticky] = useState(true);
 
   useEffect(() => {
-    // Scroll to top when component mounts
-    window.scrollTo({ top: 0, behavior: 'auto' });
-    
     // Detect Facebook in-app browser
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
     const isFB = /FBAN|FBAV|Instagram/i.test(userAgent);
