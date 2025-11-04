@@ -145,7 +145,7 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 7. **Custom Ringba API Integration** (December 2025 Update)
    - Replaced Ringba script tag with custom API implementation
    - **API Endpoint**: POST to https://display.ringba.com/v2/nis/gn/
-   - **JsTagId**: JSfa2731f06cb04b478e94abc2f4b6610c
+   - **JsTagId**: JSd4de0752fe324d99a3a107e29c0de4a8
    - **Timing**: API called at final substantive question before thank you page
      - Seniors: Street Address submission (Q12)
      - Veterans: Street Address submission (Q13)

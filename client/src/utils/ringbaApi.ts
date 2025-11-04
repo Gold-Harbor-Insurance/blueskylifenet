@@ -144,7 +144,7 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
     });
     
     const requestData: RingbaRequestData = {
-      JsTagId: 'JSfa2731f06cb04b478e94abc2f4b6610c',
+      JsTagId: 'JSd4de0752fe324d99a3a107e29c0de4a8',
       CurrentEpoch: Date.now(),
       Tags: tags
     };
