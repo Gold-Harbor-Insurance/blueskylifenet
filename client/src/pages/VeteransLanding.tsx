@@ -709,8 +709,8 @@ export default function VeteransLanding() {
             {/* Q9: Get Your Custom Quote (Contact Info) */}
             {step === 9 && (
               <div className="space-y-6">
-                <div className="text-center mb-10">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-12">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
                     <span className="text-black">Get Your </span>
                     <span className="text-[#3498DB]">Custom Quote</span>
                   </h2>
@@ -720,7 +720,7 @@ export default function VeteransLanding() {
                 
                 <form onSubmit={handleContactInfoSubmit}>
                   {/* Form fields container with bottom padding for sticky button */}
-                  <div className="max-w-lg mx-auto space-y-4 pb-40">
+                  <div className="max-w-lg mx-auto space-y-6 pb-48">
                     {/* First Name and Last Name - Side by Side */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
@@ -816,8 +816,8 @@ export default function VeteransLanding() {
                         type="submit" 
                         className={`w-full min-h-[52px] text-lg font-semibold transition-opacity ${
                           formData.firstName && formData.lastName && formData.email && formData.phone
-                            ? 'bg-[#5AC8FA] hover:bg-[#4AB8E8] opacity-100'
-                            : 'bg-[#5AC8FA] cursor-not-allowed opacity-60'
+                            ? 'bg-[#1A3E7A] hover:bg-[#152F5F] opacity-100'
+                            : 'bg-[#1A3E7A] cursor-not-allowed opacity-60'
                         }`}
                         data-testid="button-submit-contact-info"
                         disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
