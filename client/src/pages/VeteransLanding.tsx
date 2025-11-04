@@ -627,7 +627,8 @@ export default function VeteransLanding() {
                   <select
                     value={formData.age}
                     onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    className="w-32 text-2xl min-h-[60px] font-semibold text-center md:hidden border-2 border-gray-300 rounded-md px-4 mx-auto block"
+                    className="w-32 text-2xl min-h-[60px] font-semibold text-center md:hidden border-2 border-gray-300 rounded-md pl-6 pr-8 mx-auto block"
+                    style={{ textAlignLast: 'center' }}
                     data-testid="select-age-mobile"
                     required
                   >
