@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface LegalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  type: "privacy" | "terms" | null;
+  type: "privacy" | "terms" | "goldHarbor" | null;
 }
 
 export default function LegalModal({ isOpen, onClose, type }: LegalModalProps) {
@@ -139,17 +139,96 @@ These Terms of Use are subject to change from time to time and at any time, and 
 Applicable Laws
 This agreement is governed by the laws of the State of Delaware, United States of America, excluding its choice of law rules. You irrevocably agree that such jurisdiction and venue will be the sole and exclusive jurisdiction and venue of any legal dispute. You covenant not to sue us in any other forum for any cause of action. Our failure to exercise or enforce any right or provision of these Terms shall not constitute a waiver of any such right or provision. If for any reason a court of competent jurisdiction finds any provision of this agreement, or portion thereof, to be unenforceable, that provision shall be enforced to the maximum extent permissible so as to give effect to the intent of this agreement, and the remainder of these Terms of Use shall continue in full force and effect.`;
 
+  const goldHarborContent = `Privacy Policy
+Last Updated: June 11, 2024
+
+Gold Harbor Insurance owns and operates each website that displays this Privacy Notice (each, a "Site").
+
+Your privacy is important to us. We created this Privacy Notice to explain how we collect, use, and share the information that we collect from and about you.
+
+Data Collected
+
+Data You Provide: We collect data that you provide to us when you interact with the Site or sites owned by third-parties with whom we have contractual relationships, including sites you visit prior to coming to this Site ("Media Partners"). In most cases when you come to the Site we will automatically gather or receive technical data about your prior journey, device and how you interact with our Site ("Technical Data"). Technical Data may include browser type, referrer URL, date and time of your visit, IP address, MAC address, device type, screen resolution, and OS version. Technical Data also includes "Cookie and Similar Data" described below.
+
+We gather additional data if you elect to engage with the Site or certain sites owned by our Media Partners. This includes contact information you elect to provide (e.g., name, address, email address, telephone number) about yourself or third parties to us and our Media Partners. (For example, if you elect to click on one of our advertisements on a Media Partner's site that Media Partner may pass your contact information to us). We refer to the information you elect to provide as "Provided Attributes." In addition to contact information, Provided Attributes include age, gender, occupation, and education level. The Provided Attributes we collect are based upon the product and services you are inquiring about.
+
+Third Party Data: In some cases, we may augment the Technical Data and any Provided Attributes with Third Party Data. "Third Party Data" includes information from third parties such as credit reporting agencies. (We will only obtain credit reporting information with your consent, and will not retain any Social Security number you provide). Third Party Data may also include information intended to validate the data you provide (e.g., phone number, Vehicle Identification Number, outstanding loan amount). Finally, Third Party Data may include instances where you authorize us to use social media account information to log into or connect to this Site. We may combine the Technical Data, Provided Attributes and Third Party Data.
+
+Cookie and Similar Data: When you use this Site, we may recognize you or your device through use of a "cookie" or other tracking technology. These technologies act as unique identifiers and allow us to tailor this Site to your specified interests and track your activity on this Site. This information may be added to your user profile and used to deliver offers and advertisements that we believe are relevant to your interests.
+
+We have contractual relationships with advertisers, advertising agencies and other intermediaries that have advertisers as clients (collectively, "Advertising Partners"). Our Media Partners and Advertising Partners (collectively, "Partners") may also utilize third-party cookies and other tracking technologies like clear pixel GIFs (i.e., web beacons) to identify you. We and our Partners may use these technologies to measure responses to emails and page views on this Site and our Partners' websites. These technologies are used to enhance this Site, to make this Site more relevant to you, and to measure the effectiveness of our email and other advertising campaigns and those of our Partners.
+
+Tracking Options and California Do Not Track Disclosures: Certain Sites require cookies to function efficiently. We may use cookies to deliver advertising we believe is relevant to you and to link data collected across other devices you use. You can adjust your setting to limit tracking or decline cookies, but, as a result, you may not be able to use certain features of this Site or take full advantage of all of our offerings. Please refer to your device or browser settings for more information on how to delete or decline cookies and control your tracking preferences. This Site does not respond to Do Not Track signals from most browsers.
+
+Data Use
+
+We use the data we collect from and about you through this Site primarily to connect you with Advertising Partners who can provide you with information about the products and services you are seeking. We generally do this using Technical Data and Provided Attributes, but in certain cases (e.g. lending products) we may also use Third Party Data.
+
+For example, we may have an auto insurance Partner who is only licensed in certain states. We may use Technical Data or Provided Attributes to determine if you are a resident of one of those states. We refer to Advertising Partner requirements generally as "segmentation" and the alignment of consumer data and segments as "matching."
+
+We may also use the data we collect from and about you to (i) respond to your requests (e.g., receive white papers, email, phone calls or texts); (ii) to keep you informed of our products and services (and those of our Partners); (iii) to allow you to send message through this Site; (iv) to improve our Sites and business; (v) to fulfill any purchase you make; and (vi) to use your data in an aggregated, non-specific format for analytic and demographic purposes. We use Technical Data to monitor this Site's performance, analyze traffic patterns and usage, ensure that this Site and any transactions function properly, and gather demographic information about our user base as a whole. We may use automated decision-making in segmentation and matching.
+
+Data Sharing
+
+In addition to the primary Data Use described above (i.e., sharing your data with Advertising Partners and third parties for the purpose of providing you with information about the products and services you are seeking), we may share your data as follows: (i) with other Gold Harbor Insurance businesses; (ii) with service providers who assist us in compliance and verification activities (e.g., credit agencies), or provide services such as payment processing, IT, and data analysis; (iii) if you choose to send a message through, or contribute to public areas of, this Site (e.g., message boards, blogs); and (iv) with a third party in the event of a sale or transfer of all or part of our business.
+
+We may also disclose the data we collect from and about you to (i) comply with legal processes; (ii) to respond to lawful requests from authorities (including public and government authorities outside your country of residence, and including to meet national security or law enforcement requirements); (iii) to enforce our Terms of Service and this Privacy Notice; (iv) to protect our business, rights, privacy, safety, or property or that of others; and (v) as necessary under applicable law (including laws outside your country of residence).
+
+Other Websites
+
+This Site may contain links to websites that are not owned and operated by us. We are not responsible for the content or practices of such websites, including their practices with respect to your data. We have no responsibility or liability for such practices, and such practices govern your use of those websites. If this Site includes any mapping features, those mapping features are powered by Google, Inc. and governed by Google's privacy policy, as amended from time to time.
+
+Security
+
+We have taken certain physical, technical, and administrative steps to protect the data we collect from and about Site users. We use commercially reasonable efforts to encrypt sensitive data such as credit card number and personal health data. We use certain reasonable security measures to help protect your personal information. However, no electronic data transmission or storage of information can be guaranteed to be 100% secure. Please note that we cannot ensure or warrant the security of any information you transmit to us. You use the Site and provide us with your data at your own risk. If we share data as detailed in this Privacy Notice with a third party we will use all reasonable efforts to ensure that they keep the information secure and only use the information consistent with the terms of this Privacy Notice.
+
+Children
+
+We do not knowingly collect, use, or share the personal data of children under the age of 13 and this Site is not directed to individuals under 13. If we are made aware that we have collected personal data from an individual under age 13 we will delete this information as soon as possible.
+
+Retention Period
+
+In general, we will retain your data for as long as is needed to connect you with Advertising Partners who can provide you with information about the products and services you are seeking, which is typically 30-180 days. We will typically retain an archived copy of your data for six years as required or permitted by law for legal and compliance purposes.
+
+Information for California Consumers
+
+The California Consumer Privacy Act ("CCPA") affords certain rights and protections to California residents. This section is intended to further describe (i) the categories and sources of data that Gold Harbor Insurance collects, sells or shares; (ii) the purpose for collection; (iii) the types of third parties to whom Gold Harbor Insurance discloses that information; and (iv) details about how California residents can exercise their rights under the CCPA.
+
+California residents who would like to submit a Request to Know, Delete, or Opt-Out may contact our toll-free number (877) 790-1817.
+
+Information for European Consumers
+
+Our Site and business are operated in the United States. If you are located outside of the United States any data you provide will be transferred to and processed in the United States. For residents of the European Union (and the United Kingdom), Gold Harbor Insurance is the data controller for your data collected under this Privacy Notice.
+
+Dispute Resolution
+
+You have the right to submit feedback about this Privacy Notice, or the practices described in it, to the applicable supervisory authority in your jurisdiction of residence. For U.S. residents this includes the Federal Trade Commission and your state Attorney General. For Non-U.S. residents this includes the Data Protection Authority in your country of residence.`;
+
+  const getTitle = () => {
+    if (type === "privacy") return "BlueSky Life Privacy Policy";
+    if (type === "terms") return "BlueSky Life Terms of Use";
+    if (type === "goldHarbor") return "Gold Harbor Insurance Privacy Policy";
+    return "";
+  };
+
+  const getContent = () => {
+    if (type === "privacy") return privacyContent;
+    if (type === "terms") return termsContent;
+    if (type === "goldHarbor") return goldHarborContent;
+    return "";
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
-            {type === "privacy" ? "Privacy Policy" : "Terms of Use"}
+            {getTitle()}
           </DialogTitle>
         </DialogHeader>
         <ScrollArea className="h-[60vh] pr-4">
           <div className="whitespace-pre-wrap text-sm leading-relaxed">
-            {type === "privacy" ? privacyContent : termsContent}
+            {getContent()}
           </div>
         </ScrollArea>
       </DialogContent>

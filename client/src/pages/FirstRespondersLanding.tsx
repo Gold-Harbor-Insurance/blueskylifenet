@@ -61,7 +61,7 @@ function TestimonialCarousel() {
 export default function FirstRespondersLanding() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
-  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
+  const [legalModal, setLegalModal] = useState<"privacy" | "terms" | "goldHarbor" | null>(null);
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [availableCounties, setAvailableCounties] = useState<string[]>([]);
@@ -982,14 +982,13 @@ export default function FirstRespondersLanding() {
                     </p>
                     <p>
                       By clicking Submit, you agree to send your info to Gold Harbor Insurance who agrees to use it according to their{' '}
-                      <a
-                        href="https://goldharborinsurance.com/privacy/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => setLegalModal("goldHarbor")}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         privacy policy
-                      </a>
+                      </button>
                       .
                     </p>
                   </div>
