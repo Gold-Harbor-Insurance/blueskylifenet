@@ -8,7 +8,31 @@ interface QuizCardProps {
 }
 
 export default function QuizCard({ children, currentStep, totalSteps, questionNumber }: QuizCardProps) {
-  const progress = ((currentStep) / totalSteps) * 100;
+  // Custom percentage mapping for progress display
+  const getProgressPercentage = (step: number, total: number): number => {
+    // Base percentages for steps 2-6
+    const basePercentages: { [key: number]: number } = {
+      2: 20,
+      3: 40,
+      4: 50,
+      5: 70,
+      6: 80,
+    };
+    
+    if (basePercentages[step] !== undefined) {
+      return basePercentages[step];
+    }
+    
+    // For steps 7+, calculate remaining progress
+    if (step === 7) return 85;
+    if (step === 8) return 90;
+    if (step >= 9) return 95;
+    
+    // Fallback (shouldn't happen for steps 2-9)
+    return (step / total) * 100;
+  };
+
+  const progress = getProgressPercentage(currentStep, totalSteps);
 
   return (
     <motion.div
@@ -21,7 +45,7 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
       <div className="mb-8">
         <div className="flex items-center justify-center mb-2">
           <span className="text-sm text-gray-600 font-medium">
-            Question {currentStep}/{totalSteps}
+            {progress}%
           </span>
         </div>
         <div className="w-full bg-gray-300 h-1.5 rounded-full overflow-hidden">
