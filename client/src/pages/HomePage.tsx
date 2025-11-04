@@ -1,40 +1,130 @@
+import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-blue-50 py-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-[#1a3d7c] m-0">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      {/* Hero Section */}
+      <header className="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center">
+        <div className="flex justify-center mb-8">
+          <img 
+            src={logoImage} 
+            alt="BlueSky Life" 
+            className="h-16 md:h-20 w-auto"
+            data-testid="img-bluesky-logo-hero"
+          />
+        </div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a3d7c] mb-4">
           Welcome to BlueSky Life
         </h1>
+        <p className="text-xl md:text-2xl text-gray-700 font-light">
+          Helping Everyday Americans Plan with Confidence
+        </p>
       </header>
 
       {/* Main Content */}
-      <section className="max-w-3xl mx-auto my-12 px-4">
-        <p className="text-lg text-gray-700 mb-6">
-          At BlueSky Life, we believe in simplicity, clarity, and peace of mind.
-          Our platform is built to help everyday individuals explore reliable options 
-          and connect with trusted professionals.
-        </p>
+      <main className="max-w-4xl mx-auto px-6 pb-16">
+        {/* Introduction */}
+        <section className="mb-16">
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed mb-6">
+            At BlueSky Life, we understand that peace of mind comes from having a plan in place. One that reflects your values, honors your family, and prepares you for the future.
+          </p>
+          
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed mb-6">
+            Our mission is simple: to make it easier for individuals and families to explore important planning options with clarity, convenience, and confidence. Whether you're preparing for the years ahead or just getting started, we're here to help guide the way.
+          </p>
+          
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed mb-6">
+            We've created an easy-to-use experience that connects people with trusted, licensed professionals who can answer questions, offer guidance, and provide real solutions based on your unique needs. All without pressure, gimmicks, or confusing jargon.
+          </p>
+          
+          <p className="text-xl md:text-2xl text-[#1a3d7c] font-semibold text-center my-8">
+            You don't need to know everything. You just need a place to start.
+          </p>
+        </section>
 
-        <p className="text-lg text-gray-700 mb-6">
-          Whether you're planning ahead or simply learning more, we provide helpful 
-          resources and simple tools to guide your journey.
-        </p>
+        {/* Why Choose Section */}
+        <section className="mb-16 bg-white rounded-lg shadow-sm p-8 md:p-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a3d7c] mb-8 text-center">
+            Why People Choose BlueSky Life
+          </h2>
+          
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Easy to Use</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Our process is designed to be straightforward, fast, and hassle-free.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No Guesswork</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                We provide helpful tools and resources so you can make informed decisions without stress.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Friendly Experts</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Every conversation is with a trained, licensed professional who cares about helping. Not selling.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Support You Can Trust</h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                We pride ourselves on honesty, transparency, and always doing what's right for the people we serve.
+              </p>
+            </div>
+          </div>
+        </section>
 
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => window.location.href = '/seniors'}
-            className="bg-[#1a3d7c] text-white border-none py-4 px-8 text-base rounded-md cursor-pointer hover:bg-[#15325f] transition-colors duration-200"
-            data-testid="button-learn-more"
-          >
-            Learn More
-          </button>
-        </div>
-      </section>
+        {/* What to Expect */}
+        <section className="mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1a3d7c] mb-6 text-center">
+            What to Expect
+          </h2>
+          
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed mb-6">
+            When you explore with BlueSky Life, you're taking a simple step toward more control, more knowledge, and more peace of mind. From your first click to your final decision, we're here to make sure you feel informed, supported, and never rushed.
+          </p>
+          
+          <p className="text-lg md:text-xl text-gray-800 leading-relaxed">
+            Whether you're curious, ready to take action, or just browsing, you're in the right place.
+          </p>
+        </section>
+
+        {/* Get Started */}
+        <section className="bg-gradient-to-r from-[#1a3d7c] to-[#2d5aa8] rounded-lg shadow-lg p-8 md:p-12 text-center text-white mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Get Started Today
+          </h2>
+          
+          <p className="text-lg md:text-xl leading-relaxed mb-4">
+            There's no pressure. No complicated forms. Just a better way to plan.
+          </p>
+          
+          <p className="text-lg md:text-xl leading-relaxed">
+            Take a look around. Learn something new. And when you're ready — we'll be here.
+          </p>
+        </section>
+
+        {/* Tagline */}
+        <section className="text-center">
+          <h3 className="text-2xl md:text-3xl font-bold text-[#1a3d7c] mb-3">
+            BlueSky Life
+          </h3>
+          <p className="text-xl md:text-2xl text-gray-700 font-light italic">
+            Clarity. Compassion. Confidence.
+          </p>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="text-center text-sm text-gray-600 mt-16 py-8">
-        <p>&copy; 2025 BlueSky Life. All rights reserved.</p>
+      <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-16">
+        <div className="max-w-4xl mx-auto px-6 text-center text-sm text-gray-600">
+          <p>&copy; 2025 BlueSky Life. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
