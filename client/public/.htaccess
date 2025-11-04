@@ -2,7 +2,7 @@ DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
+  RewriteBase /final-expense/rb-f3q8n1z7rp0x/
   
   # Don't rewrite files or directories
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -10,7 +10,7 @@ DirectoryIndex index.html
   RewriteCond %{REQUEST_FILENAME} !-l
   
   # Rewrite everything else to index.html to allow html5 state links
-  RewriteRule . /index.html [L]
+  RewriteRule . /final-expense/rb-f3q8n1z7rp0x/index.html [L]
 </IfModule>
 
 # Enable gzip compression

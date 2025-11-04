@@ -22,11 +22,11 @@ function Routes() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
-      <Route path="/seniors" component={SeniorsLanding} />
-      <Route path="/veterans" component={VeteransLanding} />
-      <Route path="/firstresponders" component={FirstRespondersLanding} />
-      <Route path="/thank-you" component={ThankYou} />
-      <Route path="/not-qualified" component={NotQualified} />
+      <Route path="/final-expense/rb-f3q8n1z7rp0x/seniors" component={SeniorsLanding} />
+      <Route path="/final-expense/rb-f3q8n1z7rp0x/veterans" component={VeteransLanding} />
+      <Route path="/final-expense/rb-f3q8n1z7rp0x/firstresponders" component={FirstRespondersLanding} />
+      <Route path="/final-expense/rb-f3q8n1z7rp0x/thank-you" component={ThankYou} />
+      <Route path="/final-expense/rb-f3q8n1z7rp0x/not-qualified" component={NotQualified} />
       <Route component={NotFound} />
     </Switch>
   );

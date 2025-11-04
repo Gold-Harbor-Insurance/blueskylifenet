@@ -228,16 +228,16 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **Address Pre-Fill**: City, state, and ZIP are shown as disabled fields in street address question
 
 ### Deployment Configuration
-**Domain**: blueskylife.io (root deployment)
+**Domain**: blueskylife.io
 **Structure**:
-- `/` - Homepage (smiley face logo)
-- `/seniors` - Seniors landing page with quiz
-- `/veterans` - Veterans landing page with quiz
-- `/firstresponders` - First responders landing page with quiz
+- `/` - Homepage
+- `/final-expense/rb-f3q8n1z7rp0x/seniors` - Seniors landing page with quiz
+- `/final-expense/rb-f3q8n1z7rp0x/veterans` - Veterans landing page with quiz
+- `/final-expense/rb-f3q8n1z7rp0x/firstresponders` - First responders landing page with quiz
 
 **Build Configuration**:
-- vite.config.ts `base: "/"` - Configured for root domain deployment
+- Routes configured for `/final-expense/rb-f3q8n1z7rp0x/` subdirectory
 - .htaccess - Apache routing configuration for clean URLs (no hash routing)
 - Uses browser history API for client-side routing
 
-**Deployment**: Upload `dist/public/` contents to root of blueskylife.io web directory
+**Deployment**: Upload `dist/public/` contents to `/final-expense/rb-f3q8n1z7rp0x/` directory on blueskylife.io
