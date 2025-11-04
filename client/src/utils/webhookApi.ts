@@ -24,6 +24,7 @@ interface WebhookPayload {
   fbc?: string;
   fbp?: string;
   fbclid?: string;
+  ip_address?: string;
 }
 
 function getCookie(name: string): string | null {
@@ -42,6 +43,18 @@ function getUrlParameter(name: string): string | null {
   return searchParams.get(name);
 }
 
+async function getIpAddress(): Promise<string | null> {
+  try {
+    const response = await axios.get('https://ipapi.co/json/', {
+      timeout: 3000
+    });
+    return response.data.ip || null;
+  } catch (error) {
+    console.error('Failed to fetch IP address:', error);
+    return null;
+  }
+}
+
 export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
   try {
     const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || 'https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5';
@@ -49,12 +62,14 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
     const fbc = getCookie('_fbc');
     const fbp = getCookie('_fbp');
     const fbclid = getUrlParameter('fbclid');
+    const ipAddress = await getIpAddress();
     
     const enrichedPayload = {
       ...payload,
       ...(fbc && { fbc }),
       ...(fbp && { fbp }),
-      ...(fbclid && { fbclid })
+      ...(fbclid && { fbclid }),
+      ...(ipAddress && { ip_address: ipAddress })
     };
     
     await axios.post(webhookUrl, enrichedPayload, {
