@@ -227,15 +227,17 @@ Three high-converting quiz-style landing pages for BlueSky Life - one for senior
 - **ZIP Auto-Detection**: Uses IP geolocation on component mount to pre-fill location data
 - **Address Pre-Fill**: City, state, and ZIP are shown as disabled fields in street address question
 
-### Base Path Handling (Dev vs Production)
-**Issue**: vite.config.ts has `base: "/final-expense/rb-dhF5ke48DSslf/"` for cPanel deployment, which broke Replit preview
+### Deployment Configuration
+**Domain**: blueskylife.io (root deployment)
+**Structure**:
+- `/` - Homepage (smiley face logo)
+- `/seniors` - Seniors landing page with quiz
+- `/veterans` - Veterans landing page with quiz
+- `/firstresponders` - First responders landing page with quiz
 
-**Solution**: 
-- **Client-side (App.tsx)**: Uses `import.meta.env.DEV` to determine wouter Router base path
-  - Dev: "" (empty) so routes match at root `/`
-  - Prod: `import.meta.env.BASE_URL` from vite.config.ts
-- **Server-side (server/index.ts)**: Dynamically imports base from viteConfig
-  - Dev: Middleware strips vite base path from asset requests before Vite processes them
-  - Prod: Serves static files under vite base path with SPA fallback
+**Build Configuration**:
+- vite.config.ts `base: "/"` - Configured for root domain deployment
+- .htaccess - Apache routing configuration for client-side routing
+- All routes use hash routing (#/) for compatibility
 
-This ensures Replit preview works while production builds deploy correctly to cPanel subdirectory. Any changes to vite.config.ts base are automatically reflected throughout the app.
+**Deployment**: Upload `dist/public/` contents to root of blueskylife.io web directory
