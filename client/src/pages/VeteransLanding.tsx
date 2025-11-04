@@ -447,11 +447,19 @@ export default function VeteransLanding() {
                     coast_guard: "Coast Guard"
                   };
                   
+                  const branchValues: Record<string, MilitaryBranch> = {
+                    army: "Army",
+                    navy: "Navy",
+                    marines: "Marine Corps",
+                    air_force: "Air Force",
+                    coast_guard: "Coast Guard"
+                  };
+                  
                   return (
                     <button
                       key={branch}
                       type="button"
-                      onClick={() => handleMilitaryBranchSelect(branch as MilitaryBranch)}
+                      onClick={() => handleMilitaryBranchSelect(branchValues[branch])}
                       data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
                       className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
                     >
@@ -538,17 +546,26 @@ export default function VeteransLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
-                    <button
-                      key={ben}
-                      type="button"
-                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {ben}
-                    </button>
-                  ))}
+                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
+                    const beneficiaryMap: Record<string, Beneficiary> = {
+                      "Spouse": "Spouse",
+                      "Children": "Children",
+                      "Grandchildren": "Grandchildren",
+                      "Family Member": "Family"
+                    };
+                    
+                    return (
+                      <button
+                        key={ben}
+                        type="button"
+                        onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
+                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      >
+                        {ben}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

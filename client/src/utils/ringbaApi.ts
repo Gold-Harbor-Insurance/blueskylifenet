@@ -79,7 +79,7 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
     
     tags.push({
       type: 'User',
-      lp: 'blueskylife.com'
+      lp: 'blueskylife.io'
     });
     
     for (const inputName of hiddenInputNames) {

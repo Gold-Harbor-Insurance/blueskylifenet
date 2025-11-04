@@ -535,17 +535,26 @@ export default function FirstRespondersLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => (
-                    <button
-                      key={ben}
-                      type="button"
-                      onClick={() => handleBeneficiarySelect(ben as Beneficiary)}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                    >
-                      {ben}
-                    </button>
-                  ))}
+                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
+                    const beneficiaryMap: Record<string, Beneficiary> = {
+                      "Spouse": "Spouse",
+                      "Children": "Children",
+                      "Grandchildren": "Grandchildren",
+                      "Family Member": "Family"
+                    };
+                    
+                    return (
+                      <button
+                        key={ben}
+                        type="button"
+                        onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
+                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      >
+                        {ben}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

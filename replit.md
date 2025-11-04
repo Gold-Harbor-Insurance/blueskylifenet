@@ -26,8 +26,38 @@ The application is a client-side only quiz flow with no dedicated backend or dat
     -   `Zippopotam.us`: For validating and updating city/state based on ZIP code changes.
 -   **Telephony & Call Tracking**:
     -   `Ringba API`: Custom integration for dynamic phone number generation, call tracking, and forwarding Facebook tracking data.
+    -   Domain ("lp" field): `blueskylife.io`
 -   **Automation & Webhooks**:
     -   `Make.com`: Endpoint (`https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5`) for receiving all form submission data.
 -   **Marketing & Analytics**:
     -   `Google Tag Manager (GTM)`: For comprehensive event tracking and data layer management (`GTM-W9243JWT`, `https://trk.blueskylife.io`).
     -   `Facebook Pixel/CAPI`: For ad optimization and conversion tracking via data passed to Ringba and Make.com.
+
+## Value Mappings (December 2025)
+Button display text → Values sent to Ringba & Webhook:
+
+-   **Beneficiary** (`beneficiary`):
+    - "Spouse" → "Spouse"
+    - "Children" → "Children"
+    - "Grandchildren" → "Grandchildren"
+    - "Family Member" → "Family"
+
+-   **Military Branch** (`military_branch` - Veterans only):
+    - "Army" → "Army"
+    - "Marines" → "Marine Corps"
+    - "Navy" → "Navy"
+    - "Air Force" → "Air Force"
+    - "Coast Guard" → "Coast Guard"
+
+-   **Coverage Amount** (`coverage_amount`):
+    - Values: "Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"
+
+-   **Monthly Budget** (`monthly_budget`):
+    - Values: "$50–$74", "$75–$99", "$100–$149", "Over$150"
+
+-   **First Responder Agency** (`first_responder_agency` - First Responders only):
+    - "Law Enforcement" → "Law enforcement"
+    - "Fire Services" → "Fire and rescue"
+    - "EMS" → "Emergency Medical Services"
+    - "Public Safety Communications" → "Public safety communications"
+    - "Other" → "Other critical first responders"
