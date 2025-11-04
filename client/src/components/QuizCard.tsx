@@ -46,22 +46,24 @@ export default function QuizCard({ children, currentStep, totalSteps, questionNu
       transition={{ duration: 0.4 }}
       className="w-full"
     >
-      {/* Progress indicator */}
-      <div className="mb-8">
-        <div className="flex items-center justify-center mb-2">
-          <span className="text-sm text-gray-600 font-medium">
-            {progress}%
-          </span>
+      {/* Progress indicator - hidden at 100% */}
+      {progress < 100 && (
+        <div className="mb-8">
+          <div className="flex items-center justify-center mb-2">
+            <span className="text-sm text-gray-600 font-medium">
+              {progress}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-300 h-1.5 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-[#5CB85C]"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            />
+          </div>
         </div>
-        <div className="w-full bg-gray-300 h-1.5 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-[#5CB85C]"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          />
-        </div>
-      </div>
+      )}
 
       {/* Question content */}
       <AnimatePresence mode="wait">
