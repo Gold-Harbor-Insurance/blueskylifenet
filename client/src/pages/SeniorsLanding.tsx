@@ -963,29 +963,6 @@ export default function SeniorsLanding() {
               </div>
             )}
           </QuizCard>
-          
-          <div className="mt-32 pb-8 text-center text-sm text-gray-600">
-            <div className="space-x-2">
-              <button
-                onClick={() => setLegalModal("privacy")}
-                className="link-privacy-policy hover:underline"
-                data-testid="link-privacy-policy"
-              >
-                Privacy Policy
-              </button>
-              <span>|</span>
-              <button
-                onClick={() => setLegalModal("terms")}
-                className="link-terms-of-use hover:underline"
-                data-testid="link-terms-of-use"
-              >
-                Terms of Use
-              </button>
-            </div>
-            <p className="mt-2">
-              © 2025 BlueSky Life. All Rights Reserved.
-            </p>
-          </div>
         </QuizLayout>
       )}
       
