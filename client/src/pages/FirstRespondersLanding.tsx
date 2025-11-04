@@ -134,7 +134,7 @@ export default function FirstRespondersLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 12; // Agency + 11 questions + county + thank you page
+  const totalSteps = 11; // Agency + 10 questions + county + thank you page
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
@@ -142,70 +142,43 @@ export default function FirstRespondersLanding() {
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Zip Code (auto-detected, editable)
-  const handleZipCodeSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.zipCode.match(/^\d{5}$/)) {
-      setErrors(prev => ({ ...prev, zipCode: "Please enter a valid 5-digit ZIP code" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, zipCode: "" }));
-    setIsLoadingZip(true);
-    const zipData = await lookupZipCode(formData.zipCode);
-    
-    if (zipData) {
-      setFormData(prev => ({
-        ...prev,
-        city: zipData.city,
-        state: zipData.stateAbbr as USState,
-      }));
-      // Update available counties for the state
-      const counties = getCountiesByState(zipData.stateAbbr);
-      setAvailableCounties(counties);
-    }
-    
-    setIsLoadingZip(false);
+  // Q2: Gender
+  const handleGenderSelect = (gender: Gender) => {
+    setFormData({ ...formData, gender });
     setTimeout(() => setStep(3), 300);
   };
 
-  // Q3: Gender
-  const handleGenderSelect = (gender: Gender) => {
-    setFormData({ ...formData, gender });
+  // Q3: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q4: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(5), 300);
   };
 
-  // Q5: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q5: Cash Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(6), 300);
   };
 
-  // Q6: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
+  // Q6: Monthly Budget
+  const handleMonthlyBudgetSelect = (budget: string) => {
+    setFormData({ ...formData, monthlyBudget: budget });
     setTimeout(() => setStep(7), 300);
   };
 
-  // Q7: Monthly Budget
-  const handleMonthlyBudgetSelect = (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
+  // Q7: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setTimeout(() => setStep(8), 300);
   };
 
-  // Q8: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setTimeout(() => setStep(9), 300);
-  };
-
-  // Q9: Beneficiary Name
+  // Q8: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -224,11 +197,11 @@ export default function FirstRespondersLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(10), 300);
+    setTimeout(() => setStep(9), 300);
   };
 
 
-  // Q10: Combined Contact Info (First Name, Last Name, Email, Phone)
+  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone)
   const handleContactInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -293,10 +266,10 @@ export default function FirstRespondersLanding() {
     
     if (hasError) return;
     
-    setTimeout(() => setStep(11), 300);
+    setTimeout(() => setStep(10), 300);
   };
 
-  // Q11: County (FINAL STEP - triggers Ringba API and final submission)
+  // Q10: County (FINAL STEP - triggers Ringba API and final submission)
   const handleCountySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const county = formData.county.trim();
@@ -360,13 +333,13 @@ export default function FirstRespondersLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(12);
+      setStep(11);
     }, 300);
   };
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 12) {
+    if (step === 11) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -380,9 +353,9 @@ export default function FirstRespondersLanding() {
       }, 150);
     };
     
-    if (step === 9) focusInput(beneficiaryNameRef);
-    else if (step === 10) focusInput(firstNameRef);
-    else if (step === 11) focusInput(countyRef);
+    if (step === 8) focusInput(beneficiaryNameRef);
+    else if (step === 9) focusInput(firstNameRef);
+    else if (step === 10) focusInput(countyRef);
   }, [step]);
 
   // Format phone number as user types
@@ -408,17 +381,16 @@ export default function FirstRespondersLanding() {
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
       1: 0,   // Agency (first page, no progress bar)
-      2: 10,  // ZIP Code
-      3: 20,  // Gender
-      4: 40,  // Beneficiary
-      5: 50,  // Life Insurance
-      6: 70,  // Cash Amount
-      7: 80,  // Monthly Budget
-      8: 90,  // Age
-      9: 95,  // Beneficiary Name
-      10: 100, // Contact Info
-      11: 100, // County (progress hidden on this page)
-      12: 100  // Thank You
+      2: 20,  // Gender
+      3: 40,  // Beneficiary
+      4: 50,  // Life Insurance
+      5: 70,  // Cash Amount
+      6: 80,  // Monthly Budget
+      7: 90,  // Age
+      8: 95,  // Beneficiary Name
+      9: 100, // Contact Info
+      10: 100, // County (progress hidden on this page)
+      11: 100  // Thank You
     };
     return progressMap[currentStep] || 0;
   };
@@ -456,7 +428,7 @@ export default function FirstRespondersLanding() {
         </div>
       )}
 
-      {step === 12 ? (
+      {step === 11 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -552,64 +524,8 @@ export default function FirstRespondersLanding() {
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step}>
             {/* Q1 is handled above, start from Q2 */}
 
-            {/* Q2: Zip Code (auto-detected, editable) */}
+            {/* Q2: Gender */}
             {step === 2 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your zip code?
-                  </h2>
-                </div>
-                <form onSubmit={handleZipCodeSubmit} className="flex flex-col items-center">
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={formData.zipCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
-                      setFormData({ ...formData, zipCode: value });
-                      if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
-                    }}
-                    placeholder="12345"
-                    className={`text-lg min-h-[50px] w-32 text-center ${errors.zipCode ? 'border-red-500' : ''}`}
-                    data-testid="input-zip-code"
-                    maxLength={5}
-                    required
-                  />
-                  {errors.zipCode && (
-                    <p className="text-red-600 text-sm mt-1 mb-4">{errors.zipCode}</p>
-                  )}
-                  {formData.city && formData.state && (
-                    <div className="mt-3 text-center flex items-center justify-center gap-2">
-                      <p className="text-gray-700 text-base">
-                        {formData.city}, {formData.state}
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setFormData({ ...formData, city: "", state: "" })}
-                        className="text-gray-600 hover:text-gray-800 transition-colors"
-                        data-testid="button-edit-location"
-                        aria-label="Edit location"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-[180px] md:w-[200px] mt-4 min-h-[60px] md:min-h-[70px] text-xl md:text-2xl font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
-                    data-testid="button-submit-zip-code"
-                    disabled={isLoadingZip}
-                  >
-                    {isLoadingZip ? "Looking up..." : "Continue"}
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q3: Gender */}
-            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -637,8 +553,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q4: Beneficiary */}
-            {step === 4 && (
+            {/* Q3: Beneficiary */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -661,8 +577,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q5: Has Life Insurance */}
-            {step === 5 && (
+            {/* Q4: Has Life Insurance */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -690,8 +606,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q6: Cash Amount */}
-            {step === 6 && (
+            {/* Q5: Cash Amount */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -714,8 +630,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q7: Monthly Budget */}
-            {step === 7 && (
+            {/* Q6: Monthly Budget */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -738,8 +654,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q8: Age (NO disqualification - all ages accepted) */}
-            {step === 8 && (
+            {/* Q7: Age (NO disqualification - all ages accepted) */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -794,8 +710,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q9: Beneficiary Name */}
-            {step === 9 && (
+            {/* Q8: Beneficiary Name */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -831,8 +747,8 @@ export default function FirstRespondersLanding() {
             )}
 
 
-            {/* Q10: Get Your Custom Quote (Contact Info) */}
-            {step === 10 && (
+            {/* Q9: Get Your Custom Quote (Contact Info) */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
@@ -1003,8 +919,8 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q11: County (FINAL QUESTION) */}
-            {step === 11 && (
+            {/* Q10: County (FINAL QUESTION) */}
+            {step === 10 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
