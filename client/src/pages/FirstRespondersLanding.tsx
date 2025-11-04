@@ -841,7 +841,7 @@ export default function FirstRespondersLanding() {
                 
                 <form onSubmit={handleContactInfoSubmit}>
                   {/* Form fields container */}
-                  <div className="max-w-lg mx-auto space-y-6">
+                  <div className="max-w-lg mx-auto space-y-12">
                     {/* First Name and Last Name - Side by Side */}
                     <div className="grid grid-cols-2 gap-3">
                       <div>
@@ -931,7 +931,7 @@ export default function FirstRespondersLanding() {
                     {/* Submit Button - In normal flow */}
                     <Button 
                       type="submit" 
-                      className={`w-full mt-8 min-h-[52px] text-lg font-semibold transition-opacity ${
+                      className={`w-full mt-12 min-h-[52px] text-lg font-semibold transition-opacity ${
                         formData.firstName && formData.lastName && formData.email && formData.phone
                           ? 'bg-[#1A3E7A] hover:bg-[#152F5F] opacity-100'
                           : 'bg-[#1A3E7A] cursor-not-allowed opacity-60'
