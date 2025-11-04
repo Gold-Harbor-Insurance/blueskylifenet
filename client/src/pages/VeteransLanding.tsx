@@ -419,17 +419,27 @@ export default function VeteransLanding() {
               </div>
               
               <div className="max-w-md mx-auto grid gap-3">
-                {["army", "navy", "marines", "air_force", "coast_guard"].map((branch) => (
-                  <button
-                    key={branch}
-                    type="button"
-                    onClick={() => handleMilitaryBranchSelect(branch as MilitaryBranch)}
-                    data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
-                  >
-                    {branch}
-                  </button>
-                ))}
+                {["army", "navy", "marines", "air_force", "coast_guard"].map((branch) => {
+                  const displayNames: Record<string, string> = {
+                    army: "Army",
+                    navy: "Navy",
+                    marines: "Marines",
+                    air_force: "Air Force",
+                    coast_guard: "Coast Guard"
+                  };
+                  
+                  return (
+                    <button
+                      key={branch}
+                      type="button"
+                      onClick={() => handleMilitaryBranchSelect(branch as MilitaryBranch)}
+                      data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
+                    >
+                      {displayNames[branch]}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
