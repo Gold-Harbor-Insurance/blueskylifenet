@@ -350,8 +350,8 @@ export default function SeniorsLanding() {
       5: 70,  // Cash Amount
       6: 80,  // Monthly Budget
       7: 90,  // Age
-      8: 90,  // Beneficiary Name
-      9: 100  // Contact Info
+      8: 100, // Beneficiary Name (hide progress bar)
+      9: 100  // Contact Info (hide progress bar)
     };
     return progressMap[currentStep] || 0;
   };

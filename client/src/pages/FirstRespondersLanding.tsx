@@ -14,7 +14,6 @@ import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
-import { getCountiesByState } from "@/utils/countyData";
 import type { 
   FirstResponderAgency,
   Gender, 
@@ -64,7 +63,6 @@ export default function FirstRespondersLanding() {
   const [legalModal, setLegalModal] = useState<"privacy" | "terms" | "goldHarbor" | null>(null);
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
-  const [availableCounties, setAvailableCounties] = useState<string[]>([]);
   const [showPhone, setShowPhone] = useState(false);
   const [errors, setErrors] = useState({
     zipCode: "",
@@ -73,8 +71,7 @@ export default function FirstRespondersLanding() {
     lastName: "",
     email: "",
     phone: "",
-    city: "",
-    county: ""
+    city: ""
   });
   
   const [formData, setFormData] = useState({
@@ -92,7 +89,6 @@ export default function FirstRespondersLanding() {
     lastName: "",
     email: "",
     phone: "",
-    county: "",
     monthlyBudget: "",
   });
   
@@ -107,7 +103,6 @@ export default function FirstRespondersLanding() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
-  const countyRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     initFacebookTracking();
@@ -123,8 +118,6 @@ export default function FirstRespondersLanding() {
             city: geoData.city,
             state: geoData.state as USState,
           }));
-          const counties = getCountiesByState(geoData.state);
-          setAvailableCounties(counties);
         }
       } catch (error) {
         console.log('Failed to detect location from IP, user can enter manually');
@@ -134,7 +127,7 @@ export default function FirstRespondersLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 11; // Agency + 10 questions + county + thank you page
+  const totalSteps = 10; // Agency + 9 questions + thank you page
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
@@ -201,8 +194,8 @@ export default function FirstRespondersLanding() {
   };
 
 
-  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone)
-  const handleContactInfoSubmit = (e: React.FormEvent) => {
+  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
@@ -266,24 +259,7 @@ export default function FirstRespondersLanding() {
     
     if (hasError) return;
     
-    setTimeout(() => setStep(10), 300);
-  };
-
-  // Q10: County (FINAL STEP - triggers Ringba API and final submission)
-  const handleCountySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const county = formData.county.trim();
-    
-    if (!county) {
-      setErrors(prev => ({ ...prev, county: "Please enter your county" }));
-      return;
-    }
-    if (county.length < 2) {
-      setErrors(prev => ({ ...prev, county: "County must be at least 2 characters" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, county: "" }));
+    // Trigger Ringba API and webhook submission
     setIsLoadingRingba(true);
     
     setTimeout(async () => {
@@ -302,8 +278,7 @@ export default function FirstRespondersLanding() {
         'email',
         'phone',
         'city',
-        'state',
-        'county'
+        'state'
       ];
       
       const ringbaData = await fetchRingbaNumber(hiddenInputNames);
@@ -327,16 +302,15 @@ export default function FirstRespondersLanding() {
         phone: formData.phone,
         city: formData.city,
         state: formData.state,
-        county: formData.county,
         landing_page: 'first_responders',
         submitted_at: new Date().toISOString()
       });
       
       setIsLoadingRingba(false);
-      setStep(11);
+      setStep(10);
     }, 300);
   };
-  
+
   // Scroll to top on every step change
   useEffect(() => {
     // Use requestAnimationFrame to ensure DOM is fully rendered before scrolling
@@ -356,7 +330,6 @@ export default function FirstRespondersLanding() {
     
     if (step === 8) focusInput(beneficiaryNameRef);
     else if (step === 9) focusInput(firstNameRef);
-    else if (step === 10) focusInput(countyRef);
   }, [step]);
 
   // Format phone number as user types
@@ -389,9 +362,8 @@ export default function FirstRespondersLanding() {
       6: 80,  // Monthly Budget
       7: 90,  // Age
       8: 95,  // Beneficiary Name
-      9: 100, // Contact Info
-      10: 100, // County (progress hidden on this page)
-      11: 100  // Thank You
+      9: 100, // Contact Info (hide progress bar)
+      10: 100 // Thank You
     };
     return progressMap[currentStep] || 0;
   };
@@ -415,7 +387,6 @@ export default function FirstRespondersLanding() {
       <input type="hidden" name="phone" value={formData.phone} />
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
-      <input type="hidden" name="county" value={formData.county} />
       <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
 
       {/* Ringba loading screen overlay */}
@@ -429,7 +400,7 @@ export default function FirstRespondersLanding() {
         </div>
       )}
 
-      {step === 11 ? (
+      {step === 10 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -929,51 +900,6 @@ export default function FirstRespondersLanding() {
               </div>
             )}
 
-            {/* Q10: County (FINAL QUESTION) */}
-            {step === 10 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Select your county
-                  </h2>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {formData.city}, {formData.state}
-                  </p>
-                </div>
-                <form onSubmit={handleCountySubmit} className="max-w-md mx-auto space-y-4">
-                  <div>
-                    <Input
-                      type="text"
-                      list="county-list"
-                      value={formData.county}
-                      onChange={(e) => {
-                        setFormData({ ...formData, county: e.target.value });
-                        if (errors.county) setErrors(prev => ({ ...prev, county: "" }));
-                      }}
-                      placeholder={availableCounties.length > 0 ? "Select or type your county" : "Type your county"}
-                      className={`text-lg min-h-[50px] ${errors.county ? 'border-red-500' : ''}`}
-                      data-testid="input-county"
-                      required
-                    />
-                    {errors.county && (
-                      <p className="text-red-600 text-sm mt-1">{errors.county}</p>
-                    )}
-                  </div>
-                  <datalist id="county-list">
-                    {availableCounties.map((county) => (
-                      <option key={county} value={county} />
-                    ))}
-                  </datalist>
-                  <Button 
-                    type="submit" 
-                    className="w-full min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-county"
-                    data-testid="button-submit-county"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
           </QuizCard>
         </QuizLayout>
       )}

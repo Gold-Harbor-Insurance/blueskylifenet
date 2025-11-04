@@ -123,7 +123,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
 
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 pt-10 pb-32">
+      <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 pt-16 pb-32">
         <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
         
         {/* Hidden inputs for GTM tracking */}
