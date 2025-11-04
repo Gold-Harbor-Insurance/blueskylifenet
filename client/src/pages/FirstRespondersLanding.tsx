@@ -500,17 +500,27 @@ export default function FirstRespondersLanding() {
                   "fire_services",
                   "public_safety_communications",
                   "other"
-                ].map((agency) => (
-                  <button
-                    key={agency}
-                    type="button"
-                    onClick={() => handleAgencySelect(agency as FirstResponderAgency)}
-                    data-testid={`button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
-                  >
-                    {agency}
-                  </button>
-                ))}
+                ].map((agency) => {
+                  const displayNames: Record<string, string> = {
+                    law_enforcement: "Law Enforcement",
+                    ems: "EMS",
+                    fire_services: "Fire Services",
+                    public_safety_communications: "Public Safety Communications",
+                    other: "Other"
+                  };
+                  
+                  return (
+                    <button
+                      key={agency}
+                      type="button"
+                      onClick={() => handleAgencySelect(agency as FirstResponderAgency)}
+                      data-testid={`button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.replace(/\s+/g, '-').toLowerCase()}`}
+                    >
+                      {displayNames[agency]}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
