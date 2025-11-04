@@ -798,7 +798,7 @@ export default function SeniorsLanding() {
                       if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
                     }}
                     placeholder="12345"
-                    className={`text-lg min-h-[50px] ${errors.zipCode ? 'border-red-500' : ''}`}
+                    className={`text-lg min-h-[50px] w-32 mx-auto text-center ${errors.zipCode ? 'border-red-500' : ''}`}
                     data-testid="input-zip-code"
                     maxLength={5}
                     required

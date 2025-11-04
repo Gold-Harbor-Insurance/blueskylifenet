@@ -834,7 +834,7 @@ export default function VeteransLanding() {
                       if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
                     }}
                     placeholder="12345"
-                    className={`text-2xl md:text-3xl font-bold min-h-[60px] md:min-h-[70px] w-[180px] md:w-[200px] text-center ${errors.zipCode ? 'border-red-500' : ''}`}
+                    className={`text-lg min-h-[50px] w-32 text-center ${errors.zipCode ? 'border-red-500' : ''}`}
                     data-testid="input-zip-code"
                     maxLength={5}
                     required
