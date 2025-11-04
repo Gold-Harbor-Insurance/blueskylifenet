@@ -62,8 +62,7 @@ export default function SeniorsLanding() {
   const [legalModal, setLegalModal] = useState<"privacy" | "terms" | null>(null);
   const [isLoadingRingba, setIsLoadingRingba] = useState(false);
   const [isLoadingZip, setIsLoadingZip] = useState(false);
-  const [emailInputFocused, setEmailInputFocused] = useState(false);
-  const [showLastName, setShowLastName] = useState(false);
+  const [showPhone, setShowPhone] = useState(false);
   const [errors, setErrors] = useState({
     zipCode: "",
     beneficiaryName: "",
@@ -128,7 +127,7 @@ export default function SeniorsLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 13; // 12 questions + thank you page
+  const totalSteps = 10; // 9 questions + thank you page
 
   // Q1: Gender
   const handleGenderSelect = (gender: Gender) => {
@@ -188,46 +187,75 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(8), 300);
   };
 
-  // Q8: First Name and Last Name (combined)
-  const handleNameSubmit = (e: React.FormEvent) => {
+  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone)
+  const handleContactInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    let hasError = false;
     
     // Validate first name
     if (!firstName) {
       setErrors(prev => ({ ...prev, firstName: "Please enter your first name" }));
-      return;
-    }
-    if (firstName.length < 2) {
+      hasError = true;
+    } else if (firstName.length < 2) {
       setErrors(prev => ({ ...prev, firstName: "Name must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
+      hasError = true;
+    } else if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
       setErrors(prev => ({ ...prev, firstName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
-      return;
+      hasError = true;
+    } else {
+      setErrors(prev => ({ ...prev, firstName: "" }));
     }
     
     // Validate last name
     if (!lastName) {
       setErrors(prev => ({ ...prev, lastName: "Please enter your last name" }));
-      setShowLastName(true); // Make sure last name field is visible
-      return;
-    }
-    if (lastName.length < 2) {
+      hasError = true;
+    } else if (lastName.length < 2) {
       setErrors(prev => ({ ...prev, lastName: "Name must be at least 2 characters" }));
-      return;
-    }
-    if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
+      hasError = true;
+    } else if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
       setErrors(prev => ({ ...prev, lastName: "Name can only contain letters, spaces, hyphens, and apostrophes" }));
-      return;
+      hasError = true;
+    } else {
+      setErrors(prev => ({ ...prev, lastName: "" }));
     }
     
-    setErrors(prev => ({ ...prev, firstName: "", lastName: "" }));
+    // Validate email
+    if (!email) {
+      setErrors(prev => ({ ...prev, email: "Please enter your email address" }));
+      hasError = true;
+    } else if (!emailRegex.test(email)) {
+      setErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+      hasError = true;
+    } else {
+      setErrors(prev => ({ ...prev, email: "" }));
+    }
+    
+    // Validate phone
+    if (!phone) {
+      setErrors(prev => ({ ...prev, phone: "Please enter your phone number" }));
+      setShowPhone(true);
+      hasError = true;
+    } else if (!phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
+      setErrors(prev => ({ ...prev, phone: "Please enter a valid phone number" }));
+      setShowPhone(true);
+      hasError = true;
+    } else {
+      setErrors(prev => ({ ...prev, phone: "" }));
+    }
+    
+    if (hasError) return;
+    
     setTimeout(() => setStep(9), 300);
   };
 
-  // Q9: Zip Code (auto-detected, editable)
+  // (No longer used - ZIP is auto-detected, not a separate step)
   const handleZipCodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.zipCode.match(/^\d{5}$/)) {
@@ -251,42 +279,7 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(10), 300);
   };
 
-  // Q10: Email
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (!formData.email.trim()) {
-      setErrors(prev => ({ ...prev, email: "Please enter your email address" }));
-      return;
-    }
-    if (!emailRegex.test(formData.email)) {
-      setErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, email: "" }));
-    setTimeout(() => setStep(11), 300);
-  };
-
-  // Q11: Phone
-  const handlePhoneSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.phone.trim()) {
-      setErrors(prev => ({ ...prev, phone: "Please enter your phone number" }));
-      return;
-    }
-    if (!formData.phone.match(/^\(\d{3}\) \d{3}-\d{4}$/)) {
-      setErrors(prev => ({ ...prev, phone: "Please enter a valid phone number" }));
-      return;
-    }
-    
-    setErrors(prev => ({ ...prev, phone: "" }));
-    setTimeout(() => setStep(12), 300);
-  };
-
-  // Q12: Street Address (triggers Ringba API and final submission)
+  // Q9: Street Address (triggers Ringba API and final submission)
   const handleStreetAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const address = formData.streetAddress.trim();
@@ -348,13 +341,13 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(13);
+      setStep(10);
     }, 300);
   };
   
   // Scroll to top when showing thank you page
   useEffect(() => {
-    if (step === 13) {
+    if (step === 10) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [step]);
@@ -370,9 +363,7 @@ export default function SeniorsLanding() {
     
     if (step === 7) focusInput(beneficiaryNameRef);
     else if (step === 8) focusInput(firstNameRef);
-    else if (step === 10) focusInput(emailRef);
-    else if (step === 11) focusInput(phoneInputRef);
-    else if (step === 12) focusInput(streetAddressRef);
+    else if (step === 9) focusInput(streetAddressRef);
   }, [step]);
 
   // Format phone number as user types
@@ -426,7 +417,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 13 ? (
+      {step === 10 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -702,44 +693,40 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q8: First Name & Last Name */}
+            {/* Q8: Get Your Custom Quote (Contact Info) */}
             {step === 8 && (
               <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your name?
+                <div className="text-center mb-6">
+                  <h2 className="text-3xl md:text-4xl font-bold text-black mb-2">
+                    Get Your Custom Quote
                   </h2>
+                  <p className="text-lg text-gray-700">Let's get your free coverage review call</p>
+                  <p className="text-base text-gray-600">We'll contact you within 24 hours to discuss your needs</p>
                 </div>
-                <form onSubmit={handleNameSubmit} className="max-w-md mx-auto space-y-4">
-                  <div>
-                    <Input
-                      ref={firstNameRef}
-                      type="text"
-                      value={formData.firstName}
-                      onChange={(e) => {
-                        const value = e.target.value.replace(/\s/g, '');
-                        setFormData({ ...formData, firstName: value });
-                        if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
-                        if (value.length > 0 && !showLastName) {
-                          setShowLastName(true);
-                        }
-                      }}
-                      placeholder="Enter your first name"
-                      className={`text-lg min-h-[50px] ${errors.firstName ? 'border-red-500' : ''}`}
-                      data-testid="input-first-name"
-                      required
-                    />
-                    {errors.firstName && (
-                      <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
-                    )}
-                  </div>
-                  
-                  {showLastName && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
-                    >
+                
+                <form onSubmit={handleContactInfoSubmit} className="max-w-lg mx-auto space-y-4">
+                  {/* First Name and Last Name - Side by Side */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Input
+                        ref={firstNameRef}
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\s/g, '');
+                          setFormData({ ...formData, firstName: value });
+                          if (errors.firstName) setErrors(prev => ({ ...prev, firstName: "" }));
+                        }}
+                        placeholder="First Name *"
+                        className={`text-base min-h-[48px] ${errors.firstName ? 'border-red-500' : ''}`}
+                        data-testid="input-first-name"
+                        required
+                      />
+                      {errors.firstName && (
+                        <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>
+                      )}
+                    </div>
+                    <div>
                       <Input
                         ref={lastNameRef}
                         type="text"
@@ -748,179 +735,122 @@ export default function SeniorsLanding() {
                           setFormData({ ...formData, lastName: e.target.value });
                           if (errors.lastName) setErrors(prev => ({ ...prev, lastName: "" }));
                         }}
-                        placeholder="Enter your last name"
-                        className={`text-lg min-h-[50px] ${errors.lastName ? 'border-red-500' : ''}`}
+                        placeholder="Last Name *"
+                        className={`text-base min-h-[48px] ${errors.lastName ? 'border-red-500' : ''}`}
                         data-testid="input-last-name"
                         required
                       />
                       {errors.lastName && (
-                        <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+                        <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Email Address */}
+                  <div>
+                    <Input
+                      ref={emailRef}
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
+                        if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
+                      }}
+                      onFocus={() => setShowPhone(true)}
+                      placeholder="Email Address *"
+                      className={`text-base min-h-[48px] ${errors.email ? 'border-red-500' : ''}`}
+                      data-testid="input-email"
+                      required
+                    />
+                    {errors.email && (
+                      <p className="text-red-600 text-xs mt-1">{errors.email}</p>
+                    )}
+                  </div>
+
+                  {/* Phone Number - Shows when email is focused */}
+                  {showPhone && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
+                      <Input
+                        ref={phoneInputRef}
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handlePhoneChange}
+                        placeholder="Phone Number *"
+                        className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
+                        data-testid="input-phone"
+                        maxLength={14}
+                        required
+                      />
+                      {errors.phone && (
+                        <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
                       )}
                     </motion.div>
                   )}
-                  
+
+                  {/* Submit Button - Disabled until all fields filled */}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-name"
-                    data-testid="button-submit-name"
+                    className={`w-full mt-6 min-h-[52px] text-lg font-semibold transition-opacity ${
+                      formData.firstName && formData.lastName && formData.email && formData.phone
+                        ? 'bg-[#3498DB] hover:bg-[#2980B9] opacity-100'
+                        : 'bg-gray-300 cursor-not-allowed opacity-50'
+                    }`}
+                    data-testid="button-submit-contact-info"
+                    disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
                   >
-                    Continue
+                    Book Your Free Coverage Review Call
                   </Button>
-                </form>
-              </div>
-            )}
 
-            {/* Q9: Zip Code */}
-            {step === 9 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your zip code?
-                  </h2>
-                </div>
-                <form onSubmit={handleZipCodeSubmit} className="max-w-md mx-auto">
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={formData.zipCode}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '').substring(0, 5);
-                      setFormData({ ...formData, zipCode: value });
-                      if (errors.zipCode) setErrors(prev => ({ ...prev, zipCode: "" }));
-                    }}
-                    placeholder="12345"
-                    className={`text-lg min-h-[50px] w-32 mx-auto text-center ${errors.zipCode ? 'border-red-500' : ''}`}
-                    data-testid="input-zip-code"
-                    maxLength={5}
-                    required
-                  />
-                  {errors.zipCode && (
-                    <p className="text-red-600 text-sm mt-1">{errors.zipCode}</p>
-                  )}
-                  {formData.city && formData.state && (
-                    <div className="mt-3 text-center flex items-center justify-center gap-2">
-                      <p className="text-gray-700 text-base">
-                        {formData.city}, {formData.state}
-                      </p>
+                  {/* Terms and Consent Text */}
+                  <div className="mt-4 text-xs text-gray-600 leading-relaxed space-y-2">
+                    <p>
+                      By clicking "Submit" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
+                    </p>
+                    <p>
+                      You also consent to the sharing of your information with Gold Harbor Insurance LLC and listed third-party marketing and service partners for the purpose of providing you quotes or additional insurance-related information.
+                    </p>
+                    <p>
+                      By submitting this form, you also agree to our{' '}
                       <button
                         type="button"
-                        onClick={() => setFormData({ ...formData, city: "", state: "" })}
-                        className="text-gray-600 hover:text-gray-800 transition-colors"
-                        data-testid="button-edit-location"
-                        aria-label="Edit location"
+                        onClick={() => setLegalModal("privacy")}
+                        className="text-blue-600 hover:text-blue-800 underline"
                       >
-                        <Pencil className="w-4 h-4" />
+                        Privacy Policy
+                      </button>{' '}
+                      and{' '}
+                      <button
+                        type="button"
+                        onClick={() => setLegalModal("terms")}
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        Terms of Use
                       </button>
-                    </div>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-zip-code"
-                    data-testid="button-submit-zip-code"
-                    disabled={isLoadingZip}
-                  >
-                    {isLoadingZip ? "Looking up..." : "Continue"}
-                  </Button>
+                      . This website collects your name, phone number, email, address, age, and ZIP code to provide you with a quote and connect you with licensed agents offering available plans. Availability of products and carriers may vary by state.
+                    </p>
+                    <p>
+                      By clicking Submit, you agree to send your info to Gold Harbor Insurance who agrees to use it according to their{' '}
+                      <a
+                        href="https://goldharborinsurance.com/privacy/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 underline"
+                      >
+                        privacy policy
+                      </a>
+                      .
+                    </p>
+                  </div>
                 </form>
               </div>
             )}
 
-            {/* Q10: Email */}
-            {step === 10 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your email address?
-                  </h2>
-                </div>
-                <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={emailRef}
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => {
-                      setFormData({ ...formData, email: e.target.value });
-                      if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
-                    }}
-                    onFocus={() => setEmailInputFocused(true)}
-                    onBlur={() => setTimeout(() => setEmailInputFocused(false), 200)}
-                    placeholder="Enter your email"
-                    className={`text-lg min-h-[50px] ${errors.email ? 'border-red-500' : ''}`}
-                    data-testid="input-email"
-                    required
-                  />
-                  {errors.email && (
-                    <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-                  )}
-                  
-                  {/* Mobile email domain suggestions */}
-                  {emailInputFocused && (
-                    <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-300 p-2 flex gap-2 justify-center md:hidden z-50">
-                      {['@gmail.com', '@yahoo.com', '@hotmail.com'].map((domain) => (
-                        <button
-                          key={domain}
-                          type="button"
-                          onClick={() => {
-                            const username = formData.email.split('@')[0];
-                            setFormData({ ...formData, email: username + domain });
-                          }}
-                          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md text-sm font-medium text-gray-700"
-                          data-testid={`button-email-${domain.replace('@', '')}`}
-                        >
-                          {domain}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-email"
-                    data-testid="button-submit-email"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q11: Phone */}
-            {step === 11 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your phone number?
-                  </h2>
-                </div>
-                <form onSubmit={handlePhoneSubmit} className="max-w-md mx-auto">
-                  <Input
-                    ref={phoneInputRef}
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handlePhoneChange}
-                    placeholder="(555) 555-5555"
-                    className={`text-lg min-h-[50px] ${errors.phone ? 'border-red-500' : ''}`}
-                    data-testid="input-phone"
-                    maxLength={14}
-                    required
-                  />
-                  {errors.phone && (
-                    <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
-                  )}
-                  <Button 
-                    type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-phone"
-                    data-testid="button-submit-phone"
-                  >
-                    Continue
-                  </Button>
-                </form>
-              </div>
-            )}
-
-            {/* Q12: Street Address (ONLY street address) */}
-            {step === 12 && (
+            {/* Q9: Street Address (ONLY street address) */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
