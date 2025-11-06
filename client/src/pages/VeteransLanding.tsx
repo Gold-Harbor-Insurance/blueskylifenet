@@ -127,7 +127,7 @@ export default function VeteransLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 12; // Military branch + 11 questions + thank you page
+  const totalSteps = 7; // Military branch + 6 questions + thank you page
 
   // Q1: Military Branch (Veterans-specific)
   const handleMilitaryBranchSelect = (branch: MilitaryBranch) => {
@@ -135,43 +135,25 @@ export default function VeteransLanding() {
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Gender
-  const handleGenderSelect = (gender: Gender) => {
-    setFormData({ ...formData, gender });
+  // Q2: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
-  // Q3: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q3: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q4: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setTimeout(() => setStep(5), 300);
   };
 
-  // Q5: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
-    setTimeout(() => setStep(6), 300);
-  };
-
-  // Q6: Monthly Budget
-  const handleMonthlyBudgetSelect = (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
-    setTimeout(() => setStep(7), 300);
-  };
-
-  // Q7: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setTimeout(() => setStep(8), 300);
-  };
-
-  // Q8: Beneficiary Name
+  // Q5: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -190,10 +172,10 @@ export default function VeteransLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(9), 300);
+    setTimeout(() => setStep(6), 300);
   };
 
-  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  // Q6: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -306,7 +288,7 @@ export default function VeteransLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(10);
+      setStep(7);
     }, 300);
   };
 
@@ -328,8 +310,8 @@ export default function VeteransLanding() {
       }, 150);
     };
     
-    if (step === 8) focusInput(beneficiaryNameRef);
-    else if (step === 9) focusInput(firstNameRef);
+    if (step === 5) focusInput(beneficiaryNameRef);
+    else if (step === 6) focusInput(firstNameRef);
   }, [step]);
 
   // Format phone number as user types
@@ -355,15 +337,12 @@ export default function VeteransLanding() {
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
       1: 0,   // Military Branch (first page, no progress bar)
-      2: 20,  // Gender
-      3: 40,  // Beneficiary
-      4: 50,  // Life Insurance
-      5: 70,  // Cash Amount
-      6: 80,  // Monthly Budget
-      7: 90,  // Age
-      8: 95,  // Beneficiary Name
-      9: 100, // Contact Info
-      10: 100 // Thank You
+      2: 33,  // Beneficiary
+      3: 50,  // Life Insurance
+      4: 75,  // Age
+      5: 100, // Beneficiary Name (hide progress bar)
+      6: 100, // Contact Info (hide progress bar)
+      7: 100  // Thank You
     };
     return progressMap[currentStep] || 0;
   };
@@ -400,7 +379,7 @@ export default function VeteransLanding() {
         </div>
       )}
 
-      {step === 10 ? (
+      {step === 7 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -517,37 +496,8 @@ export default function VeteransLanding() {
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step} progress={progress}>
             {/* Q1 is handled above, start from Q2 */}
 
-            {/* Q2: Gender */}
+            {/* Q2: Beneficiary */}
             {step === 2 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What is your gender?
-                  </h2>
-                </div>
-                <div className="flex flex-col md:flex-row gap-4 justify-center max-w-2xl mx-auto">
-                  <button
-                    type="button"
-                    onClick={() => handleGenderSelect("Male")}
-                    data-testid="button-gender-male"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
-                  >
-                    Male
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleGenderSelect("Female")}
-                    data-testid="button-gender-female"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
-                  >
-                    Female
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Q3: Beneficiary */}
-            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -579,8 +529,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q4: Has Life Insurance */}
-            {step === 4 && (
+            {/* Q3: Has Life Insurance */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -608,70 +558,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q5: Cash Amount */}
-            {step === 5 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    How much instant cash is needed to handle your last affairs?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => {
-                    const displayNames: Record<string, string> = {
-                      "Under$10000": "Under $10,000",
-                      "$10000-$24999": "$10,000 - $24,999",
-                      "$25000-$50000": "$25,000 - $50,000",
-                      "Over$50000": "Over $50,000"
-                    };
-                    
-                    return (
-                      <button
-                        key={amount}
-                        type="button"
-                        onClick={() => handleCashAmountSelect(amount as CashAmount)}
-                        data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      >
-                        {displayNames[amount]}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Q6: Monthly Budget */}
-            {step === 6 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What monthly budget would you feel comfortable investing to protect your family?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {[
-                    { value: "$50–$74", display: "$50-$74/month" },
-                    { value: "$75–$99", display: "$75-$99/month" },
-                    { value: "$100–$149", display: "$100-$149/month" },
-                    { value: "Over$150", display: "$150+/month" }
-                  ].map((budget) => (
-                    <button
-                      key={budget.value}
-                      type="button"
-                      onClick={() => handleMonthlyBudgetSelect(budget.value)}
-                      data-testid={`button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                    >
-                      {budget.display}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Q7: Age (NO disqualification - all ages accepted) */}
-            {step === 7 && (
+            {/* Q4: Age (NO disqualification - all ages accepted) */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -726,8 +614,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q8: Beneficiary Name */}
-            {step === 8 && (
+            {/* Q5: Beneficiary Name */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -762,8 +650,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q9: Get Your Custom Quote (Contact Info) */}
-            {step === 9 && (
+            {/* Q6: Get Your Custom Quote (Contact Info) */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">

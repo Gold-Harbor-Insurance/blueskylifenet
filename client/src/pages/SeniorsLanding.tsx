@@ -125,45 +125,27 @@ export default function SeniorsLanding() {
     detectLocation();
   }, []);
 
-  const totalSteps = 9; // 8 questions + thank you page
+  const totalSteps = 6; // 5 questions + thank you page
 
-  // Q1: Gender
-  const handleGenderSelect = (gender: Gender) => {
-    setFormData({ ...formData, gender });
+  // Q1: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q2: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(3), 300);
   };
 
-  // Q3: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q3: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Cash Amount
-  const handleCashAmountSelect = (cashAmount: CashAmount) => {
-    setFormData({ ...formData, cashAmount });
-    setTimeout(() => setStep(5), 300);
-  };
-
-  // Q5: Monthly Budget
-  const handleMonthlyBudgetSelect = (budget: string) => {
-    setFormData({ ...formData, monthlyBudget: budget });
-    setTimeout(() => setStep(6), 300);
-  };
-
-  // Q6: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setTimeout(() => setStep(7), 300);
-  };
-
-  // Q7: Beneficiary Name
+  // Q4: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -182,10 +164,10 @@ export default function SeniorsLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(8), 300);
+    setTimeout(() => setStep(5), 300);
   };
 
-  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  // Q5: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -296,7 +278,7 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(9);
+      setStep(6);
     }, 300);
   };
 
@@ -318,8 +300,8 @@ export default function SeniorsLanding() {
       }, 150);
     };
     
-    if (step === 7) focusInput(beneficiaryNameRef);
-    else if (step === 8) focusInput(firstNameRef);
+    if (step === 4) focusInput(beneficiaryNameRef);
+    else if (step === 5) focusInput(firstNameRef);
   }, [step]);
 
   // Format phone number as user types
@@ -344,15 +326,12 @@ export default function SeniorsLanding() {
   // Custom progress percentages based on question weights
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
-      1: 0,   // First page (no progress bar)
-      2: 20,  // Gender
-      3: 40,  // Beneficiary
-      4: 50,  // Life Insurance
-      5: 70,  // Cash Amount
-      6: 80,  // Monthly Budget
-      7: 90,  // Age
-      8: 100, // Beneficiary Name (hide progress bar)
-      9: 100  // Contact Info (hide progress bar)
+      1: 33,  // Beneficiary
+      2: 50,  // Life Insurance
+      3: 75,  // Age
+      4: 100, // Beneficiary Name (hide progress bar)
+      5: 100, // Contact Info (hide progress bar)
+      6: 100  // Thank you page
     };
     return progressMap[currentStep] || 0;
   };
@@ -388,7 +367,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 9 ? (
+      {step === 6 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -421,27 +400,31 @@ export default function SeniorsLanding() {
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
                 <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
-                  What is your gender?
+                  Who would you want to receive this benefit?
                 </h2>
               </div>
               
-              <div className="flex flex-col md:flex-row gap-4 justify-center">
-                <button
-                  type="button"
-                  onClick={() => handleGenderSelect("Male")}
-                  data-testid="button-gender-male"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-male"
-                >
-                  Male
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleGenderSelect("Female")}
-                  data-testid="button-gender-female"
-                  className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full shadow-md transition-colors duration-200 button-gender-female"
-                >
-                  Female
-                </button>
+              <div className="max-w-md mx-auto grid gap-3">
+                {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
+                  const beneficiaryMap: Record<string, Beneficiary> = {
+                    "Spouse": "Spouse",
+                    "Children": "Children",
+                    "Grandchildren": "Grandchildren",
+                    "Family Member": "Family"
+                  };
+                  
+                  return (
+                    <button
+                      key={ben}
+                      type="button"
+                      onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
+                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                    >
+                      {ben}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -491,41 +474,8 @@ export default function SeniorsLanding() {
         <QuizLayout>
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step} progress={progress}>
             
-            {/* Q2: Beneficiary */}
+            {/* Q2: Has Life Insurance */}
             {step === 2 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    Who would you want to receive this benefit?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
-                    const beneficiaryMap: Record<string, Beneficiary> = {
-                      "Spouse": "Spouse",
-                      "Children": "Children",
-                      "Grandchildren": "Grandchildren",
-                      "Family Member": "Family"
-                    };
-                    
-                    return (
-                      <button
-                        key={ben}
-                        type="button"
-                        onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
-                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      >
-                        {ben}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Q3: Has Life Insurance */}
-            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -553,70 +503,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q4: Cash Amount */}
-            {step === 4 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    How much instant cash is needed to handle your last affairs?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$10000", "$10000-$24999", "$25000-$50000", "Over$50000"].map((amount) => {
-                    const displayNames: Record<string, string> = {
-                      "Under$10000": "Under $10,000",
-                      "$10000-$24999": "$10,000 - $24,999",
-                      "$25000-$50000": "$25,000 - $50,000",
-                      "Over$50000": "Over $50,000"
-                    };
-                    
-                    return (
-                      <button
-                        key={amount}
-                        type="button"
-                        onClick={() => handleCashAmountSelect(amount as CashAmount)}
-                        data-testid={`button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-cash-${amount.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      >
-                        {displayNames[amount]}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Q5: Monthly Budget */}
-            {step === 5 && (
-              <div className="space-y-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-2xl md:text-3xl font-bold text-black">
-                    What monthly budget would you feel comfortable investing to protect your family?
-                  </h2>
-                </div>
-                <div className="max-w-md mx-auto grid gap-3">
-                  {[
-                    { value: "$50–$74", display: "$50-$74/month" },
-                    { value: "$75–$99", display: "$75-$99/month" },
-                    { value: "$100–$149", display: "$100-$149/month" },
-                    { value: "Over$150", display: "$150+/month" }
-                  ].map((budget) => (
-                    <button
-                      key={budget.value}
-                      type="button"
-                      onClick={() => handleMonthlyBudgetSelect(budget.value)}
-                      data-testid={`button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                      className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-budget-${budget.value.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`}
-                    >
-                      {budget.display}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Q6: Age (NO disqualification - all ages accepted) */}
-            {step === 6 && (
+            {/* Q3: Age (NO disqualification - all ages accepted) */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -671,8 +559,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q7: Beneficiary Name */}
-            {step === 7 && (
+            {/* Q4: Beneficiary Name */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -707,8 +595,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q8: Get Your Custom Quote (Contact Info) */}
-            {step === 8 && (
+            {/* Q5: Get Your Custom Quote (Contact Info) */}
+            {step === 5 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
