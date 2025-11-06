@@ -127,7 +127,7 @@ export default function SeniorsLanding() {
 
   // Detect autofill and show phone field automatically
   useEffect(() => {
-    if (step === 5 && emailRef.current) {
+    if (step === 7 && emailRef.current) {
       const checkAutofill = () => {
         const emailValue = emailRef.current?.value || '';
         if (emailValue && !showPhone) {
@@ -152,27 +152,39 @@ export default function SeniorsLanding() {
     }
   }, [step, showPhone]);
 
-  const totalSteps = 6; // 5 questions + thank you page
+  const totalSteps = 8; // 7 questions + thank you page
 
-  // Q1: Beneficiary
-  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    setFormData({ ...formData, beneficiary });
+  // Q1: Gender
+  const handleGenderSelect = (gender: Gender) => {
+    setFormData({ ...formData, gender });
     setTimeout(() => setStep(2), 300);
   };
 
-  // Q2: Has Life Insurance
-  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    setFormData({ ...formData, hasLifeInsurance });
+  // Q2: Beneficiary
+  const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
-  // Q3: Age (ALL ages now accepted - no disqualification)
-  const handleAgeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Q3: Has Life Insurance
+  const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
 
-  // Q4: Beneficiary Name
+  // Q4: Age (ALL ages now accepted - no disqualification)
+  const handleAgeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTimeout(() => setStep(5), 300);
+  };
+
+  // Q5: Monthly Budget
+  const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
+    setFormData({ ...formData, monthlyBudget });
+    setTimeout(() => setStep(6), 300);
+  };
+
+  // Q6: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -191,10 +203,10 @@ export default function SeniorsLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(5), 300);
+    setTimeout(() => setStep(7), 300);
   };
 
-  // Q5: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  // Q7: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -305,7 +317,7 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(6);
+      setStep(8);
     }, 300);
   };
 
@@ -327,8 +339,8 @@ export default function SeniorsLanding() {
       }, 150);
     };
     
-    if (step === 4) focusInput(beneficiaryNameRef);
-    else if (step === 5) focusInput(firstNameRef);
+    if (step === 6) focusInput(beneficiaryNameRef);
+    else if (step === 7) focusInput(firstNameRef);
   }, [step]);
 
   // Format phone number as user types
@@ -394,7 +406,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 6 ? (
+      {step === 8 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -427,28 +439,26 @@ export default function SeniorsLanding() {
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
                 <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
-                  Who would you want to receive this benefit?
+                  Gender
                 </h2>
               </div>
               
               <div className="max-w-md mx-auto grid gap-3">
-                {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
-                  const beneficiaryMap: Record<string, Beneficiary> = {
-                    "Spouse": "Spouse",
-                    "Children": "Children",
-                    "Grandchildren": "Grandchildren",
-                    "Family Member": "Family"
+                {["Male", "Female"].map((gen) => {
+                  const genderMap: Record<string, Gender> = {
+                    "Male": "Male",
+                    "Female": "Female"
                   };
                   
                   return (
                     <button
-                      key={ben}
+                      key={gen}
                       type="button"
-                      onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      onClick={() => handleGenderSelect(genderMap[gen])}
+                      data-testid={`button-gender-${gen.toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-gender-${gen.toLowerCase()}`}
                     >
-                      {ben}
+                      {gen}
                     </button>
                   );
                 })}
@@ -501,8 +511,41 @@ export default function SeniorsLanding() {
         <QuizLayout>
           <QuizCard currentStep={step} totalSteps={totalSteps} questionNumber={step} progress={progress}>
             
-            {/* Q2: Has Life Insurance */}
+            {/* Q2: Beneficiary */}
             {step === 2 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    Who would you want to receive this benefit?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
+                    const beneficiaryMap: Record<string, Beneficiary> = {
+                      "Spouse": "Spouse",
+                      "Children": "Children",
+                      "Grandchildren": "Grandchildren",
+                      "Family Member": "Family"
+                    };
+                    
+                    return (
+                      <button
+                        key={ben}
+                        type="button"
+                        onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
+                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                        className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      >
+                        {ben}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Q3: Has Life Insurance */}
+            {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -530,8 +573,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q3: Age (NO disqualification - all ages accepted) */}
-            {step === 3 && (
+            {/* Q4: Age (NO disqualification - all ages accepted) */}
+            {step === 4 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -586,8 +629,32 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q4: Beneficiary Name */}
-            {step === 4 && (
+            {/* Q5: Monthly Budget */}
+            {step === 5 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    What monthly budget would you feel comfortable investing to protect your family?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {["$50-$100", "$100-$150", "$150-$200", "$200+"].map((budget) => (
+                    <button
+                      key={budget}
+                      type="button"
+                      onClick={() => handleMonthlyBudgetSelect(budget)}
+                      data-testid={`button-monthly-budget-${budget.replace(/\$|\+/g, '').replace(/-/g, '-').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
+                    >
+                      {budget}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q6: Beneficiary Name */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -622,8 +689,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q5: Get Your Custom Quote (Contact Info) */}
-            {step === 5 && (
+            {/* Q7: Get Your Custom Quote (Contact Info) */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
