@@ -488,7 +488,16 @@ export default function FirstRespondersLanding() {
                   Terms of Use
                 </button>
               </div>
-              <p>© 2025 BlueSky Life. All Rights Reserved.</p>
+              <p className="mb-4">© 2025 BlueSky Life. All Rights Reserved.</p>
+              
+              <div className="max-w-3xl mx-auto space-y-3 text-xs text-gray-500">
+                <p className="font-semibold" data-testid="text-privacy-statement">
+                  We never share your information without consent.
+                </p>
+                <p data-testid="text-disclaimer">
+                  DISCLAIMER: BlueSkyLife.io, a website owned and operated by BlueSky Investments LLC, is not a federal or state Marketplace website. BlueSky Life is not an insurance company or financial institution. We connect individuals with licensed professionals who can provide personalized assistance with insurance and related planning options.
+                </p>
+              </div>
             </div>
           </div>
         </div>
