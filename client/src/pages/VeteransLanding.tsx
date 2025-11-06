@@ -127,6 +127,33 @@ export default function VeteransLanding() {
     detectLocation();
   }, []);
 
+  // Detect autofill and show phone field automatically
+  useEffect(() => {
+    if (step === 6 && emailRef.current) {
+      const checkAutofill = () => {
+        const emailValue = emailRef.current?.value || '';
+        if (emailValue && !showPhone) {
+          setShowPhone(true);
+        }
+      };
+
+      // Check immediately
+      checkAutofill();
+
+      // Also check on a short interval for autofill detection
+      const interval = setInterval(checkAutofill, 100);
+
+      // Add input event listener to catch autofill
+      const emailElement = emailRef.current;
+      emailElement?.addEventListener('input', checkAutofill);
+
+      return () => {
+        clearInterval(interval);
+        emailElement?.removeEventListener('input', checkAutofill);
+      };
+    }
+  }, [step, showPhone]);
+
   const totalSteps = 7; // Military branch + 6 questions + thank you page
 
   // Q1: Military Branch (Veterans-specific)
