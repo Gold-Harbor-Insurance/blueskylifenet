@@ -7,6 +7,9 @@ import HomePage from "@/pages/HomePage";
 import SeniorsLanding from "@/pages/SeniorsLanding";
 import VeteransLanding from "@/pages/VeteransLanding";
 import FirstRespondersLanding from "@/pages/FirstRespondersLanding";
+import SeniorsNsbrkLanding from "@/pages/SeniorsNsbrkLanding";
+import VeteransNsbrkLanding from "@/pages/VeteransNsbrkLanding";
+import FirstRespondersNsbrkLanding from "@/pages/FirstRespondersNsbrkLanding";
 import ThankYou from "@/pages/ThankYou";
 import NotQualified from "@/pages/NotQualified";
 import NotFound from "@/pages/not-found";
@@ -25,6 +28,9 @@ function Routes() {
       <Route path="/final-expense/rb-f3q8n1z7rp0x/seniors" component={SeniorsLanding} />
       <Route path="/final-expense/rb-f3q8n1z7rp0x/veterans" component={VeteransLanding} />
       <Route path="/final-expense/rb-f3q8n1z7rp0x/firstresponders" component={FirstRespondersLanding} />
+      <Route path="/final-expense/nsbrk/seniors" component={SeniorsNsbrkLanding} />
+      <Route path="/final-expense/nsbrk/veterans" component={VeteransNsbrkLanding} />
+      <Route path="/final-expense/nsbrk/firstresponders" component={FirstRespondersNsbrkLanding} />
       <Route path="/final-expense/rb-f3q8n1z7rp0x/thank-you" component={ThankYou} />
       <Route path="/final-expense/rb-f3q8n1z7rp0x/not-qualified" component={NotQualified} />
       <Route component={NotFound} />
