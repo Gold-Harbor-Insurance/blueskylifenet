@@ -129,7 +129,7 @@ export default function VeteransLanding() {
 
   // Detect autofill and show phone field automatically
   useEffect(() => {
-    if (step === 8 && emailRef.current) {
+    if (step === 9 && emailRef.current) {
       const checkAutofill = () => {
         const emailValue = emailRef.current?.value || '';
         if (emailValue && !showPhone) {
@@ -154,7 +154,7 @@ export default function VeteransLanding() {
     }
   }, [step, showPhone]);
 
-  const totalSteps = 9; // Military branch + 8 questions + thank you page
+  const totalSteps = 10; // Military branch + 9 questions + thank you page
 
   // Q1: Military Branch (Veterans-specific)
   const handleMilitaryBranchSelect = (branch: MilitaryBranch) => {
@@ -186,13 +186,19 @@ export default function VeteransLanding() {
     setTimeout(() => setStep(6), 300);
   };
 
-  // Q6: Monthly Budget
-  const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
-    setFormData({ ...formData, monthlyBudget });
+  // Q6: Coverage Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(7), 300);
   };
 
-  // Q7: Beneficiary Name
+  // Q7: Monthly Budget
+  const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
+    setFormData({ ...formData, monthlyBudget });
+    setTimeout(() => setStep(8), 300);
+  };
+
+  // Q8: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -211,10 +217,10 @@ export default function VeteransLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(8), 300);
+    setTimeout(() => setStep(9), 300);
   };
 
-  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -349,8 +355,8 @@ export default function VeteransLanding() {
       }, 150);
     };
     
-    if (step === 7) focusInput(beneficiaryNameRef);
-    else if (step === 8) focusInput(firstNameRef);
+    if (step === 8) focusInput(beneficiaryNameRef);
+    else if (step === 9) focusInput(firstNameRef);
   }, [step]);
 
   // Format phone number as user types
@@ -418,7 +424,7 @@ export default function VeteransLanding() {
         </div>
       )}
 
-      {step === 9 ? (
+      {step === 10 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -684,8 +690,37 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q6: Monthly Budget */}
+            {/* Q6: Coverage Amount */}
             {step === 6 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    How much instant cash is needed to handle your last affairs?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {[
+                    { label: "Under $10,000", value: "Under$10000" as CashAmount },
+                    { label: "$10,000 - $24,999", value: "$10000-$24999" as CashAmount },
+                    { label: "$25,000 - $50,000", value: "$25000-$50000" as CashAmount },
+                    { label: "Over $50,000", value: "Over$50000" as CashAmount }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleCashAmountSelect(option.value)}
+                      data-testid={`button-cash-amount-${option.value.replace(/\$/g, '').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q7: Monthly Budget */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -693,12 +728,12 @@ export default function VeteransLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["$50-$100", "$100-$150", "$150-$200", "$200+"].map((budget) => (
+                  {["Under$50", "$50–$74", "$75–$99", "$100–$149", "Over$150"].map((budget) => (
                     <button
                       key={budget}
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
-                      data-testid={`button-monthly-budget-${budget.replace(/\$|\+/g, '').replace(/-/g, '-').toLowerCase()}`}
+                      data-testid={`button-monthly-budget-${budget.replace(/\$|–/g, '').toLowerCase()}`}
                       className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
                     >
                       {budget}
@@ -708,8 +743,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q7: Beneficiary Name */}
-            {step === 7 && (
+            {/* Q8: Beneficiary Name */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -744,8 +779,8 @@ export default function VeteransLanding() {
               </div>
             )}
 
-            {/* Q8: Get Your Custom Quote (Contact Info) */}
-            {step === 8 && (
+            {/* Q9: Get Your Custom Quote (Contact Info) */}
+            {step === 9 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
