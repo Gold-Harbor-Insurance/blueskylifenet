@@ -25,6 +25,7 @@ interface WebhookPayload {
   fbp?: string;
   fbclid?: string;
   ip_address?: string;
+  user_agent?: string;
 }
 
 function getCookie(name: string): string | null {
@@ -63,13 +64,15 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
     const fbp = getCookie('_fbp');
     const fbclid = getUrlParameter('fbclid');
     const ipAddress = await getIpAddress();
+    const userAgent = navigator.userAgent;
     
     const enrichedPayload = {
       ...payload,
       ...(fbc && { fbc }),
       ...(fbp && { fbp }),
       ...(fbclid && { fbclid }),
-      ...(ipAddress && { ip_address: ipAddress })
+      ...(ipAddress && { ip_address: ipAddress }),
+      ...(userAgent && { user_agent: userAgent })
     };
     
     await axios.post(webhookUrl, enrichedPayload, {

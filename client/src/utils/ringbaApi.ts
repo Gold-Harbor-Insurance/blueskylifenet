@@ -143,6 +143,14 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
       hash: window.location.hash
     });
     
+    const userAgent = navigator.userAgent;
+    if (userAgent) {
+      tags.push({
+        type: 'User',
+        user_agent: userAgent
+      });
+    }
+    
     const requestData: RingbaRequestData = {
       JsTagId: 'JSd4de0752fe324d99a3a107e29c0de4a8',
       CurrentEpoch: Date.now(),
