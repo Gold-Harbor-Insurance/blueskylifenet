@@ -333,7 +333,7 @@ export default function VeteransLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(9);
+      setStep(10);
     }, 300);
   };
 

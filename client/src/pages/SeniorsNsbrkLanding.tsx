@@ -323,7 +323,7 @@ export default function SeniorsLanding() {
       });
       
       setIsLoadingRingba(false);
-      setStep(8);
+      setStep(9);
     }, 300);
   };
 
