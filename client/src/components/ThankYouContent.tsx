@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Check, Calendar, Clock, Zap } from "lucide-react";
+import { Check, Calendar, Clock, Zap, X } from "lucide-react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 
 interface ThankYouContentProps {
@@ -15,6 +15,7 @@ interface ThankYouContentProps {
 export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName }: ThankYouContentProps) {
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
   const [isSticky, setIsSticky] = useState(true);
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
     // Detect Facebook in-app browser
@@ -217,15 +218,13 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         {/* Book Appointment */}
         <div className="pt-2">
           <p className="text-sm text-gray-600 mb-2">Need to schedule a better time?</p>
-          <a
-            href="https://calendly.com/blueskylife"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => setShowBookingModal(true)}
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
             data-testid="button-book-appointment"
           >
             📅 Book an Appointment
-          </a>
+          </button>
         </div>
 
         {/* BlueSky Life Logo - Footer */}
@@ -264,6 +263,37 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-lg">
         <div className="max-w-2xl mx-auto p-4">
           <CallButton />
+        </div>
+      </div>
+    )}
+
+    {/* Booking Modal */}
+    {showBookingModal && (
+      <div 
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+        onClick={() => setShowBookingModal(false)}
+      >
+        <div 
+          className="relative bg-white rounded-lg w-full max-w-4xl h-[90vh] shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setShowBookingModal(false)}
+            className="absolute -top-3 -right-3 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            data-testid="button-close-booking-modal"
+            aria-label="Close booking modal"
+          >
+            <X className="w-6 h-6 text-gray-700" />
+          </button>
+
+          {/* Booking iFrame */}
+          <iframe
+            src="https://app.goldharborinsurance.com/widget/booking/huWNMVlOMWPEVmyKtTw9"
+            className="w-full h-full rounded-lg"
+            title="Book an Appointment"
+            data-testid="iframe-booking"
+          />
         </div>
       </div>
     )}
