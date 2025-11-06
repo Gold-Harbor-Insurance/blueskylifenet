@@ -127,7 +127,7 @@ export default function SeniorsLanding() {
 
   // Detect autofill and show phone field automatically
   useEffect(() => {
-    if (step === 7 && emailRef.current) {
+    if (step === 8 && emailRef.current) {
       const checkAutofill = () => {
         const emailValue = emailRef.current?.value || '';
         if (emailValue && !showPhone) {
@@ -152,7 +152,7 @@ export default function SeniorsLanding() {
     }
   }, [step, showPhone]);
 
-  const totalSteps = 8; // 7 questions + thank you page
+  const totalSteps = 9; // 8 questions + thank you page
 
   // Q1: Gender
   const handleGenderSelect = (gender: Gender) => {
@@ -178,13 +178,19 @@ export default function SeniorsLanding() {
     setTimeout(() => setStep(5), 300);
   };
 
-  // Q5: Monthly Budget
-  const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
-    setFormData({ ...formData, monthlyBudget });
+  // Q5: Coverage Amount
+  const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(6), 300);
   };
 
-  // Q6: Beneficiary Name
+  // Q6: Monthly Budget
+  const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
+    setFormData({ ...formData, monthlyBudget });
+    setTimeout(() => setStep(7), 300);
+  };
+
+  // Q7: Beneficiary Name
   const handleBeneficiaryNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const name = formData.beneficiaryName.trim();
@@ -203,10 +209,10 @@ export default function SeniorsLanding() {
     }
     
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
-    setTimeout(() => setStep(7), 300);
+    setTimeout(() => setStep(8), 300);
   };
 
-  // Q7: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
+  // Q8: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const firstName = formData.firstName.trim();
@@ -339,8 +345,8 @@ export default function SeniorsLanding() {
       }, 150);
     };
     
-    if (step === 6) focusInput(beneficiaryNameRef);
-    else if (step === 7) focusInput(firstNameRef);
+    if (step === 7) focusInput(beneficiaryNameRef);
+    else if (step === 8) focusInput(firstNameRef);
   }, [step]);
 
   // Format phone number as user types
@@ -406,7 +412,7 @@ export default function SeniorsLanding() {
         </div>
       )}
 
-      {step === 8 ? (
+      {step === 9 ? (
         <ThankYouContent
           phoneNumber={phoneNumber}
           telLink={telLink}
@@ -629,8 +635,37 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q5: Monthly Budget */}
+            {/* Q5: Coverage Amount */}
             {step === 5 && (
+              <div className="space-y-6">
+                <div className="text-center mb-4">
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    How much instant cash is needed to handle your last affairs?
+                  </h2>
+                </div>
+                <div className="max-w-md mx-auto grid gap-3">
+                  {[
+                    { label: "Under $10,000", value: "Under$10000" as CashAmount },
+                    { label: "$10,000 - $24,999", value: "$10000-$24999" as CashAmount },
+                    { label: "$25,000 - $50,000", value: "$25000-$50000" as CashAmount },
+                    { label: "Over $50,000", value: "Over$50000" as CashAmount }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleCashAmountSelect(option.value)}
+                      data-testid={`button-cash-amount-${option.value.replace(/\$/g, '').toLowerCase()}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Q6: Monthly Budget */}
+            {step === 6 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -638,12 +673,12 @@ export default function SeniorsLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["$50-$100", "$100-$150", "$150-$200", "$200+"].map((budget) => (
+                  {["Under$50", "$50–$74", "$75–$99", "$100–$149", "Over$150"].map((budget) => (
                     <button
                       key={budget}
                       type="button"
                       onClick={() => handleMonthlyBudgetSelect(budget)}
-                      data-testid={`button-monthly-budget-${budget.replace(/\$|\+/g, '').replace(/-/g, '-').toLowerCase()}`}
+                      data-testid={`button-monthly-budget-${budget.replace(/\$|–/g, '').toLowerCase()}`}
                       className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
                     >
                       {budget}
@@ -653,8 +688,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q6: Beneficiary Name */}
-            {step === 6 && (
+            {/* Q7: Beneficiary Name */}
+            {step === 7 && (
               <div className="space-y-6">
                 <div className="text-center mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold text-black">
@@ -689,8 +724,8 @@ export default function SeniorsLanding() {
               </div>
             )}
 
-            {/* Q7: Get Your Custom Quote (Contact Info) */}
-            {step === 7 && (
+            {/* Q8: Get Your Custom Quote (Contact Info) */}
+            {step === 8 && (
               <div className="space-y-6">
                 <div className="text-center mb-8">
                   <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-16">
