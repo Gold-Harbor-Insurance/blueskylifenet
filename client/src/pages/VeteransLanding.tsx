@@ -251,7 +251,7 @@ export default function VeteransLanding() {
         'coverage_amount',
         'monthly_budget',
         'beneficiary',
-        'age_classification',
+        'age',
         'beneficiary_name',
         'first_name',
         'last_name',
@@ -357,7 +357,7 @@ export default function VeteransLanding() {
       <input type="hidden" name="life_insurance" value={formData.hasLifeInsurance} />
       <input type="hidden" name="coverage_amount" value={formData.cashAmount} />
       <input type="hidden" name="beneficiary" value={formData.beneficiary} />
-      <input type="hidden" name="age_classification" value={formData.age} />
+      <input type="hidden" name="age" value={formData.age} />
       <input type="hidden" name="beneficiary_name" value={formData.beneficiaryName} />
       <input type="hidden" name="first_name" value={formData.firstName} />
       <input type="hidden" name="last_name" value={formData.lastName} />
