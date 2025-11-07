@@ -1,33 +1,54 @@
 name: Build and Deploy to cPanel
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      confirm_deploy:
-        description: 'Type "DEPLOY" to confirm deployment to production'
-        required: true
-        type: string
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build Application
     runs-on: ubuntu-latest
-    # Safety check: only deploy if user typed "DEPLOY"
-    if: github.event.inputs.confirm_deploy == 'DEPLOY'
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '20.19.3'  # Match your Node version (check with: node --version)
+        node-version: '20'
+        cache: 'npm'
     
     - name: Install dependencies
-      run: npm install
+      run: npm ci
     
     - name: Build project
       run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-files
+        path: dist/public/
+        retention-days: 7
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    # This environment requires manual approval before deployment
+    environment:
+      name: production
+      url: https://blueskylife.net
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist-files
+        path: dist/public/
     
     - name: Deploy to cPanel via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -35,6 +56,11 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/public/  # CHANGE THIS: use ./build/ or ./dist/ if that's your build folder
-        server-dir: /final-expense/rb-dhF5ke48DSslf/  # CHANGE THIS: to your exact server path
-        dangerous-clean-slate: false  # Set to true if you want to delete old files first
+        local-dir: ./dist/public/
+        server-dir: ${{ secrets.FTP_SERVER_DIR }}
+        dangerous-clean-slate: false
+    
+    - name: Deployment complete
+      run: |
+        echo "✅ Deployment to blueskylife.net completed successfully!"
+        echo "🌐 Site URL: https://blueskylife.net"
