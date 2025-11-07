@@ -382,13 +382,16 @@ export default function FirstRespondersLanding() {
   // Custom progress percentages based on question weights
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
-      1: 0,   // Agency (first page, no progress bar)
-      2: 33,  // Beneficiary
-      3: 50,  // Life Insurance
-      4: 75,  // Age
-      5: 100, // Beneficiary Name (hide progress bar)
-      6: 100, // Contact Info (hide progress bar)
-      7: 100  // Thank You
+      1: 0,   // Agency
+      2: 11,  // Beneficiary
+      3: 22,  // Life Insurance
+      4: 33,  // Age
+      5: 44,  // Beneficiary Name
+      6: 56,  // Coverage Amount
+      7: 67,  // Monthly Budget
+      8: 78,  // Beneficiary Name (second)
+      9: 89,  // Contact Info
+      10: 100 // Thank You
     };
     return progressMap[currentStep] || 0;
   };

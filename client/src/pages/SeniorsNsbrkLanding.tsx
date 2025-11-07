@@ -371,12 +371,15 @@ export default function SeniorsLanding() {
   // Custom progress percentages based on question weights
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
-      1: 33,  // Beneficiary
-      2: 50,  // Life Insurance
-      3: 75,  // Age
-      4: 100, // Beneficiary Name (hide progress bar)
-      5: 100, // Contact Info (hide progress bar)
-      6: 100  // Thank you page
+      1: 11,  // Beneficiary
+      2: 22,  // Life Insurance
+      3: 33,  // Age
+      4: 44,  // Beneficiary Name
+      5: 56,  // Coverage Amount
+      6: 67,  // Monthly Budget
+      7: 78,  // Beneficiary Name (second)
+      8: 89,  // Contact Info
+      9: 100  // Thank You
     };
     return progressMap[currentStep] || 0;
   };
