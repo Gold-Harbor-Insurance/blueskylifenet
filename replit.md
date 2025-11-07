@@ -28,11 +28,11 @@ The application is a client-side only quiz flow with no dedicated backend or dat
     -   `Zippopotam.us`: For validating and updating city/state based on ZIP code changes.
 -   **Telephony & Call Tracking**:
     -   `Ringba API`: Custom integration for dynamic phone number generation, call tracking, and forwarding Facebook tracking data.
-    -   Domain ("lp" field): `blueskylife.io`
+    -   Domain ("lp" field): `blueskylife.net`
 -   **Automation & Webhooks**:
     -   `Make.com`: Endpoint (`https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5`) for receiving all form submission data.
 -   **Marketing & Analytics**:
-    -   `Google Tag Manager (GTM)`: For comprehensive event tracking and data layer management (`GTM-W9243JWT`, `https://trk.blueskylife.io`).
+    -   `Google Tag Manager (GTM)`: For comprehensive event tracking and data layer management (`GTM-W9243JWT`, `https://trk.blueskylife.net`).
     -   `Facebook Pixel/CAPI`: For ad optimization and conversion tracking via data passed to Ringba and Make.com.
 
 ## Current Question Flows (December 2025)
