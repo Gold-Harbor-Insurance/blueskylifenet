@@ -1,16 +1,26 @@
+# Set index file
 DirectoryIndex index.html
+
+# Enable Options (required for some servers)
+Options -MultiViews +FollowSymLinks
+
+# Disable error documents to let React Router handle routes
+ErrorDocument 404 /index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
   
-  # Don't rewrite files or directories
+  # Don't rewrite files or directories that exist
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
   
+  # Don't rewrite assets folder
+  RewriteCond %{REQUEST_URI} !^/assets/
+  
   # Rewrite everything else to index.html to allow html5 state links
-  RewriteRule . /index.html [L]
+  RewriteRule ^ index.html [L,QSA]
 </IfModule>
 
 # Enable gzip compression
