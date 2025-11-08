@@ -6,11 +6,17 @@ This repository uses GitHub Actions for **manual deployment** to production. The
 
 Go to your repository → **Settings** → **Secrets and variables** → **Actions** and add these secrets:
 
-### FTP Credentials
-- `FTP_SERVER` - Your cPanel FTP server (e.g., `ftp.blueskylife.net` or IP address)
-- `FTP_USERNAME` - Your FTP username
-- `FTP_PASSWORD` - Your FTP password
-- `FTP_SERVER_DIR` - Your server directory path (e.g., `/public_html/` or `/`)
+### FTP Credentials for blueskylife.net
+- `FTP_SERVER` - Your cPanel FTP server for .net domain (e.g., `ftp.blueskylife.net` or IP address)
+- `FTP_USERNAME` - Your FTP username for .net
+- `FTP_PASSWORD` - Your FTP password for .net
+- `FTP_SERVER_DIR` - Your server directory path for .net (e.g., `/public_html/` or `/`)
+
+### FTP Credentials for blueskylife.io
+- `FTP_SERVER_IO` - Your cPanel FTP server for .io domain (e.g., `ftp.blueskylife.io` or IP address)
+- `FTP_USERNAME_IO` - Your FTP username for .io
+- `FTP_PASSWORD_IO` - Your FTP password for .io
+- `FTP_SERVER_DIR_IO` - Your server directory path for .io (e.g., `/public_html/` or `/`)
 
 ## ✅ No Additional Setup Required
 
@@ -36,20 +42,28 @@ The workflow **only runs when you manually trigger it**. No automatic deployment
    - ✅ Builds the production files
    - ✅ Uploads build artifacts
 
-2. **Deploy Job** (Runs immediately after build)
+2. **Deploy to blueskylife.net** (Runs in parallel after build)
    - ✅ Downloads built files
-   - ✅ Connects to cPanel via FTP
-   - ✅ Deploys to your live site
+   - ✅ Connects to .net cPanel via FTP
+   - ✅ Deploys to blueskylife.net
+   - ✅ No approval required!
+
+3. **Deploy to blueskylife.io** (Runs in parallel after build)
+   - ✅ Downloads built files
+   - ✅ Connects to .io cPanel via FTP
+   - ✅ Deploys to blueskylife.io
    - ✅ No approval required!
 
 ## 🚀 Deployment Process
 
 Once you click "Run workflow", the pipeline:
-1. Builds your production files
-2. Downloads the built files
-3. Connects to your cPanel via FTP
-4. Uploads `dist/public/` contents to your server
-5. Your site is live at https://blueskylife.net
+1. Builds your production files (once)
+2. Downloads the built files (twice - one for each domain)
+3. Connects to both cPanel servers via FTP (in parallel)
+4. Uploads `dist/public/` contents to both servers simultaneously
+5. Your sites are live at:
+   - https://blueskylife.net
+   - https://blueskylife.io
 
 ## 📊 Monitoring Deployments
 

@@ -31,8 +31,8 @@ jobs:
         path: dist/public/
         retention-days: 7
 
-  deploy:
-    name: Deploy to Production
+  deploy-net:
+    name: Deploy to blueskylife.net
     runs-on: ubuntu-latest
     needs: build
     
@@ -43,7 +43,7 @@ jobs:
         name: dist-files
         path: dist/public/
     
-    - name: Deploy to cPanel via FTP
+    - name: Deploy to blueskylife.net via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
@@ -57,3 +57,30 @@ jobs:
       run: |
         echo "✅ Deployment to blueskylife.net completed successfully!"
         echo "🌐 Site URL: https://blueskylife.net"
+
+  deploy-io:
+    name: Deploy to blueskylife.io
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: dist-files
+        path: dist/public/
+    
+    - name: Deploy to blueskylife.io via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER_IO }}
+        username: ${{ secrets.FTP_USERNAME_IO }}
+        password: ${{ secrets.FTP_PASSWORD_IO }}
+        local-dir: ./dist/public/
+        server-dir: ${{ secrets.FTP_SERVER_DIR_IO }}
+        dangerous-clean-slate: false
+    
+    - name: Deployment complete
+      run: |
+        echo "✅ Deployment to blueskylife.io completed successfully!"
+        echo "🌐 Site URL: https://blueskylife.io"

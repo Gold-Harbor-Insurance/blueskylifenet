@@ -22,6 +22,12 @@ The application is a client-side only quiz flow with no dedicated backend or dat
 ### Technology Stack
 -   **Frontend**: React, TypeScript, Wouter (routing), Tailwind CSS (styling), Framer Motion (animations), Shadcn UI (components), Zod (validation).
 
+### Deployment
+-   **Production Domains**: blueskylife.net (primary) and blueskylife.io (secondary)
+-   **CI/CD**: GitHub Actions workflow configured for manual dual deployment
+-   **Process**: Single build → parallel deployment to both domains via FTP
+-   **Workflow**: Manual trigger only (no automatic deployment on push)
+
 ## External Dependencies
 -   **Geolocation**:
     -   `ipapi.co`: For IP-based ZIP code, city, and state auto-detection.
