@@ -1,24 +1,16 @@
-# Set index file
 DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
-  # Enable rewrite engine
   RewriteEngine On
   RewriteBase /
   
-  # Don't rewrite files or directories that exist
+  # Don't rewrite files or directories
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
   
   # Rewrite everything else to index.html to allow html5 state links
-  RewriteRule ^ /index.html [L]
-</IfModule>
-
-# Fallback for servers without mod_rewrite
-<IfModule !mod_rewrite.c>
-  # If mod_rewrite is not available, use ErrorDocument as fallback
-  ErrorDocument 404 /index.html
+  RewriteRule . /index.html [L]
 </IfModule>
 
 # Enable gzip compression
