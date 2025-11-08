@@ -1,0 +1,108 @@
+Service_Type,Item,Description,Low_Cost,High_Cost,Average_Cost,Notes
+Full Service Burial,Complete Package,Traditional funeral with burial,$7848,$9995,$8300,Does not include cemetery costs
+Direct Cremation,Complete Package,No service or viewing,$1000,$3000,$2200,Most affordable option
+Cremation with Service,Complete Package,Memorial service included,$5000,$7000,$6000,Moderate cost option
+Direct Burial,Complete Package,No service or viewing,$2000,$4000,$3000,Cemetery costs additional
+Professional Services,Basic Services Fee,Non-declinable overhead fee,$2000,$3000,$2500,Required by all funeral homes
+Professional Services,Funeral Director,Planning and coordination,$500,$1500,$1000,Professional guidance
+Professional Services,Transfer of Remains,Transportation to funeral home,$200,$500,$350,May be higher for long distances
+Professional Services,Death Certificates,Certified copies,$10,$25,$15,Need 5-10 copies typically
+Body Preparation,Embalming,Chemical preservation,$500,$900,$700,Not legally required in most cases
+Body Preparation,Basic Preparation,Bathing and dressing,$200,$400,$300,Without embalming
+Body Preparation,Refrigeration,Per day storage,$100,$300,$150,Alternative to embalming
+Body Preparation,Reconstructive Work,Special preparation,$500,$2000,$1000,Trauma cases
+Facilities,Funeral Home Use,General facility fee,$500,$1000,$750,Building and staff
+Facilities,Viewing/Visitation,Per session,$300,$600,$450,Family viewing time
+Facilities,Funeral Ceremony,Chapel service,$400,$800,$600,Full ceremony space
+Facilities,Memorial Service,Without body present,$300,$600,$450,Alternative to funeral
+Transportation,Hearse,To cemetery/crematory,$300,$500,$400,30-50 mile range
+Transportation,Limousine,Family transportation,$200,$400,$300,Per vehicle 3-4 hours
+Transportation,Flower Car,Flower transportation,$150,$250,$200,Optional
+Transportation,Service Vehicle,Equipment and staff,$100,$200,$150,Utility vehicle
+Caskets,Basic Steel,Entry level metal,$1500,$2500,$2000,Most common choice
+Caskets,18-Gauge Steel,Mid-range metal,$2500,$4000,$3250,Popular option
+Caskets,Stainless Steel,Premium metal,$5000,$10000,$7500,High-end option
+Caskets,Bronze/Copper,Luxury metal,$7000,$15000,$10000,Most expensive metal
+Caskets,Veneer Wood,Basic wood,$1800,$3500,$2500,Entry level wood
+Caskets,Solid Oak,Mid-range wood,$3000,$6000,$4500,Popular hardwood
+Caskets,Solid Mahogany,Premium wood,$5000,$10000,$7500,Luxury hardwood
+Caskets,Cloth-Covered,Budget option,$800,$1500,$1200,Most affordable
+Caskets,Rental Casket,For cremation,$700,$1200,$950,Used for viewing only
+Caskets,Eco-Friendly,Green option,$1000,$3000,$2000,Biodegradable materials
+Caskets,Cardboard Container,Cremation container,$50,$200,$100,Minimal cremation option
+Cemetery,Burial Plot Public,Public cemetery,$500,$2000,$1250,Most affordable plots
+Cemetery,Burial Plot Private,Private cemetery,$2000,$5000,$3500,Higher-end plots
+Cemetery,Burial Plot Premium,Premium location,$5000,$20000,$10000,Prime locations
+Cemetery,Opening and Closing,Excavation and filling,$1000,$1500,$1250,Labor and equipment
+Cemetery,Grave Liner,Basic concrete liner,$700,$1200,$950,Usually required
+Cemetery,Burial Vault Basic,Entry level vault,$1200,$2500,$1850,Protective container
+Cemetery,Burial Vault Premium,High-end vault,$4500,$7000,$5750,Maximum protection
+Cemetery,Perpetual Care,Ongoing maintenance,$100,$500,$300,May be included in plot
+Headstones,Flat Marker Bronze,Flush with ground,$500,$2000,$1250,Bronze material
+Headstones,Flat Marker Granite,Flush with ground,$500,$1500,$1000,Granite material
+Headstones,Upright Small,2x1 feet,$1000,$2500,$1750,Small monument
+Headstones,Upright Medium,3x2 feet,$2000,$4000,$3000,Medium monument
+Headstones,Upright Large,4x3 feet,$3500,$7000,$5250,Large monument
+Headstones,Premium Custom,Custom design,$7000,$20000,$12000,Artistic monuments
+Headstones,Installation,Setting marker,$200,$800,$500,Cemetery labor
+Headstones,Engraving,Per character,$20,$30,$25,Lettering cost
+Cremation,Cremation Fee,Actual cremation,$300,$600,$450,Process fee
+Cremation,Cremation Container,Combustible box,$50,$500,$200,Required for cremation
+Cremation,Basic Urn,Simple container,$50,$200,$125,Entry level
+Cremation,Standard Urn,Mid-range container,$200,$500,$350,Popular choice
+Cremation,Premium Urn,High-end container,$500,$2000,$1250,Luxury option
+Cremation,Custom Urn,Artistic container,$2000,$5000,$3500,Personalized
+Cremation,Biodegradable Urn,Eco-friendly,$100,$400,$250,For scattering/burial
+Cremation,Keepsake Urns,Small portions,$30,$150,$75,Multiple family members
+Cremation,Columbarium Niche,Permanent placement,$1000,$5000,$3000,Indoor/outdoor
+Cremation,Scattering Garden,Memorial plot,$200,$1000,$600,Scattered remains
+Additional Items,Obituary Local,Local newspaper,$200,$500,$350,Standard notice
+Additional Items,Obituary Major,Large newspaper,$500,$1500,$1000,Metro area
+Additional Items,Guest Book,Memorial registry,$30,$100,$65,Visitor signatures
+Additional Items,Prayer Cards,Memorial cards,$50,$200,$125,100-200 cards
+Additional Items,Thank You Cards,Acknowledgment cards,$30,$100,$65,50-100 cards
+Additional Items,Photo Displays,Picture boards,$50,$200,$125,Memory displays
+Additional Items,Video Tribute,Slideshow/video,$200,$500,$350,Professional production
+Flowers,Casket Spray,Main floral piece,$300,$600,$450,On casket
+Flowers,Standing Spray,Floor arrangement,$150,$300,$225,Each
+Flowers,Wreath,Circular arrangement,$100,$250,$175,Each
+Flowers,Small Arrangements,Table flowers,$50,$150,$100,Each
+Reception,Catering,Food per person,$15,$50,$30,Per guest
+Reception,Venue Rental,Reception space,$200,$1000,$600,If not at home
+Reception,Equipment Rental,Tables/chairs/linens,$100,$500,$300,If needed
+Services,Clergy Honorarium,Religious official,$150,$400,$275,Donation/fee
+Services,Organist,Musical accompaniment,$150,$300,$225,Service music
+Services,Soloist,Singer,$100,$250,$175,Special music
+Services,Bagpiper,Traditional music,$200,$400,$300,Cultural tradition
+Special Services,Live Streaming,Online broadcast,$100,$300,$200,Remote attendees
+Special Services,Recording,Audio/video recording,$100,$250,$175,Keepsake
+Special Services,Dove Release,Ceremonial release,$200,$500,$350,White doves
+Special Services,Motorcycle Escort,Special transport,$500,$2000,$1250,Themed service
+Regional Costs,Northeast Region,Higher cost area,$9500,$11500,$10500,NY NJ MA CT PA
+Regional Costs,West Region,Above average area,$8500,$10500,$9500,CA WA OR NV HI
+Regional Costs,Midwest Region,Average cost area,$7000,$9000,$8000,IL OH MI WI MN
+Regional Costs,South Region,Lower cost area,$6500,$8500,$7500,TX FL GA NC TN
+Veterans Benefits,Burial Plot,National cemetery,$0,$0,$0,Free for eligible
+Veterans Benefits,Opening/Closing,Grave preparation,$0,$0,$0,Free for eligible
+Veterans Benefits,Headstone,Government marker,$0,$0,$0,Free for eligible
+Veterans Benefits,Burial Allowance Service,Service-connected death,$0,$2000,$2000,Reimbursement
+Veterans Benefits,Burial Allowance Non-Service,Non-service death,$0,$300,$300,Reimbursement
+Veterans Benefits,Plot Allowance,Cemetery plot,$0,$796,$796,Reimbursement
+Government Assistance,Social Security,Death benefit one-time,$255,$255,$255,To eligible survivor
+Government Assistance,State Indigent Program,Basic burial/cremation,$1000,$3000,$2000,Varies by state income-based
+Green Options,Natural Burial,Eco-friendly complete,$2000,$5000,$3500,No embalming biodegradable
+Green Options,Water Cremation,Alkaline hydrolysis,$2000,$4000,$3000,Eco-friendly cremation
+Green Options,Shroud Burial,Simple cloth wrap,$50,$300,$175,Natural burial
+Green Options,Mushroom Suit,Biodegradable suit,$1500,$1500,$1500,Unique option
+Green Options,Tree Pod,Becomes tree,$2500,$4000,$3250,Living memorial
+Travel Death,Out-of-State Transport,Body transportation,$2000,$6000,$4000,Interstate
+Travel Death,International Repatriation,Return to home country,$5000,$15000,$10000,Complex process
+Travel Death,Foreign Documentation,International papers,$500,$2000,$1000,Required documents
+Hidden Costs,Weekend Surcharge,Saturday/Sunday,$500,$2000,$1000,Premium timing
+Hidden Costs,Holiday Surcharge,Major holidays,$500,$2000,$1000,Premium timing
+Hidden Costs,Rush Fees,Expedited service,$300,$1000,$650,Quick turnaround
+Hidden Costs,Overweight Handling,Special equipment,$200,$500,$350,Large body handling
+Total Packages,Traditional Burial Total,Complete with cemetery,$10000,$15000,$12500,Full service average
+Total Packages,Cremation Total,With memorial service,$5700,$9500,$7600,Mid-range option
+Total Packages,Direct Cremation Total,Minimal service,$1050,$3500,$2000,Budget option
+Total Packages,Direct Burial Total,Minimal service,$5000,$14500,$9000,No ceremony

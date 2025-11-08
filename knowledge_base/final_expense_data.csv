@@ -1,0 +1,48 @@
+Category,Subcategory,Description,Details,Cost_Range
+Policy Types,Level Benefit,Full coverage from day one,Immediate death benefit regardless of cause,Higher premiums
+Policy Types,Graded Benefit,Waiting period for natural death,Full benefit after 2-3 years; immediate accidental death coverage,Moderate premiums
+Policy Types,Guaranteed Issue,No health questions,Everyone accepted; usually has graded benefit,Highest premiums
+Policy Types,Simplified Issue,Basic health questions,No medical exam; most approved; immediate coverage,Lower premiums
+Coverage Amounts,Minimum Coverage,Smallest policies available,$5000,Varies
+Coverage Amounts,Average Coverage,Most common coverage amount,$10000-$15000,Varies
+Coverage Amounts,Maximum Coverage,Largest policies available,$25000-$50000,Varies
+Age Requirements,Minimum Age,Youngest age to apply,45-50 years,N/A
+Age Requirements,Maximum Age,Oldest age to apply,80-85 years,N/A
+Age Requirements,Most Common,Most common applicant age,60-75 years,N/A
+Premium Factors,Age,Impact on cost,Older applicants pay more,Significant
+Premium Factors,Gender,Impact on cost,Women typically pay 10-15% less,Moderate
+Premium Factors,Tobacco Use,Impact on cost,Smokers pay 25-50% more,Significant
+Premium Factors,Health Status,Impact on cost,Pre-existing conditions increase cost,Moderate to Significant
+Premium Factors,Coverage Amount,Impact on cost,More coverage equals higher premiums,Direct correlation
+Features,No Medical Exam,Application process,Most policies require no physical exam,Standard
+Features,Fixed Premiums,Premium structure,Premiums never increase,Guaranteed
+Features,Lifetime Coverage,Duration,Lasts entire life if premiums paid,Permanent
+Features,Cash Value,Benefit,Accumulates over time; can borrow against,Grows over time
+Features,Quick Approval,Processing time,Often approved within 24-48 hours,Standard
+Features,Guaranteed Death Benefit,Payout,Fixed amount paid to beneficiaries,Guaranteed
+Benefits,Peace of Mind,Emotional benefit,Family not burdened with costs,Priceless
+Benefits,Affordable,Cost benefit,Lower than traditional life insurance,20-50% less
+Benefits,No Medical Exam,Convenience,Simple application process,High value
+Benefits,Fast Payout,Claim processing,Benefits paid within 7-14 days,High value
+Benefits,Flexible Use,Beneficiary freedom,Money can be used for any purpose,High value
+Covered Expenses,Funeral Service,End-of-life costs,Ceremony and memorial service,$2000-$5000
+Covered Expenses,Burial,End-of-life costs,Plot and interment,$1000-$4000
+Covered Expenses,Cremation,End-of-life costs,Cremation process and urn,$1000-$3000
+Covered Expenses,Casket,End-of-life costs,Burial casket,$2000-$10000
+Covered Expenses,Headstone,End-of-life costs,Grave marker,$1000-$5000
+Covered Expenses,Transportation,End-of-life costs,Hearse and transport,$300-$1000
+Covered Expenses,Flowers,End-of-life costs,Funeral flowers and arrangements,$200-$800
+Covered Expenses,Medical Bills,Other expenses,Outstanding medical debt,Varies
+Covered Expenses,Credit Cards,Other expenses,Outstanding credit card debt,Varies
+Covered Expenses,Legal Fees,Other expenses,Estate and probate costs,$2000-$5000
+Exclusions,Suicide,Death cause exclusion,Usually excluded first 2 years,2 years
+Exclusions,Felony,Death cause exclusion,Death during commission of crime,Permanent
+Exclusions,Fraud,Application issue,Misrepresentation on application,2 years contestability
+Waiting Periods,Graded Benefit,Natural death waiting,Full benefit after waiting period,2-3 years
+Waiting Periods,Contestability,Investigation period,Company can investigate claims,2 years
+Waiting Periods,Grace Period,Payment deadline,Time to pay late premium,30-31 days
+Ideal Candidates,Seniors,Age group,Ages 50-85 needing affordable coverage,Primary market
+Ideal Candidates,Fixed Income,Financial situation,Limited budget for insurance,Common
+Ideal Candidates,Health Issues,Medical status,Cannot qualify for traditional insurance,Very common
+Ideal Candidates,No Savings,Financial situation,Insufficient funeral savings,Common
+Ideal Candidates,Want Simple Process,Preference,Prefer easy application,Common
