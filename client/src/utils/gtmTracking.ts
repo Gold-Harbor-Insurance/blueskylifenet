@@ -11,10 +11,14 @@ declare global {
  */
 export function pushToDataLayer(event: string, data: Record<string, any> = {}): void {
   if (typeof window !== 'undefined' && window.dataLayer) {
-    window.dataLayer.push({
+    const eventData = {
       event,
       ...data,
-    });
+    };
+    console.log('📊 GTM Event:', eventData);
+    window.dataLayer.push(eventData);
+  } else {
+    console.warn('⚠️ GTM dataLayer not available');
   }
 }
 
