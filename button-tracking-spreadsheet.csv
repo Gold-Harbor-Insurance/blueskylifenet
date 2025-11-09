@@ -107,5 +107,87 @@ FirstRespondersLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
 FirstRespondersLanding,Step 1 (Alt),Privacy Policy,link-privacy-policy,Opens privacy modal (on first page)
 FirstRespondersLanding,Step 1 (Alt),Terms of Use,link-terms-of-use,Opens terms modal (on first page)
 
+SeniorsNsbrkLanding,Step 1,Spouse,button-beneficiary-spouse,Beneficiary selection
+SeniorsNsbrkLanding,Step 1,Children,button-beneficiary-children,Beneficiary selection
+SeniorsNsbrkLanding,Step 1,Grandchildren,button-beneficiary-grandchildren,Beneficiary selection
+SeniorsNsbrkLanding,Step 1,Family Member,button-beneficiary-family-member,Beneficiary selection
+SeniorsNsbrkLanding,Step 2,Yes (Life Insurance),button-life-insurance-yes,Has life insurance
+SeniorsNsbrkLanding,Step 2,No (Life Insurance),button-life-insurance-no,Does not have life insurance
+SeniorsNsbrkLanding,Step 3,Under 45,button-age-under-45,Age range selection
+SeniorsNsbrkLanding,Step 3,45-85,button-age-45-85,Age range selection
+SeniorsNsbrkLanding,Step 3,Over 85,button-age-over-85,Age range selection
+SeniorsNsbrkLanding,Step 4,Continue (Beneficiary Name),button-submit-beneficiary-name,Submit beneficiary name
+SeniorsNsbrkLanding,Step 5,Under $10000,button-cash-amount-under10000,Coverage amount option
+SeniorsNsbrkLanding,Step 5,$10000 - $24999,button-cash-amount-10000-24999,Coverage amount option
+SeniorsNsbrkLanding,Step 5,$25000 - $50000,button-cash-amount-25000-50000,Coverage amount option
+SeniorsNsbrkLanding,Step 5,Over $50000,button-cash-amount-over50000,Coverage amount option
+SeniorsNsbrkLanding,Step 6,Under $50,button-monthly-budget-under50,Monthly budget option
+SeniorsNsbrkLanding,Step 6,$50 – $74,button-monthly-budget-50–74,Monthly budget option
+SeniorsNsbrkLanding,Step 6,$75 – $99,button-monthly-budget-75–99,Monthly budget option
+SeniorsNsbrkLanding,Step 6,$100 – $149,button-monthly-budget-100–149,Monthly budget option
+SeniorsNsbrkLanding,Step 6,Over $150,button-monthly-budget-over150,Monthly budget option
+SeniorsNsbrkLanding,Step 7,Continue (Beneficiary Name 2),button-submit-beneficiary-name,Submit beneficiary name (second time)
+SeniorsNsbrkLanding,Step 8,Continue (Contact Info),button-submit-contact-info,Submit contact information
+SeniorsNsbrkLanding,Footer,Privacy Policy,link-privacy-policy,Opens privacy modal
+SeniorsNsbrkLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
+
+VeteransNsbrkLanding,Step 1,Army,button-military-branch-army,Military branch selection
+VeteransNsbrkLanding,Step 1,Marines,button-military-branch-marines,Military branch selection
+VeteransNsbrkLanding,Step 1,Navy,button-military-branch-navy,Military branch selection
+VeteransNsbrkLanding,Step 1,Air Force,button-military-branch-airforce,Military branch selection
+VeteransNsbrkLanding,Step 1,Coast Guard,button-military-branch-coastguard,Military branch selection
+VeteransNsbrkLanding,Step 2,Spouse,button-beneficiary-spouse,Beneficiary selection
+VeteransNsbrkLanding,Step 2,Children,button-beneficiary-children,Beneficiary selection
+VeteransNsbrkLanding,Step 2,Grandchildren,button-beneficiary-grandchildren,Beneficiary selection
+VeteransNsbrkLanding,Step 2,Family Member,button-beneficiary-family-member,Beneficiary selection
+VeteransNsbrkLanding,Step 3,Yes (Life Insurance),button-life-insurance-yes,Has life insurance
+VeteransNsbrkLanding,Step 3,No (Life Insurance),button-life-insurance-no,Does not have life insurance
+VeteransNsbrkLanding,Step 4,Under 45,button-age-under-45,Age range selection
+VeteransNsbrkLanding,Step 4,45-85,button-age-45-85,Age range selection
+VeteransNsbrkLanding,Step 4,Over 85,button-age-over-85,Age range selection
+VeteransNsbrkLanding,Step 5,Continue (Beneficiary Name),button-submit-beneficiary-name,Submit beneficiary name
+VeteransNsbrkLanding,Step 6,Under $10000,button-cash-amount-under10000,Coverage amount option
+VeteransNsbrkLanding,Step 6,$10000 - $24999,button-cash-amount-10000-24999,Coverage amount option
+VeteransNsbrkLanding,Step 6,$25000 - $50000,button-cash-amount-25000-50000,Coverage amount option
+VeteransNsbrkLanding,Step 6,Over $50000,button-cash-amount-over50000,Coverage amount option
+VeteransNsbrkLanding,Step 7,Under $50,button-monthly-budget-under50,Monthly budget option
+VeteransNsbrkLanding,Step 7,$50 – $74,button-monthly-budget-50–74,Monthly budget option
+VeteransNsbrkLanding,Step 7,$75 – $99,button-monthly-budget-75–99,Monthly budget option
+VeteransNsbrkLanding,Step 7,$100 – $149,button-monthly-budget-100–149,Monthly budget option
+VeteransNsbrkLanding,Step 7,Over $150,button-monthly-budget-over150,Monthly budget option
+VeteransNsbrkLanding,Step 8,Continue (Beneficiary Name 2),button-submit-beneficiary-name,Submit beneficiary name (second time)
+VeteransNsbrkLanding,Step 9,Continue (Contact Info),button-submit-contact-info,Submit contact information
+VeteransNsbrkLanding,Footer,Privacy Policy,link-privacy-policy,Opens privacy modal
+VeteransNsbrkLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
+
+FirstRespondersNsbrkLanding,Step 1,Law Enforcement,button-agency-lawenforcement,First responder agency
+FirstRespondersNsbrkLanding,Step 1,Fire Services,button-agency-fireservices,First responder agency
+FirstRespondersNsbrkLanding,Step 1,EMS,button-agency-ems,First responder agency
+FirstRespondersNsbrkLanding,Step 1,Public Safety Communications,button-agency-publicsafetycommunications,First responder agency
+FirstRespondersNsbrkLanding,Step 1,Other,button-agency-other,First responder agency
+FirstRespondersNsbrkLanding,Step 2,Spouse,button-beneficiary-spouse,Beneficiary selection
+FirstRespondersNsbrkLanding,Step 2,Children,button-beneficiary-children,Beneficiary selection
+FirstRespondersNsbrkLanding,Step 2,Grandchildren,button-beneficiary-grandchildren,Beneficiary selection
+FirstRespondersNsbrkLanding,Step 2,Family Member,button-beneficiary-family-member,Beneficiary selection
+FirstRespondersNsbrkLanding,Step 3,Yes (Life Insurance),button-life-insurance-yes,Has life insurance
+FirstRespondersNsbrkLanding,Step 3,No (Life Insurance),button-life-insurance-no,Does not have life insurance
+FirstRespondersNsbrkLanding,Step 4,Under 45,button-age-under-45,Age range selection
+FirstRespondersNsbrkLanding,Step 4,45-85,button-age-45-85,Age range selection
+FirstRespondersNsbrkLanding,Step 4,Over 85,button-age-over-85,Age range selection
+FirstRespondersNsbrkLanding,Step 5,Continue (Beneficiary Name),button-submit-beneficiary-name,Submit beneficiary name
+FirstRespondersNsbrkLanding,Step 6,Under $10000,button-cash-amount-under10000,Coverage amount option
+FirstRespondersNsbrkLanding,Step 6,$10000 - $24999,button-cash-amount-10000-24999,Coverage amount option
+FirstRespondersNsbrkLanding,Step 6,$25000 - $50000,button-cash-amount-25000-50000,Coverage amount option
+FirstRespondersNsbrkLanding,Step 6,Over $50000,button-cash-amount-over50000,Coverage amount option
+FirstRespondersNsbrkLanding,Step 7,Under $50,button-monthly-budget-under50,Monthly budget option
+FirstRespondersNsbrkLanding,Step 7,$50 – $74,button-monthly-budget-50–74,Monthly budget option
+FirstRespondersNsbrkLanding,Step 7,$75 – $99,button-monthly-budget-75–99,Monthly budget option
+FirstRespondersNsbrkLanding,Step 7,$100 – $149,button-monthly-budget-100–149,Monthly budget option
+FirstRespondersNsbrkLanding,Step 7,Over $150,button-monthly-budget-over150,Monthly budget option
+FirstRespondersNsbrkLanding,Step 8,Continue (Beneficiary Name 2),button-submit-beneficiary-name,Submit beneficiary name (second time)
+FirstRespondersNsbrkLanding,Step 9,Continue (Contact Info),button-submit-contact-info,Submit contact information
+FirstRespondersNsbrkLanding,Footer,Privacy Policy,link-privacy-policy,Opens privacy modal
+FirstRespondersNsbrkLanding,Footer,Terms of Use,link-terms-of-use,Opens terms modal
+
 NotFoundPage,Main,Visit Seniors Page,button-seniors,Link to /seniors
 NotFoundPage,Main,Visit Veterans Page,button-veterans,Link to /veterans
