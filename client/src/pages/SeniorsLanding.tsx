@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
-import { initGTM, trackPageView, trackQuizStep } from "@/utils/gtmTracking";
+import { initGTM, trackPageView, trackQuizStep, trackButtonClick } from "@/utils/gtmTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
@@ -167,12 +167,22 @@ export default function SeniorsLanding() {
 
   // Q1: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    const buttonMap: Record<Beneficiary, string> = {
+      'Spouse': 'beneficiary_spouse',
+      'Children': 'beneficiary_children',
+      'Grandchildren': 'beneficiary_grandchildren',
+      'Family': 'beneficiary_family_member',
+      'Other': 'beneficiary_other'
+    };
+    trackButtonClick('button_click', buttonMap[beneficiary]);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(2), 300);
   };
 
   // Q2: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    const buttonName = hasLifeInsurance === 'Yes' ? 'life_insurance_yes' : 'life_insurance_no';
+    trackButtonClick('button_click', buttonName);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(3), 300);
   };
@@ -180,6 +190,9 @@ export default function SeniorsLanding() {
   // Q3: Age (ALL ages now accepted - no disqualification)
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const age = parseInt(formData.age);
+    const ageButton = age < 45 ? 'age_under_45' : age <= 85 ? 'age_45_85' : 'age_over_85';
+    trackButtonClick('button_click', ageButton);
     setTimeout(() => setStep(4), 300);
   };
 
@@ -201,6 +214,7 @@ export default function SeniorsLanding() {
       return;
     }
     
+    trackButtonClick('button_click', 'submit_beneficiary_name');
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(5), 300);
   };
@@ -208,6 +222,7 @@ export default function SeniorsLanding() {
   // Q5: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    trackButtonClick('button_click', 'submit_contact_info');
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
     const email = formData.email.trim();

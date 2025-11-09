@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
-import { initGTM, trackPageView, trackQuizStep } from "@/utils/gtmTracking";
+import { initGTM, trackPageView, trackQuizStep, trackButtonClick } from "@/utils/gtmTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
@@ -169,6 +169,14 @@ export default function VeteransLanding() {
 
   // Q1: Military Branch (Veterans-specific)
   const handleMilitaryBranchSelect = (branch: MilitaryBranch) => {
+    const branchMap: Record<MilitaryBranch, string> = {
+      'Army': 'military_branch_army',
+      'Navy': 'military_branch_navy',
+      'Marine Corps': 'military_branch_marines',
+      'Air Force': 'military_branch_air_force',
+      'Coast Guard': 'military_branch_coast_guard'
+    };
+    trackButtonClick('button_click', branchMap[branch]);
     setFormData({ ...formData, militaryBranch: branch });
     setTimeout(() => setStep(2), 300);
   };
@@ -181,12 +189,22 @@ export default function VeteransLanding() {
 
   // Q3: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
+    const buttonMap: Record<Beneficiary, string> = {
+      'Spouse': 'beneficiary_spouse',
+      'Children': 'beneficiary_children',
+      'Grandchildren': 'beneficiary_grandchildren',
+      'Family': 'beneficiary_family_member',
+      'Other': 'beneficiary_other'
+    };
+    trackButtonClick('button_click', buttonMap[beneficiary]);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(4), 300);
   };
 
   // Q4: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
+    const buttonName = hasLifeInsurance === 'Yes' ? 'life_insurance_yes' : 'life_insurance_no';
+    trackButtonClick('button_click', buttonName);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(5), 300);
   };
@@ -194,17 +212,35 @@ export default function VeteransLanding() {
   // Q5: Age (ALL ages now accepted - no disqualification)
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const age = parseInt(formData.age);
+    const ageButton = age < 45 ? 'age_under_45' : age <= 85 ? 'age_45_85' : 'age_over_85';
+    trackButtonClick('button_click', ageButton);
     setTimeout(() => setStep(6), 300);
   };
 
   // Q6: Coverage Amount
   const handleCashAmountSelect = (cashAmount: CashAmount) => {
+    const buttonMap: Record<CashAmount, string> = {
+      'Under$10000': 'cash_amount_under10000',
+      '$10000-$24999': 'cash_amount_10000_24999',
+      '$25000-$50000': 'cash_amount_25000_50000',
+      'Over$50000': 'cash_amount_over50000'
+    };
+    trackButtonClick('button_click', buttonMap[cashAmount]);
     setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(7), 300);
   };
 
   // Q7: Monthly Budget
   const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
+    const buttonMap: Record<string, string> = {
+      'Under$50': 'monthly_budget_under50',
+      '$50–$74': 'monthly_budget_50–74',
+      '$75–$99': 'monthly_budget_75–99',
+      '$100–$149': 'monthly_budget_100–149',
+      'Over$150': 'monthly_budget_over150'
+    };
+    trackButtonClick('button_click', buttonMap[monthlyBudget]);
     setFormData({ ...formData, monthlyBudget });
     setTimeout(() => setStep(8), 300);
   };
@@ -227,6 +263,7 @@ export default function VeteransLanding() {
       return;
     }
     
+    trackButtonClick('button_click', 'submit_beneficiary_name');
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(9), 300);
   };
@@ -234,6 +271,7 @@ export default function VeteransLanding() {
   // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    trackButtonClick('button_click', 'submit_contact_info');
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
     const email = formData.email.trim();
