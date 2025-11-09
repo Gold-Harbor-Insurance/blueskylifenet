@@ -171,13 +171,13 @@ export default function FirstRespondersLanding() {
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
     const agencyMap: Record<FirstResponderAgency, string> = {
-      'Law enforcement': 'agency_lawenforcement',
-      'Fire and rescue': 'agency_firerescue',
-      'Emergency Medical Services': 'agency_ems',
-      'Public safety communications': 'agency_publicsafety',
-      'Other critical first responders': 'agency_other'
+      'Law enforcement': 'button-agency-law-enforcement',
+      'Fire and rescue': 'button-agency-fire-services',
+      'Emergency Medical Services': 'button-agency-ems',
+      'Public safety communications': 'button-agency-public-safety-communications',
+      'Other critical first responders': 'button-agency-other'
     };
-    trackButtonClick('button_click', agencyMap[agency]);
+    trackButtonClick(agencyMap[agency], agency);
     setFormData({ ...formData, agency });
     setTimeout(() => setStep(2), 300);
   };
@@ -185,21 +185,21 @@ export default function FirstRespondersLanding() {
   // Q2: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
     const buttonMap: Record<Beneficiary, string> = {
-      'Spouse': 'beneficiary_spouse',
-      'Children': 'beneficiary_children',
-      'Grandchildren': 'beneficiary_grandchildren',
-      'Family': 'beneficiary_family_member',
-      'Other': 'beneficiary_other'
+      'Spouse': 'button-beneficiary-spouse',
+      'Children': 'button-beneficiary-children',
+      'Grandchildren': 'button-beneficiary-grandchildren',
+      'Family': 'button-beneficiary-family-member',
+      'Other': 'button-beneficiary-other'
     };
-    trackButtonClick('button_click', buttonMap[beneficiary]);
+    trackButtonClick(buttonMap[beneficiary], beneficiary);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
   // Q3: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    const buttonName = hasLifeInsurance === 'Yes' ? 'life_insurance_yes' : 'life_insurance_no';
-    trackButtonClick('button_click', buttonName);
+    const buttonName = hasLifeInsurance === 'Yes' ? 'button-life-insurance-yes' : 'button-life-insurance-no';
+    trackButtonClick(buttonName, hasLifeInsurance);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
@@ -208,8 +208,9 @@ export default function FirstRespondersLanding() {
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const age = parseInt(formData.age);
-    const ageButton = age < 45 ? 'age_under_45' : age <= 85 ? 'age_45_85' : 'age_over_85';
-    trackButtonClick('button_click', ageButton);
+    const ageButton = age < 45 ? 'button-age-under-45' : age <= 85 ? 'button-age-45-85' : 'button-age-over-85';
+    const ageLabel = age < 45 ? 'Under 45' : age <= 85 ? '45-85' : 'Over 85';
+    trackButtonClick(ageButton, ageLabel);
     setTimeout(() => setStep(5), 300);
   };
 
@@ -231,7 +232,7 @@ export default function FirstRespondersLanding() {
       return;
     }
     
-    trackButtonClick('button_click', 'submit_beneficiary_name');
+    trackButtonClick('button-submit-beneficiary-name', name);
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(6), 300);
   };
@@ -240,7 +241,7 @@ export default function FirstRespondersLanding() {
   // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    trackButtonClick('button_click', 'submit_contact_info');
+    trackButtonClick('button-submit-contact-info', 'Contact Info Submitted');
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
     const email = formData.email.trim();

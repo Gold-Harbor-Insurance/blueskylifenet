@@ -171,13 +171,13 @@ export default function FirstRespondersLanding() {
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
     const agencyMap: Record<FirstResponderAgency, string> = {
-      'Law enforcement': 'agency_lawenforcement',
-      'Fire and rescue': 'agency_firerescue',
-      'Emergency Medical Services': 'agency_ems',
-      'Public safety communications': 'agency_publicsafety',
-      'Other critical first responders': 'agency_other'
+      'Law enforcement': 'button-agency-lawenforcement',
+      'Fire and rescue': 'button-agency-fireservices',
+      'Emergency Medical Services': 'button-agency-ems',
+      'Public safety communications': 'button-agency-publicsafetycommunications',
+      'Other critical first responders': 'button-agency-other'
     };
-    trackButtonClick('button_click', agencyMap[agency]);
+    trackButtonClick(agencyMap[agency], agency);
     setFormData({ ...formData, agency });
     setTimeout(() => setStep(2), 300);
   };
@@ -191,21 +191,21 @@ export default function FirstRespondersLanding() {
   // Q3: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
     const buttonMap: Record<Beneficiary, string> = {
-      'Spouse': 'beneficiary_spouse',
-      'Children': 'beneficiary_children',
-      'Grandchildren': 'beneficiary_grandchildren',
-      'Family': 'beneficiary_family_member',
-      'Other': 'beneficiary_other'
+      'Spouse': 'button-beneficiary-spouse',
+      'Children': 'button-beneficiary-children',
+      'Grandchildren': 'button-beneficiary-grandchildren',
+      'Family': 'button-beneficiary-family-member',
+      'Other': 'button-beneficiary-other'
     };
-    trackButtonClick('button_click', buttonMap[beneficiary]);
+    trackButtonClick(buttonMap[beneficiary], beneficiary);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(4), 300);
   };
 
   // Q4: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    const buttonName = hasLifeInsurance === 'Yes' ? 'life_insurance_yes' : 'life_insurance_no';
-    trackButtonClick('button_click', buttonName);
+    const buttonName = hasLifeInsurance === 'Yes' ? 'button-life-insurance-yes' : 'button-life-insurance-no';
+    trackButtonClick(buttonName, hasLifeInsurance);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(5), 300);
   };
@@ -214,20 +214,21 @@ export default function FirstRespondersLanding() {
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const age = parseInt(formData.age);
-    const ageButton = age < 45 ? 'age_under_45' : age <= 85 ? 'age_45_85' : 'age_over_85';
-    trackButtonClick('button_click', ageButton);
+    const ageButton = age < 45 ? 'button-age-under-45' : age <= 85 ? 'button-age-45-85' : 'button-age-over-85';
+    const ageLabel = age < 45 ? 'Under 45' : age <= 85 ? '45-85' : 'Over 85';
+    trackButtonClick(ageButton, ageLabel);
     setTimeout(() => setStep(6), 300);
   };
 
   // Q6: Coverage Amount
   const handleCashAmountSelect = (cashAmount: CashAmount) => {
     const buttonMap: Record<CashAmount, string> = {
-      'Under$10000': 'cash_amount_under10000',
-      '$10000-$24999': 'cash_amount_10000_24999',
-      '$25000-$50000': 'cash_amount_25000_50000',
-      'Over$50000': 'cash_amount_over50000'
+      'Under$10000': 'button-cash-amount-under10000',
+      '$10000-$24999': 'button-cash-amount-10000-24999',
+      '$25000-$50000': 'button-cash-amount-25000-50000',
+      'Over$50000': 'button-cash-amount-over50000'
     };
-    trackButtonClick('button_click', buttonMap[cashAmount]);
+    trackButtonClick(buttonMap[cashAmount], cashAmount);
     setFormData({ ...formData, cashAmount });
     setTimeout(() => setStep(7), 300);
   };
@@ -235,13 +236,13 @@ export default function FirstRespondersLanding() {
   // Q7: Monthly Budget
   const handleMonthlyBudgetSelect = (monthlyBudget: string) => {
     const buttonMap: Record<string, string> = {
-      'Under$50': 'monthly_budget_under50',
-      '$50–$74': 'monthly_budget_50–74',
-      '$75–$99': 'monthly_budget_75–99',
-      '$100–$149': 'monthly_budget_100–149',
-      'Over$150': 'monthly_budget_over150'
+      'Under$50': 'button-monthly-budget-under50',
+      '$50–$74': 'button-monthly-budget-50-74',
+      '$75–$99': 'button-monthly-budget-75-99',
+      '$100–$149': 'button-monthly-budget-100-149',
+      'Over$150': 'button-monthly-budget-over150'
     };
-    trackButtonClick('button_click', buttonMap[monthlyBudget]);
+    trackButtonClick(buttonMap[monthlyBudget], monthlyBudget);
     setFormData({ ...formData, monthlyBudget });
     setTimeout(() => setStep(8), 300);
   };
@@ -264,7 +265,7 @@ export default function FirstRespondersLanding() {
       return;
     }
     
-    trackButtonClick('button_click', 'submit_beneficiary_name');
+    trackButtonClick('button-submit-beneficiary-name', name);
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(9), 300);
   };
@@ -273,7 +274,7 @@ export default function FirstRespondersLanding() {
   // Q9: Combined Contact Info (First Name, Last Name, Email, Phone) - FINAL STEP
   const handleContactInfoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    trackButtonClick('button_click', 'submit_contact_info');
+    trackButtonClick('button-submit-contact-info', 'Contact Info Submitted');
     const firstName = formData.firstName.trim();
     const lastName = formData.lastName.trim();
     const email = formData.email.trim();
