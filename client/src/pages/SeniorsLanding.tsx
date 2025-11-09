@@ -796,8 +796,16 @@ export default function SeniorsLanding() {
                     </div>
                   </div>
 
+                  {/* Disclaimer */}
+                  <div className="mt-8 max-w-lg mx-auto text-xs text-gray-700 leading-relaxed bg-gray-50 border border-gray-300 rounded-lg p-4">
+                    <p className="font-semibold mb-1">Disclaimer:</p>
+                    <p>
+                      BlueSky Life is a marketing service that connects people with licensed insurance professionals. We do not sell or underwrite insurance. By submitting your information, you consent to be contacted by a licensed agent about your options. Coverage and availability vary by state.
+                    </p>
+                  </div>
+
                   {/* Terms and Consent Text - Moderate spacing so a bit shows */}
-                  <div className="mt-12 max-w-lg mx-auto text-xs text-gray-600 leading-relaxed space-y-2">
+                  <div className="mt-6 max-w-lg mx-auto text-xs text-gray-600 leading-relaxed space-y-2">
                     <p>
                       By clicking "Book Your Free Coverage Review Call" and submitting your information, you expressly consent via electronic signature to receive marketing communications via email, telephone calls, text messages (SMS), and prerecorded messages from BlueSkyInsure.io, its subsidiaries, its licensed agents, and listed marketing partners regarding life insurance products and services, including Final Expense policies, at the email address and phone number you provided, including wireless numbers, even if your number is listed on any state or federal Do Not Call registry. Communications may be made using an automated dialing system, prerecorded/artificial voice, or SMS text in compliance with applicable federal and state laws. Consent is not a condition of purchase. Message and data rates may apply. Message frequency varies. Reply STOP to opt out at any time.
                     </p>
