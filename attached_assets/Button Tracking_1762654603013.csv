@@ -1,0 +1,137 @@
+Page,Step/Section,Button Label,data-testid,Class,Notes
+Seniors Landing Page,Step 1,Zip code,button-submit-zip-code,.button-zipcode,ZIP code submit
+Seniors Landing Page,Step 2,Male,button-gender-male,.button-gender-male,Gender male
+Seniors Landing Page,Step 2,Female,button-gender-female,.button-gender-female,Gender female
+Seniors Landing Page,Step 3,Life insurance Yes,button-life-insurance-yes,.button-life-yes,Has life insurance yes
+Seniors Landing Page,Step 3,Life insurance no,button-life-insurance-no,.button-life-no,Has life insurance no
+Seniors Landing Page,Step 4,Under $10000,button-coverage-amount-under-10000,.button-coverage-amount-under-10000,"Coverage amount under $10,000"
+Seniors Landing Page,Step 4,$10000-$24999,button-coverage-amount-10000-24999,.button-coverage-amount-10000-24999,"Coverage amount $10,000-$24,999"
+Seniors Landing Page,Step 4,$25000-$50000,button-coverage-amount-25000-50000,.button-coverage-amount-25000-50000,"Coverage amount $25,000-$50,000"
+Seniors Landing Page,Step 4,Over $50000,button-coverage-amount-over-50000,.button-coverage-amount-over-50000,"Coverage amount over $50,000"
+Seniors Landing Page,Step 5,Spouse,button-beneficiary-spouse,.button-beneficiary-spouse,Beneficiary spouse
+Seniors Landing Page,Step 5,Children,button-beneficiary-children,.button-beneficiary-children,Beneficiary children
+Seniors Landing Page,Step 5,Grandchildren,button-beneficiary-grandchildren,.button-beneficiary-grandchildren,Beneficiary grandchildren
+Seniors Landing Page,Step 5,Family Member,button-beneficiary-family,.button-beneficiary-family,Beneficiary family
+Seniors Landing Page,Step 6,Under 45,button-age-under-45,.button-age-under-45,Age range under 45
+Seniors Landing Page,Step 6,45-85,button-age-45-85,.button-age-45-85,Age range 45-85
+Seniors Landing Page,Step 6,Over 85,button-age-over-85,.button-age-over-85,Age range over 85
+Seniors Landing Page,Step 7,Continue (Beneficiary Name),button-beneficiary-name,.button-beneficiary-name,Beneficiary name
+Seniors Landing Page,Step 8,Continue (Hobby),button-hobby,.button-hobby,Hobby
+Seniors Landing Page,Step 9,Continue (First Name),button-first-name,.button-first-name,First name
+Seniors Landing Page,Step 10,Continue (Last Name),button-last-name,.button-last-name,Last name
+Seniors Landing Page,Step 11,Continue (Email),button-email,.button-email,Email
+Seniors Landing Page,Step 12,Continue (Phone),button-phone,.button-phone-number,Phone number
+Seniors Landing Page,Step 13,Continue (Street Address),button-street-address,.button-street-address,Street address
+Seniors Landing Page,Step 14,Continue (County),button-country,.button-country,County
+Seniors Landing Page,Step 15,Under $50,button-budget-range-under-50,.button-budget-range-under-50,Budget range under $50
+Seniors Landing Page,Step 15,$50-$100,button-budget-range-50-74,.button-budget-range-50-74,Budget range $50-$74
+Seniors Landing Page,Step 15,$100-$200,button-budget-range-75-99,.button-budget-range-75-99,Budget range $75-$99
+Seniors Landing Page,Step 15,$200-$300,button-budget-range-100-150,.button-budget-range-100-150,Budget range $100-$150
+Seniors Landing Page,Step 15,$300+,button-budget-range-over-150,.button-budget-range-over-150,Budget range over $150
+Seniors Landing Page,Footer,Privacy Policy,link-privacy-policy,.button-privacy-policy,Privacy policy
+Seniors Landing Page,Footer,Terms of Use,link-terms-of-use,.button-terms-of-use,Terms of use
+Seniors Landing Page,Step 1 (Alt),Privacy Policy,link-privacy-policy-modal,.button-privacy-policy-modal,Privacy modal (on first page)
+Seniors Landing Page,Step 1 (Alt),Terms of Use,link-terms-of-use-modal,.button-terms-of-use-modal,Terms modal (on first page)
+,,,,,
+Veterans Landing Page,Step 1,Army,button-military-branch-army,.button-military-branch-army,Military branch selection
+Veterans Landing Page,Step 1,Marine Corps,button-military-branch-marine-corps,.button-military-branch-marine-corps,Military branch selection
+Veterans Landing Page,Step 1,Navy,button-military-branch-navy,.button-military-branch-navy,Military branch selection
+Veterans Landing Page,Step 1,Air Force,button-military-branch-air-force,.button-military-branch-air-force,Military branch selection
+Veterans Landing Page,Step 1,Coast Guard,button-military-branch-coast-guard,.button-military-branch-coast-guard,Military branch selection
+Veterans Landing Page,Step 1,Space Force,button-military-branch-space-force,.button-military-branch-space-force,Military branch selection
+Veterans Landing Page,Step 2,Zip code,button-submit-zip-code,.button-zipcode,ZIP code submit
+Veterans Landing Page,Step 3,Male,button-gender-male,.button-gender-male,Gender male
+Veterans Landing Page,Step 3,Female,button-gender-female,.button-gender-female,Gender female
+Veterans Landing Page,Step 4,Life insurance Yes,button-life-insurance-yes,.button-life-yes,Has life insurance yes
+Veterans Landing Page,Step 4,Life insurance no,button-life-insurance-no,.button-life-no,Has life insurance no
+Veterans Landing Page,Step 5,Under $10000,button-coverage-amount-under-10000,.button-coverage-amount-under-10000,"Coverage amount under $10,000"
+Veterans Landing Page,Step 5,$10000-$24999,button-coverage-amount-10000-24999,.button-coverage-amount-10000-24999,"Coverage amount $10,000-$24,999"
+Veterans Landing Page,Step 5,$25000-$50000,button-coverage-amount-25000-50000,.button-coverage-amount-25000-50000,"Coverage amount $25,000-$50,000"
+Veterans Landing Page,Step 5,Over $50000,button-coverage-amount-over-50000,.button-coverage-amount-over-50000,"Coverage amount over $50,000"
+Veterans Landing Page,Step 5,Spouse,button-beneficiary-spouse,.button-beneficiary-spouse,Beneficiary spouse
+Veterans Landing Page,Step 6,Children,button-beneficiary-children,.button-beneficiary-children,Beneficiary children
+Veterans Landing Page,Step 6,Grandchildren,button-beneficiary-grandchildren,.button-beneficiary-grandchildren,Beneficiary grandchildren
+Veterans Landing Page,Step 6,Family Member,button-beneficiary-family,.button-beneficiary-family,Beneficiary family
+Veterans Landing Page,Step 7,Under 45,button-age-under-45,.button-age-under-45,Age range under 45
+Veterans Landing Page,Step 7,45-85,button-age-45-85,.button-age-45-85,Age range 45-85
+Veterans Landing Page,Step 7,Over 85,button-age-over-85,.button-age-over-85,Age range over 85
+Veterans Landing Page,Step 8,Continue (Beneficiary Name),button-beneficiary-name,.button-beneficiary-name,Beneficiary name
+Veterans Landing Page,Step 9,Continue (Hobby),button-hobby,.button-hobby,Hobby
+Veterans Landing Page,Step 10,Continue (First Name),button-first-name,.button-first-name,First name
+Veterans Landing Page,Step 11,Continue (Last Name),button-last-name,.button-last-name,Last name
+Veterans Landing Page,Step 12,Continue (Email),button-email,.button-email,Email
+Veterans Landing Page,Step 13,Continue (Phone),button-phone,.button-phone-number,Phone number
+Veterans Landing Page,Step 14,Continue (Street Address),button-street-address,.button-street-address,Street address
+Veterans Landing Page,Step 15,Continue (County),button-country,.button-country,County
+Veterans Landing Page,Step 16,Under $50,button-budget-range-under-50,.button-budget-range-under-50,Budget range under $50
+Veterans Landing Page,Step 16,$50-$100,button-budget-range-50-74,.button-budget-range-50-74,Budget range $50-$74
+Veterans Landing Page,Step 16,$100-$200,button-budget-range-75-99,.button-budget-range-75-99,Budget range $75-$99
+Veterans Landing Page,Step 16,$200-$300,button-budget-range-100-150,.button-budget-range-100-150,Budget range $100-$150
+Veterans Landing Page,Step 16,$300+,button-budget-range-over-150,.button-budget-range-over-150,Budget range over $150
+Veterans Landing Page,Footer,Privacy Policy,link-privacy-policy,.button-privacy-policy,Privacy policy
+Veterans Landing Page,Footer,Terms of Use,link-terms-of-use,.button-terms-of-use,Terms of use
+Veterans Landing Page,Step 1 (Alt),Privacy Policy,link-privacy-policy-modal,.button-privacy-policy-modal,Privacy modal (on first page)
+Veterans Landing Page,Step 1 (Alt),Terms of Use,link-terms-of-use-modal,.button-terms-of-use-modal,Terms modal (on first page)
+,,,,,
+First Responders Landing Page,Step 1,Law enforcement,button-agency-law-enforcement,.button-agency-law-enforcement,First responder agency
+First Responders Landing Page,Step 1,Fire and rescue,button-agency-fire-and-rescue,.button-agency-fire-and-rescue,First responder agency
+First Responders Landing Page,Step 1,Emergency Medical Services,button-agency-emergency-medical-services,.button-agency-medical-services,First responder agency
+First Responders Landing Page,Step 1,Public safety communications,button-agency-public-safety-communications,.button-agency-safety-communications,First responder agency
+First Responders Landing Page,Step 1,Other critical first responders,button-agency-other-critical-first-responders,.button-agency-first-responders,First responder agency
+First Responders Landing Page,Step 2,Zip code,button-submit-zip-code,.button-zipcode,ZIP code submit
+First Responders Landing Page,Step 3,Male,button-gender-male,.button-gender-male,Gender male
+First Responders Landing Page,Step 3,Female,button-gender-female,.button-gender-female,Gender female
+First Responders Landing Page,Step 4,Life insurance Yes,button-life-insurance-yes,.button-life-yes,Has life insurance yes
+First Responders Landing Page,Step 4,Life insurance no,button-life-insurance-no,.button-life-no,Has life insurance no
+First Responders Landing Page,Step 5,Under $10000,button-coverage-amount-under-10000,.button-coverage-amount-under-10000,"Coverage amount under $10,000"
+First Responders Landing Page,Step 5,$10000-$24999,button-coverage-amount-10000-24999,.button-coverage-amount-10000-24999,"Coverage amount $10,000-$24,999"
+First Responders Landing Page,Step 5,$25000-$50000,button-coverage-amount-25000-50000,.button-coverage-amount-25000-50000,"Coverage amount $25,000-$50,000"
+First Responders Landing Page,Step 5,Over $50000,button-coverage-amount-over-50000,.button-coverage-amount-over-50000,"Coverage amount over $50,000"
+First Responders Landing Page,Step 5,Spouse,button-beneficiary-spouse,.button-beneficiary-spouse,Beneficiary spouse
+First Responders Landing Page,Step 6,Children,button-beneficiary-children,.button-beneficiary-children,Beneficiary children
+First Responders Landing Page,Step 6,Grandchildren,button-beneficiary-grandchildren,.button-beneficiary-grandchildren,Beneficiary grandchildren
+First Responders Landing Page,Step 6,Family Member,button-beneficiary-family,.button-beneficiary-family,Beneficiary family
+First Responders Landing Page,Step 6,Under 45,button-age-under-45,.button-age-under-45,Age range under 45
+First Responders Landing Page,Step 7,45-85,button-age-45-85,.button-age-45-85,Age range 45-85
+First Responders Landing Page,Step 7,Over 85,button-age-over-85,.button-age-over-85,Age range over 85
+First Responders Landing Page,Step 7,Continue (Beneficiary Name),button-beneficiary-name,.button-beneficiary-name,Beneficiary name
+First Responders Landing Page,Step 8,Continue (Hobby),button-hobby,.button-hobby,Hobby
+First Responders Landing Page,Step 9,Continue (First Name),button-first-name,.button-first-name,First name
+First Responders Landing Page,Step 10,Continue (Last Name),button-last-name,.button-last-name,Last name
+First Responders Landing Page,Step 11,Continue (Email),button-email,.button-email,Email
+First Responders Landing Page,Step 12,Continue (Phone),button-phone,.button-phone-number,Phone number
+First Responders Landing Page,Step 13,Continue (Street Address),button-street-address,.button-street-address,Street address
+First Responders Landing Page,Step 14,Continue (County),button-country,.button-country,County
+First Responders Landing Page,Step 15,Under $50,button-budget-range-under-50,.button-budget-range-under-50,Budget range under $50
+First Responders Landing Page,Step 16,$50-$100,button-budget-range-50-74,.button-budget-range-50-74,Budget range $50-$74
+First Responders Landing Page,Step 16,$100-$200,button-budget-range-75-99,.button-budget-range-75-99,Budget range $75-$99
+First Responders Landing Page,Step 16,$200-$300,button-budget-range-100-150,.button-budget-range-100-150,Budget range $100-$150
+First Responders Landing Page,Step 16,$300+,button-budget-range-over-150,.button-budget-range-over-150,Budget range over $150
+First Responders Landing Page,Footer,Privacy Policy,link-privacy-policy,.button-privacy-policy,Privacy policy
+First Responders Landing Page,Footer,Terms of Use,link-terms-of-use,.button-terms-of-use,Terms of use
+First Responders Landing Page,Step 1 (Alt),Privacy Policy,link-privacy-policy-modal,.button-privacy-policy-modal,Privacy modal (on first page)
+First Responders Landing Page,Step 1 (Alt),Terms of Use,link-terms-of-use-modal,.button-terms-of-use-modal,Terms modal (on first page)
+,,,,,
+Step 1,Step 1,,button-step1,.button-step1,fire on click
+Step 2,Step 2,,button-step2,.button-step2,fire on click
+Step 3,Step 3,,button-step3,.button-step3,fire on click
+Step 4,Step 4,,button-step4,.button-step4,fire on click
+Step 5,Step 5,,button-step5,.button-step5,fire on click
+Step 6,Step 6,,button-step6,.button-step6,fire on click
+Step 7,Step 7,,button-step7,.button-step7,fire on click
+Step 8,Step 8,,button-step8,.button-step8,fire on click
+Step 9,Step 9,,button-step9,.button-step9,fire on click
+Step 10,Step 10,,button-step10,.button-step10,fire on click
+Step 11,Step 11,,button-step11,.button-step11,fire on click
+Step 12,Step 12,,button-step12,.button-step12,fire on click
+Step 13,Step 13,,button-step13,.button-step13,fire on click
+Step 14,Step 14,,button-step14,.button-step14,fire on click
+Step 15,Step 15,,button-step15,.button-step15,fire on click
+Step 16,Step 16,,button-step16,.button-step16,fire on click
+Step 17,Step 17,,button-step17,.button-step17,fire on click
+Step 18,Step 18,,button-step18,.button-step18,fire on click
+Step 19,Step 19,,button-step19,.button-step19,fire on click
+Step 20,Step 20,,button-step20,.button-step20,fire on click
+Appointment,Appointment,,button-book-appointment,.track-appointment-btn,Calendar appointment booking
+Call,Call,,button-call-now,.track-call-btn,Call button
+Lead submit,Lead submit,,button-submit-contact-info,.track-lead-btn,This is the lead submit button on email and/or phone
