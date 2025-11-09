@@ -126,26 +126,51 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="space-x-2 mb-4 text-sm text-gray-600">
+      <footer className="bg-gray-100 border-t border-gray-200 py-12 mt-16">
+        <div className="max-w-4xl mx-auto px-6">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <img 
+              src={logoImage} 
+              alt="BlueSky Life" 
+              className="h-12 w-auto"
+              data-testid="img-bluesky-logo-footer"
+            />
+          </div>
+
+          {/* Privacy and Terms Links */}
+          <div className="text-center mb-3">
             <button
               onClick={() => setLegalModal("privacy")}
-              className="hover:underline cursor-pointer"
+              className="text-gray-600 hover:underline cursor-pointer text-sm"
               data-testid="link-privacy-policy"
             >
               Privacy Policy
             </button>
-            <span>|</span>
+            <span className="text-gray-600 mx-2 text-sm">|</span>
             <button
               onClick={() => setLegalModal("terms")}
-              className="hover:underline cursor-pointer"
+              className="text-gray-600 hover:underline cursor-pointer text-sm"
               data-testid="link-terms-of-use"
             >
               Terms of Use
             </button>
           </div>
-          <p className="text-sm text-gray-600">&copy; 2025 BlueSky Life. All rights reserved.</p>
+
+          {/* Copyright */}
+          <p className="text-center text-sm text-gray-700 mb-4">
+            &copy; 2025 BlueSky Life. All Rights Reserved.
+          </p>
+
+          {/* Privacy Statement */}
+          <p className="text-center text-sm text-gray-600 mb-6">
+            We never share your information without consent.
+          </p>
+
+          {/* Disclaimer */}
+          <p className="text-center text-xs text-gray-500 leading-relaxed max-w-3xl mx-auto">
+            DISCLAIMER: BlueSkyLife.io, a website owned and operated by BlueSky Investments LLC, is not a federal or state Marketplace website. BlueSky Life is not an insurance company or financial institution. We connect individuals with licensed professionals who can provide personalized assistance with insurance and related planning options.
+          </p>
         </div>
       </footer>
 
