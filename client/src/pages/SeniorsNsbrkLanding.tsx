@@ -676,15 +676,21 @@ export default function SeniorsLanding() {
                   </h2>
                 </div>
                 <div className="max-w-md mx-auto grid gap-3">
-                  {["Under$50", "$50–$74", "$75–$99", "$100–$149", "Over$150"].map((budget) => (
+                  {[
+                    { label: "Under $50", value: "Under$50" },
+                    { label: "$50 – $74", value: "$50–$74" },
+                    { label: "$75 – $99", value: "$75–$99" },
+                    { label: "$100 – $149", value: "$100–$149" },
+                    { label: "Over $150", value: "Over$150" }
+                  ].map((option) => (
                     <button
-                      key={budget}
+                      key={option.value}
                       type="button"
-                      onClick={() => handleMonthlyBudgetSelect(budget)}
-                      data-testid={`button-monthly-budget-${budget.replace(/\$|–/g, '').toLowerCase()}`}
+                      onClick={() => handleMonthlyBudgetSelect(option.value)}
+                      data-testid={`button-monthly-budget-${option.value.replace(/\$|–/g, '').toLowerCase()}`}
                       className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200`}
                     >
-                      {budget}
+                      {option.label}
                     </button>
                   ))}
                 </div>
