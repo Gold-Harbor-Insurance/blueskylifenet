@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
+import { initGTM, trackPageView, trackQuizStep } from "@/utils/gtmTracking";
 import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
@@ -104,6 +105,8 @@ export default function SeniorsLanding() {
 
   useEffect(() => {
     initFacebookTracking();
+    initGTM();
+    trackPageView('/final-expense/nsbrk/', 'Seniors Final Expense - NewsBreak');
     
     // Auto-detect ZIP code from IP on component mount
     const detectLocation = async () => {
@@ -124,6 +127,14 @@ export default function SeniorsLanding() {
     
     detectLocation();
   }, []);
+
+  // Track quiz step changes
+  useEffect(() => {
+    if (step <= 8) {
+      const stepNames = ['Beneficiary', 'Life Insurance', 'Age', 'Beneficiary Name', 'Coverage Amount', 'Monthly Budget', 'Beneficiary Name', 'Contact Info'];
+      trackQuizStep(step, stepNames[step - 1], 'seniors');
+    }
+  }, [step]);
 
   // Detect autofill and show phone field automatically
   useEffect(() => {
