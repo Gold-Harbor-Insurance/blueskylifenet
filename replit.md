@@ -13,9 +13,9 @@ The application is a client-side only quiz flow with no dedicated backend or dat
     -   **Streamlined Flow** (`/final-expense/rb-f3q8n1z7rp0x/`): 6-7 steps with Gender, Coverage Amount, and Monthly Budget removed to reduce friction
     -   **Comprehensive Flow** (`/final-expense/nsbrk/`): 9-10 steps including Coverage Amount and Monthly Budget questions for NewsBreak traffic requiring more detailed qualification
 -   **Dynamic Content Integration**: Thank you page content, including countdown timer and dynamic phone number, is integrated as the final step of the quiz flow on the same URL to maintain tracking data and prevent direct access.
--   **Tracking & Analytics**: Extensive Google Tag Manager (GTM) and Facebook tracking integration is achieved by capturing all quiz selections in hidden input fields and passing data to Ringba and a GoHighLevel (GHL) webhook.
+-   **Tracking & Analytics**: Extensive Google Tag Manager (GTM) and Facebook tracking integration is achieved by capturing all quiz selections in hidden input fields and passing data to Ringba and a Make.com webhook (which then forwards to GHL).
 -   **Custom Ringba API Integration**: Replaced the standard Ringba script with a custom API implementation for greater control over data collection, loading states, and dynamic phone number retrieval. This call is triggered at the contact info submission.
--   **Webhook Integration**: All form data, along with tracking information and user IP, is automatically sent to a GoHighLevel (GHL) webhook upon contact info submission.
+-   **Webhook Integration**: All form data, along with tracking information and user IP, is automatically sent to a Make.com webhook upon contact info submission, which then forwards the data to GoHighLevel (GHL).
 -   **UI/UX**: Brand colors based on BlueSky Life green, Inter and Space Mono typography, and Shadcn UI components.
 -   **Progressive Disclosure**: Questions are presented one at a time to maximize completion rates.
 
@@ -36,10 +36,11 @@ The application is a client-side only quiz flow with no dedicated backend or dat
     -   `Ringba API`: Custom integration for dynamic phone number generation, call tracking, and forwarding Facebook tracking data.
     -   Domain ("lp" field): `blueskylife.net`
 -   **Automation & Webhooks**:
-    -   `GoHighLevel (GHL)`: Endpoint (`https://services.leadconnectorhq.com/hooks/nKJto6oqchItapVezM6L/webhook-trigger/tE9m2BIgBgjW0VZI23ht`) for receiving all form submission data.
+    -   `Make.com`: Primary webhook endpoint (`https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5`) receives all form submission data.
+    -   `GoHighLevel (GHL)`: Secondary endpoint (`https://services.leadconnectorhq.com/hooks/nKJto6oqchItapVezM6L/webhook-trigger/tE9m2BIgBgjW0VZI23ht`) receives data forwarded from Make.com.
 -   **Marketing & Analytics**:
     -   `Google Tag Manager (GTM)`: For comprehensive event tracking and data layer management (`GTM-W9243JWT`, `https://trk.blueskylife.net`).
-    -   `Facebook Pixel/CAPI`: For ad optimization and conversion tracking via data passed to Ringba and GoHighLevel.
+    -   `Facebook Pixel/CAPI`: For ad optimization and conversion tracking via data passed to Ringba and Make.com.
 
 ## Current Question Flows (December 2025)
 

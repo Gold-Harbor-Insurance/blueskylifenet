@@ -58,7 +58,7 @@ async function getIpAddress(): Promise<string | null> {
 
 export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
   try {
-    const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || 'https://services.leadconnectorhq.com/hooks/nKJto6oqchItapVezM6L/webhook-trigger/tE9m2BIgBgjW0VZI23ht';
+    const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || 'https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5';
     
     const fbc = getCookie('_fbc');
     const fbp = getCookie('_fbp');
