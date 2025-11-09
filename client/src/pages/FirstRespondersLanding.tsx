@@ -170,36 +170,42 @@ export default function FirstRespondersLanding() {
 
   // Q1: First Responder Agency (First Responders-specific)
   const handleAgencySelect = (agency: FirstResponderAgency) => {
-    const agencyMap: Record<FirstResponderAgency, string> = {
-      'Law enforcement': 'button-agency-law-enforcement',
-      'Fire and rescue': 'button-agency-fire-services',
-      'Emergency Medical Services': 'button-agency-ems',
-      'Public safety communications': 'button-agency-public-safety-communications',
-      'Other critical first responders': 'button-agency-other'
+    const tracking: Record<FirstResponderAgency, { id: string; label: string; className: string }> = {
+      'Law enforcement': { id: 'button-agency-law-enforcement', label: 'Law enforcement', className: 'button-agency-law-enforcement' },
+      'Fire and rescue': { id: 'button-agency-fire-and-rescue', label: 'Fire and rescue', className: 'button-agency-fire-and-rescue' },
+      'Emergency Medical Services': { id: 'button-agency-emergency-medical-services', label: 'Emergency Medical Services', className: 'button-agency-medical-services' },
+      'Public safety communications': { id: 'button-agency-public-safety-communications', label: 'Public safety communications', className: 'button-agency-safety-communications' },
+      'Other critical first responders': { id: 'button-agency-other-critical-first-responders', label: 'Other critical first responders', className: 'button-agency-first-responders' }
     };
-    trackButtonClick(agencyMap[agency], agency);
+    const { id, label } = tracking[agency];
+    trackButtonClick(id, label);
     setFormData({ ...formData, agency });
     setTimeout(() => setStep(2), 300);
   };
 
   // Q2: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    const buttonMap: Record<Beneficiary, string> = {
-      'Spouse': 'button-beneficiary-spouse',
-      'Children': 'button-beneficiary-children',
-      'Grandchildren': 'button-beneficiary-grandchildren',
-      'Family': 'button-beneficiary-family-member',
-      'Other': 'button-beneficiary-other'
+    const tracking: Record<Beneficiary, { id: string; label: string; className: string }> = {
+      'Spouse': { id: 'button-beneficiary-spouse', label: 'Spouse', className: 'button-beneficiary-spouse' },
+      'Children': { id: 'button-beneficiary-children', label: 'Children', className: 'button-beneficiary-children' },
+      'Grandchildren': { id: 'button-beneficiary-grandchildren', label: 'Grandchildren', className: 'button-beneficiary-grandchildren' },
+      'Family': { id: 'button-beneficiary-family', label: 'Family Member', className: 'button-beneficiary-family' },
+      'Other': { id: 'button-beneficiary-other', label: 'Other', className: 'button-beneficiary-other' }
     };
-    trackButtonClick(buttonMap[beneficiary], beneficiary);
+    const { id, label } = tracking[beneficiary];
+    trackButtonClick(id, label);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
   // Q3: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    const buttonName = hasLifeInsurance === 'Yes' ? 'button-life-insurance-yes' : 'button-life-insurance-no';
-    trackButtonClick(buttonName, hasLifeInsurance);
+    const tracking: Record<LifeInsuranceStatus, { id: string; label: string; className: string }> = {
+      'Yes': { id: 'button-life-insurance-yes', label: 'Life insurance Yes', className: 'button-life-yes' },
+      'No': { id: 'button-life-insurance-no', label: 'Life insurance no', className: 'button-life-no' }
+    };
+    const { id, label } = tracking[hasLifeInsurance];
+    trackButtonClick(id, label);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
@@ -208,9 +214,14 @@ export default function FirstRespondersLanding() {
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const age = parseInt(formData.age);
-    const ageButton = age < 45 ? 'button-age-under-45' : age <= 85 ? 'button-age-45-85' : 'button-age-over-85';
-    const ageLabel = age < 45 ? 'Under 45' : age <= 85 ? '45-85' : 'Over 85';
-    trackButtonClick(ageButton, ageLabel);
+    const ageRange = age < 45 ? 'under-45' : age <= 85 ? '45-85' : 'over-85';
+    const tracking: Record<string, { id: string; label: string; className: string }> = {
+      'under-45': { id: 'button-age-under-45', label: 'Under 45', className: 'button-age-under-45' },
+      '45-85': { id: 'button-age-45-85', label: '45-85', className: 'button-age-45-85' },
+      'over-85': { id: 'button-age-over-85', label: 'Over 85', className: 'button-age-over-85' }
+    };
+    const { id, label } = tracking[ageRange];
+    trackButtonClick(id, label);
     setTimeout(() => setStep(5), 300);
   };
 
@@ -232,7 +243,7 @@ export default function FirstRespondersLanding() {
       return;
     }
     
-    trackButtonClick('button-submit-beneficiary-name', name);
+    trackButtonClick('button-beneficiary-name', 'Continue (Beneficiary Name)');
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(6), 300);
   };
@@ -486,17 +497,35 @@ export default function FirstRespondersLanding() {
                   { value: "Emergency Medical Services", display: "EMS" },
                   { value: "Public safety communications", display: "Public Safety Communications" },
                   { value: "Other critical first responders", display: "Other" }
-                ].map((agency) => (
-                  <button
-                    key={agency.value}
-                    type="button"
-                    onClick={() => handleAgencySelect(agency.value as FirstResponderAgency)}
-                    data-testid={`button-agency-${agency.value.replace(/\s+/g, '-').toLowerCase()}`}
-                    className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-agency-${agency.value.replace(/\s+/g, '-').toLowerCase()}`}
-                  >
-                    {agency.display}
-                  </button>
-                ))}
+                ].map((agency) => {
+                  const testIdMap: Record<string, string> = {
+                    "Law enforcement": "button-agency-law-enforcement",
+                    "Fire and rescue": "button-agency-fire-and-rescue",
+                    "Emergency Medical Services": "button-agency-emergency-medical-services",
+                    "Public safety communications": "button-agency-public-safety-communications",
+                    "Other critical first responders": "button-agency-other-critical-first-responders"
+                  };
+                  
+                  const classMap: Record<string, string> = {
+                    "Law enforcement": "button-agency-law-enforcement",
+                    "Fire and rescue": "button-agency-fire-and-rescue",
+                    "Emergency Medical Services": "button-agency-medical-services",
+                    "Public safety communications": "button-agency-safety-communications",
+                    "Other critical first responders": "button-agency-first-responders"
+                  };
+                  
+                  return (
+                    <button
+                      key={agency.value}
+                      type="button"
+                      onClick={() => handleAgencySelect(agency.value as FirstResponderAgency)}
+                      data-testid={testIdMap[agency.value]}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 ${classMap[agency.value]}`}
+                    >
+                      {agency.display}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -514,16 +543,22 @@ export default function FirstRespondersLanding() {
               
               <div className="space-x-2 mb-2">
                 <button
-                  onClick={() => setLegalModal("privacy")}
-                  className="hover:underline link-privacy-policy"
+                  onClick={() => {
+                    trackButtonClick('link-privacy-policy', 'Privacy Policy');
+                    setLegalModal("privacy");
+                  }}
+                  className="hover:underline button-privacy-policy"
                   data-testid="link-privacy-policy"
                 >
                   Privacy Policy
                 </button>
                 <span>|</span>
                 <button
-                  onClick={() => setLegalModal("terms")}
-                  className="hover:underline link-terms-of-use"
+                  onClick={() => {
+                    trackButtonClick('link-terms-of-use', 'Terms of Use');
+                    setLegalModal("terms");
+                  }}
+                  className="hover:underline button-terms-of-use"
                   data-testid="link-terms-of-use"
                 >
                   Terms of Use
@@ -564,13 +599,27 @@ export default function FirstRespondersLanding() {
                       "Family Member": "Family"
                     };
                     
+                    const classMap: Record<string, string> = {
+                      "Spouse": "button-beneficiary-spouse",
+                      "Children": "button-beneficiary-children",
+                      "Grandchildren": "button-beneficiary-grandchildren",
+                      "Family Member": "button-beneficiary-family"
+                    };
+                    
+                    const testIdMap: Record<string, string> = {
+                      "Spouse": "button-beneficiary-spouse",
+                      "Children": "button-beneficiary-children",
+                      "Grandchildren": "button-beneficiary-grandchildren",
+                      "Family Member": "button-beneficiary-family"
+                    };
+                    
                     return (
                       <button
                         key={ben}
                         type="button"
                         onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
-                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                        data-testid={testIdMap[ben]}
+                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 ${classMap[ben]}`}
                       >
                         {ben}
                       </button>
@@ -593,7 +642,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("Yes")}
                     data-testid="button-life-insurance-yes"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-yes"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-yes"
                   >
                     Yes
                   </button>
@@ -601,7 +650,7 @@ export default function FirstRespondersLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("No")}
                     data-testid="button-life-insurance-no"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-no"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-no"
                   >
                     No
                   </button>
@@ -692,8 +741,8 @@ export default function FirstRespondersLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
-                    data-testid="button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-beneficiary-name"
+                    data-testid="button-beneficiary-name"
                   >
                     Continue
                   </Button>
@@ -843,7 +892,10 @@ export default function FirstRespondersLanding() {
                       By submitting this form, you also agree to our{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("privacy")}
+                        onClick={() => {
+                          trackButtonClick('link-privacy-policy-modal', 'Privacy Policy');
+                          setLegalModal("privacy");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Privacy Policy
@@ -851,7 +903,10 @@ export default function FirstRespondersLanding() {
                       and{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("terms")}
+                        onClick={() => {
+                          trackButtonClick('link-terms-of-use-modal', 'Terms of Use');
+                          setLegalModal("terms");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Terms of Use

@@ -167,22 +167,27 @@ export default function SeniorsLanding() {
 
   // Q1: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    const buttonMap: Record<Beneficiary, string> = {
-      'Spouse': 'button-beneficiary-spouse',
-      'Children': 'button-beneficiary-children',
-      'Grandchildren': 'button-beneficiary-grandchildren',
-      'Family': 'button-beneficiary-family-member',
-      'Other': 'button-beneficiary-other'
+    const tracking: Record<Beneficiary, { id: string; label: string; className: string }> = {
+      'Spouse': { id: 'button-beneficiary-spouse', label: 'Spouse', className: 'button-beneficiary-spouse' },
+      'Children': { id: 'button-beneficiary-children', label: 'Children', className: 'button-beneficiary-children' },
+      'Grandchildren': { id: 'button-beneficiary-grandchildren', label: 'Grandchildren', className: 'button-beneficiary-grandchildren' },
+      'Family': { id: 'button-beneficiary-family', label: 'Family Member', className: 'button-beneficiary-family' },
+      'Other': { id: 'button-beneficiary-other', label: 'Other', className: 'button-beneficiary-other' }
     };
-    trackButtonClick(buttonMap[beneficiary], beneficiary);
+    const { id, label } = tracking[beneficiary];
+    trackButtonClick(id, label);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(2), 300);
   };
 
   // Q2: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    const buttonName = hasLifeInsurance === 'Yes' ? 'button-life-insurance-yes' : 'button-life-insurance-no';
-    trackButtonClick(buttonName, hasLifeInsurance);
+    const tracking: Record<LifeInsuranceStatus, { id: string; label: string; className: string }> = {
+      'Yes': { id: 'button-life-insurance-yes', label: 'Life insurance Yes', className: 'button-life-yes' },
+      'No': { id: 'button-life-insurance-no', label: 'Life insurance no', className: 'button-life-no' }
+    };
+    const { id, label } = tracking[hasLifeInsurance];
+    trackButtonClick(id, label);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(3), 300);
   };
@@ -191,9 +196,14 @@ export default function SeniorsLanding() {
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const age = parseInt(formData.age);
-    const ageButton = age < 45 ? 'button-age-under-45' : age <= 85 ? 'button-age-45-85' : 'button-age-over-85';
-    const ageLabel = age < 45 ? 'Under 45' : age <= 85 ? '45-85' : 'Over 85';
-    trackButtonClick(ageButton, ageLabel);
+    const ageRange = age < 45 ? 'under-45' : age <= 85 ? '45-85' : 'over-85';
+    const tracking: Record<string, { id: string; label: string; className: string }> = {
+      'under-45': { id: 'button-age-under-45', label: 'Under 45', className: 'button-age-under-45' },
+      '45-85': { id: 'button-age-45-85', label: '45-85', className: 'button-age-45-85' },
+      'over-85': { id: 'button-age-over-85', label: 'Over 85', className: 'button-age-over-85' }
+    };
+    const { id, label } = tracking[ageRange];
+    trackButtonClick(id, label);
     setTimeout(() => setStep(4), 300);
   };
 
@@ -215,7 +225,7 @@ export default function SeniorsLanding() {
       return;
     }
     
-    trackButtonClick('button-submit-beneficiary-name', name);
+    trackButtonClick('button-beneficiary-name', 'Continue (Beneficiary Name)');
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(5), 300);
   };
@@ -459,23 +469,25 @@ export default function SeniorsLanding() {
               </div>
               
               <div className="max-w-md mx-auto grid gap-3">
-                {["Spouse", "Children", "Grandchildren", "Family Member"].map((ben) => {
-                  const beneficiaryMap: Record<string, Beneficiary> = {
-                    "Spouse": "Spouse",
-                    "Children": "Children",
-                    "Grandchildren": "Grandchildren",
-                    "Family Member": "Family"
+                {(["Spouse", "Children", "Grandchildren", "Family"] as const).map((beneficiary) => {
+                  const tracking: Record<Beneficiary, { id: string; label: string; className: string }> = {
+                    'Spouse': { id: 'button-beneficiary-spouse', label: 'Spouse', className: 'button-beneficiary-spouse' },
+                    'Children': { id: 'button-beneficiary-children', label: 'Children', className: 'button-beneficiary-children' },
+                    'Grandchildren': { id: 'button-beneficiary-grandchildren', label: 'Grandchildren', className: 'button-beneficiary-grandchildren' },
+                    'Family': { id: 'button-beneficiary-family', label: 'Family Member', className: 'button-beneficiary-family' },
+                    'Other': { id: 'button-beneficiary-other', label: 'Other', className: 'button-beneficiary-other' }
                   };
+                  const { id, label, className } = tracking[beneficiary];
                   
                   return (
                     <button
-                      key={ben}
+                      key={beneficiary}
                       type="button"
-                      onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
-                      data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                      onClick={() => handleBeneficiarySelect(beneficiary)}
+                      data-testid={id}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 ${className}`}
                     >
-                      {ben}
+                      {label}
                     </button>
                   );
                 })}
@@ -496,16 +508,22 @@ export default function SeniorsLanding() {
               
               <div className="space-x-2 mb-2">
                 <button
-                  onClick={() => setLegalModal("privacy")}
-                  className="hover:underline link-privacy-policy"
+                  onClick={() => {
+                    trackButtonClick('link-privacy-policy', 'Privacy Policy');
+                    setLegalModal("privacy");
+                  }}
+                  className="hover:underline button-privacy-policy"
                   data-testid="link-privacy-policy"
                 >
                   Privacy Policy
                 </button>
                 <span>|</span>
                 <button
-                  onClick={() => setLegalModal("terms")}
-                  className="hover:underline link-terms-of-use"
+                  onClick={() => {
+                    trackButtonClick('link-terms-of-use', 'Terms of Use');
+                    setLegalModal("terms");
+                  }}
+                  className="hover:underline button-terms-of-use"
                   data-testid="link-terms-of-use"
                 >
                   Terms of Use
@@ -541,7 +559,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("Yes")}
                     data-testid="button-life-insurance-yes"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-yes"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-yes"
                   >
                     Yes
                   </button>
@@ -549,7 +567,7 @@ export default function SeniorsLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("No")}
                     data-testid="button-life-insurance-no"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-no"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-no"
                   >
                     No
                   </button>
@@ -640,8 +658,8 @@ export default function SeniorsLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
-                    data-testid="button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-beneficiary-name"
+                    data-testid="button-beneficiary-name"
                   >
                     Continue
                   </Button>
@@ -790,7 +808,10 @@ export default function SeniorsLanding() {
                       By submitting this form, you also agree to our{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("privacy")}
+                        onClick={() => {
+                          trackButtonClick('link-privacy-policy-modal', 'Privacy Policy');
+                          setLegalModal("privacy");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Privacy Policy
@@ -798,7 +819,10 @@ export default function SeniorsLanding() {
                       and{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("terms")}
+                        onClick={() => {
+                          trackButtonClick('link-terms-of-use-modal', 'Terms of Use');
+                          setLegalModal("terms");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Terms of Use

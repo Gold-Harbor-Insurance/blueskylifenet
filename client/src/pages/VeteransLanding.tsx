@@ -169,36 +169,42 @@ export default function VeteransLanding() {
 
   // Q1: Military Branch (Veterans-specific)
   const handleMilitaryBranchSelect = (branch: MilitaryBranch) => {
-    const branchMap: Record<MilitaryBranch, string> = {
-      'Army': 'button-military-branch-army',
-      'Navy': 'button-military-branch-navy',
-      'Marine Corps': 'button-military-branch-marines',
-      'Air Force': 'button-military-branch-air-force',
-      'Coast Guard': 'button-military-branch-coast-guard'
+    const tracking: Record<MilitaryBranch, { id: string; label: string; className: string }> = {
+      'Army': { id: 'button-military-branch-army', label: 'Army', className: 'button-military-branch-army' },
+      'Marine Corps': { id: 'button-military-branch-marine-corps', label: 'Marine Corps', className: 'button-military-branch-marine-corps' },
+      'Navy': { id: 'button-military-branch-navy', label: 'Navy', className: 'button-military-branch-navy' },
+      'Air Force': { id: 'button-military-branch-air-force', label: 'Air Force', className: 'button-military-branch-air-force' },
+      'Coast Guard': { id: 'button-military-branch-coast-guard', label: 'Coast Guard', className: 'button-military-branch-coast-guard' }
     };
-    trackButtonClick(branchMap[branch], branch);
+    const { id, label } = tracking[branch];
+    trackButtonClick(id, label);
     setFormData({ ...formData, militaryBranch: branch });
     setTimeout(() => setStep(2), 300);
   };
 
   // Q2: Beneficiary
   const handleBeneficiarySelect = (beneficiary: Beneficiary) => {
-    const buttonMap: Record<Beneficiary, string> = {
-      'Spouse': 'button-beneficiary-spouse',
-      'Children': 'button-beneficiary-children',
-      'Grandchildren': 'button-beneficiary-grandchildren',
-      'Family': 'button-beneficiary-family-member',
-      'Other': 'button-beneficiary-other'
+    const tracking: Record<Beneficiary, { id: string; label: string; className: string }> = {
+      'Spouse': { id: 'button-beneficiary-spouse', label: 'Spouse', className: 'button-beneficiary-spouse' },
+      'Children': { id: 'button-beneficiary-children', label: 'Children', className: 'button-beneficiary-children' },
+      'Grandchildren': { id: 'button-beneficiary-grandchildren', label: 'Grandchildren', className: 'button-beneficiary-grandchildren' },
+      'Family': { id: 'button-beneficiary-family', label: 'Family Member', className: 'button-beneficiary-family' },
+      'Other': { id: 'button-beneficiary-other', label: 'Other', className: 'button-beneficiary-other' }
     };
-    trackButtonClick(buttonMap[beneficiary], beneficiary);
+    const { id, label } = tracking[beneficiary];
+    trackButtonClick(id, label);
     setFormData({ ...formData, beneficiary });
     setTimeout(() => setStep(3), 300);
   };
 
   // Q3: Has Life Insurance
   const handleLifeInsuranceSelect = (hasLifeInsurance: LifeInsuranceStatus) => {
-    const buttonName = hasLifeInsurance === 'Yes' ? 'button-life-insurance-yes' : 'button-life-insurance-no';
-    trackButtonClick(buttonName, hasLifeInsurance);
+    const tracking: Record<LifeInsuranceStatus, { id: string; label: string; className: string }> = {
+      'Yes': { id: 'button-life-insurance-yes', label: 'Life insurance Yes', className: 'button-life-yes' },
+      'No': { id: 'button-life-insurance-no', label: 'Life insurance no', className: 'button-life-no' }
+    };
+    const { id, label } = tracking[hasLifeInsurance];
+    trackButtonClick(id, label);
     setFormData({ ...formData, hasLifeInsurance });
     setTimeout(() => setStep(4), 300);
   };
@@ -207,9 +213,14 @@ export default function VeteransLanding() {
   const handleAgeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const age = parseInt(formData.age);
-    const ageButton = age < 45 ? 'button-age-under-45' : age <= 85 ? 'button-age-45-85' : 'button-age-over-85';
-    const ageLabel = age < 45 ? 'Under 45' : age <= 85 ? '45-85' : 'Over 85';
-    trackButtonClick(ageButton, ageLabel);
+    const ageRange = age < 45 ? 'under-45' : age <= 85 ? '45-85' : 'over-85';
+    const tracking: Record<string, { id: string; label: string; className: string }> = {
+      'under-45': { id: 'button-age-under-45', label: 'Under 45', className: 'button-age-under-45' },
+      '45-85': { id: 'button-age-45-85', label: '45-85', className: 'button-age-45-85' },
+      'over-85': { id: 'button-age-over-85', label: 'Over 85', className: 'button-age-over-85' }
+    };
+    const { id, label } = tracking[ageRange];
+    trackButtonClick(id, label);
     setTimeout(() => setStep(5), 300);
   };
 
@@ -231,7 +242,7 @@ export default function VeteransLanding() {
       return;
     }
     
-    trackButtonClick('button-submit-beneficiary-name', name);
+    trackButtonClick('button-beneficiary-name', 'Continue (Beneficiary Name)');
     setErrors(prev => ({ ...prev, beneficiaryName: "" }));
     setTimeout(() => setStep(6), 300);
   };
@@ -479,21 +490,22 @@ export default function VeteransLanding() {
               </div>
               
               <div className="max-w-md mx-auto grid gap-3">
-                {["army", "navy", "marines", "air_force", "coast_guard"].map((branch) => {
+                {["army", "marine-corps", "navy", "air-force", "coast-guard", "space-force"].map((branch) => {
                   const displayNames: Record<string, string> = {
-                    army: "Army",
-                    navy: "Navy",
-                    marines: "Marines",
-                    air_force: "Air Force",
-                    coast_guard: "Coast Guard"
+                    "army": "Army",
+                    "marine-corps": "Marine Corps",
+                    "navy": "Navy",
+                    "air-force": "Air Force",
+                    "coast-guard": "Coast Guard",
+                    "space-force": "Space Force"
                   };
                   
                   const branchValues: Record<string, MilitaryBranch> = {
-                    army: "Army",
-                    navy: "Navy",
-                    marines: "Marine Corps",
-                    air_force: "Air Force",
-                    coast_guard: "Coast Guard"
+                    "army": "Army",
+                    "marine-corps": "Marine Corps",
+                    "navy": "Navy",
+                    "air-force": "Air Force",
+                    "coast-guard": "Coast Guard"
                   };
                   
                   return (
@@ -501,8 +513,8 @@ export default function VeteransLanding() {
                       key={branch}
                       type="button"
                       onClick={() => handleMilitaryBranchSelect(branchValues[branch])}
-                      data-testid={`button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
-                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch.replace(/\s+/g, '-').toLowerCase()}`}
+                      data-testid={`button-military-branch-${branch}`}
+                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch}`}
                     >
                       {displayNames[branch]}
                     </button>
@@ -525,16 +537,22 @@ export default function VeteransLanding() {
               
               <div className="space-x-2 mb-2">
                 <button
-                  onClick={() => setLegalModal("privacy")}
-                  className="hover:underline link-privacy-policy"
+                  onClick={() => {
+                    trackButtonClick('link-privacy-policy', 'Privacy Policy');
+                    setLegalModal("privacy");
+                  }}
+                  className="hover:underline button-privacy-policy"
                   data-testid="link-privacy-policy"
                 >
                   Privacy Policy
                 </button>
                 <span>|</span>
                 <button
-                  onClick={() => setLegalModal("terms")}
-                  className="hover:underline link-terms-of-use"
+                  onClick={() => {
+                    trackButtonClick('link-terms-of-use', 'Terms of Use');
+                    setLegalModal("terms");
+                  }}
+                  className="hover:underline button-terms-of-use"
                   data-testid="link-terms-of-use"
                 >
                   Terms of Use
@@ -575,13 +593,27 @@ export default function VeteransLanding() {
                       "Family Member": "Family"
                     };
                     
+                    const classMap: Record<string, string> = {
+                      "Spouse": "button-beneficiary-spouse",
+                      "Children": "button-beneficiary-children",
+                      "Grandchildren": "button-beneficiary-grandchildren",
+                      "Family Member": "button-beneficiary-family"
+                    };
+                    
+                    const testIdMap: Record<string, string> = {
+                      "Spouse": "button-beneficiary-spouse",
+                      "Children": "button-beneficiary-children",
+                      "Grandchildren": "button-beneficiary-grandchildren",
+                      "Family Member": "button-beneficiary-family"
+                    };
+                    
                     return (
                       <button
                         key={ben}
                         type="button"
                         onClick={() => handleBeneficiarySelect(beneficiaryMap[ben])}
-                        data-testid={`button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
-                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 button-beneficiary-${ben.replace(/\s+/g, '-').toLowerCase()}`}
+                        data-testid={testIdMap[ben]}
+                        className={`w-full min-h-[50px] px-6 text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md transition-colors duration-200 ${classMap[ben]}`}
                       >
                         {ben}
                       </button>
@@ -604,7 +636,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("Yes")}
                     data-testid="button-life-insurance-yes"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-yes"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-yes"
                   >
                     Yes
                   </button>
@@ -612,7 +644,7 @@ export default function VeteransLanding() {
                     type="button"
                     onClick={() => handleLifeInsuranceSelect("No")}
                     data-testid="button-life-insurance-no"
-                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-insurance-no"
+                    className="w-full md:w-auto min-w-[180px] min-h-[60px] px-10 text-xl font-bold bg-[#3498DB] hover:bg-[#2980B9] text-white rounded-md shadow-md transition-colors duration-200 button-life-no"
                   >
                     No
                   </button>
@@ -703,8 +735,8 @@ export default function VeteransLanding() {
                   )}
                   <Button 
                     type="submit" 
-                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-submit-beneficiary-name"
-                    data-testid="button-submit-beneficiary-name"
+                    className="w-full mt-4 min-h-[50px] text-lg font-semibold bg-[#3498DB] hover:bg-[#2980B9] button-beneficiary-name"
+                    data-testid="button-beneficiary-name"
                   >
                     Continue
                   </Button>
@@ -853,7 +885,10 @@ export default function VeteransLanding() {
                       By submitting this form, you also agree to our{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("privacy")}
+                        onClick={() => {
+                          trackButtonClick('link-privacy-policy-modal', 'Privacy Policy');
+                          setLegalModal("privacy");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Privacy Policy
@@ -861,7 +896,10 @@ export default function VeteransLanding() {
                       and{' '}
                       <button
                         type="button"
-                        onClick={() => setLegalModal("terms")}
+                        onClick={() => {
+                          trackButtonClick('link-terms-of-use-modal', 'Terms of Use');
+                          setLegalModal("terms");
+                        }}
                         className="text-blue-600 hover:text-blue-800 underline"
                       >
                         Terms of Use
