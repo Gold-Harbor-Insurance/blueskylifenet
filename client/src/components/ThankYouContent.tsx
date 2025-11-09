@@ -62,13 +62,13 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     },
     { 
       label: "Intro Call Booked", 
-      subtext: "within 24 hours",
+      subtext: "Pending",
       icon: <Calendar className="w-5 h-5" />,
       iconBg: "bg-yellow-100",
       iconColor: "text-yellow-600"
     },
     { 
-      label: "Coverage Review Call", 
+      label: "Application Submission", 
       subtext: "30 minutes",
       icon: <Clock className="w-5 h-5" />,
       iconBg: "bg-gray-100",
