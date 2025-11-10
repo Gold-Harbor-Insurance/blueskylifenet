@@ -37,7 +37,7 @@ export default function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full bg-gray-200">
+    <div className="w-full">
       <div className="flex justify-center items-center">
         <AnimatePresence mode="wait">
           <motion.div
