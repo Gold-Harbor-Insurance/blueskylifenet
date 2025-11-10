@@ -174,7 +174,8 @@ export default function VeteransLanding() {
       'Marine Corps': { id: 'button-military-branch-marine-corps', label: 'Marine Corps', className: 'button-military-branch-marine-corps' },
       'Navy': { id: 'button-military-branch-navy', label: 'Navy', className: 'button-military-branch-navy' },
       'Air Force': { id: 'button-military-branch-air-force', label: 'Air Force', className: 'button-military-branch-air-force' },
-      'Coast Guard': { id: 'button-military-branch-coast-guard', label: 'Coast Guard', className: 'button-military-branch-coast-guard' }
+      'Coast Guard': { id: 'button-military-branch-coast-guard', label: 'Coast Guard', className: 'button-military-branch-coast-guard' },
+      'Space Force': { id: 'button-military-branch-space-force', label: 'Space Force', className: 'button-military-branch-space-force' }
     };
     const { id, label } = tracking[branch];
     trackButtonClick(id, label);
@@ -505,7 +506,8 @@ export default function VeteransLanding() {
                     "marine-corps": "Marine Corps",
                     "navy": "Navy",
                     "air-force": "Air Force",
-                    "coast-guard": "Coast Guard"
+                    "coast-guard": "Coast Guard",
+                    "space-force": "Space Force"
                   };
                   
                   return (
