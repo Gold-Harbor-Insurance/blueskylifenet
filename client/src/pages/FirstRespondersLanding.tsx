@@ -469,28 +469,28 @@ export default function FirstRespondersLanding() {
           {/* Auto-scrolling Testimonial Carousel */}
           <TestimonialCarousel />
 
-          {/* Main content - vertically centered */}
-          <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
+          {/* Main content - positioned higher on page */}
+          <div className="flex-1 flex flex-col items-center px-4 pt-2 pb-8">
             {/* Headline */}
-            <div className="text-center mb-6 max-w-4xl">
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
+            <div className="text-center mb-3 max-w-4xl">
+              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 <span className="text-[#dc3545]">EXCLUSIVE FOR FIRST RESPONDERS</span>{" "}
                 <span className="text-black">Get up to $25,000 To Cover Funeral Costs and Unpaid Debt</span>
               </h1>
             </div>
 
             {/* Light blue card with question */}
-            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-8 md:p-12 max-w-3xl w-full">
-              <div className="text-center mb-8">
-                <p className="text-lg md:text-xl mb-2">
+            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-6 md:p-8 max-w-3xl w-full">
+              <div className="text-center mb-6">
+                <p className="text-base md:text-lg mb-2">
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
-                <h2 className="text-2xl md:text-3xl font-bold text-black mt-6">
+                <h2 className="text-xl md:text-2xl font-bold text-black mt-4">
                   Which agency do you serve with?
                 </h2>
               </div>
               
-              <div className="max-w-md mx-auto grid gap-3">
+              <div className="max-w-md mx-auto grid gap-2.5">
                 {[
                   { value: "Law enforcement", display: "Law Enforcement" },
                   { value: "Fire and rescue", display: "Fire Services" },
