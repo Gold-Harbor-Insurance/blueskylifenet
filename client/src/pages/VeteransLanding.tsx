@@ -462,12 +462,14 @@ export default function VeteransLanding() {
         />
       ) : step === 1 ? (
         // First page with special design matching screenshot
-        <div className="min-h-screen bg-gray-200 flex flex-col">
+        <div className="min-h-screen bg-gray-200 flex flex-col gap-0">
           {/* Blue bar at top */}
-          <div className="w-full h-[18px] bg-[#63b1f9]"></div>
+          <div className="w-full h-[18px] bg-[#63b1f9] mb-0"></div>
           
           {/* Auto-scrolling Testimonial Carousel */}
-          <TestimonialCarousel />
+          <div className="mt-0">
+            <TestimonialCarousel />
+          </div>
 
           {/* Main content - positioned higher on page */}
           <div className="flex-1 flex flex-col items-center px-4 pt-1 pb-8">
