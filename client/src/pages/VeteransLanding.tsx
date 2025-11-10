@@ -410,11 +410,11 @@ export default function VeteransLanding() {
   const getProgressPercentage = (currentStep: number): number => {
     const progressMap: Record<number, number> = {
       1: 0,   // Military Branch (first page, no progress bar)
-      2: 33,  // Beneficiary
-      3: 50,  // Life Insurance
-      4: 75,  // Age
-      5: 100, // Beneficiary Name (hide progress bar)
-      6: 100, // Contact Info (hide progress bar)
+      2: 20,  // Beneficiary (Who would you want to receive this benefit?)
+      3: 40,  // Life Insurance (Do you currently have life insurance?)
+      4: 60,  // Age (What is your age?)
+      5: 80,  // Beneficiary Name (What is your beneficiary's name?)
+      6: 100, // Contact Info (First Name, Last Name, Email, Phone)
       7: 100  // Thank You
     };
     return progressMap[currentStep] || 0;
