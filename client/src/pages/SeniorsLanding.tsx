@@ -42,7 +42,7 @@ function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full flex justify-center pt-3 pb-2">
+    <div className="w-full flex justify-center pt-0 pb-1">
       <div className="bg-[#b3d9f2] px-6 py-3 rounded-lg max-w-xs text-center transition-all duration-500">
         <div className="flex justify-center gap-1 mb-1">
           <span className="text-yellow-400 text-xl">⭐</span>
@@ -453,7 +453,7 @@ export default function SeniorsLanding() {
           <div className="flex-1 flex flex-col items-center px-4 pt-1 pb-8">
             {/* Headline */}
             <div className="text-center mb-2 max-w-4xl">
-              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
+              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 <span className="text-[#dc3545]">JUST ANNOUNCED FOR SENIORS</span>{" "}
                 <span className="text-black">Get up to $25,000 To Cover Funeral Costs and Unpaid Debt</span>
               </h1>
@@ -465,7 +465,7 @@ export default function SeniorsLanding() {
                 <p className="text-sm md:text-base mb-1">
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
-                <h2 className="text-lg md:text-xl font-bold text-black mt-2">
+                <h2 className="text-xl md:text-2xl font-bold text-black mt-2">
                   Who would you want to receive this benefit?
                 </h2>
               </div>
