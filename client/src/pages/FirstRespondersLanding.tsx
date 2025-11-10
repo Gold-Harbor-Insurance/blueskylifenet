@@ -470,27 +470,27 @@ export default function FirstRespondersLanding() {
           <TestimonialCarousel />
 
           {/* Main content - positioned higher on page */}
-          <div className="flex-1 flex flex-col items-center px-4 pt-2 pb-8">
+          <div className="flex-1 flex flex-col items-center px-4 pt-1 pb-8">
             {/* Headline */}
-            <div className="text-center mb-3 max-w-4xl">
-              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold leading-tight">
+            <div className="text-center mb-2 max-w-4xl">
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
                 <span className="text-[#dc3545]">EXCLUSIVE FOR FIRST RESPONDERS</span>{" "}
                 <span className="text-black">Get up to $25,000 To Cover Funeral Costs and Unpaid Debt</span>
               </h1>
             </div>
 
             {/* Light blue card with question */}
-            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-6 md:p-8 max-w-3xl w-full">
-              <div className="text-center mb-6">
-                <p className="text-base md:text-lg mb-2">
+            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-4 md:p-6 max-w-3xl w-full">
+              <div className="text-center mb-4">
+                <p className="text-sm md:text-base mb-1">
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
-                <h2 className="text-xl md:text-2xl font-bold text-black mt-4">
+                <h2 className="text-lg md:text-xl font-bold text-black mt-2">
                   Which agency do you serve with?
                 </h2>
               </div>
               
-              <div className="max-w-md mx-auto grid gap-2.5">
+              <div className="max-w-md mx-auto grid gap-2">
                 {[
                   { value: "Law enforcement", display: "Law Enforcement" },
                   { value: "Fire and rescue", display: "Fire Services" },

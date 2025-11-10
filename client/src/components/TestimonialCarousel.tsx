@@ -37,7 +37,7 @@ export default function TestimonialCarousel() {
   }, []);
 
   return (
-    <div className="w-full bg-gray-200 pb-2">
+    <div className="w-full bg-gray-200">
       <div className="flex justify-center items-center">
         <AnimatePresence mode="wait">
           <motion.div
@@ -46,29 +46,26 @@ export default function TestimonialCarousel() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5 }}
-            className="bg-[#B8E5F5] rounded-lg px-6 py-2 max-w-md text-center"
+            className="bg-[#B8E5F5] rounded-lg px-4 py-1.5 max-w-sm text-center"
             data-testid={`testimonial-${currentIndex}`}
           >
-            <div className="flex gap-1 justify-center mb-1">
+            <div className="flex gap-0.5 justify-center mb-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className="w-4 h-4 fill-[#FFD700] text-[#FFD700]"
+                  className="w-3 h-3 fill-[#FFD700] text-[#FFD700]"
                   data-testid={`star-${currentIndex}-${i}`}
                 />
               ))}
             </div>
-            <p className="text-gray-800 font-medium text-sm mb-0.5">
+            <p className="text-gray-800 font-medium text-xs mb-0">
               "{testimonials[currentIndex].quote}"
             </p>
-            <p className="text-gray-600 text-xs">
+            <p className="text-gray-600 text-[10px]">
               — {testimonials[currentIndex].author}
             </p>
           </motion.div>
         </AnimatePresence>
-      </div>
-      <div className="max-w-5xl mx-auto w-full px-4">
-        <hr className="border-gray-300 mt-2" />
       </div>
     </div>
   );
