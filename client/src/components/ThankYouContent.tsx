@@ -77,11 +77,19 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
 
   // Facebook Browser: Simple tel: link button for long-press (native context menu)
   const FacebookCallSection = () => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      // Prevent quick tap from triggering tel: link (which causes error)
+      // Long-press still works because it shows native context menu (different event)
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
     return (
       <div className="w-full space-y-4">
         {/* Tel Link Button - Long-press shows native "Call" menu */}
         <a
           href={telLink}
+          onClick={handleClick}
           className="block w-full bg-green-600 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg text-center no-underline select-none"
           style={{ touchAction: 'manipulation' }}
           data-testid="link-press-to-call"
