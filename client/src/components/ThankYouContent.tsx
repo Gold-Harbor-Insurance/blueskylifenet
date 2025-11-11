@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Check, Calendar, Clock, Zap, X } from "lucide-react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
+import { detectCallExperience, type CallExperience } from "@/utils/detectCallExperience";
 
 interface ThankYouContentProps {
   phoneNumber: string;
@@ -13,15 +14,12 @@ interface ThankYouContentProps {
 }
 
 export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName }: ThankYouContentProps) {
-  const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
+  const [callExperience, setCallExperience] = useState<CallExperience>('tap-to-call');
   const [isSticky, setIsSticky] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
-    // Detect Facebook in-app browser
-    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-    const isFB = /FBAN|FBAV|Instagram/i.test(userAgent);
-    setIsFacebookBrowser(isFB);
+    setCallExperience(detectCallExperience());
   }, []);
 
   useEffect(() => {
@@ -75,8 +73,8 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Facebook Browser: Simple tel: link button for long-press (native context menu)
-  const FacebookCallSection = () => {
+  // iOS/Facebook Browsers: Display phone number for long-press (native context menu)
+  const DisplayNumberSection = () => {
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
       // Prevent quick tap from triggering tel: link (which causes error)
       // Long-press still works because it shows native context menu (different event)
@@ -111,8 +109,8 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     );
   };
 
-  // Regular Browsers: Throbbing tel: link button with track-call-btn class
-  const RegularCallButton = () => (
+  // Android/Desktop Browsers: Throbbing "TAP TO CALL" button with track-call-btn class
+  const TapToCallButton = () => (
     <motion.a
       href={telLink || "#"}
       animate={{
@@ -222,12 +220,12 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         {/* Inline Call Section (shows when user scrolls down) */}
         {!isSticky && (
           <div className="w-full">
-            {isFacebookBrowser ? <FacebookCallSection /> : <RegularCallButton />}
+            {callExperience === 'display-number' ? <DisplayNumberSection /> : <TapToCallButton />}
           </div>
         )}
 
-        {/* Book Appointment - Only show for non-Facebook browsers (Facebook version has it built in) */}
-        {!isFacebookBrowser && (
+        {/* Book Appointment - Only show for tap-to-call experience (display-number has it built in) */}
+        {callExperience === 'tap-to-call' && (
           <div className="pt-2">
             <p className="text-sm text-gray-600 mb-2">Need to schedule a better time?</p>
             <button
@@ -275,7 +273,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     {isSticky && (
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-300 shadow-lg">
         <div className="max-w-2xl mx-auto p-4">
-          {isFacebookBrowser ? <FacebookCallSection /> : <RegularCallButton />}
+          {callExperience === 'display-number' ? <DisplayNumberSection /> : <TapToCallButton />}
         </div>
       </div>
     )}
