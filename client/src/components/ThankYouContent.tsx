@@ -75,19 +75,50 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
+  // Copy phone number to clipboard
+  const copyPhoneNumber = () => {
+    navigator.clipboard.writeText(phoneNumber).then(() => {
+      // Show success feedback
+      alert(`${phoneNumber} copied! You can now paste it in your phone app.`);
+    });
+  };
+
   // Reusable Call Button Component
   const CallButton = () => {
     if (isFacebookBrowser) {
       return (
-        <a
-          href={telLink || "#"}
-          className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer text-center"
-          data-testid="button-call-now"
-          data-age-classification={ageClassification || ""}
-          data-budget-classification={budgetClassification || ""}
-        >
-          TAP TO CALL
-        </a>
+        <div className="space-y-3">
+          <a
+            href={telLink || "#"}
+            className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer text-center"
+            data-testid="button-call-now"
+            data-age-classification={ageClassification || ""}
+            data-budget-classification={budgetClassification || ""}
+          >
+            PRESS & HOLD TO CALL
+          </a>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+            <p className="text-sm text-gray-700 mb-2 font-semibold">
+              👆 Press and hold the green button above, then tap "Call"
+            </p>
+            <p className="text-sm text-gray-600 mb-3">Or call this number directly:</p>
+            <div className="flex items-center justify-center gap-2">
+              <a 
+                href={telLink || "#"}
+                className="text-2xl font-bold text-green-600 hover:text-green-700"
+              >
+                {phoneNumber}
+              </a>
+              <button
+                onClick={copyPhoneNumber}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors"
+                data-testid="button-copy-phone"
+              >
+                Copy Number
+              </button>
+            </div>
+          </div>
+        </div>
       );
     }
     
