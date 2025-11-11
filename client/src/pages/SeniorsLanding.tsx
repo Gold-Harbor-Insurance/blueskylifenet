@@ -394,18 +394,29 @@ export default function SeniorsLanding() {
     setFormData({ ...formData, phone: formatted });
     if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
     
-    // Restore cursor position after React re-renders
+    // Calculate proper cursor position after formatting
     setTimeout(() => {
       if (phoneInputRef.current) {
-        // Calculate new cursor position based on formatting
-        let newPosition = cursorPosition;
+        // Count digits before cursor in the original input
+        const digitsBeforeCursor = input.substring(0, cursorPosition).replace(/\D/g, '').length;
         
-        // If user deleted a formatting char, move cursor back
-        if (input.length < formData.phone.length) {
-          const deletedChar = formData.phone[cursorPosition];
-          if (deletedChar === '(' || deletedChar === ')' || deletedChar === ' ' || deletedChar === '-') {
-            newPosition = Math.max(0, cursorPosition - 1);
+        // Calculate where cursor should be in formatted string
+        let newPosition = 0;
+        let digitCount = 0;
+        
+        for (let i = 0; i < formatted.length; i++) {
+          if (/\d/.test(formatted[i])) {
+            digitCount++;
+            if (digitCount === digitsBeforeCursor) {
+              newPosition = i + 1;
+              break;
+            }
           }
+        }
+        
+        // If we're at the end, place cursor at the end
+        if (digitCount < digitsBeforeCursor || digitsBeforeCursor === limitedDigits.length) {
+          newPosition = formatted.length;
         }
         
         phoneInputRef.current.setSelectionRange(newPosition, newPosition);
