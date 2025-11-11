@@ -75,18 +75,25 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Reusable Call Button Component - COMPLETELY PASSIVE, no JavaScript at all
+  // Reusable Call Button Component - BUTTON with window.location (like Calendly)
   const CallButton = () => {
+    const handleCall = () => {
+      if (telLink) {
+        window.location.href = telLink;
+      }
+    };
+    
     return (
-      <a
-        href={telLink || "#"}
-        className="call-button block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center no-underline"
+      <button
+        onClick={handleCall}
+        type="button"
+        className="call-button w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 cursor-pointer border-0"
         data-testid="button-call-now"
         data-age-classification={ageClassification || ""}
         data-budget-classification={budgetClassification || ""}
       >
         TAP TO CALL
-      </a>
+      </button>
     );
   };
 
