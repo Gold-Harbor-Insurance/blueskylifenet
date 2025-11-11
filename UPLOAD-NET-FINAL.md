@@ -6,9 +6,9 @@
 
 **Tracking codes on this domain:**
 - ✅ Stape GTM for blueskylife.net (trk.blueskylife.net) - ONLY
+- ✅ GA4: G-BXJ41XNT4H
 - ✅ Hotjar ID: 6572091
 - ❌ NO Facebook Pixel
-- ❌ NO GA4
 - ❌ NO blueskylife.io GTM
 
 ---
@@ -58,6 +58,7 @@ public_html/
 - ✅ Testimonials touch blue bar (no space)
 - ✅ Press F12 → Console → Look for GTM events
 - ✅ Should see: trk.blueskylife.net loading
+- ✅ Should see: GA4 (G-BXJ41XNT4H) loading
 - ✅ Should see: Hotjar script loading
 
 ---
@@ -88,8 +89,21 @@ Proxy: ON (orange cloud) ✅
 ## 🎯 Summary
 
 This is a completely independent site for **blueskylife.net ONLY** with:
-- Only .net GTM tracking
+- Only .net Stape GTM tracking
+- Only .net GA4 tracking
 - Only .net Hotjar
 - All 3 audience landing pages
 - Same quiz flow
 - Clean, no duplicate tracking codes
+
+---
+
+## 📊 Tracking Script Order
+
+The scripts load in this order (important for server-side tracking):
+
+1. **Stape GTM** (trk.blueskylife.net)
+2. **GA4** (G-BXJ41XNT4H) ← Feeds data to Stape server container
+3. **Hotjar** (6572091)
+
+The GA4 snippet is critical - without it, your Facebook CAPI server events won't fire!
