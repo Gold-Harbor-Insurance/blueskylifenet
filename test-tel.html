@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tel Link Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        .test-button {
+            display: inline-block;
+            background: #16a34a;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 20px 0;
+        }
+        .test-button:active {
+            background: #15803d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tel Link Test</h1>
+    <p>Pure HTML - No React, No Tracking, No JavaScript</p>
+    
+    <!-- Plain anchor tag -->
+    <a href="tel:+18337140543" class="test-button">
+        TAP TO CALL (Plain A Tag)
+    </a>
+    
+    <br><br>
+    
+    <!-- Button with onclick -->
+    <button onclick="window.location.href='tel:+18337140543'" class="test-button" style="border: 0; cursor: pointer;">
+        TAP TO CALL (Button + onClick)
+    </button>
+    
+    <br><br>
+    
+    <p>Long-press either button to see if iOS menu appears</p>
+</body>
+</html>
