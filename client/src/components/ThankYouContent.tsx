@@ -91,30 +91,20 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     // Let the tel: link work natively (no preventDefault)
   };
 
-  // Reusable Call Button Component
+  // Reusable Call Button Component - PLAIN <a> tag for Facebook compatibility
   const CallButton = () => {
     return (
-      <motion.a
+      <a
         href={telLink || "#"}
         onClick={handleCallClick}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        animate={{
-          scale: [1, 1.05, 1],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-        className="call-button block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center"
+        className="call-button block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center no-underline"
         data-testid="button-call-now"
         data-event-name="call_button_click"
         data-age-classification={ageClassification || ""}
         data-budget-classification={budgetClassification || ""}
       >
         TAP TO CALL
-      </motion.a>
+      </a>
     );
   };
 
