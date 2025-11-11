@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Check, Calendar, Clock, Zap, X } from "lucide-react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 
@@ -16,12 +16,6 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
   const [isSticky, setIsSticky] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const [pressProgress, setPressProgress] = useState(0);
-  const [isPressed, setIsPressed] = useState(false);
-  
-  // Use refs to persist timer references across renders
-  const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Detect Facebook in-app browser
@@ -81,90 +75,21 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Cleanup timers on unmount
-  useEffect(() => {
-    return () => {
-      if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-    };
-  }, []);
-
-  // Facebook Browser: Press-and-hold button with progress bar
-  const handlePressStart = () => {
-    // Prevent multiple concurrent presses
-    if (isPressed) return;
-    
-    setIsPressed(true);
-    setPressProgress(0);
-    
-    // Clear any existing timers
-    if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
-    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-    
-    // Start progress animation
-    const startTime = Date.now();
-    progressIntervalRef.current = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min((elapsed / 2000) * 100, 100);
-      setPressProgress(progress);
-    }, 16); // ~60fps
-
-    // Trigger call after 2 seconds
-    pressTimerRef.current = setTimeout(() => {
-      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
-      setPressProgress(100);
-      setIsPressed(false);
-      // Navigate to tel: link
-      window.location.href = telLink || "";
-    }, 2000);
-  };
-
-  const handlePressEnd = () => {
-    setIsPressed(false);
-    setPressProgress(0);
-    
-    // Clear timers using refs
-    if (pressTimerRef.current) {
-      clearTimeout(pressTimerRef.current);
-      pressTimerRef.current = null;
-    }
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current);
-      progressIntervalRef.current = null;
-    }
-  };
-
+  // Facebook Browser: Simple tel: link button for long-press (native context menu)
   const FacebookCallSection = () => {
-
     return (
       <div className="w-full space-y-4">
-        {/* Press-and-Hold Call Button */}
-        <button
-          onPointerDown={handlePressStart}
-          onPointerUp={handlePressEnd}
-          onPointerCancel={handlePressEnd}
-          onPointerLeave={handlePressEnd}
-          className="relative w-full bg-green-600 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg overflow-hidden select-none"
+        {/* Tel Link Button - Long-press shows native "Call" menu */}
+        <a
+          href={telLink}
+          className="block w-full bg-green-600 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg text-center no-underline select-none"
           style={{ touchAction: 'manipulation' }}
-          data-testid="button-press-to-call"
+          data-testid="link-press-to-call"
           data-age-classification={ageClassification || ""}
           data-budget-classification={budgetClassification || ""}
         >
-          {/* Progress Bar Background */}
-          <div 
-            className="absolute inset-0 bg-green-800 transition-all duration-75"
-            style={{ 
-              width: `${pressProgress}%`,
-              left: 0,
-              top: 0
-            }}
-          />
-          
-          {/* Button Text */}
-          <span className="relative z-10">
-            {isPressed ? '⏱️ Hold to Call...' : '📞 Press 2 Seconds to Call'}
-          </span>
-        </button>
+          📞 Press & Hold to Call
+        </a>
         
         {/* Book Appointment - Same size */}
         <button
