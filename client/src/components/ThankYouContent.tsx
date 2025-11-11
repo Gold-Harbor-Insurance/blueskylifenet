@@ -75,11 +75,26 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Reusable Call Button Component - NO tracking class to avoid Stape GTM interference
+  // Handle call button click - fire GTM event then allow native tel: link behavior
+  const handleCallClick = () => {
+    // Push event to dataLayer for GTM/Facebook CAPI tracking
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event: 'call_button_click',
+        age_classification: ageClassification || '',
+        budget_classification: budgetClassification || '',
+        phone_number: phoneNumber
+      });
+    }
+    // Do NOT preventDefault - let the tel: link work natively
+  };
+
+  // Reusable Call Button Component
   const CallButton = () => {
     return (
       <motion.a
         href={telLink || "#"}
+        onClick={handleCallClick}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         animate={{
@@ -90,7 +105,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           repeat: Infinity,
           repeatType: "reverse"
         }}
-        className="block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center"
+        className="track-call-btn block w-full bg-green-600 hover:bg-green-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center"
         data-testid="button-call-now"
         data-age-classification={ageClassification || ""}
         data-budget-classification={budgetClassification || ""}
