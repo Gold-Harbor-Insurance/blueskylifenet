@@ -75,31 +75,13 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Handle call button click - fire GTM event then allow native tel: link behavior
-  const handleCallClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Push event to dataLayer for GTM/Facebook CAPI tracking
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event: 'call_button_click',
-        age_classification: ageClassification || '',
-        budget_classification: budgetClassification || '',
-        phone_number: phoneNumber
-      });
-    }
-    // Stop event from bubbling to Stape's click listener (use native event)
-    e.nativeEvent.stopImmediatePropagation();
-    // Let the tel: link work natively (no preventDefault)
-  };
-
-  // Reusable Call Button Component - PLAIN <a> tag for Facebook compatibility
+  // Reusable Call Button Component - COMPLETELY PASSIVE, no JavaScript at all
   const CallButton = () => {
     return (
       <a
         href={telLink || "#"}
-        onClick={handleCallClick}
         className="call-button block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 text-center no-underline"
         data-testid="button-call-now"
-        data-event-name="call_button_click"
         data-age-classification={ageClassification || ""}
         data-budget-classification={budgetClassification || ""}
       >
