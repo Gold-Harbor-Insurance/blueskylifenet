@@ -1000,7 +1000,6 @@ export default function VeteransLanding() {
                           setFormData({ ...formData, email: e.target.value });
                           if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                         }}
-                        onFocus={() => setShowPhone(true)}
                         placeholder="Email Address *"
                         className={`text-base min-h-[48px] ${errors.email ? 'border-red-500' : ''}`}
                         data-testid="input-email"
@@ -1011,29 +1010,23 @@ export default function VeteransLanding() {
                       )}
                     </div>
 
-                    {/* Phone Number - Shows when email is focused */}
-                    {showPhone && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                      >
-                        <Input
-                          ref={phoneInputRef}
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handlePhoneChange}
-                          placeholder="Phone Number *"
-                          className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
-                          data-testid="input-phone"
-                          maxLength={14}
-                          required
-                        />
-                        {errors.phone && (
-                          <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
-                        )}
-                      </motion.div>
-                    )}
+                    {/* Phone Number - Always visible on step 9 */}
+                    <div>
+                      <Input
+                        ref={phoneInputRef}
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handlePhoneChange}
+                        placeholder="Phone Number *"
+                        className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
+                        data-testid="input-phone"
+                        maxLength={14}
+                        required
+                      />
+                      {errors.phone && (
+                        <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
+                      )}
+                    </div>
 
                     {/* Submit Button - In normal flow */}
                     <Button 
