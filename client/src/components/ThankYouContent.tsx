@@ -44,14 +44,6 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handlePhoneClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Force navigation to tel: link even in Facebook browser
-    if (isFacebookBrowser) {
-      e.preventDefault();
-      window.location.href = telLink || "#";
-    }
-  };
-
   const progressSteps = [
     { 
       label: "Application Submitted", 
@@ -89,7 +81,6 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       return (
         <a
           href={telLink || "#"}
-          onClick={handlePhoneClick}
           className="track-call-btn block w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-all duration-200 cursor-pointer text-center"
           data-testid="button-call-now"
           data-age-classification={ageClassification || ""}
