@@ -411,21 +411,47 @@ export default function SeniorsLanding() {
 
   // Format phone number as user types
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value.replace(/\D/g, '');
-    let formatted = '';
+    const input = e.target.value;
+    const cursorPosition = e.target.selectionStart || 0;
     
-    if (input.length > 0) {
-      formatted = '(' + input.substring(0, 3);
+    // Remove all non-digits
+    const digitsOnly = input.replace(/\D/g, '');
+    
+    // Limit to 10 digits
+    const limitedDigits = digitsOnly.substring(0, 10);
+    
+    // Format the number
+    let formatted = '';
+    if (limitedDigits.length > 0) {
+      formatted = '(' + limitedDigits.substring(0, 3);
     }
-    if (input.length >= 3) {
-      formatted += ') ' + input.substring(3, 6);
+    if (limitedDigits.length >= 4) {
+      formatted += ') ' + limitedDigits.substring(3, 6);
     }
-    if (input.length >= 6) {
-      formatted += '-' + input.substring(6, 10);
+    if (limitedDigits.length >= 7) {
+      formatted += '-' + limitedDigits.substring(6, 10);
     }
     
     setFormData({ ...formData, phone: formatted });
     if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
+    
+    // Restore cursor position after React re-renders
+    setTimeout(() => {
+      if (phoneInputRef.current) {
+        // Calculate new cursor position based on formatting
+        let newPosition = cursorPosition;
+        
+        // If user deleted a formatting char, move cursor back
+        if (input.length < formData.phone.length) {
+          const deletedChar = formData.phone[cursorPosition];
+          if (deletedChar === '(' || deletedChar === ')' || deletedChar === ' ' || deletedChar === '-') {
+            newPosition = Math.max(0, cursorPosition - 1);
+          }
+        }
+        
+        phoneInputRef.current.setSelectionRange(newPosition, newPosition);
+      }
+    }, 0);
   };
 
   // Custom progress percentages based on question weights
