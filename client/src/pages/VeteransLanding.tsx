@@ -44,16 +44,16 @@ function TestimonialCarousel() {
 
   return (
     <div className="w-full flex justify-center pt-0 pb-1">
-      <div className="bg-[#b3d9f2] px-6 py-3 rounded-lg max-w-xs text-center transition-all duration-500">
-        <div className="flex justify-center gap-1 mb-1">
-          <span className="text-yellow-400 text-xl">⭐</span>
-          <span className="text-yellow-400 text-xl">⭐</span>
-          <span className="text-yellow-400 text-xl">⭐</span>
-          <span className="text-yellow-400 text-xl">⭐</span>
-          <span className="text-yellow-400 text-xl">⭐</span>
+      <div className="bg-[#b3d9f2] px-4 py-2 rounded-lg max-w-xs text-center transition-all duration-500">
+        <div className="flex justify-center gap-0.5 mb-0.5">
+          <span className="text-yellow-400 text-base">⭐</span>
+          <span className="text-yellow-400 text-base">⭐</span>
+          <span className="text-yellow-400 text-base">⭐</span>
+          <span className="text-yellow-400 text-base">⭐</span>
+          <span className="text-yellow-400 text-base">⭐</span>
         </div>
-        <p className="text-sm font-semibold text-gray-800">"{testimonials[currentIndex].quote}"</p>
-        <p className="text-xs text-gray-600">— {testimonials[currentIndex].author}</p>
+        <p className="text-xs font-semibold text-gray-800">"{testimonials[currentIndex].quote}"</p>
+        <p className="text-[10px] text-gray-600">— {testimonials[currentIndex].author}</p>
       </div>
     </div>
   );
@@ -472,22 +472,22 @@ export default function VeteransLanding() {
           </div>
 
           {/* Main content - positioned higher on page */}
-          <div className="flex-1 flex flex-col items-center px-4 pt-2 pb-8">
+          <div className="flex-1 flex flex-col items-center px-4 pt-1 pb-8">
             {/* Headline */}
-            <div className="text-center mb-3 max-w-4xl">
-              <h1 className="text-xl md:text-3xl lg:text-4xl font-bold leading-tight">
+            <div className="text-center mb-2 max-w-4xl">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
                 <span className="text-[#dc3545]">EXCLUSIVE FOR MILITARY VETERANS</span>{" "}
                 <span className="text-black">Get up to $25,000 To Cover Funeral Costs and Unpaid Debt</span>
               </h1>
             </div>
 
             {/* Light blue card with question */}
-            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-6 md:p-8 max-w-3xl w-full">
-              <div className="text-center mb-6">
-                <p className="text-base md:text-lg mb-2">
+            <div className="bg-[#eef9ff] rounded-2xl shadow-lg p-4 md:p-8 max-w-3xl w-full">
+              <div className="text-center mb-4">
+                <p className="text-sm md:text-lg mb-2">
                   Answer a Few Quick Questions Below to <span className="underline font-bold">Check Eligibility!</span>
                 </p>
-                <h2 className="text-xl md:text-2xl font-bold text-black mt-4">
+                <h2 className="text-lg md:text-2xl font-bold text-black mt-2">
                   Which branch of the military did you serve in?
                 </h2>
               </div>
@@ -518,7 +518,7 @@ export default function VeteransLanding() {
                       type="button"
                       onClick={() => handleMilitaryBranchSelect(branchValues[branch])}
                       data-testid={`button-military-branch-${branch}`}
-                      className={`w-full min-h-[60px] px-6 text-xl md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch}`}
+                      className={`w-full min-h-[52px] px-6 text-lg md:text-2xl font-bold bg-[#5CB85C] hover:bg-[#4CAF50] text-white rounded-full transition-colors duration-200 button-military-branch-${branch}`}
                     >
                       {displayNames[branch]}
                     </button>
