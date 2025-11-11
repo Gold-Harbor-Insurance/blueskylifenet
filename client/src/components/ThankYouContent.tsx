@@ -75,15 +75,21 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Facebook Browser: Large phone number display (no tel: link)
+  // Facebook Browser: Large phone number display with tel: link (long-press to call)
   const FacebookCallSection = () => (
     <div className="w-full space-y-4">
-      {/* Large Phone Number Display */}
+      {/* Large Phone Number Display - with tel: link for long-press */}
       <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-600 rounded-lg p-6 text-center">
         <p className="text-sm font-semibold text-green-800 mb-2">📞 CALL US NOW</p>
-        <p className="text-4xl md:text-5xl font-bold text-green-900 mb-2 select-all" data-testid="text-phone-number">
+        <a 
+          href={telLink}
+          className="block text-4xl md:text-5xl font-bold text-green-900 mb-2 no-underline hover:text-green-800"
+          data-testid="link-phone-number"
+          data-age-classification={ageClassification || ""}
+          data-budget-classification={budgetClassification || ""}
+        >
           {phoneNumber}
-        </p>
+        </a>
         <p className="text-sm text-green-700 font-medium">Press & hold to call</p>
       </div>
       
