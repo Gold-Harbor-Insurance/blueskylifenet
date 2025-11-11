@@ -9,9 +9,9 @@ interface QuizLayoutProps {
 
 export default function QuizLayout({ children }: QuizLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center px-4 pt-4 pb-8">
       {/* BlueSky Life Logo - Top Center */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-10">
+      <div className="mb-6">
         <img 
           src={logoImage} 
           alt="BlueSky Life" 
