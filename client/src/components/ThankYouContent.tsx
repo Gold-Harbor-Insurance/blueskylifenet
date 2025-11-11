@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Check, Calendar, Clock, Zap, X } from "lucide-react";
+import { Check, Calendar, Clock, Zap, X, Copy, Phone, MessageSquare, CheckCircle2 } from "lucide-react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 
 interface ThankYouContentProps {
@@ -16,6 +16,11 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
   const [isSticky, setIsSticky] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showCallbackForm, setShowCallbackForm] = useState(false);
+  const [callbackName, setCallbackName] = useState(firstName || "");
+  const [callbackPhone, setCallbackPhone] = useState("");
+  const [callbackSubmitted, setCallbackSubmitted] = useState(false);
 
   useEffect(() => {
     // Detect Facebook in-app browser
@@ -75,25 +80,151 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
     }
   ];
 
-  // Reusable Call Button Component - BUTTON with window.location (like Calendly)
+  // Handle copy to clipboard
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(phoneNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = phoneNumber;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    }
+  };
+
+  // Handle callback request
+  const handleCallbackRequest = async () => {
+    if (!callbackName || !callbackPhone) {
+      alert("Please enter your name and phone number");
+      return;
+    }
+
+    try {
+      await fetch('https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'callback_request',
+          name: callbackName,
+          phone: callbackPhone,
+          ageClassification,
+          budgetClassification,
+          timestamp: new Date().toISOString()
+        })
+      });
+      setCallbackSubmitted(true);
+    } catch (error) {
+      console.error('Callback request error:', error);
+      alert("Request sent! We'll call you shortly.");
+      setCallbackSubmitted(true);
+    }
+  };
+
+  // Multi-Option Call Component - Works around Facebook Messenger tel: link block
   const CallButton = () => {
-    const handleCall = () => {
-      if (telLink) {
-        window.location.href = telLink;
-      }
-    };
+    const smsLink = `sms:${phoneNumber.replace(/\D/g, '')}?body=Hi!%20I%20just%20completed%20my%20life%20insurance%20application.%20Please%20call%20me%20as%20soon%20as%20possible.`;
     
     return (
-      <button
-        onClick={handleCall}
-        type="button"
-        className="call-button w-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200 cursor-pointer border-0"
-        data-testid="button-call-now"
-        data-age-classification={ageClassification || ""}
-        data-budget-classification={budgetClassification || ""}
-      >
-        TAP TO CALL
-      </button>
+      <div className="w-full space-y-4">
+        {/* Large Phone Number Display */}
+        <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-600 rounded-lg p-6">
+          <p className="text-sm font-semibold text-green-800 mb-2">📞 CALL US NOW</p>
+          <p className="text-4xl md:text-5xl font-bold text-green-900 mb-2 select-all" data-testid="text-phone-number">
+            {phoneNumber}
+          </p>
+          <p className="text-sm text-green-700 font-medium">Press & hold the number to call</p>
+        </div>
+
+        {/* Action Buttons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Copy Number Button */}
+          <button
+            onClick={handleCopy}
+            className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-colors"
+            data-testid="button-copy-number"
+          >
+            {copied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+            {copied ? "Copied!" : "Copy Number"}
+          </button>
+
+          {/* SMS Link */}
+          <a
+            href={smsLink}
+            className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg transition-colors no-underline"
+            data-testid="button-send-sms"
+          >
+            <MessageSquare className="w-5 h-5" />
+            Text Us
+          </a>
+        </div>
+
+        {/* Callback Request Button */}
+        {!showCallbackForm && !callbackSubmitted && (
+          <button
+            onClick={() => setShowCallbackForm(true)}
+            className="w-full flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-6 rounded-lg transition-colors"
+            data-testid="button-request-callback"
+          >
+            <Phone className="w-5 h-5" />
+            Request Immediate Callback
+          </button>
+        )}
+
+        {/* Callback Form */}
+        {showCallbackForm && !callbackSubmitted && (
+          <div className="bg-orange-50 border-2 border-orange-600 rounded-lg p-4 space-y-3">
+            <h3 className="font-bold text-orange-900">We'll Call You in 2 Minutes!</h3>
+            <input
+              type="text"
+              placeholder="Your Name"
+              value={callbackName}
+              onChange={(e) => setCallbackName(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+              data-testid="input-callback-name"
+            />
+            <input
+              type="tel"
+              placeholder="Your Phone Number"
+              value={callbackPhone}
+              onChange={(e) => setCallbackPhone(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+              data-testid="input-callback-phone"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleCallbackRequest}
+                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg"
+                data-testid="button-submit-callback"
+              >
+                Call Me Now
+              </button>
+              <button
+                onClick={() => setShowCallbackForm(false)}
+                className="px-4 bg-gray-200 hover:bg-gray-300 rounded-lg"
+                data-testid="button-cancel-callback"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Callback Confirmation */}
+        {callbackSubmitted && (
+          <div className="bg-green-50 border-2 border-green-600 rounded-lg p-4 text-center">
+            <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto mb-2" />
+            <h3 className="font-bold text-green-900 mb-1">Request Received!</h3>
+            <p className="text-sm text-green-700">An agent will call you within 2 minutes at {callbackPhone}</p>
+          </div>
+        )}
+      </div>
     );
   };
 
