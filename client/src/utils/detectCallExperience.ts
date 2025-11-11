@@ -6,15 +6,25 @@ export function detectCallExperience(): CallExperience {
   }
 
   const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+  const platform = navigator.platform || '';
 
-  // ONLY Facebook/Instagram in-app browsers need "Press & Hold" (they block tel: links)
-  // All other browsers (Safari, Chrome, Firefox, etc.) on ALL devices support tap-to-call
+  // Check for Facebook/Instagram in-app browsers
   const isFacebookBrowser = /FBAN|FBAV|Instagram/i.test(userAgent);
   
-  if (isFacebookBrowser) {
+  // Check for iOS devices (iPhone, iPad, iPod)
+  // iPads on iPadOS 13+ may report as Mac, so check maxTouchPoints too
+  const isIOSUserAgent = /iPhone|iPad|iPod/i.test(userAgent);
+  const isMacWithTouch = /Mac/i.test(platform) && navigator.maxTouchPoints > 1;
+  const isIOS = isIOSUserAgent || isMacWithTouch;
+
+  // ONLY Facebook/Instagram browsers on iPhone need "Press & Hold"
+  // - Facebook Messenger on iPhone: tel: links blocked
+  // - Facebook Messenger on Android: tel: links work fine
+  // - All other browsers on all devices: tel: links work fine
+  if (isFacebookBrowser && isIOS) {
     return 'display-number';
   }
 
-  // All non-Facebook browsers (iPhone Safari, Android Chrome, Desktop, etc.) get tap-to-call
+  // Everything else gets tap-to-call
   return 'tap-to-call';
 }
