@@ -302,6 +302,17 @@ export default function SeniorsLanding() {
     // All validations passed - trigger Ringba and webhook
     setIsLoadingRingba(true);
     
+    // Capture values for closure to prevent stale state
+    const leadData = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      city: formData.city,
+      state: formData.state,
+      zipCode: formData.zipCode
+    };
+    
     setTimeout(async () => {
       const hiddenInputNames = [
         'zip_code',
@@ -334,10 +345,10 @@ export default function SeniorsLanding() {
         beneficiary: formData.beneficiary,
         age: formData.age,
         beneficiary_name: formData.beneficiaryName,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
+        first_name: leadData.firstName,
+        last_name: leadData.lastName,
+        email: leadData.email,
+        phone: leadData.phone,
         city: formData.city,
         state: formData.state,
         landing_page: 'seniors',
@@ -348,13 +359,13 @@ export default function SeniorsLanding() {
       if (typeof window !== 'undefined' && window.dataLayer) {
         window.dataLayer.push({
           event: 'lead',
-          fn: formData.firstName,
-          ln: formData.lastName,
-          em: formData.email,
-          ph: formData.phone,
-          ct: formData.city,
-          st: formData.state,
-          zp: formData.zipCode,
+          fn: leadData.firstName,
+          ln: leadData.lastName,
+          em: leadData.email,
+          ph: leadData.phone,
+          ct: leadData.city,
+          st: leadData.state,
+          zp: leadData.zipCode,
           country_id: 'US'
         });
       }
