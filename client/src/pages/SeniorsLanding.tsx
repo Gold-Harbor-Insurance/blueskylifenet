@@ -452,6 +452,8 @@ export default function SeniorsLanding() {
           telLink={telLink}
           phoneRef={phoneRef}
           firstName={formData.firstName}
+          formData={formData}
+          flow="seniors"
         />
       ) : step === 1 ? (
         // First page with special design matching screenshot

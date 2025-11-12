@@ -82,13 +82,26 @@ interface GTMContext {
   budgetClassification?: string;
 }
 
+// Debounce tracking to prevent duplicate events
+let lastCallTrackTime = 0;
+let lastAppointmentTrackTime = 0;
+const DEBOUNCE_MS = 1000; // 1 second debounce
+
 /**
  * Track when user clicks the call button/link on thank you page
+ * Debounced to prevent duplicate events from multiple rendered instances
  */
 export function trackCallIntent(formData: FormDataPayload, context: GTMContext): void {
   if (typeof window === 'undefined' || !window.dataLayer) {
     return;
   }
+
+  // Debounce: prevent duplicate tracking within 1 second
+  const now = Date.now();
+  if (now - lastCallTrackTime < DEBOUNCE_MS) {
+    return;
+  }
+  lastCallTrackTime = now;
 
   window.dataLayer.push({
     event: 'call',
@@ -109,11 +122,19 @@ export function trackCallIntent(formData: FormDataPayload, context: GTMContext):
 
 /**
  * Track when user clicks the book appointment button on thank you page
+ * Debounced to prevent duplicate events from multiple rendered instances
  */
 export function trackAppointmentIntent(formData: FormDataPayload, context: GTMContext): void {
   if (typeof window === 'undefined' || !window.dataLayer) {
     return;
   }
+
+  // Debounce: prevent duplicate tracking within 1 second
+  const now = Date.now();
+  if (now - lastAppointmentTrackTime < DEBOUNCE_MS) {
+    return;
+  }
+  lastAppointmentTrackTime = now;
 
   window.dataLayer.push({
     event: 'appointment',
