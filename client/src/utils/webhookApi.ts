@@ -24,6 +24,7 @@ interface WebhookPayload {
   fbc?: string;
   fbp?: string;
   fbclid?: string;
+  external_id?: string;  // Non-hashed External ID for internal tracking
   ip_address?: string;
   user_agent?: string;
 }
@@ -63,6 +64,7 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
     const fbc = getCookie('_fbc');
     const fbp = getCookie('_fbp');
     const fbclid = getUrlParameter('fbclid');
+    const externalId = getCookie('_extid');  // Non-hashed External ID
     const ipAddress = await getIpAddress();
     const userAgent = navigator.userAgent;
     
@@ -71,6 +73,7 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
       ...(fbc && { fbc }),
       ...(fbp && { fbp }),
       ...(fbclid && { fbclid }),
+      ...(externalId && { external_id: externalId }),
       ...(ipAddress && { ip_address: ipAddress }),
       ...(userAgent && { user_agent: userAgent })
     };

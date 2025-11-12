@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
-import { initFacebookTracking } from "@/utils/facebookTracking";
+import { initFacebookTracking, getFbclid, getFbc, getFbp, getExternalId, generateEventId } from "@/utils/facebookTracking";
 import { initGTM, trackPageView, trackQuizStep, trackButtonClick } from "@/utils/gtmTracking";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
@@ -111,6 +111,40 @@ export default function VeteransLanding() {
     initFacebookTracking();
     initGTM();
     trackPageView('/final-expense/nsbrk/', 'Veterans Final Expense - NewsBreak');
+    
+    // Populate Facebook tracking hidden inputs
+    (async () => {
+      try {
+        const fbclid = getFbclid();
+        const fbc = getFbc();
+        const fbp = getFbp();
+        const externalId = await getExternalId();
+        const eventId = generateEventId();
+        
+        if (fbclid) {
+          const input = document.querySelector('#fbclid');
+          if (input) input.setAttribute('value', fbclid);
+        }
+        if (fbc) {
+          const input = document.querySelector('#fbc');
+          if (input) input.setAttribute('value', fbc);
+        }
+        if (fbp) {
+          const input = document.querySelector('#fbp');
+          if (input) input.setAttribute('value', fbp);
+        }
+        if (externalId.hashed) {
+          const input = document.querySelector('#external-id');
+          if (input) input.setAttribute('value', externalId.hashed);
+        }
+        if (eventId) {
+          const input = document.querySelector('#event-id');
+          if (input) input.setAttribute('value', eventId);
+        }
+      } catch (error) {
+        console.error('Failed to populate Facebook tracking inputs:', error);
+      }
+    })();
     
     // Auto-detect ZIP code from IP on component mount
     const detectLocation = async () => {
@@ -497,6 +531,12 @@ export default function VeteransLanding() {
       <input type="hidden" name="city" value={formData.city} />
       <input type="hidden" name="state" value={formData.state} />
       <input type="hidden" name="monthly_budget" value={formData.monthlyBudget} />
+      {/* Facebook tracking inputs - populated on page load */}
+      <input type="hidden" id="fbclid" name="fbclid" value="" />
+      <input type="hidden" id="fbc" name="fbc" value="" />
+      <input type="hidden" id="fbp" name="fbp" value="" />
+      <input type="hidden" id="external-id" name="external_id" value="" />
+      <input type="hidden" id="event-id" name="event_id" value="" />
 
       {/* Ringba loading screen overlay */}
       {isLoadingRingba && (

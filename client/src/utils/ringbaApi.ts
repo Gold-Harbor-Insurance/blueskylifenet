@@ -118,6 +118,15 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
       });
     }
     
+    // Add non-hashed External ID for internal tracking (Ringba & GHL)
+    const externalId = getCookie('_extid');
+    if (externalId) {
+      tags.push({
+        type: 'User',
+        external_id: externalId
+      });
+    }
+    
     tags.push({
       type: 'Location',
       completeUrl: window.location.href
