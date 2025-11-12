@@ -1,0 +1,278 @@
+Customer Information Parameters
+The customer information parameters are a set of user identifiers you share alongside your event information. For more information about required and recommended parameters, see Best Practices - Conversions API: Send Required and Recommended Parameters.
+
+In the Graph API v13.0 release there were new requirements around the combinations of customer information parameters that are considered valid. Please review the best practices to ensure your Conversions API integrations are not interrupted.
+
+Please visit the Meta Privacy and Data Use Guide to learn what data is sent when using the Conversions API.
+
+Our systems are designed to not accept customer information that is unhashed Contact Information, unless noted below. Contact Information is information that personally identifies individuals, such as names, email addresses, and phone numbers, that we use for matching purposes only. If you are using the Meta Business SDK, the hashing is done automatically.
+
+Pixel Comparison
+You can send many of the customer information parameters through the Meta Pixel, though some (for example, client_user_agent) are sent automatically as part of how the internet works. For example, to send external_id through the Pixel, use the following code:
+
+fbq('init', 'PIXEL_ID', {'external_id': 12345});
+Read about the other parameters you can pass with Pixel in the Advanced Matching documentation.
+
+Vice versa, make sure to apply the same set of customer information parameters your system is currently sharing to the browser side to the server side.
+
+Formatting the user_data Parameters
+You must provide at least one of the following user_data parameters with the correct formatting in your request.
+
+Please download this CSV filefor examples of properly normalized and hashed data for the parameters below.
+
+Download (Right-click > Save Link As)
+Parameter	Description
+em
+Email
+
+string or list<string>
+Hashing required.
+Trim any leading and trailing spaces. Convert all characters to lowercase.
+
+Example:
+
+Input: John_Smith@gmail.com
+Normalized format: john_smith@gmail.com
+Expected SHA256 output: 62a14e44f765419d10fea99367361a727c12365e2520f32218d505ed9aa0f62f
+
+ph
+Phone Number
+
+string or list<string>
+Hashing required.
+Remove symbols, letters, and any leading zeros. Phone numbers must include a country code to be used for matching (e.g., the number 1 must precede a phone number in the United States). Always include the country code as part of your customers' phone numbers, even if all of your data is from the same country.
+
+Example:
+
+Input: US phone number (650)555-1212
+Normalized format: 16505551212
+Expected SHA256 output:
+
+e323ec626319ca94ee8bff2e4c87cf613be6ea19919ed1364124e16807ab3176
+
+fn
+First Name
+
+string or list<string>
+Hashing required.
+Using Roman alphabet a-z characters is recommended. Lowercase only with no punctuation. If using special characters, the text must be encoded in UTF-8 format.
+
+Example:
+Input: Mary
+Normalizaed format: mary
+Expected SHA256 output: 6915771be1c5aa0c886870b6951b03d7eafc121fea0e80a5ea83beb7c449f4ec
+
+
+Input: 정
+Normalized format: UTF-8 character "정"
+Expected SHA256 output: 8fa8cd9c440be61d0151429310034083132b35975c4bea67fdd74158eb51db14
+
+
+Input: Valéry
+Normalized format: valéry
+Expected SHA256 output: 08e1996b5dd49e62a4b4c010d44e4345592a863bb9f8e3976219bac29417149c
+
+ln
+Last Name
+
+string or list<string>
+Hashing required.
+Using Roman alphabet a-z characters is recommended. Lowercase only with no punctuation. If using special characters, the text must be encoded in UTF-8 format.
+
+
+See First Name (fn) for examples.
+
+db
+Date of Birth
+
+string or list<string>
+Hashing required.
+We accept the YYYYMMDD format accommodating a range of month, day and year combinations, with or without punctuation.
+
+Year: Use the YYYY format from 1900 to current year.
+Month: Use the MM format: 01 to 12.
+Date: Use the DD format: 01 to 31.
+Example:
+
+Input: 2/16/1997
+Normalized format: 19970216
+Expected SHA256 output: 01acdbf6ec7b4f478a225f1a246e5d6767eeab1a7ffa17f025265b5b94f40f0c
+
+ge
+Gender
+
+string or list<string>
+Hashing required.
+We accept gender in the form of an initial in lowercase.
+
+Example:
+
+f for female
+m for male
+ct
+City
+
+string or list<string>
+Hashing required.
+Using Roman alphabet a-z characters is recommended. Lowercase only with no punctuation, no special characters, and no spaces. If using special characters, the text must be encoded in UTF-8 format.
+
+Example:
+paris
+london
+newyork
+
+st
+State
+
+string or list<string>
+Hashing required.
+Use the 2-character ANSI abbreviation code in lowercase. Normalize states outside the U.S. in lowercase with no punctuation, no special characters, and no spaces.
+
+Example:
+az
+ca
+
+zp
+Zip Code
+
+string or list<string>
+Hashing required.
+Use lowercase with no spaces and no dash. Use only the first 5 digits for U.S. zip codes. Use the area, district, and sector format for the UK.
+
+Example:
+U.S zip code: 94035
+Australia zip code: 1987
+France zip code: 75018
+UK zip code: m11ae
+
+country
+Country
+
+string or list<string>
+Hashing required.
+Use the lowercase, 2-letter country codes in ISO 3166-1 alpha-2.
+Important Note: Always include your customers' countries’ even if all of your country codes are from the same country. We match on a global scale, and this simple step helps us match as many Accounts Center accounts as possible from your list.
+
+Example:
+Input: United States
+Normalized format: us
+Expected SHA256 output: 79adb2a2fce5c6ba215fe5f27f532d4e7edbac4b6a5e09e1ef3a08084a904621
+
+external_id
+External ID
+
+string or list<string>
+Hashing recommended.
+Any unique ID from the advertiser, such as loyalty membership IDs, user IDs, and external cookie IDs. You can send one or more external IDs for a given event.
+If an External ID is being sent via other channels, it should be in the same format as when sent via the Conversions API.
+
+client_ip_address
+Client IP Address
+
+string
+Do not hash.
+The IP address of the browser corresponding to the event must be a valid IPV4 or IPV6 address. IPV6 is preferable over IPV4 for IPV6-enabled users. The client_ip_address user data parameter must never be hashed.
+No spaces should be included. Always provide the real IP address to ensure accurate event reporting.
+Note: This information is automatically added to events sent through the browser, but it must be manually configured for events sent through the server.
+
+Example:
+IPV4: 168.212.226.204
+IPV6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+
+client_user_agent
+Client User Agent
+
+string
+Do not hash.
+The user agent for the browser corresponding to the event. The client_user_agent is required for website events shared using the Conversions API.
+
+Sending both the client_ip_address and client_user_agent parameters for all of the events you’re sending through the Conversions API may help improve event matching and could also help improve ad delivery for any ad campaigns optimizing on the events you send through the Conversions API.
+Note: This information is automatically added to events sent through the browser, but must be manually configured for events sent through the server.
+
+Example:
+Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+AppleWebKit/537.36 (KHTML, like Gecko)
+Chrome/87.0.4280.141
+Safari/537.36
+
+fbc
+Click ID
+
+string
+Do not hash.
+The Meta click ID value is stored in the _fbc browser cookie under your domain. See Managing fbc and fbp Parameters for how to get this value or generate this value from a fbclid query parameter.
+
+The format is: fb.${subdomain_index}.${creation_time}.${fbclid}.
+
+Example:
+fb.1.1554763741205.AbCdEfGhIjKlMnOpQrStUvWxYz1234567890
+
+fbp
+Browser ID
+
+string
+Do not hash.
+The Meta browser ID value is stored in the _fbp browser cookie under your domain. See Managing fbc and fbp Parameters for how to get this value.
+
+The format is fb.${subdomain_index}.${creation_time}.${random_number}.
+
+Example:
+fb.1.1596403881668.1116446470
+
+subscription_id
+Subscription ID
+
+string
+Do not hash.
+The subscription ID for the user in this transaction; it is similar to the order ID for an individual product.
+
+fb_login_id
+Facebook Login ID
+
+integer
+Do not hash.
+The ID issued by Meta when a person first logs into an instance of an app. This is also known as App-Scoped ID.
+
+lead_id
+Lead ID
+
+integer
+Do not hash.
+The ID associated with a lead generated by Meta's Lead Ads.
+
+anon_id
+string
+Do not hash.
+Your install ID. This field represents unique application installation instances.
+
+
+Note: This parameter is for app events only
+
+madid
+string
+Your mobile advertiser ID, the advertising ID from an Android device or the Advertising Identifier (IDFA) from an Apple device.
+
+page_id
+string
+Do not hash.
+Your Page ID. Specifies the page ID associated with the event. Use the Facebook page ID of the page associated with the bot.
+
+page_scoped_user_id
+string
+Do not hash.
+Specifies the page-scoped user ID associated with the messenger bot that logs the event. Use the page-scoped user ID provided to your webhook.
+
+ctwa_clid
+string
+Do not hash.
+Click ID generated by Meta for ads that click to WhatsApp.
+
+ig_account_id
+string
+Do not hash.
+Instagram Account ID that is associated with the business.
+
+ig_sid
+string
+Do not hash.
+Users who interact with Instagram are identified by Instagram-Scoped User IDs (IGSID). IGSID can be obtained from this webhook.
