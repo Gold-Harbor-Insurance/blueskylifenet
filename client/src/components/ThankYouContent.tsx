@@ -164,7 +164,14 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
       <div className="w-full max-w-2xl mx-auto text-center bg-white px-4 pt-16 pb-32">
         <span ref={phoneRef} className="ringba-number hidden" data-ringba-number="true">ringba-number</span>
         
-        {/* Hidden inputs for GTM tracking */}
+        {/* Hidden inputs for GTM tracking - so Custom JavaScript variables can read form data */}
+        <input type="hidden" id="first-name" value={formData.firstName || ""} />
+        <input type="hidden" id="last-name" value={formData.lastName || ""} />
+        <input type="hidden" id="email" value={formData.email || ""} />
+        <input type="hidden" id="phone" value={formData.phone || ""} />
+        <input type="hidden" id="city" value={formData.city || ""} />
+        <input type="hidden" id="state" value={formData.state || ""} />
+        <input type="hidden" id="zip-code" value={formData.zipCode || ""} />
         <input type="hidden" id="age-classification-final" value={ageClassification || ""} />
         <input type="hidden" id="budget-classification-final" value={budgetClassification || ""} />
         
