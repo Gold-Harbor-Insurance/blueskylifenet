@@ -364,6 +364,21 @@ export default function VeteransLanding() {
         submitted_at: new Date().toISOString()
       });
       
+      // Push lead event to GTM dataLayer for Facebook Pixel
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'lead',
+          fn: formData.firstName,
+          ln: formData.lastName,
+          em: formData.email,
+          ph: formData.phone,
+          ct: formData.city,
+          st: formData.state,
+          zp: formData.zipCode,
+          country_id: 'US'
+        });
+      }
+      
       setIsLoadingRingba(false);
       setStep(7);
     }, 300);
