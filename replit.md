@@ -16,6 +16,13 @@ The application is a client-side only quiz flow with no dedicated backend or dat
 -   **Tracking & Analytics**: Extensive Google Tag Manager (GTM) and Facebook tracking integration is achieved by capturing all quiz selections in hidden input fields and passing data to Ringba and a Make.com webhook (which then forwards to GHL).
 -   **Custom Ringba API Integration**: Replaced the standard Ringba script with a custom API implementation for greater control over data collection, loading states, and dynamic phone number retrieval. This call is triggered at the contact info submission.
 -   **Webhook Integration**: All form data, along with tracking information and user IP, is automatically sent to a Make.com webhook upon contact info submission, which then forwards the data to GoHighLevel (GHL).
+-   **Error Handling & Resilience** (November 2025):
+    -   Created centralized `submitLead()` helper function with comprehensive error handling for Ringba and webhook API calls.
+    -   Implemented try/catch/finally pattern to ensure "Processing Your Information" loading spinner ALWAYS closes, even when APIs fail.
+    -   Added user-facing error toast notifications when submission fails.
+    -   Fallback phone number (877) 790-1817 displayed if Ringba API is unavailable.
+    -   Non-blocking webhook failures - users still reach Thank You page if Ringba succeeds but webhook fails.
+    -   All 6 landing pages refactored to use shared `useLeadSubmission` hook for consistent error handling.
 -   **UI/UX**: Brand colors based on BlueSky Life green, Inter and Space Mono typography, and Shadcn UI components.
 -   **Progressive Disclosure**: Questions are presented one at a time to maximize completion rates.
 
