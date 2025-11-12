@@ -916,6 +916,7 @@ export default function FirstRespondersLanding() {
                         <Input
                           ref={firstNameRef}
                           type="text"
+                          id="first-name"
                           value={formData.firstName}
                           onChange={(e) => {
                             const value = e.target.value.replace(/\s/g, '');
@@ -935,6 +936,7 @@ export default function FirstRespondersLanding() {
                         <Input
                           ref={lastNameRef}
                           type="text"
+                          id="last-name"
                           value={formData.lastName}
                           onChange={(e) => {
                             setFormData({ ...formData, lastName: e.target.value });
@@ -956,6 +958,7 @@ export default function FirstRespondersLanding() {
                       <Input
                         ref={emailRef}
                         type="email"
+                        id="email"
                         value={formData.email}
                         onChange={(e) => {
                           setFormData({ ...formData, email: e.target.value });
@@ -976,6 +979,7 @@ export default function FirstRespondersLanding() {
                       <Input
                         ref={phoneField.inputRef}
                         type="tel"
+                        id="phone"
                         value={phoneField.value}
                         onChange={handlePhoneChange}
                         onBlur={handlePhoneBlur}
@@ -989,6 +993,11 @@ export default function FirstRespondersLanding() {
                         <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
                       )}
                     </div>
+
+                    {/* Hidden inputs for GTM to read city, state, zip */}
+                    <input type="hidden" id="city" value={formData.city} />
+                    <input type="hidden" id="state" value={formData.state} />
+                    <input type="hidden" id="zip-code" value={formData.zipCode} />
 
                     {/* Submit Button - In normal flow */}
                     <Button 

@@ -796,6 +796,7 @@ export default function VeteransLanding() {
                       <div>
                         <Input
                           ref={firstNameRef}
+                          id="first-name"
                           type="text"
                           value={formData.firstName}
                           onChange={(e) => {
@@ -815,6 +816,7 @@ export default function VeteransLanding() {
                       <div>
                         <Input
                           ref={lastNameRef}
+                          id="last-name"
                           type="text"
                           value={formData.lastName}
                           onChange={(e) => {
@@ -836,6 +838,7 @@ export default function VeteransLanding() {
                     <div>
                       <Input
                         ref={emailRef}
+                        id="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => {
@@ -856,6 +859,7 @@ export default function VeteransLanding() {
                     <div>
                       <Input
                         ref={phoneField.inputRef}
+                        id="phone"
                         type="tel"
                         value={phoneField.value}
                         onChange={handlePhoneChange}
@@ -870,6 +874,11 @@ export default function VeteransLanding() {
                         <p className="text-red-600 text-xs mt-1">{errors.phone}</p>
                       )}
                     </div>
+
+                    {/* Hidden inputs for GTM to read city, state, zip */}
+                    <input type="hidden" id="city" value={formData.city} />
+                    <input type="hidden" id="state" value={formData.state} />
+                    <input type="hidden" id="zip-code" value={formData.zipCode} />
 
                     {/* Submit Button - In normal flow */}
                     <Button 
