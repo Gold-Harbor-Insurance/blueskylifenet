@@ -15,6 +15,7 @@ import { fetchRingbaNumber } from "@/utils/ringbaApi";
 import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
+import { usePhoneField } from "@/hooks/use-phone-field";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 import type { 
   FirstResponderAgency,
@@ -104,7 +105,9 @@ export default function FirstRespondersLanding() {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const phoneInputRef = useRef<HTMLInputElement>(null);
+  
+  // Use phone field hook for formatting and autofill handling
+  const phoneField = usePhoneField(formData.phone);
 
   useEffect(() => {
     initFacebookTracking();
@@ -429,60 +432,20 @@ export default function FirstRespondersLanding() {
     else if (step === 9) focusInput(firstNameRef);
   }, [step]);
 
-  // Format phone number as user types
+  // Sync phone field with formData whenever it changes
+  useEffect(() => {
+    setFormData(prev => ({ ...prev, phone: phoneField.value }));
+  }, [phoneField.value]);
+
+  // Wrapper for phone onChange that also clears errors
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-    const cursorPosition = e.target.selectionStart || 0;
-    
-    // Remove all non-digits
-    const digitsOnly = input.replace(/\D/g, '');
-    
-    // Limit to 10 digits
-    const limitedDigits = digitsOnly.substring(0, 10);
-    
-    // Format the number
-    let formatted = '';
-    if (limitedDigits.length > 0) {
-      formatted = '(' + limitedDigits.substring(0, 3);
-    }
-    if (limitedDigits.length >= 4) {
-      formatted += ') ' + limitedDigits.substring(3, 6);
-    }
-    if (limitedDigits.length >= 7) {
-      formatted += '-' + limitedDigits.substring(6, 10);
-    }
-    
-    setFormData({ ...formData, phone: formatted });
+    phoneField.handleChange(e);
     if (errors.phone) setErrors(prev => ({ ...prev, phone: "" }));
-    
-    // Calculate proper cursor position after formatting
-    setTimeout(() => {
-      if (phoneInputRef.current) {
-        // Count digits before cursor in the original input
-        const digitsBeforeCursor = input.substring(0, cursorPosition).replace(/\D/g, '').length;
-        
-        // Calculate where cursor should be in formatted string
-        let newPosition = 0;
-        let digitCount = 0;
-        
-        for (let i = 0; i < formatted.length; i++) {
-          if (/\d/.test(formatted[i])) {
-            digitCount++;
-            if (digitCount === digitsBeforeCursor) {
-              newPosition = i + 1;
-              break;
-            }
-          }
-        }
-        
-        // If we're at the end, place cursor at the end
-        if (digitCount < digitsBeforeCursor || digitsBeforeCursor === limitedDigits.length) {
-          newPosition = formatted.length;
-        }
-        
-        phoneInputRef.current.setSelectionRange(newPosition, newPosition);
-      }
-    }, 0);
+  };
+
+  // Wrapper for phone onBlur (catches autofill)
+  const handlePhoneBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    phoneField.handleBlur(e);
   };
 
   // Custom progress percentages based on question weights
@@ -983,10 +946,11 @@ export default function FirstRespondersLanding() {
                     {/* Phone Number - Always visible on step 5 */}
                     <div>
                       <Input
-                        ref={phoneInputRef}
+                        ref={phoneField.inputRef}
                         type="tel"
-                        value={formData.phone}
+                        value={phoneField.value}
                         onChange={handlePhoneChange}
+                        onBlur={handlePhoneBlur}
                         placeholder="Phone Number *"
                         className={`text-base min-h-[48px] ${errors.phone ? 'border-red-500' : ''}`}
                         data-testid="input-phone"

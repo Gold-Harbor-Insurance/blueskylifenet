@@ -1,9 +1,19 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { formatPhoneNumber } from '@/utils/phoneFormat';
 
 export function usePhoneField(initialValue: string = '') {
   const [value, setValue] = useState(initialValue);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Sync with external changes to formData.phone (e.g., from IP geolocation, stored data)
+  useEffect(() => {
+    const formatted = formatPhoneNumber(initialValue);
+    // Only update if the formatted external value differs from current internal value
+    // This prevents infinite loops while still catching external updates
+    if (formatted !== value) {
+      setValue(formatted);
+    }
+  }, [initialValue]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
