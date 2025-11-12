@@ -11,11 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
 import { initGTM, trackPageView, trackQuizStep, trackButtonClick } from "@/utils/gtmTracking";
-import { fetchRingbaNumber } from "@/utils/ringbaApi";
-import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
 import { usePhoneField } from "@/hooks/use-phone-field";
+import { useLeadSubmission } from "@/hooks/use-lead-submission";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 import type { 
   Gender, 
@@ -63,7 +62,7 @@ export default function SeniorsLanding() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
   const [legalModal, setLegalModal] = useState<"privacy" | "terms" | "goldHarbor" | null>(null);
-  const [isLoadingRingba, setIsLoadingRingba] = useState(false);
+  const { submit: submitLeadForm, isLoading: isLoadingRingba } = useLeadSubmission();
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
   const [errors, setErrors] = useState({
@@ -340,9 +339,6 @@ export default function SeniorsLanding() {
     
     if (hasError) return;
     
-    // All validations passed - trigger Ringba and webhook
-    setIsLoadingRingba(true);
-    
     // Capture values for closure to prevent stale state
     const leadData = {
       firstName,
@@ -354,7 +350,8 @@ export default function SeniorsLanding() {
       zipCode: formData.zipCode
     };
     
-    setTimeout(async () => {
+    // Submit lead with error handling
+    setTimeout(() => {
       const hiddenInputNames = [
         'zip_code',
         'gender',
@@ -372,12 +369,8 @@ export default function SeniorsLanding() {
         'state'
       ];
       
-      const ringbaData = await fetchRingbaNumber(hiddenInputNames);
-      setPhoneNumber(ringbaData.phoneNumber);
-      setTelLink(ringbaData.telLink);
-      
-      await sendWebhookData({
-        angle: 'seniors',
+      const webhookData = {
+        angle: 'seniors' as const,
         zip_code: formData.zipCode,
         gender: formData.gender,
         life_insurance: formData.hasLifeInsurance,
@@ -392,27 +385,20 @@ export default function SeniorsLanding() {
         phone: leadData.phone,
         city: formData.city,
         state: formData.state,
-        landing_page: 'seniors',
+        landing_page: 'seniors' as const,
         submitted_at: new Date().toISOString()
-      });
+      };
       
-      // Push lead event to GTM dataLayer for Facebook Pixel
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'lead',
-          fn: leadData.firstName,
-          ln: leadData.lastName,
-          em: leadData.email,
-          ph: leadData.phone,
-          ct: leadData.city,
-          st: leadData.state,
-          zp: leadData.zipCode,
-          country_id: 'US'
-        });
-      }
-      
-      setIsLoadingRingba(false);
-      setStep(9);
+      submitLeadForm(
+        hiddenInputNames,
+        webhookData,
+        leadData,
+        (phoneNumber, telLink) => {
+          setPhoneNumber(phoneNumber);
+          setTelLink(telLink);
+          setStep(9);
+        }
+      );
     }, 300);
   };
 

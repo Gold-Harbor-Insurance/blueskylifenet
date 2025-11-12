@@ -11,11 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { initFacebookTracking } from "@/utils/facebookTracking";
 import { initGTM, trackPageView, trackQuizStep, trackButtonClick } from "@/utils/gtmTracking";
-import { fetchRingbaNumber } from "@/utils/ringbaApi";
-import { sendWebhookData } from "@/utils/webhookApi";
 import { lookupZipCode } from "@/utils/zipCodeLookup";
 import { detectZipCodeFromIP } from "@/utils/ipGeolocation";
 import { usePhoneField } from "@/hooks/use-phone-field";
+import { useLeadSubmission } from "@/hooks/use-lead-submission";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 import type { 
   MilitaryBranch,
@@ -64,7 +63,7 @@ export default function VeteransLanding() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(1);
   const [legalModal, setLegalModal] = useState<"privacy" | "terms" | "goldHarbor" | null>(null);
-  const [isLoadingRingba, setIsLoadingRingba] = useState(false);
+  const { submit: submitLeadForm, isLoading: isLoadingRingba } = useLeadSubmission();
   const [isLoadingZip, setIsLoadingZip] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
   const [errors, setErrors] = useState({
@@ -177,7 +176,8 @@ export default function VeteransLanding() {
       'Marine Corps': { id: 'button-military-branch-marine-corps', label: 'Marine Corps', className: 'button-military-branch-marine-corps' },
       'Navy': { id: 'button-military-branch-navy', label: 'Navy', className: 'button-military-branch-navy' },
       'Air Force': { id: 'button-military-branch-air-force', label: 'Air Force', className: 'button-military-branch-air-force' },
-      'Coast Guard': { id: 'button-military-branch-coast-guard', label: 'Coast Guard', className: 'button-military-branch-coast-guard' }
+      'Coast Guard': { id: 'button-military-branch-coast-guard', label: 'Coast Guard', className: 'button-military-branch-coast-guard' },
+      'Space Force': { id: 'button-military-branch-space-force', label: 'Space Force', className: 'button-military-branch-space-force' }
     };
     const { id, label } = tracking[branch];
     trackButtonClick(id, label);
@@ -357,9 +357,6 @@ export default function VeteransLanding() {
     
     if (hasError) return;
     
-    // All validations passed - trigger Ringba and webhook
-    setIsLoadingRingba(true);
-    
     // Capture values for closure to prevent stale state
     const leadData = {
       firstName,
@@ -371,7 +368,8 @@ export default function VeteransLanding() {
       zipCode: formData.zipCode
     };
     
-    setTimeout(async () => {
+    // Submit lead with error handling
+    setTimeout(() => {
       const hiddenInputNames = [
         'military_branch',
         'gender',
@@ -390,12 +388,8 @@ export default function VeteransLanding() {
         'state'
       ];
       
-      const ringbaData = await fetchRingbaNumber(hiddenInputNames);
-      setPhoneNumber(ringbaData.phoneNumber);
-      setTelLink(ringbaData.telLink);
-      
-      await sendWebhookData({
-        angle: 'veterans',
+      const webhookData = {
+        angle: 'veterans' as const,
         military_branch: formData.militaryBranch,
         gender: formData.gender,
         life_insurance: formData.hasLifeInsurance,
@@ -411,27 +405,20 @@ export default function VeteransLanding() {
         phone: leadData.phone,
         city: formData.city,
         state: formData.state,
-        landing_page: 'veterans',
+        landing_page: 'veterans' as const,
         submitted_at: new Date().toISOString()
-      });
+      };
       
-      // Push lead event to GTM dataLayer for Facebook Pixel
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'lead',
-          fn: leadData.firstName,
-          ln: leadData.lastName,
-          em: leadData.email,
-          ph: leadData.phone,
-          ct: leadData.city,
-          st: leadData.state,
-          zp: leadData.zipCode,
-          country_id: 'US'
-        });
-      }
-      
-      setIsLoadingRingba(false);
-      setStep(10);
+      submitLeadForm(
+        hiddenInputNames,
+        webhookData,
+        leadData,
+        (phoneNumber, telLink) => {
+          setPhoneNumber(phoneNumber);
+          setTelLink(telLink);
+          setStep(10);
+        }
+      );
     }, 300);
   };
 
