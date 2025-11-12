@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Check, Calendar, Clock, Zap, X } from "lucide-react";
 import logoImage from "@assets/BlueSky Life Landscape transparent bg_1762273618192.png";
 import { detectCallExperience, type CallExperience } from "@/utils/detectCallExperience";
+import { trackCallIntent, trackAppointmentIntent } from "@/utils/gtmTracking";
+import type { FormDataPayload, FlowType } from "@/types/formData";
 
 interface ThankYouContentProps {
   phoneNumber: string;
@@ -11,9 +13,11 @@ interface ThankYouContentProps {
   ageClassification?: string;
   budgetClassification?: string;
   firstName?: string;
+  formData: FormDataPayload;
+  flow: FlowType;
 }
 
-export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName }: ThankYouContentProps) {
+export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageClassification, budgetClassification, firstName, formData, flow }: ThankYouContentProps) {
   const [callExperience, setCallExperience] = useState<CallExperience>('tap-to-call');
   const [isSticky, setIsSticky] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -21,6 +25,25 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   useEffect(() => {
     setCallExperience(detectCallExperience());
   }, []);
+
+  const handleCallClick = () => {
+    trackCallIntent(formData, {
+      flow,
+      callExperience,
+      ageClassification,
+      budgetClassification
+    });
+  };
+
+  const handleAppointmentClick = () => {
+    trackAppointmentIntent(formData, {
+      flow,
+      callExperience,
+      ageClassification,
+      budgetClassification
+    });
+    setShowBookingModal(true);
+  };
 
   useEffect(() => {
     // Handle scroll to toggle sticky behavior
@@ -76,6 +99,9 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   // iOS/Facebook Browsers: Display phone number for long-press (native context menu)
   const DisplayNumberSection = () => {
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      // Track call intent before preventDefault
+      handleCallClick();
+      
       // Prevent quick tap from triggering tel: link (which causes error)
       // Long-press still works because it shows native context menu (different event)
       e.preventDefault();
@@ -99,7 +125,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
         
         {/* Book Appointment - Same size */}
         <button
-          onClick={() => setShowBookingModal(true)}
+          onClick={handleAppointmentClick}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white text-2xl md:text-3xl font-bold py-5 px-8 rounded-lg shadow-lg transition-colors duration-200"
           data-testid="button-book-appointment"
         >
@@ -113,6 +139,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
   const TapToCallButton = () => (
     <motion.a
       href={telLink || "#"}
+      onClick={handleCallClick}
       animate={{
         scale: [1, 1.05, 1],
       }}
@@ -229,7 +256,7 @@ export default function ThankYouContent({ phoneNumber, telLink, phoneRef, ageCla
           <div className="pt-2">
             <p className="text-sm text-gray-600 mb-2">Need to schedule a better time?</p>
             <button
-              onClick={() => setShowBookingModal(true)}
+              onClick={handleAppointmentClick}
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-base font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
               data-testid="button-book-appointment"
             >

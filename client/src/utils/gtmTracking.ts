@@ -72,3 +72,61 @@ export function initGTM(): void {
     window.dataLayer = window.dataLayer || [];
   }
 }
+
+import type { FormDataPayload, FlowType, CallExperience } from '@/types/formData';
+
+interface GTMContext {
+  flow: FlowType;
+  callExperience: CallExperience;
+  ageClassification?: string;
+  budgetClassification?: string;
+}
+
+/**
+ * Track when user clicks the call button/link on thank you page
+ */
+export function trackCallIntent(formData: FormDataPayload, context: GTMContext): void {
+  if (typeof window === 'undefined' || !window.dataLayer) {
+    return;
+  }
+
+  window.dataLayer.push({
+    event: 'call',
+    fn: formData.firstName || '',
+    ln: formData.lastName || '',
+    em: formData.email || '',
+    ph: formData.phone || '',
+    ct: formData.city || '',
+    st: formData.state || '',
+    zp: formData.zipCode || '',
+    country_id: 'US',
+    flow: context.flow,
+    call_experience: context.callExperience,
+    age_classification: context.ageClassification || '',
+    budget_classification: context.budgetClassification || ''
+  });
+}
+
+/**
+ * Track when user clicks the book appointment button on thank you page
+ */
+export function trackAppointmentIntent(formData: FormDataPayload, context: GTMContext): void {
+  if (typeof window === 'undefined' || !window.dataLayer) {
+    return;
+  }
+
+  window.dataLayer.push({
+    event: 'appointment',
+    fn: formData.firstName || '',
+    ln: formData.lastName || '',
+    em: formData.email || '',
+    ph: formData.phone || '',
+    ct: formData.city || '',
+    st: formData.state || '',
+    zp: formData.zipCode || '',
+    country_id: 'US',
+    flow: context.flow,
+    age_classification: context.ageClassification || '',
+    budget_classification: context.budgetClassification || ''
+  });
+}
