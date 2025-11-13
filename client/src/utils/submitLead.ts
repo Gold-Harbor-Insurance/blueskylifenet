@@ -23,6 +23,18 @@ interface SubmitLeadResult {
   webhookError?: boolean;
 }
 
+/**
+ * Create a timeout promise that rejects after a specified duration
+ * Used to prevent infinite loading in Facebook's in-app browser
+ */
+function createTimeout(ms: number, name: string): Promise<never> {
+  return new Promise((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`${name} timed out after ${ms}ms`));
+    }, ms);
+  });
+}
+
 export async function submitLead(
   hiddenInputNames: string[],
   webhookData: WebhookData,
@@ -34,6 +46,17 @@ export async function submitLead(
   let ringbaSucceeded = false;
   let phoneNumber = '(877) 790-1817'; // Fallback phone
   let telLink = 'tel:+18777901817';
+  let loadingClosed = false;
+  
+  // Safety timeout: Force close loading modal after 30 seconds
+  const safetyTimeout = setTimeout(() => {
+    if (!loadingClosed) {
+      console.warn('⚠️ Safety timeout reached - closing loading modal');
+      loadingClosed = true;
+      onLoadingChange(false);
+      onError('Request timed out. Please call us directly at (877) 790-1817.');
+    }
+  }, 30000); // 30 second absolute maximum
   
   try {
     // Start loading state
@@ -42,13 +65,16 @@ export async function submitLead(
     // Normalize partial payload to complete payload with all required fields
     const completePayload = buildWebhookPayload(webhookData);
     
-    // Step 1: Fetch Ringba number (critical - blocks if fails)
+    // Step 1: Fetch Ringba number with 15 second timeout (critical - blocks if fails)
     try {
-      const ringbaData = await fetchRingbaNumber(
-        hiddenInputNames,
-        completePayload.external_id,
-        completePayload.external_id_hashed
-      );
+      const ringbaData = await Promise.race([
+        fetchRingbaNumber(
+          hiddenInputNames,
+          completePayload.external_id,
+          completePayload.external_id_hashed
+        ),
+        createTimeout(15000, 'Ringba API')
+      ]);
       phoneNumber = ringbaData.phoneNumber;
       telLink = ringbaData.telLink;
       ringbaSucceeded = true;
@@ -60,9 +86,12 @@ export async function submitLead(
       return;
     }
     
-    // Step 2: Send webhook data (non-critical - continue even if fails)
+    // Step 2: Send webhook data with 10 second timeout (non-critical - continue even if fails)
     try {
-      await sendWebhookData(completePayload);
+      await Promise.race([
+        sendWebhookData(completePayload),
+        createTimeout(10000, 'Webhook')
+      ]);
     } catch (error) {
       console.error('Webhook failed (non-critical):', error);
       // Continue to thank you page even if webhook fails
@@ -92,7 +121,13 @@ export async function submitLead(
     onSuccess(phoneNumber, telLink);
     
   } finally {
-    // Always stop loading state, no matter what happened
-    onLoadingChange(false);
+    // Clear the safety timeout
+    clearTimeout(safetyTimeout);
+    
+    // Always stop loading state, no matter what happened (unless safety timeout already did)
+    if (!loadingClosed) {
+      loadingClosed = true;
+      onLoadingChange(false);
+    }
   }
 }
