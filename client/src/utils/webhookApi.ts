@@ -68,6 +68,13 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
     const ipAddress = await getIpAddress();
     const userAgent = navigator.userAgent;
     
+    console.log('[Webhook Debug] Cookies:', {
+      _fbc: fbc,
+      _fbp: fbp,
+      _extid: externalId,
+      allCookies: document.cookie
+    });
+    
     const enrichedPayload = {
       ...payload,
       ...(fbc && { fbc }),
@@ -77,6 +84,8 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
       ...(ipAddress && { ip_address: ipAddress }),
       ...(userAgent && { user_agent: userAgent })
     };
+    
+    console.log('[Webhook Debug] Enriched Payload:', enrichedPayload);
     
     await axios.post(webhookUrl, enrichedPayload, {
       headers: {
