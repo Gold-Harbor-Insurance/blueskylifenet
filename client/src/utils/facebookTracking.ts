@@ -149,13 +149,6 @@ export async function getExternalId(): Promise<ExternalIdData> {
     }
   }
   
-  console.log('🔍 EXTERNAL ID DEBUG - Generated/Retrieved:', {
-    raw: rawId,
-    hashed: hashedId,
-    rawCookieName: RAW_COOKIE_NAME,
-    hashedCookieName: HASHED_COOKIE_NAME
-  });
-  
   return {
     raw: rawId,
     hashed: hashedId
