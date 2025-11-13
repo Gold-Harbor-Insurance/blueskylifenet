@@ -31,9 +31,13 @@ The application is a client-side only quiz flow with no dedicated backend or dat
 
 ### Deployment
 -   **Production Domains**: blueskylife.net (primary) and blueskylife.io (secondary)
--   **CI/CD**: GitHub Actions workflow configured for manual dual deployment
--   **Process**: Single build → parallel deployment to both domains via FTP
--   **Workflow**: Manual trigger only (no automatic deployment on push)
+-   **Build Process**: `node scripts/build-both.js` creates two separate builds
+-   **Build Output**: 
+    - `builds/net/` for blueskylife.net (GTM-W4CS9TZ4)
+    - `builds/io/` for blueskylife.io (GTM-W9243JWT)
+-   **Deployment Method**: Manual FTP upload to each domain
+-   **GTM Tracking**: Domain-specific GTM scripts injected via placeholder system
+-   **Documentation**: See DEPLOYMENT.md for detailed instructions
 
 ## External Dependencies
 -   **Geolocation**:
