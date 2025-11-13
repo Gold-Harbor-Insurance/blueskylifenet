@@ -135,7 +135,7 @@ export default function FirstRespondersLanding() {
           if (input) input.setAttribute('value', fbp);
         }
         if (externalId.hashed) {
-          const input = document.querySelector('#external-id');
+          const input = document.querySelector('#external-id-hashed');
           if (input) input.setAttribute('value', externalId.hashed);
         }
         if (eventId) {
@@ -491,7 +491,7 @@ export default function FirstRespondersLanding() {
       <input type="hidden" id="fbclid" name="fbclid" value="" />
       <input type="hidden" id="fbc" name="fbc" value="" />
       <input type="hidden" id="fbp" name="fbp" value="" />
-      <input type="hidden" id="external-id" name="external_id" value="" />
+      <input type="hidden" id="external-id-hashed" name="external_id_hashed" value="" />
       <input type="hidden" id="event-id" name="event_id" value="" />
 
       {/* Ringba loading screen overlay */}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { submitLead } from "@/utils/submitLead";
 import { useToast } from "@/hooks/use-toast";
+import type { PartialWebhookPayload } from "@/utils/webhookPayload";
 
 interface LeadData {
   firstName: string;
@@ -12,27 +13,8 @@ interface LeadData {
   zipCode: string;
 }
 
-interface WebhookData {
-  angle: 'seniors' | 'veterans' | 'firstresponders';
-  military_branch?: string;
-  first_responder_agency?: string;
-  zip_code: string;
-  gender: string;
-  life_insurance: string;
-  coverage_amount: string;
-  beneficiary: string;
-  age: string;
-  beneficiary_name: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  city: string;
-  state: string;
-  monthly_budget: string;
-  landing_page: 'seniors' | 'veterans' | 'first_responders';
-  submitted_at: string;
-}
+// Use the partial payload type for cleaner landing page code
+type WebhookData = PartialWebhookPayload;
 
 export function useLeadSubmission() {
   const [isLoading, setIsLoading] = useState(false);

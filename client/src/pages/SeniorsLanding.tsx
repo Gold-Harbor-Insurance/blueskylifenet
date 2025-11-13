@@ -132,7 +132,7 @@ export default function SeniorsLanding() {
           if (input) input.setAttribute('value', fbp);
         }
         if (externalId.hashed) {
-          const input = document.querySelector('#external-id');
+          const input = document.querySelector('#external-id-hashed');
           if (input) input.setAttribute('value', externalId.hashed);
         }
         if (eventId) {
@@ -364,22 +364,18 @@ export default function SeniorsLanding() {
       
       const webhookData = {
         angle: 'seniors' as const,
-        zip_code: formData.zipCode,
-        gender: formData.gender,
-        life_insurance: formData.hasLifeInsurance,
-        coverage_amount: formData.cashAmount,
-        monthly_budget: formData.monthlyBudget,
+        landing_page: 'seniors' as const,
         beneficiary: formData.beneficiary,
+        life_insurance: formData.hasLifeInsurance,
         age: formData.age,
         beneficiary_name: formData.beneficiaryName,
         first_name: leadData.firstName,
         last_name: leadData.lastName,
         email: leadData.email,
         phone: leadData.phone,
+        zip_code: formData.zipCode,
         city: formData.city,
-        state: formData.state,
-        landing_page: 'seniors' as const,
-        submitted_at: new Date().toISOString()
+        state: formData.state
       };
       
       submitLeadForm(
@@ -470,7 +466,7 @@ export default function SeniorsLanding() {
       <input type="hidden" id="fbclid" name="fbclid" value="" />
       <input type="hidden" id="fbc" name="fbc" value="" />
       <input type="hidden" id="fbp" name="fbp" value="" />
-      <input type="hidden" id="external-id" name="external_id" value="" />
+      <input type="hidden" id="external-id-hashed" name="external_id_hashed" value="" />
       <input type="hidden" id="event-id" name="event_id" value="" />
 
       {/* Ringba loading screen overlay */}
