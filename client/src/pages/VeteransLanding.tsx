@@ -362,7 +362,16 @@ export default function VeteransLanding() {
     };
     
     // Submit lead with error handling
-    setTimeout(() => {
+    setTimeout(async () => {
+      // Generate External IDs at submission time (ensures they're always populated)
+      let externalIds = { raw: '', hashed: '' };
+      try {
+        externalIds = await getExternalId();
+      } catch (error) {
+        console.warn('⚠️ Failed to generate External IDs:', error);
+        // Continue with empty IDs - webhook/Ringba will log warnings but won't block submission
+      }
+      
       const hiddenInputNames = [
         'military_branch',
         'gender',
@@ -399,7 +408,10 @@ export default function VeteransLanding() {
         city: formData.city,
         state: formData.state,
         landing_page: 'veterans' as const,
-        submitted_at: new Date().toISOString()
+        submitted_at: new Date().toISOString(),
+        // Include External IDs from generation (not cookies)
+        external_id: externalIds.raw,
+        external_id_hashed: externalIds.hashed
       };
       
       submitLeadForm(

@@ -130,22 +130,26 @@ export async function getExternalId(): Promise<ExternalIdData> {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     rawId = `extid_${timestamp}_${random}`;
-    document.cookie = `${RAW_COOKIE_NAME}=${rawId}; max-age=${maxAge}; path=/; secure; samesite=lax`;
+    document.cookie = `${RAW_COOKIE_NAME}=${rawId}; max-age=${maxAge}; path=/; samesite=lax`;
     
     // CRITICAL: Always regenerate hash when raw ID is new (even if hash cookie exists)
     // This prevents mismatch between Facebook (old hash) and Ringba/GHL (new raw ID)
     hashedId = await sha256(rawId);
-    document.cookie = `${HASHED_COOKIE_NAME}=${hashedId}; max-age=${maxAge}; path=/; secure; samesite=lax`;
+    document.cookie = `${HASHED_COOKIE_NAME}=${hashedId}; max-age=${maxAge}; path=/; samesite=lax`;
+    
+    console.log('✅ External IDs created:', { raw: rawId, hashed: hashedId.substring(0, 16) + '...' });
   } else {
     // Raw ID exists - check if we need to regenerate hash
     const existingHash = getCookie(HASHED_COOKIE_NAME);
     if (!existingHash) {
       // Hash is missing - recompute from existing raw ID
       hashedId = await sha256(rawId);
-      document.cookie = `${HASHED_COOKIE_NAME}=${hashedId}; max-age=${maxAge}; path=/; secure; samesite=lax`;
+      document.cookie = `${HASHED_COOKIE_NAME}=${hashedId}; max-age=${maxAge}; path=/; samesite=lax`;
+      console.log('✅ External hash regenerated from existing raw ID');
     } else {
       // Both raw and hash exist - use existing values
       hashedId = existingHash;
+      console.log('✅ External IDs retrieved from cookies')
     }
   }
   

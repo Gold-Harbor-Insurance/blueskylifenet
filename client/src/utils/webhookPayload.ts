@@ -28,6 +28,10 @@ export interface PartialWebhookPayload {
   city: string;
   state: string;
   county?: string;  // Optional - fetched from geolocation in some flows
+  
+  // External IDs (generated on page load)
+  external_id?: string;  // Raw External ID
+  external_id_hashed?: string;  // SHA-256 hashed External ID
 }
 
 // Complete payload with all required fields
@@ -108,9 +112,11 @@ export function buildWebhookPayload(partial: PartialWebhookPayload): CompleteWeb
     state: partial.state,
     county: partial.county || '',  // Use provided county or empty string
     
-    // Tracking fields (will be enriched by webhookApi)
-    external_id: '',
-    external_id_hashed: '',
+    // External IDs (from page load, will be overridden by webhookApi if cookies exist)
+    external_id: partial.external_id || '',
+    external_id_hashed: partial.external_id_hashed || '',
+    
+    // Other tracking fields (will be enriched by webhookApi)
     fbc: '',
     fbp: '',
     fbclid: '',

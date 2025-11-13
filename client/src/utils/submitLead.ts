@@ -39,9 +39,16 @@ export async function submitLead(
     // Start loading state
     onLoadingChange(true);
     
+    // Normalize partial payload to complete payload with all required fields
+    const completePayload = buildWebhookPayload(webhookData);
+    
     // Step 1: Fetch Ringba number (critical - blocks if fails)
     try {
-      const ringbaData = await fetchRingbaNumber(hiddenInputNames);
+      const ringbaData = await fetchRingbaNumber(
+        hiddenInputNames,
+        completePayload.external_id,
+        completePayload.external_id_hashed
+      );
       phoneNumber = ringbaData.phoneNumber;
       telLink = ringbaData.telLink;
       ringbaSucceeded = true;
@@ -55,8 +62,6 @@ export async function submitLead(
     
     // Step 2: Send webhook data (non-critical - continue even if fails)
     try {
-      // Normalize partial payload to complete payload with all required fields
-      const completePayload = buildWebhookPayload(webhookData);
       await sendWebhookData(completePayload);
     } catch (error) {
       console.error('Webhook failed (non-critical):', error);

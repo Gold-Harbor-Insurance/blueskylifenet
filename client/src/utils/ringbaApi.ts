@@ -70,7 +70,11 @@ export function formatPhoneNumber(phoneNumber: string): string {
   return phoneNumber;
 }
 
-export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
+export async function fetchRingbaNumber(
+  hiddenInputNames: string[],
+  externalIdFromPayload?: string,
+  externalIdHashedFromPayload?: string
+): Promise<{
   phoneNumber: string;
   telLink: string;
 }> {
@@ -118,9 +122,15 @@ export async function fetchRingbaNumber(hiddenInputNames: string[]): Promise<{
       });
     }
     
-    // Add BOTH External ID versions for tracking (always send both)
-    const externalId = getCookie('_extid');  // Non-hashed
-    const externalIdHashed = getCookie('_extid_hash');  // Hashed
+    // Add BOTH External ID versions for tracking (prefer payload over cookies)
+    const externalId = externalIdFromPayload || getCookie('_extid');  // Non-hashed
+    const externalIdHashed = externalIdHashedFromPayload || getCookie('_extid_hash');  // Hashed
+    
+    console.log('📞 Ringba External IDs:', {
+      external_id: externalId || '⚠️ MISSING',
+      external_id_hashed: externalIdHashed ? externalIdHashed.substring(0, 16) + '...' : '⚠️ MISSING',
+      source: externalIdFromPayload ? 'form_payload' : (getCookie('_extid') ? 'cookies' : 'none')
+    });
     
     if (externalId) {
       tags.push({

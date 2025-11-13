@@ -77,23 +77,37 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
   try {
     const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || 'https://hook.us1.make.com/7zxkh8rclxevlmsdxgjayu5tq2dtoab5';
     
-    // Fetch tracking data (always use empty string if missing)
+    // Fetch tracking data from cookies (as fallback if not in payload)
     const fbc = getCookie('_fbc') || '';
     const fbp = getCookie('_fbp') || '';
     const fbclid = getUrlParameter('fbclid') || '';
-    const externalId = getCookie('_extid') || '';  // Non-hashed External ID
-    const externalIdHashed = getCookie('_extid_hash') || '';  // Hashed External ID
+    const externalIdCookie = getCookie('_extid') || '';
+    const externalIdHashedCookie = getCookie('_extid_hash') || '';
     const ipAddress = await getIpAddress() || '';
     const userAgent = navigator.userAgent || '';
+    
+    // Use External IDs from payload if provided, otherwise use cookies
+    const externalId = payload.external_id || externalIdCookie;
+    const externalIdHashed = payload.external_id_hashed || externalIdHashedCookie;
+    
+    console.log('📊 Webhook Tracking Data:', {
+      external_id: externalId || '⚠️ MISSING',
+      external_id_hashed: externalIdHashed ? externalIdHashed.substring(0, 16) + '...' : '⚠️ MISSING',
+      source: payload.external_id ? 'form_payload' : (externalIdCookie ? 'cookies' : 'none'),
+      fbc: fbc || '(empty)',
+      fbp: fbp || '(empty)'
+    });
     
     // Build complete payload with ALL fields (use empty strings for missing values)
     const completePayload: WebhookPayload = {
       // Copy all fields from input payload
       ...payload,
       
-      // Override tracking fields to ensure they're always present
+      // Use External IDs from payload or cookies (prefer payload)
       external_id: externalId,
       external_id_hashed: externalIdHashed,
+      
+      // Other tracking fields
       fbc: fbc,
       fbp: fbp,
       fbclid: fbclid,
