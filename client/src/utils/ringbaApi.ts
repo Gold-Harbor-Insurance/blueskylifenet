@@ -206,16 +206,16 @@ export async function fetchRingbaNumber(
     }
     
     return {
-      phoneNumber: '(877) 790-1817',
-      telLink: 'tel:+18777901817'
+      phoneNumber: '(877) 200-9440',
+      telLink: 'tel:+18772009440'
     };
     
   } catch (error) {
     console.error('Ringba API error:', error);
     
     return {
-      phoneNumber: '(877) 790-1817',
-      telLink: 'tel:+18777901817'
+      phoneNumber: '(877) 200-9440',
+      telLink: 'tel:+18772009440'
     };
   }
 }

@@ -486,8 +486,9 @@ export default function SeniorsLanding() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" role="status" aria-live="polite">
           <div className="bg-white rounded-lg p-8 max-w-sm mx-4 text-center space-y-4">
             <div className="w-16 h-16 border-4 border-[#5CB85C] border-t-transparent rounded-full animate-spin mx-auto" aria-hidden="true"></div>
-            <h3 className="text-xl font-bold text-black">Processing Your Information</h3>
-            <p className="text-gray-600">Please wait while we prepare your personalized quote...</p>
+            <h3 className="text-xl font-bold text-black">Processing your information</h3>
+            <p className="text-2xl font-extrabold text-red-600 uppercase tracking-wide">DO NOT CLOSE THIS WINDOW!</p>
+            <p className="text-gray-700 font-medium">An agent is preparing your personalized quote...</p>
           </div>
         </div>
       )}

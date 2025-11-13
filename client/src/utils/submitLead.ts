@@ -44,8 +44,8 @@ export async function submitLead(
   onError: (message: string) => void
 ): Promise<void> {
   let ringbaSucceeded = false;
-  let phoneNumber = '(877) 790-1817'; // Fallback phone
-  let telLink = 'tel:+18777901817';
+  let phoneNumber = '(877) 200-9440'; // Fallback phone
+  let telLink = 'tel:+18772009440';
   let loadingClosed = false;
   
   // Safety timeout: Force close loading modal after 30 seconds
@@ -54,7 +54,7 @@ export async function submitLead(
       console.warn('⚠️ Safety timeout reached - closing loading modal');
       loadingClosed = true;
       onLoadingChange(false);
-      onError('Request timed out. Please call us directly at (877) 790-1817.');
+      onError('Request timed out. Please call us directly at (877) 200-9440.');
     }
   }, 30000); // 30 second absolute maximum
   
@@ -81,7 +81,7 @@ export async function submitLead(
     } catch (error) {
       console.error('Ringba API failed:', error);
       // Use fallback phone number (already set above)
-      onError('We\'re experiencing technical difficulties. Please call us directly at (877) 790-1817.');
+      onError('We\'re experiencing technical difficulties. Please call us directly at (877) 200-9440.');
       // Don't advance to thank you page if Ringba fails
       return;
     }
