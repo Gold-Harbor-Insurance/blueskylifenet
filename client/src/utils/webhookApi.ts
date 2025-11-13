@@ -68,6 +68,11 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
     const ipAddress = await getIpAddress();
     const userAgent = navigator.userAgent;
     
+    console.log('🔍 WEBHOOK DEBUG - All Cookies:', document.cookie);
+    console.log('🔍 WEBHOOK DEBUG - _extid cookie value:', externalId);
+    console.log('🔍 WEBHOOK DEBUG - _fbc cookie value:', fbc);
+    console.log('🔍 WEBHOOK DEBUG - _fbp cookie value:', fbp);
+    
     const enrichedPayload = {
       ...payload,
       ...(fbc && { fbc }),
@@ -78,14 +83,17 @@ export async function sendWebhookData(payload: WebhookPayload): Promise<void> {
       ...(userAgent && { user_agent: userAgent })
     };
     
+    console.log('🔍 WEBHOOK DEBUG - Full payload being sent to Make.com:', JSON.stringify(enrichedPayload, null, 2));
+    
     await axios.post(webhookUrl, enrichedPayload, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
     
-    console.log('Webhook data sent successfully');
+    console.log('✅ Webhook data sent successfully to Make.com');
   } catch (error) {
-    console.error('Webhook error:', error);
+    console.error('❌ Webhook error:', error);
+    throw error;
   }
 }
