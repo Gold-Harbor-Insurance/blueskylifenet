@@ -21,14 +21,24 @@ jobs:
     - name: Install dependencies
       run: npm ci
     
-    - name: Build project
-      run: npm run build
+    - name: Build both domain-specific sites
+      run: node scripts/build-both.js
     
-    - name: Upload build artifacts
+    - name: ⚠️ CRITICAL - Verify Stape Tracking
+      run: bash scripts/verify-tracking.sh
+    
+    - name: Upload .net build
       uses: actions/upload-artifact@v4
       with:
-        name: dist-files
-        path: dist/public/
+        name: build-net
+        path: builds/net/
+        retention-days: 7
+    
+    - name: Upload .io build
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-io
+        path: builds/io/
         retention-days: 7
 
   deploy-net:
@@ -37,11 +47,11 @@ jobs:
     needs: build
     
     steps:
-    - name: Download build artifacts
+    - name: Download .net build
       uses: actions/download-artifact@v4
       with:
-        name: dist-files
-        path: dist/public/
+        name: build-net
+        path: build-net/
     
     - name: Deploy to blueskylife.net via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -49,7 +59,7 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/public/
+        local-dir: ./build-net/
         server-dir: ${{ secrets.FTP_SERVER_DIR }}
         dangerous-clean-slate: false
     
@@ -57,6 +67,9 @@ jobs:
       run: |
         echo "✅ Deployment to blueskylife.net completed successfully!"
         echo "🌐 Site URL: https://blueskylife.net"
+        echo ""
+        echo "Stape GTM: https://trk.blueskylife.net"
+        echo "Container: 9xlucidfh"
 
   deploy-io:
     name: Deploy to blueskylife.io
@@ -64,11 +77,11 @@ jobs:
     needs: build
     
     steps:
-    - name: Download build artifacts
+    - name: Download .io build
       uses: actions/download-artifact@v4
       with:
-        name: dist-files
-        path: dist/public/
+        name: build-io
+        path: build-io/
     
     - name: Deploy to blueskylife.io via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -76,7 +89,7 @@ jobs:
         server: ${{ secrets.FTP_SERVER_IO }}
         username: ${{ secrets.FTP_USERNAME_IO }}
         password: ${{ secrets.FTP_PASSWORD_IO }}
-        local-dir: ./dist/public/
+        local-dir: ./build-io/
         server-dir: ${{ secrets.FTP_SERVER_DIR_IO }}
         dangerous-clean-slate: false
     
@@ -84,3 +97,6 @@ jobs:
       run: |
         echo "✅ Deployment to blueskylife.io completed successfully!"
         echo "🌐 Site URL: https://blueskylife.io"
+        echo ""
+        echo "Stape GTM: https://trk.blueskylife.io"
+        echo "Container: ebuxpqzdv"
